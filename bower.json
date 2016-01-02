@@ -1,0 +1,14 @@
+{
+  "name": "resume",
+  "version": "0.0.1",
+  "description": "my resume",
+  "authors": [
+    "Ricardo Veronese Ricci"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "font-awesome": "~4.4.0",
+    "Chart.js": "~1.0.2"
+  }
+}
