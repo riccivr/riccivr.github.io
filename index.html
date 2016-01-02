@@ -7,13 +7,15 @@
     <meta name="description" content="Resume">
     <meta name="author" content="Ricardo Veronese Ricci">
 
-    <title>Ricardo Veronese Ricci - Full Stack Web Developer</title>
+    <title>Ricardo Veronese Ricci - Web and Mobile Developer</title>
 
     <!-- bootstrap css -->
     <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- fontawesome -->
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- lightbox -->
+    <link rel="stylesheet" href="bower_components/lightbox2/dist/css/lightbox.min.css">
     <!-- custom -->
     <link href="style.css" rel="stylesheet">
 
@@ -35,8 +37,8 @@
                 <div class="row centered">
                     <div class="col-lg-12">
                         <header id="masthead" class="site-header" role="banner">
-                            <img alt="Ricardo Veronese Ricci | Full Stack Web Developer" src="img/richi3.png">
-                            <p class="site-subtitle">Full Stack Web Developer with an unlimited thirst for knowledge, just like Ross's superhero.</p>
+                            <img alt="Ricardo Veronese Ricci | Full Stack Web Developer" src="img/logo.png">
+                            <p class="site-subtitle">Web and Mobile Developer with an unlimited thirst for knowledge, just like Ross's superhero.</p>
                             <h2 class="site-meta">
                                 <a href="mailto:ricci.vr@gmail.com">ricci.vr@gmail.com</a>
                             </h2>
@@ -201,8 +203,8 @@
                         <br>
                     </div>
                     <div class="col-lg-3 centered">
-                        <canvas id="illustrator" height="130" width="130"></canvas>
-                        <p>Illustrator</p>
+                        <canvas id="inkscape" height="130" width="130"></canvas>
+                        <p>Inkscape</p>
                         <br>
                     </div>
                 </div><!--/.row -->
@@ -211,39 +213,128 @@
         </div><!--/ #skillswrap -->
 
         <!-- portfolio section -->
-        <div class="container desc">
+        <div class="container desc portfolio">
             <div class="row">
-                <div class="col-lg-2 col-lg-offset-1">
+                <div class="col-lg-2 col-lg-offset-1 title-container">
                     <h5>PORTFOLIO</h5>
                 </div>
-                <div class="col-lg-6">
-                    <p><img class="img-responsive" src="img/port01.jpg" alt=""></p>
-                </div>
-                <div class="col-lg-3">
-                    <p>CANALS OF ENGLAND</p>
-                <p><more>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.<br/><br/>
-                    <sm><i class="icon-tag"></i> design</sm></more> 
-                </p>
-                </div>
+                <div class="carousel slide" id="fade-quote-carousel" data-ride="carousel" data-interval="5000">
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <div class="col-lg-6 col-lg-offset-3">
+                                <p>
+                                    <a href="img/gm-full.jpg" data-lightbox="portfolio">
+                                        <img class="img-responsive" src="img/gg-thumb.jpg" alt="">
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="col-lg-3">
+                                <p>GOGOMAGAZINE</p>
+                                <p>
+                                    <more>
+                                        Started as a local magazine in Panama City and inmediatly caught the attention of young readers , the need to push his magazine online gives them the hability to cut the print prices and got even more attention from young internauts.<br/><br/>
+                                        <sm>design</sm>
+                                        <sm>laravel</sm>
+                                        <sm>blog</sm>
+                                    </more> 
+                                </p>
+                            </div>
+                            <div class="col-lg-6 col-lg-offset-3">
+                                <p>
+                                    <a href="img/mn-full.jpg" data-lightbox="portfolio">
+                                        <img class="img-responsive" src="img/mn-thumb.jpg" alt="">
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="col-lg-3">
+                                <p>MEGANET</p>
+                                <p>
+                                    <more>
+                                        The folks at Hyper6 asked me to PSD to HTML this simple landing page, guessing the customers wanted a new design refreshment to show to their loyal customers that they are still in the game.<br/><br/>
+                                        <sm>landing page</sm>
+                                    </more> 
+                                </p>
+                            </div>
 
-                <div class="col-lg-6 col-lg-offset-3">
-                    <p><img class="img-responsive" src="img/port02.jpg" alt=""></p>
-                </div>
-                <div class="col-lg-3">
-                        <p>SANKEY</p>
-                    <p><more>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.<br/><br/>
-                        <sm><i class="icon-tag"></i> front-end</sm></more> 
-                    </p>
-                </div>
-                
-                <div class="col-lg-6 col-lg-offset-3">
-                    <p><img class="img-responsive" src="img/port03.jpg" alt=""></p>
-                </div>
-                <div class="col-lg-3">
-                        <p>WE GROW</p>
-                    <p><more>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.<br/><br/>
-                        <sm><i class="icon-tag"></i> web design</sm></more> 
-                    </p>
+                            <div class="col-lg-6 col-lg-offset-3">
+                                <p>
+                                    <a href="img/ee-full.jpg" data-lightbox="portfolio">
+                                        <img class="img-responsive" src="img/ee-thumb.jpg" alt="">
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="col-lg-3">
+                                <p>ESTUDIO LA EXPOSICIÓN</p>
+                                <p>
+                                    <more>
+                                        A photostudio with allot to offer but not  located in a very good place to start with, at the edge of giving up they decided to brought their services online so now the location ain't a problem anymore.<br/><br/>
+                                        <sm>front-end</sm>
+                                        <sm>laravel</sm>
+                                        <sm>full screen design</sm>
+                                    </more> 
+                                </p>
+                            </div>
+                        </div> <!-- item active -->
+
+                        <div class="item">
+                            <div class="col-lg-6 col-lg-offset-3">
+                                <p>
+                                    <a href="img/nd-full.jpg" data-lightbox="portfolio">
+                                        <img class="img-responsive" src="img/nd-thumb.jpg" alt=""> 
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="col-lg-3">
+                                <p>NATIONAL DIVERSITY</p>
+                                <p>
+                                    <more>
+                                        A fun and challenging page to do, works as a Wordpress theme with a bunch of cool front-end tricks i've never used before<br/><br/>
+                                        <sm>front-end</sm>
+                                        <sm>wordpress</sm>
+                                        <sm>psd to html</sm>
+                                        <sm>sprites</sm>
+                                    </more> 
+                                </p>
+                            </div>
+                            <div class="col-lg-6 col-lg-offset-3">
+                                <p>
+                                    <a href="img/lfd-full.jpg" data-lightbox="portfolio">
+                                        <img class="img-responsive" src="img/lfd-thumb.jpg" alt="">
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="col-lg-3">
+                                <p>LA FUENTE DIGITAL</p>
+                                <p>
+                                    <more>
+                                        A software development/design agency, commited to their clients and to craft websites, mobile applications and custom made business solutions, i started working there just the day after i graduate.
+
+                                        At that time they needed a web developer since their client list got bigger, so my job was to build beautifull and cohesive websites for their main clients (Mexico, Panama, China) and also to change the current design of their website, the result was this.<br/><br/>
+                                        <sm>front-end</sm>
+                                        <sm>wordpress</sm>
+                                    </more> 
+                                </p>
+                            </div>
+
+                            <div class="col-lg-6 col-lg-offset-3">
+                                <p>
+                                    <a href="img/td-full.jpg" data-lightbox="portfolio">
+                                        <img class="img-responsive" src="img/td-thumb.jpg" alt="">
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="col-lg-3">
+                                <p>TRIPDOCS</p>
+                                <p>
+                                    <more>
+                                        A Wordpress theme for a group of doctors specialized in plastic surgery, they really needed a site capable to be self manageable and to have the hability to create post, this was the result.<br/><br/>
+                                        <sm>wordpress</sm>
+                                        <sm>web design</sm>
+                                    </more> 
+                                </p>
+                            </div>
+                        </div> <!-- last item -->
+                    </div> <!-- end carousel inner -->
                 </div>
             </div><!--/.row -->
             <br>
@@ -285,6 +376,8 @@
         <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <!-- chart js-->
         <script src="bower_components/Chart.js/Chart.min.js"></script>
+        <!-- lightbox -->
+        <script src="bower_components/lightbox2/dist/js/lightbox.min.js"></script>
         <!-- custom -->
         <script src="main.js"></script>
     </body>

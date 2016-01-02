@@ -1,3 +1,9 @@
+// lightbox plugin, disable scrolling while viewing the image
+lightbox.option({
+    'disableScrolling': true
+});
+
+// plotting charts section
 var doughnutData = [
     {
         value: 80,
@@ -68,4 +74,4 @@ var doughnutData = [
         color : "#ecf0f1"
     }
 ];
-var myDoughnut = new Chart(document.getElementById("illustrator").getContext("2d")).Doughnut(doughnutData);
+var myDoughnut = new Chart(document.getElementById("inkscape").getContext("2d")).Doughnut(doughnutData);

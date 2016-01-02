@@ -9,6 +9,7 @@
   "dependencies": {
     "bootstrap": "~3.3.5",
     "font-awesome": "~4.4.0",
-    "Chart.js": "~1.0.2"
+    "Chart.js": "~1.0.2",
+    "lightbox2": "~2.8.2"
   }
 }
