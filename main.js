@@ -54,11 +54,11 @@ var myDoughnut = new Chart(document.getElementById("html").getContext("2d")).Dou
 
 var doughnutData = [
     {
-        value: 60,
+        value: 80,
         color:"#1abc9c"
     },
     {
-        value : 40,
+        value : 20,
         color : "#ecf0f1"
     }
 ];
