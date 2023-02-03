@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ricardo Veronese</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  </head>
+  <style>
+    :root {
+      --global-font-size: 15px;
+      --global-line-height: 1.4em;
+      --global-space: 10px;
+      --font-stack: Menlo, Monaco, Lucida Console, Liberation Mono,
+        DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace,
+        serif;
+      --mono-font-stack: Menlo, Monaco, Lucida Console, Liberation Mono,
+        DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace,
+        serif;
+      --background-color: #222225;
+      --page-width: 60em;
+      --font-color: #e8e9ed;
+      --invert-font-color: #222225;
+      --secondary-color: #a3abba;
+      --tertiary-color: #a3abba;
+      --primary-color: #62c4ff;
+      --error-color: #ff3c74;
+      --progress-bar-background: #3f3f44;
+      --progress-bar-fill: #62c4ff;
+      --code-bg-color: #3f3f44;
+      --input-style: solid;
+      --display-h1-decoration: none;
+    }
+    * {
+      box-sizing: border-box;
+      text-rendering: geometricPrecision;
+    }
+    ::-moz-selection {
+      background: var(--primary-color);
+      color: var(--invert-font-color);
+    }
+    ::selection {
+      background: var(--primary-color);
+      color: var(--invert-font-color);
+    }
+    body {
+      font-size: var(--global-font-size);
+      color: var(--font-color);
+      line-height: var(--global-line-height);
+      margin: 0;
+      font-family: var(--font-stack);
+      word-wrap: break-word;
+      background-color: var(--background-color);
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      line-height: var(--global-line-height);
+    }
+    a {
+      cursor: pointer;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+    a:hover {
+      background-color: var(--primary-color);
+      color: var(--invert-font-color);
+    }
+    em {
+      font-size: var(--global-font-size);
+      font-style: italic;
+      font-family: var(--font-stack);
+      color: var(--font-color);
+    }
+    code,
+    em {
+      line-height: var(--global-line-height);
+    }
+    code,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    header,
+    p {
+      float: none;
+      margin: 0;
+      padding: 0;
+    }
+    h1,
+    p {
+      margin-top: calc(var(--global-space) * 2);
+      margin-bottom: calc(var(--global-space) * 2);
+    }
+    h1 {
+      position: relative;
+      display: inline-block;
+      display: table-cell;
+      padding: calc(var(--global-space) * 2) 0 calc(var(--global-space) * 2);
+      margin: 0;
+      overflow: hidden;
+      font-weight: 600;
+    }
+    h1::after {
+      content: "====================================================================================================";
+      position: absolute;
+      bottom: 5px;
+      left: 0;
+      display: var(--display-h1-decoration);
+    }
+    h1 + * {
+      margin-top: 0;
+    }
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      position: relative;
+      margin-bottom: var(--global-line-height);
+      font-weight: 600;
+    }
+    code {
+      font-weight: inherit;
+      background-color: var(--code-bg-color);
+      font-family: var(--mono-font-stack);
+    }
+    code::after,
+    code::before {
+      content: "`";
+      display: inline;
+    }
+    .terminal code,
+    .terminal h1,
+    .terminal h2,
+    .terminal h3,
+    .terminal h4,
+    .terminal h5,
+    .terminal h6 {
+      font-size: var(--global-font-size);
+      font-style: normal;
+      font-family: var(--font-stack);
+      color: var(--font-color);
+    }
+    @-webkit-keyframes cursor {
+      0% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+    @keyframes cursor {
+      0% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+    p {
+      margin: 0 0 var(--global-line-height);
+      color: var(--global-font-color);
+    }
+    .container {
+      max-width: var(--page-width);
+    }
+    .container {
+      margin: 0 auto;
+      padding: 0 calc(var(--global-space) * 2);
+    }
+    img {
+      width: 100%;
+    }
+    .progress-bar {
+      height: 8px;
+      background-color: var(--progress-bar-background);
+      margin: 12px 0;
+    }
+    input[type="email"],
+    input[type="number"],
+    input[type="password"],
+    input[type="search"],
+    input[type="text"] {
+      border: 1px var(--input-style) var(--font-color);
+      width: 100%;
+      padding: 0.7em 0.5em;
+      font-size: 1em;
+      font-family: var(--font-stack);
+      -webkit-appearance: none;
+      border-radius: 0;
+    }
+    input[type="email"]:active,
+    input[type="email"]:focus,
+    input[type="number"]:active,
+    input[type="number"]:focus,
+    input[type="password"]:active,
+    input[type="password"]:focus,
+    input[type="search"]:active,
+    input[type="search"]:focus,
+    input[type="text"]:active,
+    input[type="text"]:focus {
+      outline: 0;
+      -webkit-appearance: none;
+      border: 1px solid var(--font-color);
+    }
+    input[type="email"]:not(:placeholder-shown):invalid,
+    input[type="number"]:not(:placeholder-shown):invalid,
+    input[type="password"]:not(:placeholder-shown):invalid,
+    input[type="search"]:not(:placeholder-shown):invalid,
+    input[type="text"]:not(:placeholder-shown):invalid {
+      border-color: var(--error-color);
+    }
+    input {
+      color: var(--font-color);
+      background-color: var(--background-color);
+    }
+    input::-webkit-input-placeholder {
+      color: var(--secondary-color) !important;
+      opacity: 1;
+    }
+    input::-moz-placeholder {
+      color: var(--secondary-color) !important;
+      opacity: 1;
+    }
+    input:-ms-input-placeholder {
+      color: var(--secondary-color) !important;
+      opacity: 1;
+    }
+    input::-ms-input-placeholder {
+      color: var(--secondary-color) !important;
+      opacity: 1;
+    }
+    input::placeholder {
+      color: var(--secondary-color) !important;
+      opacity: 1;
+    }
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover {
+      border: 1px solid var(--font-color);
+      -webkit-text-fill-color: var(--font-color);
+      box-shadow: 0 0 0 1000px var(--invert-font-color) inset;
+      -webkit-box-shadow: 0 0 0 1000px var(--invert-font-color) inset;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+
+    img.social {
+      width: 40px;
+      height: 40px;
+    }
+
+    .container {
+      margin-top: 20px;
+    }
+
+    @media screen and (min-width: 600px) {
+      .container {
+        margin-top: 100px;
+      }
+    }
+  </style>
+  <body>
+    <div class="container">
+      <div class="terminal">
+        <div class="terminal-header">
+          <div class="terminal-title">Hi</div>
+        </div>
+        <div class="terminal-body">
+          <p>
+            I'm a Full Stack Engineer with experience in web, mobile
+            development, and technology. I am passionate about my career and
+            take pride in writing clean, efficient, and well-designed code. I
+            have expertise in various technologies including TypeScript, Node,
+            Rust, Python, AWS CDK, Vue, and React, among others. I've worked
+            with various companies such as Enroly, Billionhands, Jobin, and
+            BBVA, where I took on various roles from Full Stack Engineer to Tech
+            Lead and Head of Product. I also have an interest in embedded
+            systems and image recognition.
+          </p>
+          <p>
+            <a href="https://linkedin.com/in/riccivr" target="_blank"
+              ><img class="social" src="linkedin.png" alt="LinkedIn"
+            /></a>
+            <a href="https://github.com/riccivr" target="_blank"
+              ><img class="social" src="github.png" alt="GitHub"
+            /></a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
