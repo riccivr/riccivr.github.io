@@ -19,9 +19,9 @@
         }
         /* Color variables for easy theming */
         :root {
-            --color-primary: #f59e0b; /* Amber 500 (Brightest highlights - Unchanged) */
+            --color-primary: #f59e0b; /* Amber 500 (Brightest highlights) */
             --color-secondary: #b45309; /* Amber 700 */
-            --color-text-dim: #78350f; /* Amber 900 */
+            --color-text-dim: #78350f; /* Amber 900 (Not currently used for main text) */
             --color-text-main: #d97706; /* Amber 600 (Dimmer, deeper body text color) */
         }
         /* Custom border/shadow for the main container to look like a glowing CRT monitor */
@@ -63,18 +63,23 @@
         <!-- Main Content Area -->
         <main class="p-6">
 
-            <!-- Profile Section (Updated based on The Org info) -->
+            <!-- Profile Section -->
             <section class="bg-amber-800/30 p-4 border border-amber-500 mb-6">
                 <div class="flex justify-between items-start text-amber-400">
-                    <div>
-                        <!-- User Handle & Title -->
-                        <h1 class="text-xl sm:text-2xl font-bold uppercase mb-1">
-                            Ricardo Veronese <span class="text-xs text-amber-400">[L]</span>
-                        </h1>
-                        <!-- Bio/Tagline (Updated to reflect latest info: Full Stack Engineer & Team Lead) -->
-                        <p class="text-base sm:text-lg">
-                            Full Stack Engineer & Team Lead (Enroly).
-                        </p>
+                    <div class="flex items-start space-x-4">
+                        <!-- Pixel Art Avatar Placement -->
+                        <img src="./riccivr-retro.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" class="hidden sm:block w-16 h-16 rounded-sm border-2 border-amber-500 shadow-lg shadow-amber-500/50" alt="Pixel Art Avatar">
+                        
+                        <div>
+                            <!-- User Handle & Title -->
+                            <h1 class="text-xl sm:text-2xl font-bold uppercase mb-1 flex items-center">
+                                Ricardo Veronese <span class="text-xs text-amber-400 ml-2">[L]</span>
+                            </h1>
+                            <!-- Bio/Tagline (Updated to reflect Full Stack Engineer & Team Lead) -->
+                            <p class="text-base sm:text-lg">
+                                Full Stack Engineer & Team Lead (Enroly).
+                            </p>
+                        </div>
                     </div>
                     <!-- Joined Date (Using existing updated date) -->
                     <div class="text-right text-sm whitespace-nowrap pt-1">
@@ -83,7 +88,7 @@
                 </div>
 
                 <div class="mt-4 pt-4 border-t border-amber-500/50 flex flex-col sm:flex-row sm:items-center justify-between">
-                    <!-- Metrics Simulation (Using existing updated metrics) -->
+                    <!-- Metrics Simulation -->
                     <div class="flex space-x-6 text-amber-400 mb-4 sm:mb-0">
                         <span class="text-sm">
                             <span class="font-bold text-lg">25+</span> Projects
@@ -127,7 +132,7 @@
                 <!-- 1. PROJECTS Content -->
                 <div id="projects-content" class="content-section space-y-4">
 
-                    <!-- Project 1: P2P Video/WebRTC/Rust/WASM (Retained) -->
+                    <!-- Project 1: P2P Video/WebRTC/Rust/WASM -->
                     <article class="border-b border-amber-500/50 pb-4">
                         <header class="flex justify-between items-start text-amber-400 mb-2">
                             <span class="font-bold">@riccivr</span>
@@ -151,7 +156,7 @@
                         </footer>
                     </article>
                     
-                    <!-- Project 2: Microservices Gateway (Backend/Architecture) (Retained) -->
+                    <!-- Project 2: Microservices Gateway (Backend/Architecture) -->
                     <article class="border-b border-amber-500/50 pb-4">
                         <header class="flex justify-between items-start text-amber-400 mb-2">
                             <span class="font-bold">@riccivr</span>
@@ -175,7 +180,7 @@
                         </footer>
                     </article>
 
-                    <!-- Project 3: Real-time Application (Frontend/State Management) (Retained) -->
+                    <!-- Project 3: Real-time Application (Frontend/State Management) -->
                     <article class="border-b border-amber-500/50 pb-4">
                         <header class="flex justify-between items-start text-amber-400 mb-2">
                             <span class="font-bold">@riccivr</span>
@@ -199,7 +204,7 @@
                         </footer>
                     </article>
                     
-                    <!-- Project 4: Data Visualization (Frontend/Data) (Retained) -->
+                    <!-- Project 4: Data Visualization (Frontend/Data) -->
                     <article class="border-b border-amber-500/50 pb-4">
                         <header class="flex justify-between items-start text-amber-400 mb-2">
                             <span class="font-bold">@riccivr</span>
@@ -223,7 +228,7 @@
                         </footer>
                     </article>
 
-                    <!-- Project 5: Automation/DevOps (Infrastructure) (Retained) -->
+                    <!-- Project 5: Automation/DevOps (Infrastructure) -->
                     <article class="border-b border-amber-500/50 pb-4">
                         <header class="flex justify-between items-start text-amber-400 mb-2">
                             <span class="font-bold">@riccivr</span>
@@ -247,7 +252,7 @@
                         </footer>
                     </article>
                     
-                    <!-- NEW Project 6: ETL / API using Node, Laravel, and MongoDB -->
+                    <!-- Project 6: ETL / API using Node, Laravel, and MongoDB -->
                     <article class="border-b border-amber-500/50 pb-4">
                         <header class="flex justify-between items-start text-amber-400 mb-2">
                             <span class="font-bold">@riccivr</span>
@@ -273,14 +278,14 @@
 
                 </div>
 
-                <!-- 2. SKILLS Content (Updated) -->
+                <!-- 2. SKILLS Content -->
                 <div id="skills-content" class="content-section hidden text-amber-400">
                     <p class="text-amber-400 mb-4">
                         // Core Competencies & Proficiencies
                     </p>
                     
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
-                        <!-- Column 1: Frontend (Retained updates) -->
+                        <!-- Column 1: Frontend -->
                         <div>
                             <h3 class="text-lg font-bold border-b border-amber-500/50 mb-2">FRONTEND / UI</h3>
                             <ul class="list-none space-y-1 pl-4">
@@ -305,7 +310,7 @@
                             </ul>
                         </div>
                         
-                        <!-- Column 2: Backend & Infrastructure (Updated for Node.js, Laravel) -->
+                        <!-- Column 2: Backend & Infrastructure -->
                         <div>
                             <h3 class="text-lg font-bold border-b border-amber-500/50 mb-2">BACKEND / DEVOPS</h3>
                             <ul class="list-none space-y-1 pl-4">
@@ -313,13 +318,13 @@
                                     <span class="text-amber-400 mr-2">></span> Go (Golang) / Rust (Concurrency)
                                 </li>
                                 <li class="flex items-center">
-                                    <span class="text-amber-400 mr-2">></span> **Node.js** / Python (Express/Flask)
+                                    <span class="text-amber-400 mr-2">></span> Node.js / Python (Express/Flask)
                                 </li>
                                 <li class="flex items-center">
-                                    <span class="text-amber-400 mr-2">></span> PHP (**Laravel**)
+                                    <span class="text-amber-400 mr-2">></span> PHP (Laravel)
                                 </li>
                                 <li class="flex items-center">
-                                    <span class="text-amber-400 mr-2">></span> PostgreSQL / Redis / **MongoDB**
+                                    <span class="text-amber-400 mr-2">></span> PostgreSQL / Redis / MongoDB
                                 </li>
                                 <li class="flex items-center">
                                     <span class="text-amber-400 mr-2">></span> Docker / Kubernetes (K8s)
@@ -335,7 +340,7 @@
                     </div>
                 </div>
 
-                <!-- 3. CONTACT Content (Initially Hidden) -->
+                <!-- 3. CONTACT Content -->
                 <div id="contact-content" class="content-section hidden text-amber-400">
                     <p class="text-amber-400 mb-4">
                         // Get in touch. Initiate connection via C-Mail or secure terminal links below.
