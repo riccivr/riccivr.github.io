@@ -1,84 +1,419 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Ricardo Veronese — inline NES-inspired styling (no frameworks)." />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ricardo Veronese</title>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <!-- Load Tailwind CSS from CDN for utility classes -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      /* Color tokens */
-      :root{--bg:#f7f3ec;--ink:#000;--text:#1a1a1a;--panel:#ffffff;--muted:#666;--blue:#209cee;--red:#e76e55;--green:#92cc41;--yellow:#f7d51d}
-      @media (prefers-color-scheme: dark){:root{--bg:#17181d;--ink:#fff;--text:#eaeaea;--panel:#20222b;--muted:#a7a7a7;--blue:#4da3ff;--red:#ff7b72;--green:#9be564;--yellow:#f4b400}}
-      [data-theme='dark']{--bg:#17181d;--ink:#fff;--text:#eaeaea;--panel:#20222b;--muted:#a7a7a7;--blue:#4da3ff;--red:#ff7b72;--green:#9be564;--yellow:#f4b400}
-      @media (prefers-color-scheme: dark){.pixel-title{border-color:#000;box-shadow:0 6px 0 #000;color:#000}}
-      [data-theme='dark'] .pixel-title{border-color:#000;box-shadow:0 6px 0 #000;color:#000}
-
-      *{box-sizing:border-box}
-      body{margin:0;padding:24px;background:var(--bg);color:var(--text);font:16px/1.5 "Courier New",Consolas,"Lucida Console",monospace}
-      a{color:inherit;text-decoration:none}
-      .wrap{max-width:760px;margin:0 auto}
-
-      .head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
-      .pixel-title{display:inline-block;margin:8px 0 20px;padding:10px 14px;background:var(--yellow);border:4px solid var(--ink);box-shadow:0 6px 0 var(--ink);letter-spacing:.06em;text-transform:uppercase;font-weight:700}
-
-      .nes-panel{background:var(--panel);border:4px solid var(--ink);box-shadow:inset -4px -4px 0 rgba(0,0,0,.06),0 8px 0 var(--ink);padding:18px}
-      .nes-panel p{margin:0 0 12px}
-      .hint{color:var(--muted);font-size:.9em}
-
-      .actions{margin-top:18px;display:flex;gap:12px;flex-wrap:wrap}
-      .btn-nes{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:4px solid var(--ink);box-shadow:0 4px 0 var(--ink);background:var(--panel);color:var(--ink);transition:transform .02s}
-      .btn-nes.small{padding:6px 10px}
-      .btn-nes .label{font-weight:700;letter-spacing:.03em}
-      .btn-blue{background:var(--blue);color:#fff}
-      .btn-dark{background:#3a3a3a;color:#fff}
-      .btn-nes:active{transform:translateY(2px);box-shadow:0 2px 0 var(--ink)}
-      .icon{width:22px;height:22px;display:block;filter:contrast(110%)}
-      .footer{margin-top:26px;color:var(--muted);font-size:.85em}
-
-      @media (min-width:680px){body{padding:64px}.pixel-title{margin-bottom:24px}.nes-panel{padding:22px}}
+        /* Custom CSS to enforce the terminal look and feel */
+        body {
+            /* Set black background and a subtle scanline effect for retro feel */
+            background-color: #000000;
+            background-image: linear-gradient(rgba(180, 150, 0, 0.07) 1px, transparent 1px);
+            background-size: 100% 4px;
+            /* Monospace font for the true terminal experience */
+            font-family: 'Courier New', Courier, monospace;
+            cursor: text; /* Text cursor everywhere for terminal immersion */
+        }
+        /* Color variables for easy theming */
+        :root {
+            --color-primary: #f59e0b; /* Amber 500 (Brightest highlights - Unchanged) */
+            --color-secondary: #b45309; /* Amber 700 */
+            --color-text-dim: #78350f; /* Amber 900 */
+            --color-text-main: #d97706; /* Amber 600 (Dimmer, deeper body text color) */
+        }
+        /* Custom border/shadow for the main container to look like a glowing CRT monitor */
+        .terminal-frame {
+            box-shadow: 0 0 10px var(--color-primary), 0 0 20px var(--color-primary) inset;
+            border: 2px solid var(--color-primary);
+        }
+        /* Hover effect for buttons/links */
+        .interactive-link {
+            transition: color 0.1s, background-color 0.1s;
+        }
+        .interactive-link:hover {
+            color: black;
+            background-color: var(--color-primary);
+        }
+        /* Ensure all text using the default amber color is now dimmer */
+        .text-amber-400 {
+            color: var(--color-text-main); /* Now maps to Amber 600 */
+        }
     </style>
-  </head>
-  <body>
-    <div class="wrap">
-      <div class="head">
-        <h1 class="pixel-title">Ricardo Veronese</h1>
-        <button id="themeToggle" class="btn-nes small" type="button" aria-label="Toggle theme">🌙</button>
-      </div>
+</head>
+<body class="p-4 sm:p-8 md:p-12">
 
-      <div class="nes-panel">
-        <p>
-          I'm a Full Stack Engineer with experience in web, mobile development, and technology. I am passionate about my career and take pride in writing clean, efficient, and well-designed code.
-        </p>
-        <p>
-          I have expertise in technologies including TypeScript, Node, Rust, Python, AWS CDK, Vue, and React. I've worked with Enroly, Billionhands, Jobin, and BBVA in roles from Full Stack Engineer to Tech Lead and Head of Product. I'm also into embedded systems and image recognition.
-        </p>
-        <div class="actions">
-          <a class="btn-nes btn-blue" href="https://linkedin.com/in/riccivr" target="_blank" rel="noopener noreferrer">
-            <img class="icon" src="linkedin.png" alt="LinkedIn" />
-            <span class="label">LinkedIn</span>
-          </a>
-          <a class="btn-nes btn-dark" href="https://github.com/riccivr" target="_blank" rel="noopener noreferrer">
-            <img class="icon" src="github.png" alt="GitHub" />
-            <span class="label">GitHub</span>
-          </a>
-        </div>
-        <p class="footer hint">NES-inspired look, handcrafted with inline CSS — no frameworks.</p>
-      </div>
+    <!-- Main Terminal Container -->
+    <div class="terminal-frame max-w-4xl mx-auto mt-4 rounded-lg overflow-hidden bg-black">
+
+        <!-- Header / Status Bar Simulation -->
+        <header class="p-3 bg-amber-800/20 border-b border-amber-500 flex justify-between items-center">
+            <div class="flex space-x-2">
+                <div class="w-3 h-3 bg-red-600 rounded-full"></div>
+                <div class="w-3 h-3 bg-yellow-600 rounded-full"></div>
+                <div class="w-3 h-3 bg-green-600 rounded-full"></div>
+            </div>
+            <span class="text-amber-400 text-sm font-bold uppercase tracking-wider">
+                STATUS: ONLINE
+            </span>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="p-6">
+
+            <!-- Profile Section (Updated based on The Org info) -->
+            <section class="bg-amber-800/30 p-4 border border-amber-500 mb-6">
+                <div class="flex justify-between items-start text-amber-400">
+                    <div>
+                        <!-- User Handle & Title -->
+                        <h1 class="text-xl sm:text-2xl font-bold uppercase mb-1">
+                            Ricardo Veronese <span class="text-xs text-amber-400">[L]</span>
+                        </h1>
+                        <!-- Bio/Tagline (Updated to reflect latest info: Full Stack Engineer & Team Lead) -->
+                        <p class="text-base sm:text-lg">
+                            Full Stack Engineer & Team Lead (Enroly).
+                        </p>
+                    </div>
+                    <!-- Joined Date (Using existing updated date) -->
+                    <div class="text-right text-sm whitespace-nowrap pt-1">
+                        Joined 2021-09-01
+                    </div>
+                </div>
+
+                <div class="mt-4 pt-4 border-t border-amber-500/50 flex flex-col sm:flex-row sm:items-center justify-between">
+                    <!-- Metrics Simulation (Using existing updated metrics) -->
+                    <div class="flex space-x-6 text-amber-400 mb-4 sm:mb-0">
+                        <span class="text-sm">
+                            <span class="font-bold text-lg">25+</span> Projects
+                        </span>
+                        <span class="text-sm">
+                            <span class="font-bold text-lg">18+</span> Experience Yrs
+                        </span>
+                    </div>
+
+                    <!-- Call-to-Action Buttons -->
+                    <div class="flex space-x-3">
+                        <a href="mailto:ricci.vr@gmail.com" class="interactive-link border border-amber-500 px-3 py-1 text-sm uppercase text-amber-400">
+                            [C] C-Mail
+                        </a>
+                        <a href="https://github.com/riccivr" target="_blank" class="interactive-link border border-amber-500 px-3 py-1 text-sm uppercase text-amber-400">
+                            [G] GitHub
+                        </a>
+                        <a href="https://www.linkedin.com/in/riccivr/" target="_blank" class="interactive-link border border-amber-500 px-3 py-1 text-sm uppercase text-amber-400">
+                            [L] LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation Tabs -->
+            <div class="flex border-b border-amber-500 mb-4 text-amber-400">
+                <div id="tab-projects" class="tab-button px-4 py-2 border-amber-500 cursor-pointer" data-target="projects-content">
+                    PROJECTS
+                </div>
+                <div id="tab-skills" class="tab-button px-4 py-2 cursor-pointer hover:bg-amber-800/10 transition duration-150" data-target="skills-content">
+                    SKILLS
+                </div>
+                <div id="tab-contact" class="tab-button px-4 py-2 cursor-pointer hover:bg-amber-800/10 transition duration-150" data-target="contact-content">
+                    CONTACT
+                </div>
+            </div>
+
+            <!-- Content Container -->
+            <div class="content-container">
+
+                <!-- 1. PROJECTS Content -->
+                <div id="projects-content" class="content-section space-y-4">
+
+                    <!-- Project 1: P2P Video/WebRTC/Rust/WASM (Retained) -->
+                    <article class="border-b border-amber-500/50 pb-4">
+                        <header class="flex justify-between items-start text-amber-400 mb-2">
+                            <span class="font-bold">@riccivr</span>
+                            <div class="text-xs text-amber-400 text-right"> 
+                                <span class="whitespace-nowrap">2d ago</span> • <span class="whitespace-nowrap">P2P Stream</span> • 24 saves
+                            </div>
+                        </header>
+                        <div class="pl-4 text-sm leading-relaxed text-amber-400">
+                            <p class="mb-3">
+                                <span class="text-amber-500 font-bold">Project: Low-Latency P2P Video Comm.</span>
+                                Engineered a high-performance, real-time video communication service using **WebRTC** and **Rust/WASM** bindings for browser-side encoding/decoding, achieving sub-100ms latency.
+                            </p>
+                            <div class="text-right space-x-2">
+                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5 interactive-link">RUST</span>
+                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5 interactive-link">WEBRTC</span>
+                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5 interactive-link">WASM</span>
+                            </div>
+                        </div>
+                        <footer class="mt-3 text-sm text-amber-400">
+                            [L] View Demo <span class="ml-4">[A] Architecture Diagram</span>
+                        </footer>
+                    </article>
+                    
+                    <!-- Project 2: Microservices Gateway (Backend/Architecture) (Retained) -->
+                    <article class="border-b border-amber-500/50 pb-4">
+                        <header class="flex justify-between items-start text-amber-400 mb-2">
+                            <span class="font-bold">@riccivr</span>
+                            <div class="text-xs text-amber-400 text-right"> 
+                                <span class="whitespace-nowrap">4d ago</span> • <span class="whitespace-nowrap">API Gateway</span> • 12 saves
+                            </div>
+                        </header>
+                        <div class="pl-4 text-sm leading-relaxed text-amber-400">
+                            <p class="mb-3">
+                                <span class="text-amber-500 font-bold">Project: Scalable E-commerce Backend</span>
+                                Designed and implemented a robust microservices architecture using **Go** and **PostgreSQL** to handle 10k+ concurrent users, integrated with **Kubernetes** for auto-scaling and resilience.
+                            </p>
+                            <div class="text-right space-x-2">
+                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5 interactive-link">GO</span>
+                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5 interactive-link">K8S</span>
+                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5 interactive-link">POSTGRES</span>
+                            </div>
+                        </div>
+                        <footer class="mt-3 text-sm text-amber-400">
+                            [L] View Code <span class="ml-4">[D] Design Docs</span>
+                        </footer>
+                    </article>
+
+                    <!-- Project 3: Real-time Application (Frontend/State Management) (Retained) -->
+                    <article class="border-b border-amber-500/50 pb-4">
+                        <header class="flex justify-between items-start text-amber-400 mb-2">
+                            <span class="font-bold">@riccivr</span>
+                            <div class="text-xs text-amber-400 text-right">
+                                <span class="whitespace-nowrap">2w ago</span> • <span class="whitespace-nowrap">Chat/Presence</span> • 7 saves
+                            </div>
+                        </header>
+                        <div class="pl-4 text-sm leading-relaxed text-amber-400">
+                            <p class="mb-3">
+                                <span class="text-amber-500 font-bold">Project: Low-Latency Chat Client</span>
+                                Developed a performant **React/TypeScript** chat client featuring WebSockets for instant messaging. Used **Zustand** for global state and ensured minimal DOM re-renders for smooth UX.
+                            </p>
+                            <div class="text-right space-x-2">
+                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5 interactive-link">REACT</span>
+                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5 interactive-link">TS</span>
+                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5 interactive-link">WEBSOCKETS</span>
+                            </div>
+                        </div>
+                        <footer class="mt-3 text-sm text-amber-400">
+                            [L] Live Demo <span class="ml-4">[S] Source Code</span>
+                        </footer>
+                    </article>
+                    
+                    <!-- Project 4: Data Visualization (Frontend/Data) (Retained) -->
+                    <article class="border-b border-amber-500/50 pb-4">
+                        <header class="flex justify-between items-start text-amber-400 mb-2">
+                            <span class="font-bold">@riccivr</span>
+                            <div class="text-xs text-amber-400 text-right">
+                                <span class="whitespace-nowrap">1mo ago</span> • <span class="whitespace-nowrap">Data Viz</span> • 9 saves
+                            </div>
+                        </header>
+                        <div class="pl-4 text-sm leading-relaxed text-amber-400">
+                            <p class="mb-3">
+                                <span class="text-amber-500 font-bold">Project: Financial Analytics Dashboard</span>
+                                Built a data visualization platform using **Angular** and **D3.js** to display complex financial data, improving reporting speed by 40% compared to legacy systems.
+                            </p>
+                            <div class="text-right space-x-2">
+                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5 interactive-link">ANGULAR</span>
+                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5 interactive-link">D3.JS</span>
+                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5 interactive-link">RXJS</span>
+                            </div>
+                        </div>
+                        <footer class="mt-3 text-sm text-amber-400">
+                            [L] View Demo <span class="ml-4">[T] Technical Writeup</span>
+                        </footer>
+                    </article>
+
+                    <!-- Project 5: Automation/DevOps (Infrastructure) (Retained) -->
+                    <article class="border-b border-amber-500/50 pb-4">
+                        <header class="flex justify-between items-start text-amber-400 mb-2">
+                            <span class="font-bold">@riccivr</span>
+                            <div class="text-xs text-amber-400 text-right">
+                                <span class="whitespace-nowrap">3mo ago</span> • <span class="whitespace-nowrap">CI/CD</span> • 5 saves
+                            </div>
+                        </header>
+                        <div class="pl-4 text-sm leading-relaxed text-amber-400">
+                            <p class="mb-3">
+                                <span class="text-amber-500 font-bold">Project: Automated CI/CD Pipeline</span>
+                                Developed and maintained CI/CD pipelines using **GitHub Actions** and **Terraform** for provisioning and managing infrastructure on **AWS**. Reduced deployment time from 1 hour to 10 minutes.
+                            </p>
+                            <div class="text-right space-x-2">
+                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5 interactive-link">TERRAFORM</span>
+                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5 interactive-link">AWS</span>
+                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5 interactive-link">ACTIONS</span>
+                            </div>
+                        </div>
+                        <footer class="mt-3 text-sm text-amber-400">
+                            [L] View Repo <span class="ml-4">[H] How-To Guide</span>
+                        </footer>
+                    </article>
+                    
+                    <!-- NEW Project 6: ETL / API using Node, Laravel, and MongoDB -->
+                    <article class="border-b border-amber-500/50 pb-4">
+                        <header class="flex justify-between items-start text-amber-400 mb-2">
+                            <span class="font-bold">@riccivr</span>
+                            <div class="text-xs text-amber-400 text-right">
+                                <span class="whitespace-nowrap">6mo ago</span> • <span class="whitespace-nowrap">Data Pipeline</span> • 18 saves
+                            </div>
+                        </header>
+                        <div class="pl-4 text-sm leading-relaxed text-amber-400">
+                            <p class="mb-3">
+                                <span class="text-amber-500 font-bold">Project: High-Volume ETL & Data API</span>
+                                Designed and maintained a critical ETL pipeline and public API service using **Node.js** and **Laravel** for processing institutional student data, storing results in **MongoDB** and ensuring data integrity.
+                            </p>
+                            <div class="text-right space-x-2">
+                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5 interactive-link">NODE.JS</span>
+                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5 interactive-link">LARAVEL</span>
+                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5 interactive-link">MONGODB</span>
+                            </div>
+                        </div>
+                        <footer class="mt-3 text-sm text-amber-400">
+                            [L] Open <span class="ml-4">[M] Read More</span>
+                        </footer>
+                    </article>
+
+                </div>
+
+                <!-- 2. SKILLS Content (Updated) -->
+                <div id="skills-content" class="content-section hidden text-amber-400">
+                    <p class="text-amber-400 mb-4">
+                        // Core Competencies & Proficiencies
+                    </p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
+                        <!-- Column 1: Frontend (Retained updates) -->
+                        <div>
+                            <h3 class="text-lg font-bold border-b border-amber-500/50 mb-2">FRONTEND / UI</h3>
+                            <ul class="list-none space-y-1 pl-4">
+                                <li class="flex items-center">
+                                    <span class="text-amber-400 mr-2">></span> React / Next.js (Expert)
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-amber-400 mr-2">></span> Angular / NgRx (Advanced)
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-amber-400 mr-2">></span> TypeScript / JavaScript
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-amber-400 mr-2">></span> Tailwind CSS / SCSS
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-amber-400 mr-2">></span> WebRTC / WASM
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-amber-400 mr-2">></span> D3.js / WebGL
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Column 2: Backend & Infrastructure (Updated for Node.js, Laravel) -->
+                        <div>
+                            <h3 class="text-lg font-bold border-b border-amber-500/50 mb-2">BACKEND / DEVOPS</h3>
+                            <ul class="list-none space-y-1 pl-4">
+                                <li class="flex items-center">
+                                    <span class="text-amber-400 mr-2">></span> Go (Golang) / Rust (Concurrency)
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-amber-400 mr-2">></span> **Node.js** / Python (Express/Flask)
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-amber-400 mr-2">></span> PHP (**Laravel**)
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-amber-400 mr-2">></span> PostgreSQL / Redis / **MongoDB**
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-amber-400 mr-2">></span> Docker / Kubernetes (K8s)
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-amber-400 mr-2">></span> AWS (EC2, S3, RDS, Lambda)
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-amber-400 mr-2">></span> Terraform / CI/CD (GitHub Actions)
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. CONTACT Content (Initially Hidden) -->
+                <div id="contact-content" class="content-section hidden text-amber-400">
+                    <p class="text-amber-400 mb-4">
+                        // Get in touch. Initiate connection via C-Mail or secure terminal links below.
+                    </p>
+
+                    <div class="text-sm space-y-4">
+                        <div class="border border-amber-500/50 p-4">
+                            <span class="font-bold text-amber-500">EMAIL:</span> 
+                            <a href="mailto:ricci.vr@gmail.com" class="interactive-link underline ml-2">ricci.vr@gmail.com</a>
+                        </div>
+                        <div class="border border-amber-500/50 p-4">
+                            <span class="font-bold text-amber-500">GITHUB:</span> 
+                            <a href="https://github.com/riccivr" target="_blank" class="interactive-link underline ml-2">https://github.com/riccivr</a>
+                        </div>
+                        <div class="border border-amber-500/50 p-4">
+                            <span class="font-bold text-amber-500">LINKEDIN:</span> 
+                            <a href="https://www.linkedin.com/in/riccivr/" target="_blank" class="interactive-link underline ml-2">https://www.linkedin.com/in/riccivr/</a>
+                        </div>
+                    </div>
+                    
+                    <p class="text-amber-400 mt-6 text-xs text-right">
+                        Encryption protocol v2.1 active.
+                    </p>
+                </div>
+
+            </div>
+            
+        </main>
+
+        <!-- Footer / Command Line Simulation -->
+        <footer class="p-4 border-t border-amber-500 text-sm text-amber-400 flex justify-between items-center bg-amber-800/20">
+            <span class="text-amber-400">[H] Help [K] Commands [TAB] Select</span>
+            <span class="text-right">
+                @riccivr_portfolio v1.1.0
+            </span>
+        </footer>
     </div>
 
+    <!-- JavaScript for Tab Switching -->
     <script>
-      (function(){
-        const root=document.documentElement;
-        const btn=document.getElementById('themeToggle');
-        const stored=localStorage.getItem('theme');
-        if(stored==='dark'||stored==='light'){root.dataset.theme=stored}
-        function current(){return root.dataset.theme || (window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}
-        function render(){const c=current();btn.textContent=c==='dark'?'🌙':'🌞';btn.setAttribute('aria-label',c==='dark'?'Switch to light mode':'Switch to dark mode')}
-        btn.addEventListener('click',function(){const next=current()==='dark'?'light':'dark';root.dataset.theme=next;localStorage.setItem('theme',next);render()});
-        render();
-      })();
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab-button');
+            const contents = document.querySelectorAll('.content-section');
+
+            function switchTab(targetId) {
+                // Deactivate all tabs and hide all content
+                tabs.forEach(tab => {
+                    tab.classList.remove('bg-amber-800/50', 'border-b-0', 'border-amber-500');
+                    tab.classList.add('hover:bg-amber-800/10');
+                });
+                contents.forEach(content => {
+                    content.classList.add('hidden');
+                });
+
+                // Activate the selected tab and show content
+                const activeTab = document.querySelector(`[data-target="${targetId}"]`);
+                if (activeTab) {
+                    activeTab.classList.add('bg-amber-800/50', 'border-b-0', 'border-amber-500');
+                    activeTab.classList.remove('hover:bg-amber-800/10');
+                }
+                
+                const activeContent = document.getElementById(targetId);
+                if (activeContent) {
+                    activeContent.classList.remove('hidden');
+                }
+            }
+
+            // Attach click listeners
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    switchTab(tab.getAttribute('data-target'));
+                });
+            });
+
+            // Initialize to projects tab and ensure correct styling
+            switchTab('projects-content');
+        });
     </script>
-  </body>
+
+</body>
 </html>
