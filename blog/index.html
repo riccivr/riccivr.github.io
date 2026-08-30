@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="meta-title">Ricardo Veronese - Bitácoras Técnicas y Sistemas</title>
+    <title id="meta-title">Ricardo Veronese - Blog Técnico & Sistemas</title>
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
-    <meta id="meta-desc" name="description" content="Bitácoras técnicas y registros de arquitectura de sistemas por Ricardo Veronese. Infraestructura cloud, utilidades C99/POSIX, parsers y estándares web.">
+    <meta id="meta-desc" name="description" content="Blog técnico y registros de arquitectura de sistemas por Ricardo Veronese. Cloud infrastructure, utilidades C99/POSIX, parsers y web standards.">
     <meta name="author" content="Ricardo Veronese">
     <link rel="canonical" href="https://riccivr.github.io/blog/">
     <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed" href="https://riccivr.github.io/feed.xml">
@@ -14,15 +14,15 @@
     <!-- Open Graph -->
     <meta property="og:type" content="blog">
     <meta property="og:url" content="https://riccivr.github.io/blog/">
-    <meta id="og-title" property="og:title" content="Ricardo Veronese - Bitácoras Técnicas y Sistemas">
-    <meta id="og-desc" property="og:description" content="Bitácoras técnicas, análisis de arquitectura cloud, programación en bajo nivel con POSIX y algoritmos.">
+    <meta id="og-title" property="og:title" content="Ricardo Veronese - Blog Técnico & Sistemas">
+    <meta id="og-desc" property="og:description" content="Posts técnicos, análisis de arquitectura cloud, programación de bajo nivel en POSIX y algoritmos.">
     <meta property="og:image" content="https://riccivr.github.io/riccivr-retro.png">
     <meta property="og:site_name" content="Ricardo Veronese">
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta id="tw-title" name="twitter:title" content="Ricardo Veronese - Bitácoras Técnicas y Sistemas">
-    <meta id="tw-desc" name="twitter:description" content="Bitácoras técnicas, análisis de arquitectura cloud, programación en bajo nivel con POSIX y algoritmos.">
+    <meta id="tw-title" name="twitter:title" content="Ricardo Veronese - Blog Técnico & Sistemas">
+    <meta id="tw-desc" name="twitter:description" content="Posts técnicos, análisis de arquitectura cloud, programación de bajo nivel en POSIX y algoritmos.">
     <meta name="twitter:image" content="https://riccivr.github.io/riccivr-retro.png">
 
     <!-- Schema.org JSON-LD -->
@@ -172,7 +172,7 @@
 
         <header class="p-3 theme-bg-header border-b theme-border flex flex-wrap justify-between items-center gap-2">
             <div class="flex items-center space-x-2">
-                <span class="text-xs theme-text-muted tracking-wider font-bold" id="sys-id-label">ID.SISTEMA: riccivr // BITÁCORAS</span>
+                <span class="text-xs theme-text-muted tracking-wider font-bold" id="sys-id-label">SYS.ID: riccivr // BLOG</span>
             </div>
             <div class="flex items-center space-x-2 sm:space-x-3">
                 <button id="lang-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Alternar idioma / Toggle Language [I]">
@@ -197,7 +197,7 @@
                 <div class="flex flex-col sm:flex-row justify-between sm:items-center">
                     <div>
                         <h1 id="banner-title" class="text-xl sm:text-2xl font-bold uppercase theme-text-title mb-1">
-                            BITÁCORAS TÉCNICAS Y ARTÍCULOS
+                            BLOG TÉCNICO & ARTÍCULOS
                         </h1>
                         <p id="banner-desc" class="text-xs sm:text-sm theme-text-muted font-bold">
                             Reflexiones sobre arquitectura de sistemas, infraestructura cloud, programación en bajo nivel y algoritmos.
@@ -221,7 +221,7 @@
                     <input 
                         type="text" 
                         id="search-input" 
-                        placeholder="Buscar bitácoras o filtrar por etiquetas (ej. SQLite, Cloud, Git)..." 
+                        placeholder="Buscar posts o filtrar por tags (ej. SQLite, Cloud, Git)..." 
                         class="w-full border pl-8 pr-4 py-2 text-sm font-mono transition-colors"
                     />
                 </div>
@@ -233,7 +233,7 @@
 
             <!-- Posts List Container -->
             <div id="posts-container" class="space-y-6">
-                <div id="loading-message" class="theme-text-muted text-sm animate-pulse">Cargando bitácoras desde la base de datos...</div>
+                <div id="loading-message" class="theme-text-muted text-sm animate-pulse">Cargando posts...</div>
             </div>
 
         </main>
@@ -241,7 +241,7 @@
         <footer class="p-4 border-t theme-border text-sm flex justify-between items-center theme-bg-header">
             <span class="theme-text-muted text-xs font-bold">riccivr.github.io/blog</span>
             <span id="footer-text" class="text-right text-xs theme-text-muted font-medium">
-                Motor Markdown · Archivo Estático
+                Markdown Engine · Archivo Estático
             </span>
         </footer>
 
@@ -250,32 +250,32 @@
     <script>
         const i18n = {
             es: {
-                metaTitle: "Ricardo Veronese - Bitácoras Técnicas y Sistemas",
-                metaDesc: "Bitácoras técnicas y registros de arquitectura de sistemas por Ricardo Veronese. Infraestructura cloud, utilidades C99/POSIX, parsers y estándares web.",
-                sysId: "ID.SISTEMA: riccivr // BITÁCORAS",
+                metaTitle: "Ricardo Veronese - Blog Técnico & Sistemas",
+                metaDesc: "Blog técnico y registros de arquitectura de sistemas por Ricardo Veronese. Cloud infrastructure, utilidades C99/POSIX, parsers y web standards.",
+                sysId: "SYS.ID: riccivr // BLOG",
                 status: "ESTADO: EN LÍNEA",
                 langToggle: "[LANG: ES]",
                 keysOn: "[TECLAS: ACT]",
                 keysOff: "[TECLAS: DES]",
                 modeCrt: "[MODO: CRT]",
                 modePaper: "[MODO: PAPEL]",
-                bannerTitle: "BITÁCORAS TÉCNICAS Y ARTÍCULOS",
-                bannerDesc: "Reflexiones sobre arquitectura de sistemas, infraestructura cloud, programación en bajo nivel y algoritmos.",
+                bannerTitle: "BLOG TÉCNICO & ARTÍCULOS",
+                bannerDesc: "Reflexiones sobre arquitectura de sistemas, infraestructura cloud, programación de bajo nivel y algoritmos.",
                 homePortal: "[<] Portal Principal",
-                searchPlaceholder: "Buscar bitácoras o filtrar por etiquetas (ej. SQLite, Cloud, Git)...",
+                searchPlaceholder: "Buscar posts o filtrar por tags (ej. SQLite, Cloud, Git)...",
                 clearTag: "[x] Limpiar",
-                loading: "Cargando bitácoras desde la base de datos...",
-                emptyMsg: "// No se encontraron bitácoras que coincidan con la búsqueda. Prueba con otro término.",
-                tagPrefix: "Etiqueta:",
-                logPrefix: "BITÁCORA_",
-                readingPrefix: "Tiempo de lectura:",
-                readPostBtn: "[LEER BITÁCORA ->]",
-                footerText: "Motor Markdown · Archivo Estático"
+                loading: "Cargando posts...",
+                emptyMsg: "// No hay posts que coincidan con la búsqueda. Prueba con otro término.",
+                tagPrefix: "Tag:",
+                logPrefix: "POST_",
+                readingPrefix: "Lectura:",
+                readPostBtn: "[LEER ARTÍCULO ->]",
+                footerText: "Markdown Engine · Archivo Estático"
             },
             en: {
                 metaTitle: "Ricardo Veronese - Technical Blog & System Logs",
                 metaDesc: "Technical blog and systems architecture logs by Ricardo Veronese. Cloud infrastructure, C99/POSIX utilities, parsers, and web standards.",
-                sysId: "SYS.ID: riccivr // LOGS",
+                sysId: "SYS.ID: riccivr // BLOG",
                 status: "STATUS: ONLINE",
                 langToggle: "[LANG: EN]",
                 keysOn: "[KEYS: ON]",
@@ -287,12 +287,12 @@
                 homePortal: "[<] Home Portal",
                 searchPlaceholder: "Search entries or filter by tags (e.g. SQLite, Cloud, Git)...",
                 clearTag: "[x] Clear",
-                loading: "Loading blog database entries...",
+                loading: "Loading blog posts...",
                 emptyMsg: "// No log entries matching criteria. Try another search query.",
                 tagPrefix: "Tag:",
-                logPrefix: "LOG_",
+                logPrefix: "POST_",
                 readingPrefix: "Reading Time:",
-                readPostBtn: "[READ LOG ->]",
+                readPostBtn: "[READ POST ->]",
                 footerText: "Markdown Engine · Static Archive"
             }
         };

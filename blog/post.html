@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="meta-title">Ricardo Veronese - Lector de Bitácoras</title>
+    <title id="meta-title">Ricardo Veronese - Blog</title>
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
     <meta name="author" content="Ricardo Veronese">
     <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed" href="https://riccivr.github.io/feed.xml">
@@ -285,7 +285,7 @@
 
         <header class="p-3 theme-bg-header border-b theme-border flex flex-wrap justify-between items-center gap-2">
             <div class="flex items-center space-x-2">
-                <span class="text-xs theme-text-muted tracking-wider font-bold" id="header-sys-id">ID.SISTEMA: riccivr // LECTOR_DE_BITÁCORAS</span>
+                <span class="text-xs theme-text-muted tracking-wider font-bold" id="header-sys-id">SYS.ID: riccivr // BLOG</span>
             </div>
             <div class="flex items-center space-x-2 sm:space-x-3">
                 <button id="lang-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Alternar idioma / Toggle Language [I]">
@@ -309,7 +309,7 @@
             <div class="flex flex-wrap items-center justify-between gap-3 pb-4 mb-6 border-b theme-border-subtle">
                 <div class="flex space-x-2">
                     <a href="index.html" id="back-index-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
-                        [<] Volver al Índice
+                        [<] Volver al Blog
                     </a>
                     <a href="../" id="home-portal-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
                         [H] Portal Principal
@@ -320,7 +320,7 @@
                         [S] Copiar Enlace
                     </button>
                     <a href="https://github.com/riccivr/riccivr.github.io" target="_blank" id="repo-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
-                        [G] Repositorio
+                        [G] Repo
                     </a>
                 </div>
             </div>
@@ -328,7 +328,7 @@
             <!-- Post Container -->
             <article id="post-article">
                 <div id="post-loading" class="theme-text-muted text-sm animate-pulse p-6 text-center font-bold">
-                    Obteniendo stream de Markdown desde el repositorio...
+                    Cargando markdown stream desde el repo...
                 </div>
                 
                 <div id="post-content" class="hidden"></div>
@@ -337,10 +337,10 @@
             <!-- Bottom Return Navigation -->
             <div class="mt-8 pt-4 border-t theme-border-subtle flex justify-between items-center">
                 <a href="index.html" id="bottom-back-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
-                    [<] Volver al Índice
+                    [<] Volver al Blog
                 </a>
                 <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" id="bottom-top-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
-                    [^] Subir al Inicio
+                    [^] Arriba
                 </a>
             </div>
 
@@ -349,7 +349,7 @@
         <footer class="p-4 border-t theme-border text-sm flex justify-between items-center theme-bg-header">
             <span class="theme-text-muted text-xs font-bold">riccivr.github.io/blog</span>
             <span id="footer-text" class="text-right text-xs theme-text-muted font-medium">
-                Renderizado con marked.js + highlight.js
+                Markdown Engine · marked.js + highlight.js
             </span>
         </footer>
 
@@ -358,42 +358,42 @@
     <script>
         const i18n = {
             es: {
-                sysId: "ID.SISTEMA: riccivr // LECTOR_DE_BITÁCORAS",
+                sysId: "SYS.ID: riccivr // BLOG",
                 status: "ESTADO: EN LÍNEA",
                 langToggle: "[LANG: ES]",
                 keysOn: "[TECLAS: ACT]",
                 keysOff: "[TECLAS: DES]",
                 modeCrt: "[MODO: CRT]",
                 modePaper: "[MODO: PAPEL]",
-                backIndex: "[<] Volver al Índice",
+                backIndex: "[<] Volver al Blog",
                 homePortal: "[H] Portal Principal",
                 copyLink: "[S] Copiar Enlace",
                 copied: "[✓] ¡Copiado!",
-                repo: "[G] Repositorio",
-                loading: "Obteniendo stream de Markdown desde el repositorio...",
-                noPost: "[!] No se especificó ninguna bitácora.",
-                browseAll: "[Explorar todas las bitácoras]",
-                topBtn: "[^] Subir al Inicio",
-                footerText: "Renderizado con marked.js + highlight.js"
+                repo: "[G] Repo",
+                loading: "Cargando markdown stream desde el repo...",
+                noPost: "[!] No se especificó ningún post.",
+                browseAll: "[Explorar todos los posts]",
+                topBtn: "[^] Arriba",
+                footerText: "Markdown Engine · marked.js + highlight.js"
             },
             en: {
-                sysId: "SYS.ID: riccivr // LOG_VIEWER",
+                sysId: "SYS.ID: riccivr // BLOG",
                 status: "STATUS: ONLINE",
                 langToggle: "[LANG: EN]",
                 keysOn: "[KEYS: ON]",
                 keysOff: "[KEYS: OFF]",
                 modeCrt: "[MODE: CRT]",
                 modePaper: "[MODE: PAPER]",
-                backIndex: "[<] Return to Logs Index",
+                backIndex: "[<] Return to Blog",
                 homePortal: "[H] Home Portal",
                 copyLink: "[S] Copy Link",
                 copied: "[✓] Copied!",
                 repo: "[G] Repo",
                 loading: "Fetching markdown stream from repository...",
-                noPost: "[!] No log entry specified.",
-                browseAll: "[Browse all logs]",
-                topBtn: "[^] Top of Page",
-                footerText: "Rendered with marked.js + highlight.js"
+                noPost: "[!] No post specified.",
+                browseAll: "[Browse all posts]",
+                topBtn: "[^] Top",
+                footerText: "Markdown Engine · marked.js + highlight.js"
             }
         };
 
@@ -531,7 +531,6 @@
 
                 let mdRes = await fetch(mdFile);
                 if (!mdRes.ok) {
-                    // Fallback to non-localized or alternate
                     mdRes = await fetch(`posts/${slug}.md`);
                 }
                 if (!mdRes.ok) throw new Error(`Log file "${slug}" not found`);
