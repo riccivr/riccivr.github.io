@@ -5,14 +5,14 @@
     <link>https://riccivr.github.io/blog/</link>
     <description>Reflections on cloud architecture, systems engineering, C99, algorithms, and IoT.</description>
     <language>es-ve</language>
-    <lastBuildDate>Sun, 30 Aug 2026 20:23:19 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 30 Aug 2026 20:30:24 GMT</lastBuildDate>
     <atom:link href="https://riccivr.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>Ser un buen ciudadano de la red en la era de la IA: guía moderna para el rastreo y descubrimiento web</title>
       <link>https://riccivr.github.io/blog/post.html?post=being-a-good-net-citizen-in-the-ai-era</link>
       <guid isPermaLink="true">https://riccivr.github.io/blog/post.html?post=being-a-good-net-citizen-in-the-ai-era</guid>
       <pubDate>Sun, 30 Aug 2026 12:00:00 GMT</pubDate>
-      <description>Los buscadores cambiaron la web indexando enlaces. Hoy en día, los agentes automatizados, los pipelines RAG y herramientas de búsqueda como Perplexity o Claude recorren sitios web para responder preguntas directamente a ...</description>
+      <description>Los buscadores cambiaron la web indexando enlaces. Hoy en día la vaina es otra: los agentes de IA, los pipelines RAG y motores como Perplexity o Claude recorren sitios web para responderle de una vez a la gente.</description>
       <category>Web Standards</category>
       <category>IA</category>
       <category>SEO</category>
@@ -25,7 +25,7 @@
       <link>https://riccivr.github.io/blog/post.html?post=preserving-the-web-with-git</link>
       <guid isPermaLink="true">https://riccivr.github.io/blog/post.html?post=preserving-the-web-with-git</guid>
       <pubDate>Sun, 30 Aug 2026 12:00:00 GMT</pubDate>
-      <description>Las páginas web desaparecen todo el tiempo. Las empresas borran documentación durante rediseños, los términos de servicio cambian sin aviso y los enlaces se rompen.</description>
+      <description>Las páginas web mutan y desaparecen a cada rato. Las empresas borran documentación durante rediseños corporativos, los términos de servicio cambian sin avisar y los links se rompen de la nada.</description>
       <category>Git</category>
       <category>Web Archiving</category>
       <category>Crawlers</category>
@@ -38,7 +38,7 @@
       <link>https://riccivr.github.io/blog/post.html?post=using-github-as-a-database</link>
       <guid isPermaLink="true">https://riccivr.github.io/blog/post.html?post=using-github-as-a-database</guid>
       <pubDate>Sun, 30 Aug 2026 12:00:00 GMT</pubDate>
-      <description>Una pregunta común en side projects y sitios estáticos es si se puede usar GitHub como una base de datos persistente.</description>
+      <description>Una pregunta que siempre sale al armar side projects y sitios estáticos es si de pana se puede usar GitHub como una base de datos persistente.</description>
       <category>SQLite</category>
       <category>GitHub Pages</category>
       <category>HTTP Range</category>

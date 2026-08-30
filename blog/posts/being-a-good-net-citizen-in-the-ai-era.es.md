@@ -5,36 +5,36 @@
 
 ---
 
-Los buscadores cambiaron la web indexando enlaces. Hoy en día, los agentes automatizados, los pipelines RAG y herramientas de búsqueda como Perplexity o Claude recorren sitios web para responder preguntas directamente a los usuarios.
+Los buscadores cambiaron la web indexando enlaces. Hoy en día la vaina es otra: los agentes de IA, los pipelines RAG y motores como Perplexity o Claude recorren sitios web para responderle de una vez a la gente.
 
-Si un crawler necesita ejecutar 15MB de JavaScript en el cliente para ver tu contenido, va a cerrar la conexión. Muchos agentes de IA tienen límites estrictos de latencia y tokens, por lo que ni siquiera ejecutan JavaScript.
+Si un crawler necesita ejecutar 15MB de JavaScript en el cliente para ver tu contenido, se cansa de esperar, te manda a la porra y cierra la conexión. Muchos agentes de IA tienen presupuestos súper estrictos de latencia y tokens, así que ni de vaina ejecutan JavaScript.
 
-Aquí te dejo varias recomendaciones prácticas para que tu sitio sea fácil de leer por máquinas sin tumbar tu servidor ni pelear con los crawlers.
+Aquí te dejo varias recomendaciones prácticas para que tu sitio sea fácil de rastrear e indexar por máquinas sin tumbarte el servidor ni pasar malos ratos con los bots.
 
 ---
 
-## 1. HTML estático y etiquetas semánticas reales
+## 1. HTML estático y semántico (cero peos con la hidratación)
 
-Googlebot puede levantar instancias de Chromium headless para renderizar SPAs complejas. La mayoría de los bots más pequeños y los crawlers de búsqueda de IA no hacen eso. Mandan una petición GET básica y esperan texto plano en la respuesta.
+Googlebot se puede dar el lujo de levantar Chromium headless para renderizar SPAs pesadas. La mayoría de los bots de IA no hacen eso ni locos. Mandan una petición GET básica y esperan texto plano en la respuesta.
 
 ```
 Petición GET del crawler (/articulo)
          │
-         ├── SPA pesada de cliente ──> Devuelve <div id="root"></div> ──> Descartado
+         ├── SPA pesada de cliente ──> Devuelve <div id="root"></div> ──> Descartado de una
          │
-         └── HTML estático         ──> Devuelve el DOM semántico       ──> Parseado al instante
+         └── HTML estático         ──> Devuelve el DOM semántico       ──> Parseado al pelo
 ```
 
 ### Qué conviene hacer:
-- Devuelve HTML pre-renderizado. Asegúrate de que tus artículos y documentación estén en el cuerpo del HTTP response inicial antes de que corra cualquier script.
-- Usa etiquetas HTML5 estándar como `<main>`, `<article>`, `<header>`, `<nav>`, `<aside>` y `<time>`. Los parsers usan estas etiquetas para separar el texto principal de los menús y el pie de página.
-- Usa encabezados lógicos de `<h1>` a `<h4>`. Los algoritmos de chunking de los LLM usan los títulos para dividir documentos en fragmentos coherentes.
+- Devuelve HTML pre-renderizado. Asegúrate de que tus artículos y documentación estén en el cuerpo del response inicial antes de que corra cualquier script.
+- Usa etiquetas HTML5 estándar como `<main>`, `<article>`, `<header>`, `<nav>`, `<aside>` y `<time>`. Los parsers usan estas etiquetas para separar el contenido principal de los menús y el pie de página sin enredos.
+- Usa encabezados lógicos de `<h1>` a `<h4>`. Los algoritmos de chunking de los LLM usan los títulos para picar los documentos en fragmentos coherentes.
 
 ---
 
 ## 2. Publicar un archivo `llms.txt` y feeds de texto plano
 
-El estándar `llms.txt` es un archivo simple en Markdown ubicado en `/llms.txt`. Le da a los modelos de lenguaje un índice limpio con tus páginas y documentación técnica más relevante sin obligarlos a scrapear basura.
+El estándar `llms.txt` es un archivo simple en Markdown ubicado en `/llms.txt`. Le da a los modelos de lenguaje un índice limpiecito con tus páginas y proyectos más importantes sin obligarlos a scrapear basura.
 
 ```
 # Ricardo Veronese
@@ -51,7 +51,7 @@ El estándar `llms.txt` es un archivo simple en Markdown ubicado en `/llms.txt`.
 ```
 
 ### Otros feeds útiles:
-- Mantén un feed RSS o Atom en `/feed.xml`. Los agentes y lectores de feeds revisan este archivo para encontrar nuevos posts sin tener que rastrear todo el sitio.
+- Mantén un feed RSS o Atom en `/feed.xml`. Los agentes y lectores de feeds revisan este archivo para pescar nuevos posts sin tener que rastrear todo el sitio a cada rato.
 - Cuando sea posible, sirve Markdown directamente o deja mirrors `.md` de tus artículos técnicos.
 
 ---
@@ -79,13 +79,13 @@ Para ayudar a los motores de búsqueda de IA a citar tu nombre, URL original y f
 </script>
 ```
 
-Cuando un agente cita tu artículo en una respuesta, este esquema le permite referenciar el enlace canónico y la fecha real en lugar de inventar detalles.
+Cuando un agente cita tu artículo en una respuesta, este esquema le permite referenciar el enlace canónico y la fecha real en lugar de inventar vainas o robarse el crédito.
 
 ---
 
 ## 4. Reglas claras en `robots.txt`
 
-Bloquear a todos los bots con `User-agent: * Disallow: /` te borra de los índices de búsqueda de IA. Conviene separar los crawlers de búsqueda en tiempo real de los scrapers que bajan datasets masivos para entrenamiento.
+Bloquear a todos los bots con `User-agent: * Disallow: /` a lo loco te borra del mapa de búsquedas de IA. Conviene separar los crawlers de búsqueda en tiempo real de los scrapers que bajan datasets gigantescos para entrenamiento.
 
 ```txt
 # Permitir bots de búsqueda y citación
@@ -106,7 +106,7 @@ Crawl-delay: 1
 Sitemap: https://riccivr.github.io/sitemap.xml
 ```
 
-Mantén siempre un archivo `sitemap.xml` con fechas `lastmod` correctas para que los bots no descarguen una y otra vez páginas sin cambios.
+Mantén siempre un archivo `sitemap.xml` al pelo con fechas `lastmod` correctas para que los bots no descarguen una y otra vez páginas sin cambios.
 
 ---
 
@@ -114,8 +114,8 @@ Mantén siempre un archivo `sitemap.xml` con fechas `lastmod` correctas para que
 
 Un buen sitio web cuida los recursos de su servidor y de los clientes:
 
-1. Soporta cabeceras `ETag` e `If-Modified-Since`. Responder con `HTTP 304 Not Modified` ahorra ancho de banda para ambos lados.
-2. Evita retos de Cloudflare o CAPTCHAs en documentación pública. Forzar verificaciones interactivas rompe herramientas de terminal como `curl`, scrapers de consola y lectores CLI.
+1. Soporta cabeceras `ETag` e `If-Modified-Since`. Responder con `HTTP 304 Not Modified` ahorra ancho de banda fino para ambos lados.
+2. Evita meterle retos de Cloudflare o CAPTCHAs a la documentación pública. Forzar verificaciones interactivas rompe herramientas de terminal como `curl`, scrapers de consola y lectores CLI.
 3. Configura etiquetas Open Graph claras como `og:title`, `og:description` y `rel="canonical"`.
 
 ---
@@ -124,11 +124,11 @@ Un buen sitio web cuida los recursos de su servidor y de los clientes:
 
 | Área | Recomendación | Razón |
 | :--- | :--- | :--- |
-| Renderizado | HTML estático o DOM del servidor | Parseo rápido, cero dependencia de JS en cliente |
+| Renderizado | HTML estático o DOM del servidor | Parseo rápido, cero peos de JS en cliente |
 | Semántica | Etiquetas HTML5 estándar | Chunking limpio para pipelines RAG |
 | Manifiestos | `/llms.txt` y `/feed.xml` | Bajo consumo de tokens para agentes de IA |
-| Atribución | Schema.org JSON-LD | Citas confiables de autor y enlaces originales |
-| Caché | `ETag` y `304 Not Modified` | Ahorro de ancho de banda y energía |
+| Atribución | Schema.org JSON-LD | Citas confiables sin que el bot invente vainas |
+| Caché | `ETag` y `304 Not Modified` | Ahorro de ancho de banda y electricidad |
 | Políticas | `robots.txt` y `sitemap.xml` claros | Control de bots de búsqueda vs scrapers masivos |
 
-Crear para la web moderna implica que el contenido sea cómodo de leer para las personas en el navegador y sencillo de procesar para herramientas automáticas.
+Crear para la web moderna implica que el contenido sea cómodo de leer para la gente en el navegador y sencillo de procesar para herramientas automáticas.

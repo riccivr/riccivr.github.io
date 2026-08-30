@@ -12,7 +12,7 @@
       "Arquitectura",
       "Semantic Web"
     ],
-    "summary": "Los buscadores cambiaron la web indexando enlaces. Hoy en día, los agentes automatizados, los pipelines RAG y herramientas de búsqueda como Perplexity o Claude recorren sitios web para responder preguntas directamente a ...",
+    "summary": "Los buscadores cambiaron la web indexando enlaces. Hoy en día la vaina es otra: los agentes de IA, los pipelines RAG y motores como Perplexity o Claude recorren sitios web para responderle de una vez a la gente.",
     "readingTime": "5 min",
     "file": "posts/being-a-good-net-citizen-in-the-ai-era.es.md",
     "en": {
@@ -43,7 +43,7 @@
         "Arquitectura",
         "Semantic Web"
       ],
-      "summary": "Los buscadores cambiaron la web indexando enlaces. Hoy en día, los agentes automatizados, los pipelines RAG y herramientas de búsqueda como Perplexity o Claude recorren sitios web para responder preguntas directamente a ...",
+      "summary": "Los buscadores cambiaron la web indexando enlaces. Hoy en día la vaina es otra: los agentes de IA, los pipelines RAG y motores como Perplexity o Claude recorren sitios web para responderle de una vez a la gente.",
       "readingTime": "5 min",
       "file": "posts/being-a-good-net-citizen-in-the-ai-era.es.md"
     }
@@ -61,7 +61,7 @@
       "C99",
       "Arquitectura"
     ],
-    "summary": "Las páginas web desaparecen todo el tiempo. Las empresas borran documentación durante rediseños, los términos de servicio cambian sin aviso y los enlaces se rompen.",
+    "summary": "Las páginas web mutan y desaparecen a cada rato. Las empresas borran documentación durante rediseños corporativos, los términos de servicio cambian sin avisar y los links se rompen de la nada.",
     "readingTime": "4 min",
     "file": "posts/preserving-the-web-with-git.es.md",
     "en": {
@@ -92,7 +92,7 @@
         "C99",
         "Arquitectura"
       ],
-      "summary": "Las páginas web desaparecen todo el tiempo. Las empresas borran documentación durante rediseños, los términos de servicio cambian sin aviso y los enlaces se rompen.",
+      "summary": "Las páginas web mutan y desaparecen a cada rato. Las empresas borran documentación durante rediseños corporativos, los términos de servicio cambian sin avisar y los links se rompen de la nada.",
       "readingTime": "4 min",
       "file": "posts/preserving-the-web-with-git.es.md"
     }
@@ -109,8 +109,8 @@
       "Arquitectura",
       "Cloud"
     ],
-    "summary": "Una pregunta común en side projects y sitios estáticos es si se puede usar GitHub como una base de datos persistente.",
-    "readingTime": "3 min",
+    "summary": "Una pregunta que siempre sale al armar side projects y sitios estáticos es si de pana se puede usar GitHub como una base de datos persistente.",
+    "readingTime": "4 min",
     "file": "posts/using-github-as-a-database.es.md",
     "en": {
       "title": "Can you use GitHub as a database? SQLite, HTTP range requests, and flat files",
@@ -138,8 +138,8 @@
         "Arquitectura",
         "Cloud"
       ],
-      "summary": "Una pregunta común en side projects y sitios estáticos es si se puede usar GitHub como una base de datos persistente.",
-      "readingTime": "3 min",
+      "summary": "Una pregunta que siempre sale al armar side projects y sitios estáticos es si de pana se puede usar GitHub como una base de datos persistente.",
+      "readingTime": "4 min",
       "file": "posts/using-github-as-a-database.es.md"
     }
   }
