@@ -133,7 +133,10 @@
             <div class="flex items-center space-x-2">
                 <span class="text-xs theme-text-muted tracking-wider font-bold">SYS.ID: riccivr // LOGS</span>
             </div>
-            <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <button id="keys-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Toggle Keyboard Navigation Shortcuts">
+                    [KEYS: ON]
+                </button>
                 <button id="theme-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Toggle Theme (CRT / Paper)">
                     [MODE: CRT]
                 </button>
@@ -223,6 +226,25 @@
         });
 
         updateThemeBtn();
+
+        // Keyboard shortcuts toggle handling
+        const keysToggleBtn = document.getElementById('keys-toggle');
+        function areKeysEnabled() {
+            return localStorage.getItem('riccivr-keys') !== 'off';
+        }
+        function updateKeysBtn() {
+            if (!keysToggleBtn) return;
+            const enabled = areKeysEnabled();
+            keysToggleBtn.textContent = enabled ? '[KEYS: ON]' : '[KEYS: OFF]';
+            keysToggleBtn.style.opacity = enabled ? '1' : '0.6';
+        }
+        keysToggleBtn.addEventListener('click', () => {
+            const currentlyEnabled = areKeysEnabled();
+            const nextState = currentlyEnabled ? 'off' : 'on';
+            localStorage.setItem('riccivr-keys', nextState);
+            updateKeysBtn();
+        });
+        updateKeysBtn();
 
         let allPosts = [];
         let selectedTag = null;
@@ -339,6 +361,9 @@
 
         // Global keyboard shortcut dispatcher
         document.addEventListener('keydown', (e) => {
+            if (!areKeysEnabled()) {
+                return;
+            }
             const searchInput = document.getElementById('search-input');
             const isSearchFocused = document.activeElement === searchInput;
 
