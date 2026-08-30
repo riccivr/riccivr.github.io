@@ -1,22 +1,22 @@
 # Ricardo Veronese
 
-> Ingeniero de Cloud y Sistemas especializado en AWS, arquitecturas distribuidas, desarrollo en bajo nivel con C99/POSIX, parsers y algoritmos de memoria acotada.
+> Systems & Cloud Engineer specializing in AWS, Cloud Architecture, C99/POSIX low-level systems, parsers, and memory-bounded algorithms.
 
-## Proyectos Activos
-- [approx](https://github.com/riccivr/approx): Filtro y clasificador de streams difusos POSIX no interactivo en C99 limpio con cero dependencias.
-- [unipaste](https://github.com/riccivr/unipaste): Conversor universal de portapapeles y texto enriquecido a Markdown estructurado y tablas ASCII/Unicode con cero dependencias.
-- [clipbridge](https://github.com/riccivr/clipbridge): Demonio y puente multiplataforma para el portapapeles potenciado por el motor unipaste.
+## Active Projects
+- [approx](https://github.com/riccivr/approx): Non-interactive POSIX fuzzy stream filter and ranker in clean Suckless C with zero dependencies.
+- [unipaste](https://github.com/riccivr/unipaste): Zero-dependency POSIX universal rich text & clipboard converter producing structured Markdown and ASCII tables.
+- [clipbridge](https://github.com/riccivr/clipbridge): Cross-platform universal clipboard listener daemon powered by unipaste.
 
-## Bitácoras Técnicas y Artículos
-- [Ser un buen ciudadano de la red en la era de la IA: Guía moderna para el rastreo y descubrimiento web](https://riccivr.github.io/blog/posts/being-a-good-net-citizen-in-the-ai-era.md): La forma en que se descubre, indexa y cita la información en internet está viviendo el cambio más arrecho desde que se inventaron los motores de búsqueda.
-- [Archivando la web con Git: Construyendo un historiador web direccionable por contenido](https://riccivr.github.io/blog/posts/preserving-the-web-with-git.md): La web moderna es notoriamente efímera. Las páginas mutan en silencio, la documentación desaparece durante rediseños corporativos, los términos de servicio se actualizan sin dejar rastro y los enlaces se rompen a una vel...
-- [¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y arquitecturas de archivos planos](https://riccivr.github.io/blog/posts/using-github-as-a-database.md): Una pregunta recurrente al diseñar proyectos personales, sitios estáticos o aplicaciones ligeras es: ¿Se puede utilizar GitHub como una base de datos persistente?
+## Engineering Logs & Articles (Bilingual: EN / ES)
+- [Being a Good Net Citizen in the AI Era: A Guide to Modern Web Discoverability](https://riccivr.github.io/blog/posts/being-a-good-net-citizen-in-the-ai-era.en.md) / [Ser un buen ciudadano de la red en la era de la IA: Guía moderna para el rastreo y descubrimiento web](https://riccivr.github.io/blog/posts/being-a-good-net-citizen-in-the-ai-era.es.md): The way information is discovered, indexed, and cited across the internet is undergoing its most profound transformation since the invention of the search engine.
+- [Archiving the Web with Git: Building a Content-Addressable Web Historian](https://riccivr.github.io/blog/posts/preserving-the-web-with-git.en.md) / [Archivando la web con Git: Construyendo un historiador web direccionable por contenido](https://riccivr.github.io/blog/posts/preserving-the-web-with-git.es.md): The modern web is notoriously ephemeral. Pages mutate silently, documentation disappears during corporate rebrands, terms of service update without diffs, and links rot at an alarming rate.
+- [Can You Use GitHub as a Database? SQLite, HTTP Range Requests, and Flat-File Architectures](https://riccivr.github.io/blog/posts/using-github-as-a-database.en.md) / [¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y arquitecturas de archivos planos](https://riccivr.github.io/blog/posts/using-github-as-a-database.es.md): A common architectural question for lightweight applications, side projects, and static sites is: Can we leverage GitHub as a persistent database?
 
-## Feeds y Metadatos de Máquina
-- Feed RSS: https://riccivr.github.io/feed.xml
-- Mapa del Sitio (Sitemap): https://riccivr.github.io/sitemap.xml
-- Portal Web: https://riccivr.github.io/
+## Machine Feeds & Meta
+- RSS Feed: https://riccivr.github.io/feed.xml
+- Sitemap: https://riccivr.github.io/sitemap.xml
+- Website: https://riccivr.github.io/
 - Blog: https://riccivr.github.io/blog/
 - GitHub: https://github.com/riccivr
 - LinkedIn: https://www.linkedin.com/in/riccivr/
-- Correo: ricci.vr@gmail.com
+- Email: ricci.vr@gmail.com

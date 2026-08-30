@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ricardo Veronese - Lector de Bitácoras</title>
+    <title id="meta-title">Ricardo Veronese - Lector de Bitácoras</title>
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
     <meta name="author" content="Ricardo Veronese">
-    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Feed RSS de Bitácoras" href="https://riccivr.github.io/feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed" href="https://riccivr.github.io/feed.xml">
     <link rel="help" type="text/markdown" title="Documentación para LLMs" href="https://riccivr.github.io/llms.txt">
 
     <!-- Open Graph Default -->
@@ -24,15 +24,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/solarized-light.min.css" id="hljs-light-theme" disabled>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script>
-        // Immediately apply saved or system theme to avoid FOUC
+        // Immediately apply saved or system theme and language to avoid FOUC
         (function() {
-            const saved = localStorage.getItem('riccivr-theme');
+            const savedTheme = localStorage.getItem('riccivr-theme');
             const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
-            if (saved === 'light' || (!saved && prefersLight)) {
+            if (savedTheme === 'light' || (!savedTheme && prefersLight)) {
                 document.documentElement.setAttribute('data-theme', 'light');
             } else {
                 document.documentElement.removeAttribute('data-theme');
             }
+
+            const savedLang = localStorage.getItem('riccivr-lang');
+            const browserLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
+            const activeLang = (savedLang === 'es' || savedLang === 'en') ? savedLang : (browserLang.startsWith('es') ? 'es' : 'en');
+            document.documentElement.setAttribute('lang', activeLang);
         })();
     </script>
     <style>
@@ -283,13 +288,16 @@
                 <span class="text-xs theme-text-muted tracking-wider font-bold" id="header-sys-id">ID.SISTEMA: riccivr // LECTOR_DE_BITÁCORAS</span>
             </div>
             <div class="flex items-center space-x-2 sm:space-x-3">
+                <button id="lang-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Alternar idioma / Toggle Language [I]">
+                    [LANG: ES]
+                </button>
                 <button id="keys-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Alternar atajos de navegación por teclado">
                     [TECLAS: ACT]
                 </button>
                 <button id="theme-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Alternar tema (CRT / Papel)">
                     [MODO: CRT]
                 </button>
-                <span class="theme-text-main text-xs sm:text-sm font-bold uppercase tracking-wider">
+                <span id="status-label" class="theme-text-main text-xs sm:text-sm font-bold uppercase tracking-wider">
                     ESTADO: EN LÍNEA
                 </span>
             </div>
@@ -300,10 +308,10 @@
             <!-- Navigation Controls -->
             <div class="flex flex-wrap items-center justify-between gap-3 pb-4 mb-6 border-b theme-border-subtle">
                 <div class="flex space-x-2">
-                    <a href="index.html" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
+                    <a href="index.html" id="back-index-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
                         [<] Volver al Índice
                     </a>
-                    <a href="../" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
+                    <a href="../" id="home-portal-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
                         [H] Portal Principal
                     </a>
                 </div>
@@ -311,7 +319,7 @@
                     <button id="copy-link-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
                         [S] Copiar Enlace
                     </button>
-                    <a href="https://github.com/riccivr/riccivr.github.io" target="_blank" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
+                    <a href="https://github.com/riccivr/riccivr.github.io" target="_blank" id="repo-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
                         [G] Repositorio
                     </a>
                 </div>
@@ -328,10 +336,10 @@
 
             <!-- Bottom Return Navigation -->
             <div class="mt-8 pt-4 border-t theme-border-subtle flex justify-between items-center">
-                <a href="index.html" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
+                <a href="index.html" id="bottom-back-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
                     [<] Volver al Índice
                 </a>
-                <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
+                <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" id="bottom-top-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
                     [^] Subir al Inicio
                 </a>
             </div>
@@ -340,7 +348,7 @@
 
         <footer class="p-4 border-t theme-border text-sm flex justify-between items-center theme-bg-header">
             <span class="theme-text-muted text-xs font-bold">riccivr.github.io/blog</span>
-            <span class="text-right text-xs theme-text-muted font-medium">
+            <span id="footer-text" class="text-right text-xs theme-text-muted font-medium">
                 Renderizado con marked.js + highlight.js
             </span>
         </footer>
@@ -348,6 +356,78 @@
     </div>
 
     <script>
+        const i18n = {
+            es: {
+                sysId: "ID.SISTEMA: riccivr // LECTOR_DE_BITÁCORAS",
+                status: "ESTADO: EN LÍNEA",
+                langToggle: "[LANG: ES]",
+                keysOn: "[TECLAS: ACT]",
+                keysOff: "[TECLAS: DES]",
+                modeCrt: "[MODO: CRT]",
+                modePaper: "[MODO: PAPEL]",
+                backIndex: "[<] Volver al Índice",
+                homePortal: "[H] Portal Principal",
+                copyLink: "[S] Copiar Enlace",
+                copied: "[✓] ¡Copiado!",
+                repo: "[G] Repositorio",
+                loading: "Obteniendo stream de Markdown desde el repositorio...",
+                noPost: "[!] No se especificó ninguna bitácora.",
+                browseAll: "[Explorar todas las bitácoras]",
+                topBtn: "[^] Subir al Inicio",
+                footerText: "Renderizado con marked.js + highlight.js"
+            },
+            en: {
+                sysId: "SYS.ID: riccivr // LOG_VIEWER",
+                status: "STATUS: ONLINE",
+                langToggle: "[LANG: EN]",
+                keysOn: "[KEYS: ON]",
+                keysOff: "[KEYS: OFF]",
+                modeCrt: "[MODE: CRT]",
+                modePaper: "[MODE: PAPER]",
+                backIndex: "[<] Return to Logs Index",
+                homePortal: "[H] Home Portal",
+                copyLink: "[S] Copy Link",
+                copied: "[✓] Copied!",
+                repo: "[G] Repo",
+                loading: "Fetching markdown stream from repository...",
+                noPost: "[!] No log entry specified.",
+                browseAll: "[Browse all logs]",
+                topBtn: "[^] Top of Page",
+                footerText: "Rendered with marked.js + highlight.js"
+            }
+        };
+
+        function getLanguage() {
+            const saved = localStorage.getItem('riccivr-lang');
+            if (saved === 'es' || saved === 'en') return saved;
+            const browserLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
+            return browserLang.startsWith('es') ? 'es' : 'en';
+        }
+
+        let currentLang = getLanguage();
+
+        function applyLanguageUI() {
+            const t = i18n[currentLang] || i18n.es;
+            document.documentElement.setAttribute('lang', currentLang);
+
+            document.getElementById('status-label').textContent = t.status;
+            document.getElementById('lang-toggle').textContent = t.langToggle;
+
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            document.getElementById('theme-toggle').textContent = isLight ? t.modePaper : t.modeCrt;
+
+            const keysEnabled = localStorage.getItem('riccivr-keys') !== 'off';
+            document.getElementById('keys-toggle').textContent = keysEnabled ? t.keysOn : t.keysOff;
+
+            document.getElementById('back-index-btn').textContent = t.backIndex;
+            document.getElementById('home-portal-btn').textContent = t.homePortal;
+            document.getElementById('copy-link-btn').textContent = t.copyLink;
+            document.getElementById('repo-btn').textContent = t.repo;
+            document.getElementById('bottom-back-btn').textContent = t.backIndex;
+            document.getElementById('bottom-top-btn').textContent = t.topBtn;
+            document.getElementById('footer-text').textContent = t.footerText;
+        }
+
         // Theme toggle handling
         const themeBtn = document.getElementById('theme-toggle');
         const darkHljs = document.getElementById('hljs-dark-theme');
@@ -365,7 +445,8 @@
 
         function updateThemeBtn() {
             const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-            themeBtn.textContent = isLight ? '[MODO: PAPEL]' : '[MODO: CRT]';
+            const t = i18n[currentLang] || i18n.es;
+            themeBtn.textContent = isLight ? t.modePaper : t.modeCrt;
             syncHljsTheme(isLight);
         }
 
@@ -381,8 +462,6 @@
             updateThemeBtn();
         });
 
-        updateThemeBtn();
-
         // Keyboard shortcuts toggle handling
         const keysToggleBtn = document.getElementById('keys-toggle');
         function areKeysEnabled() {
@@ -391,7 +470,8 @@
         function updateKeysBtn() {
             if (!keysToggleBtn) return;
             const enabled = areKeysEnabled();
-            keysToggleBtn.textContent = enabled ? '[TECLAS: ACT]' : '[TECLAS: DES]';
+            const t = i18n[currentLang] || i18n.es;
+            keysToggleBtn.textContent = enabled ? t.keysOn : t.keysOff;
             keysToggleBtn.style.opacity = enabled ? '1' : '0.6';
         }
         keysToggleBtn.addEventListener('click', () => {
@@ -400,7 +480,6 @@
             localStorage.setItem('riccivr-keys', nextState);
             updateKeysBtn();
         });
-        updateKeysBtn();
 
         marked.setOptions({
             highlight: function(code, lang) {
@@ -420,33 +499,49 @@
             const slug = urlParams.get('post');
             const loadingEl = document.getElementById('post-loading');
             const contentEl = document.getElementById('post-content');
+            const t = i18n[currentLang] || i18n.es;
 
             if (!slug) {
                 loadingEl.innerHTML = `
                     <div class="border theme-border-subtle p-4 theme-text-muted text-sm font-bold">
-                        [!] No se especificó ninguna bitácora. <a href="index.html" class="underline">[Explorar todas las bitácoras]</a>
+                        ${t.noPost} <a href="index.html" class="underline">${t.browseAll}</a>
                     </div>
                 `;
                 return;
             }
 
+            loadingEl.textContent = t.loading;
+            loadingEl.classList.remove('hidden');
+            contentEl.classList.add('hidden');
+
             try {
                 // Fetch post manifest to get file path and title
                 const manifestRes = await fetch('posts.json');
-                if (!manifestRes.ok) throw new Error('Fallo al cargar el índice de bitácoras');
+                if (!manifestRes.ok) throw new Error('Failed to load posts index');
                 const manifest = await manifestRes.json();
-                const postMeta = manifest.find(p => p.slug === slug);
+                const postEntry = manifest.find(p => p.slug === slug);
 
-                const mdFile = postMeta ? postMeta.file : `posts/${slug}.md`;
-                const mdRes = await fetch(mdFile);
-                if (!mdRes.ok) throw new Error(`Archivo de bitácora "${slug}.md" no encontrado`);
+                const postMeta = postEntry ? (postEntry[currentLang] || postEntry['es'] || postEntry['en'] || postEntry) : null;
+                
+                // Determine file path: prefer localized file, fallback to standard
+                let mdFile = `posts/${slug}.${currentLang}.md`;
+                if (postMeta && postMeta.file) {
+                    mdFile = postMeta.file;
+                }
+
+                let mdRes = await fetch(mdFile);
+                if (!mdRes.ok) {
+                    // Fallback to non-localized or alternate
+                    mdRes = await fetch(`posts/${slug}.md`);
+                }
+                if (!mdRes.ok) throw new Error(`Log file "${slug}" not found`);
 
                 const markdownText = await mdRes.text();
                 contentEl.innerHTML = marked.parse(markdownText);
                 
                 if (postMeta && postMeta.title) {
                     document.title = `${postMeta.title} - Ricardo Veronese`;
-                    document.getElementById('header-sys-id').textContent = `ID.SISTEMA: riccivr // ${postMeta.slug}`;
+                    document.getElementById('header-sys-id').textContent = `SYS.ID: riccivr // ${postEntry.slug}`;
 
                     // Inject Schema.org TechArticle JSON-LD
                     const existingSchema = document.getElementById('post-schema');
@@ -459,8 +554,8 @@
                         "@type": "TechArticle",
                         "headline": postMeta.title,
                         "description": postMeta.summary,
-                        "datePublished": postMeta.date,
-                        "dateModified": postMeta.date,
+                        "datePublished": postEntry.date,
+                        "dateModified": postEntry.date,
                         "author": {
                             "@type": "Person",
                             "name": "Ricardo Veronese",
@@ -486,18 +581,19 @@
             } catch (err) {
                 loadingEl.innerHTML = `
                     <div class="border border-red-500/50 p-4 text-red-500 text-sm font-bold">
-                        [ERROR] No se pudo cargar la entrada: ${err.message}<br>
-                        <a href="index.html" class="interactive-link border theme-border px-2 py-1 mt-3 inline-block text-xs uppercase">[<] Volver al Índice</a>
+                        [ERROR] ${err.message}<br>
+                        <a href="index.html" class="interactive-link border theme-border px-2 py-1 mt-3 inline-block text-xs uppercase">${t.backIndex}</a>
                     </div>
                 `;
             }
         }
 
         document.getElementById('copy-link-btn').addEventListener('click', () => {
+            const t = i18n[currentLang] || i18n.es;
             navigator.clipboard.writeText(window.location.href).then(() => {
                 const btn = document.getElementById('copy-link-btn');
                 const prev = btn.textContent;
-                btn.textContent = '[✓] ¡Copiado!';
+                btn.textContent = t.copied;
                 setTimeout(() => { btn.textContent = prev; }, 2000);
             });
         });
@@ -514,46 +610,62 @@
             }, 200);
         }
 
-        // Global keyboard shortcut dispatcher
-        document.addEventListener('keydown', (e) => {
-            if (!areKeysEnabled()) {
-                return;
-            }
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
-                return;
-            }
-            if (e.ctrlKey || e.metaKey || e.altKey) {
-                return;
-            }
+        document.addEventListener('DOMContentLoaded', () => {
+            applyLanguageUI();
+            updateThemeBtn();
+            updateKeysBtn();
 
-            const key = e.key.toUpperCase();
+            const langBtn = document.getElementById('lang-toggle');
+            langBtn.addEventListener('click', () => {
+                currentLang = currentLang === 'es' ? 'en' : 'es';
+                localStorage.setItem('riccivr-lang', currentLang);
+                applyLanguageUI();
+                loadPost();
+            });
 
-            if (key === 'B' || key === '<' || key === '[' || e.key === 'Escape') {
-                const backBtn = document.querySelector('a[href="index.html"]');
-                flashElement(backBtn);
-                setTimeout(() => { window.location.href = 'index.html'; }, 150);
-            } else if (key === 'H') {
-                const homeBtn = document.querySelector('a[href="../"]');
-                flashElement(homeBtn);
-                setTimeout(() => { window.location.href = '../'; }, 150);
-            } else if (key === 'S') {
-                const copyBtn = document.getElementById('copy-link-btn');
-                flashElement(copyBtn);
-                copyBtn.click();
-            } else if (key === 'G') {
-                const repoBtn = document.querySelector('a[href*="github.com"]');
-                flashElement(repoBtn);
-                window.open('https://github.com/riccivr/riccivr.github.io', '_blank');
-            } else if (key === 'T') {
-                const themeToggle = document.getElementById('theme-toggle');
-                flashElement(themeToggle);
-                themeToggle.click();
-            } else if (key === '^' || key === 'K' || e.key === 'ArrowUp') {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
+            // Global keyboard shortcut dispatcher
+            document.addEventListener('keydown', (e) => {
+                if (!areKeysEnabled()) {
+                    return;
+                }
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
+                    return;
+                }
+                if (e.ctrlKey || e.metaKey || e.altKey) {
+                    return;
+                }
+
+                const key = e.key.toUpperCase();
+
+                if (key === 'I') {
+                    flashElement(langBtn);
+                    langBtn.click();
+                } else if (key === 'B' || key === '<' || key === '[' || e.key === 'Escape') {
+                    const backBtn = document.querySelector('a[href="index.html"]');
+                    flashElement(backBtn);
+                    setTimeout(() => { window.location.href = 'index.html'; }, 150);
+                } else if (key === 'H') {
+                    const homeBtn = document.querySelector('a[href="../"]');
+                    flashElement(homeBtn);
+                    setTimeout(() => { window.location.href = '../'; }, 150);
+                } else if (key === 'S') {
+                    const copyBtn = document.getElementById('copy-link-btn');
+                    flashElement(copyBtn);
+                    copyBtn.click();
+                } else if (key === 'G') {
+                    const repoBtn = document.querySelector('a[href*="github.com"]');
+                    flashElement(repoBtn);
+                    window.open('https://github.com/riccivr/riccivr.github.io', '_blank');
+                } else if (key === 'T') {
+                    flashElement(themeBtn);
+                    themeBtn.click();
+                } else if (key === '^' || key === 'K' || e.key === 'ArrowUp') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+
+            loadPost();
         });
-
-        loadPost();
     </script>
 </body>
 </html>

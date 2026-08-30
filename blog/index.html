@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ricardo Veronese - Bitácoras Técnicas y Sistemas</title>
+    <title id="meta-title">Ricardo Veronese - Bitácoras Técnicas y Sistemas</title>
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
-    <meta name="description" content="Bitácoras técnicas y registros de arquitectura de sistemas por Ricardo Veronese. Infraestructura cloud, utilidades C99/POSIX, parsers y estándares web.">
+    <meta id="meta-desc" name="description" content="Bitácoras técnicas y registros de arquitectura de sistemas por Ricardo Veronese. Infraestructura cloud, utilidades C99/POSIX, parsers y estándares web.">
     <meta name="author" content="Ricardo Veronese">
     <link rel="canonical" href="https://riccivr.github.io/blog/">
-    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Feed RSS de Bitácoras" href="https://riccivr.github.io/feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed" href="https://riccivr.github.io/feed.xml">
     <link rel="help" type="text/markdown" title="Documentación para LLMs" href="https://riccivr.github.io/llms.txt">
 
     <!-- Open Graph -->
     <meta property="og:type" content="blog">
     <meta property="og:url" content="https://riccivr.github.io/blog/">
-    <meta property="og:title" content="Ricardo Veronese - Bitácoras Técnicas y Sistemas">
-    <meta property="og:description" content="Bitácoras técnicas, análisis de arquitectura cloud, programación en bajo nivel con POSIX y algoritmos.">
+    <meta id="og-title" property="og:title" content="Ricardo Veronese - Bitácoras Técnicas y Sistemas">
+    <meta id="og-desc" property="og:description" content="Bitácoras técnicas, análisis de arquitectura cloud, programación en bajo nivel con POSIX y algoritmos.">
     <meta property="og:image" content="https://riccivr.github.io/riccivr-retro.png">
     <meta property="og:site_name" content="Ricardo Veronese">
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Ricardo Veronese - Bitácoras Técnicas y Sistemas">
-    <meta name="twitter:description" content="Bitácoras técnicas, análisis de arquitectura cloud, programación en bajo nivel con POSIX y algoritmos.">
+    <meta id="tw-title" name="twitter:title" content="Ricardo Veronese - Bitácoras Técnicas y Sistemas">
+    <meta id="tw-desc" name="twitter:description" content="Bitácoras técnicas, análisis de arquitectura cloud, programación en bajo nivel con POSIX y algoritmos.">
     <meta name="twitter:image" content="https://riccivr.github.io/riccivr-retro.png">
 
     <!-- Schema.org JSON-LD -->
@@ -30,9 +30,9 @@
     {
       "@context": "https://schema.org",
       "@type": "Blog",
-      "name": "Ricardo Veronese - Bitácoras de Ingeniería y Artículos",
+      "name": "Ricardo Veronese - Engineering Logs & Essays",
       "url": "https://riccivr.github.io/blog/",
-      "description": "Reflexiones sobre arquitectura de sistemas, infraestructura cloud, programación en bajo nivel y algoritmos.",
+      "description": "Thoughts on systems architecture, cloud infrastructure, low-level programming & algorithms.",
       "author": {
         "@type": "Person",
         "name": "Ricardo Veronese",
@@ -43,15 +43,20 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        // Immediately apply saved or system theme to avoid FOUC
+        // Immediately apply saved or system theme and language to avoid FOUC
         (function() {
-            const saved = localStorage.getItem('riccivr-theme');
+            const savedTheme = localStorage.getItem('riccivr-theme');
             const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
-            if (saved === 'light' || (!saved && prefersLight)) {
+            if (savedTheme === 'light' || (!savedTheme && prefersLight)) {
                 document.documentElement.setAttribute('data-theme', 'light');
             } else {
                 document.documentElement.removeAttribute('data-theme');
             }
+
+            const savedLang = localStorage.getItem('riccivr-lang');
+            const browserLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
+            const activeLang = (savedLang === 'es' || savedLang === 'en') ? savedLang : (browserLang.startsWith('es') ? 'es' : 'en');
+            document.documentElement.setAttribute('lang', activeLang);
         })();
     </script>
     <style>
@@ -167,16 +172,19 @@
 
         <header class="p-3 theme-bg-header border-b theme-border flex flex-wrap justify-between items-center gap-2">
             <div class="flex items-center space-x-2">
-                <span class="text-xs theme-text-muted tracking-wider font-bold">ID.SISTEMA: riccivr // BITÁCORAS</span>
+                <span class="text-xs theme-text-muted tracking-wider font-bold" id="sys-id-label">ID.SISTEMA: riccivr // BITÁCORAS</span>
             </div>
             <div class="flex items-center space-x-2 sm:space-x-3">
+                <button id="lang-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Alternar idioma / Toggle Language [I]">
+                    [LANG: ES]
+                </button>
                 <button id="keys-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Alternar atajos de navegación por teclado">
                     [TECLAS: ACT]
                 </button>
                 <button id="theme-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Alternar tema (CRT / Papel)">
                     [MODO: CRT]
                 </button>
-                <span class="theme-text-main text-xs sm:text-sm font-bold uppercase tracking-wider">
+                <span id="status-label" class="theme-text-main text-xs sm:text-sm font-bold uppercase tracking-wider">
                     ESTADO: EN LÍNEA
                 </span>
             </div>
@@ -188,15 +196,15 @@
             <section class="theme-bg-section p-4 border theme-border mb-6">
                 <div class="flex flex-col sm:flex-row justify-between sm:items-center">
                     <div>
-                        <h1 class="text-xl sm:text-2xl font-bold uppercase theme-text-title mb-1">
+                        <h1 id="banner-title" class="text-xl sm:text-2xl font-bold uppercase theme-text-title mb-1">
                             BITÁCORAS TÉCNICAS Y ARTÍCULOS
                         </h1>
-                        <p class="text-xs sm:text-sm theme-text-muted font-bold">
+                        <p id="banner-desc" class="text-xs sm:text-sm theme-text-muted font-bold">
                             Reflexiones sobre arquitectura de sistemas, infraestructura cloud, programación en bajo nivel y algoritmos.
                         </p>
                     </div>
                     <div class="mt-4 sm:mt-0 flex space-x-2">
-                        <a href="../" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
+                        <a href="../" id="home-portal-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
                             [<] Portal Principal
                         </a>
                         <a href="https://github.com/riccivr" target="_blank" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
@@ -225,14 +233,14 @@
 
             <!-- Posts List Container -->
             <div id="posts-container" class="space-y-6">
-                <div class="theme-text-muted text-sm animate-pulse">Cargando bitácoras desde la base de datos...</div>
+                <div id="loading-message" class="theme-text-muted text-sm animate-pulse">Cargando bitácoras desde la base de datos...</div>
             </div>
 
         </main>
 
         <footer class="p-4 border-t theme-border text-sm flex justify-between items-center theme-bg-header">
             <span class="theme-text-muted text-xs font-bold">riccivr.github.io/blog</span>
-            <span class="text-right text-xs theme-text-muted font-medium">
+            <span id="footer-text" class="text-right text-xs theme-text-muted font-medium">
                 Motor Markdown · Archivo Estático
             </span>
         </footer>
@@ -240,64 +248,111 @@
     </div>
 
     <script>
-        // Theme toggle handling
-        const themeBtn = document.getElementById('theme-toggle');
-        
-        function updateThemeBtn() {
-            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-            themeBtn.textContent = isLight ? '[MODO: PAPEL]' : '[MODO: CRT]';
-        }
-
-        themeBtn.addEventListener('click', () => {
-            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-            const next = isLight ? 'dark' : 'light';
-            if (next === 'light') {
-                document.documentElement.setAttribute('data-theme', 'light');
-            } else {
-                document.documentElement.removeAttribute('data-theme');
+        const i18n = {
+            es: {
+                metaTitle: "Ricardo Veronese - Bitácoras Técnicas y Sistemas",
+                metaDesc: "Bitácoras técnicas y registros de arquitectura de sistemas por Ricardo Veronese. Infraestructura cloud, utilidades C99/POSIX, parsers y estándares web.",
+                sysId: "ID.SISTEMA: riccivr // BITÁCORAS",
+                status: "ESTADO: EN LÍNEA",
+                langToggle: "[LANG: ES]",
+                keysOn: "[TECLAS: ACT]",
+                keysOff: "[TECLAS: DES]",
+                modeCrt: "[MODO: CRT]",
+                modePaper: "[MODO: PAPEL]",
+                bannerTitle: "BITÁCORAS TÉCNICAS Y ARTÍCULOS",
+                bannerDesc: "Reflexiones sobre arquitectura de sistemas, infraestructura cloud, programación en bajo nivel y algoritmos.",
+                homePortal: "[<] Portal Principal",
+                searchPlaceholder: "Buscar bitácoras o filtrar por etiquetas (ej. SQLite, Cloud, Git)...",
+                clearTag: "[x] Limpiar",
+                loading: "Cargando bitácoras desde la base de datos...",
+                emptyMsg: "// No se encontraron bitácoras que coincidan con la búsqueda. Prueba con otro término.",
+                tagPrefix: "Etiqueta:",
+                logPrefix: "BITÁCORA_",
+                readingPrefix: "Tiempo de lectura:",
+                readPostBtn: "[LEER BITÁCORA ->]",
+                footerText: "Motor Markdown · Archivo Estático"
+            },
+            en: {
+                metaTitle: "Ricardo Veronese - Technical Blog & System Logs",
+                metaDesc: "Technical blog and systems architecture logs by Ricardo Veronese. Cloud infrastructure, C99/POSIX utilities, parsers, and web standards.",
+                sysId: "SYS.ID: riccivr // LOGS",
+                status: "STATUS: ONLINE",
+                langToggle: "[LANG: EN]",
+                keysOn: "[KEYS: ON]",
+                keysOff: "[KEYS: OFF]",
+                modeCrt: "[MODE: CRT]",
+                modePaper: "[MODE: PAPER]",
+                bannerTitle: "ENGINEERING LOGS & ESSAYS",
+                bannerDesc: "Thoughts on systems architecture, cloud infrastructure, low-level programming & algorithms.",
+                homePortal: "[<] Home Portal",
+                searchPlaceholder: "Search entries or filter by tags (e.g. SQLite, Cloud, Git)...",
+                clearTag: "[x] Clear",
+                loading: "Loading blog database entries...",
+                emptyMsg: "// No log entries matching criteria. Try another search query.",
+                tagPrefix: "Tag:",
+                logPrefix: "LOG_",
+                readingPrefix: "Reading Time:",
+                readPostBtn: "[READ LOG ->]",
+                footerText: "Markdown Engine · Static Archive"
             }
-            localStorage.setItem('riccivr-theme', next);
-            updateThemeBtn();
-            renderPosts();
-        });
+        };
 
-        updateThemeBtn();
-
-        // Keyboard shortcuts toggle handling
-        const keysToggleBtn = document.getElementById('keys-toggle');
-        function areKeysEnabled() {
-            return localStorage.getItem('riccivr-keys') !== 'off';
+        function getLanguage() {
+            const saved = localStorage.getItem('riccivr-lang');
+            if (saved === 'es' || saved === 'en') return saved;
+            const browserLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
+            return browserLang.startsWith('es') ? 'es' : 'en';
         }
-        function updateKeysBtn() {
-            if (!keysToggleBtn) return;
-            const enabled = areKeysEnabled();
-            keysToggleBtn.textContent = enabled ? '[TECLAS: ACT]' : '[TECLAS: DES]';
-            keysToggleBtn.style.opacity = enabled ? '1' : '0.6';
-        }
-        keysToggleBtn.addEventListener('click', () => {
-            const currentlyEnabled = areKeysEnabled();
-            const nextState = currentlyEnabled ? 'off' : 'on';
-            localStorage.setItem('riccivr-keys', nextState);
-            updateKeysBtn();
-        });
-        updateKeysBtn();
 
         let allPosts = [];
         let selectedTag = null;
+        let currentLang = getLanguage();
+
+        function applyLanguageUI() {
+            const t = i18n[currentLang] || i18n.es;
+            document.documentElement.setAttribute('lang', currentLang);
+
+            document.getElementById('meta-title').textContent = t.metaTitle;
+            document.getElementById('meta-desc').setAttribute('content', t.metaDesc);
+            document.getElementById('og-title').setAttribute('content', t.metaTitle);
+            document.getElementById('og-desc').setAttribute('content', t.metaDesc);
+            document.getElementById('tw-title').setAttribute('content', t.metaTitle);
+            document.getElementById('tw-desc').setAttribute('content', t.metaDesc);
+
+            document.getElementById('sys-id-label').textContent = t.sysId;
+            document.getElementById('status-label').textContent = t.status;
+            document.getElementById('lang-toggle').textContent = t.langToggle;
+
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            document.getElementById('theme-toggle').textContent = isLight ? t.modePaper : t.modeCrt;
+
+            const keysEnabled = localStorage.getItem('riccivr-keys') !== 'off';
+            document.getElementById('keys-toggle').textContent = keysEnabled ? t.keysOn : t.keysOff;
+
+            document.getElementById('banner-title').textContent = t.bannerTitle;
+            document.getElementById('banner-desc').textContent = t.bannerDesc;
+            document.getElementById('home-portal-btn').textContent = t.homePortal;
+            document.getElementById('search-input').setAttribute('placeholder', t.searchPlaceholder);
+            document.getElementById('clear-tag-btn').textContent = t.clearTag;
+            document.getElementById('footer-text').textContent = t.footerText;
+
+            renderPosts();
+        }
 
         async function loadPosts() {
             const container = document.getElementById('posts-container');
+            const t = i18n[currentLang] || i18n.es;
             try {
                 const response = await fetch('posts.json');
                 if (!response.ok) {
-                    throw new Error('Fallo al cargar el índice de bitácoras');
+                    throw new Error('Failed to load posts index');
                 }
                 allPosts = await response.json();
                 renderPosts();
             } catch (err) {
                 container.innerHTML = `
                     <div class="border border-red-500/50 p-4 text-red-500 text-sm theme-bg-card font-bold">
-                        [ERROR] No se pudieron cargar las bitácoras: ${err.message}
+                        [ERROR] ${err.message}
                     </div>
                 `;
             }
@@ -306,11 +361,13 @@
         function filterPosts(searchTerm = '') {
             const term = searchTerm.toLowerCase().trim();
             return allPosts.filter(post => {
-                const matchesTag = !selectedTag || (post.tags && post.tags.some(t => t.toLowerCase() === selectedTag.toLowerCase()));
+                const meta = post[currentLang] || post['es'] || post['en'] || post;
+                const tags = meta.tags || [];
+                const matchesTag = !selectedTag || tags.some(t => t.toLowerCase() === selectedTag.toLowerCase());
                 const matchesSearch = !term || 
-                    post.title.toLowerCase().includes(term) || 
-                    post.summary.toLowerCase().includes(term) || 
-                    (post.tags && post.tags.some(t => t.toLowerCase().includes(term)));
+                    (meta.title && meta.title.toLowerCase().includes(term)) || 
+                    (meta.summary && meta.summary.toLowerCase().includes(term)) || 
+                    tags.some(t => t.toLowerCase().includes(term));
                 return matchesTag && matchesSearch;
             });
         }
@@ -318,19 +375,22 @@
         function renderPosts() {
             const container = document.getElementById('posts-container');
             const searchInput = document.getElementById('search-input');
-            const filtered = filterPosts(searchInput.value);
+            const t = i18n[currentLang] || i18n.es;
+            const filtered = filterPosts(searchInput ? searchInput.value : '');
 
             if (filtered.length === 0) {
                 container.innerHTML = `
                     <div class="border theme-border-subtle theme-bg-card p-6 text-center theme-text-muted text-sm font-semibold">
-                        // No se encontraron bitácoras que coincidan con la búsqueda. Prueba con otro término.
+                        ${t.emptyMsg}
                     </div>
                 `;
                 return;
             }
 
             container.innerHTML = filtered.map(post => {
-                const tagsHtml = (post.tags || []).map(tag => `
+                const meta = post[currentLang] || post['es'] || post['en'] || post;
+                const tags = meta.tags || [];
+                const tagsHtml = tags.map(tag => `
                     <button onclick="setFilterTag('${tag}')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">
                         #${tag}
                     </button>
@@ -340,21 +400,21 @@
                     <article class="border theme-border-subtle theme-bg-card p-5 transition duration-150">
                         <header class="flex flex-col sm:flex-row justify-between sm:items-center gap-1 mb-2 border-b theme-border-dim pb-2">
                             <div class="text-xs theme-text-muted font-bold font-mono">
-                                BITÁCORA_${post.date.replace(/-/g, '.')} // ${(post.category || 'GENERAL').toUpperCase()}
+                                ${t.logPrefix}${post.date.replace(/-/g, '.')} // ${(meta.category || 'GENERAL').toUpperCase()}
                             </div>
                             <div class="text-xs theme-text-dim font-medium">
-                                Tiempo de lectura: ${post.readingTime || '4 min'}
+                                ${t.readingPrefix} ${meta.readingTime || '4 min'}
                             </div>
                         </header>
 
                         <h2 class="text-lg sm:text-xl font-bold theme-text-heading mb-2">
                             <a href="post.html?post=${post.slug}" class="hover:underline">
-                                ${post.title}
+                                ${meta.title}
                             </a>
                         </h2>
 
                         <p class="text-sm leading-relaxed theme-text-main mb-4">
-                            ${post.summary}
+                            ${meta.summary}
                         </p>
 
                         <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t theme-border-dim">
@@ -362,7 +422,7 @@
                                 ${tagsHtml}
                             </div>
                             <a href="post.html?post=${post.slug}" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
-                                [LEER BITÁCORA ->]
+                                ${t.readPostBtn}
                             </a>
                         </div>
                     </article>
@@ -374,90 +434,131 @@
             selectedTag = tag;
             const container = document.getElementById('active-tag-container');
             const label = document.getElementById('active-tag-label');
+            const t = i18n[currentLang] || i18n.es;
             if (tag) {
                 container.classList.remove('hidden');
-                label.textContent = `Etiqueta: #${tag}`;
+                label.textContent = `${t.tagPrefix} #${tag}`;
             } else {
                 container.classList.add('hidden');
             }
             renderPosts();
         }
 
-        document.getElementById('clear-tag-btn').addEventListener('click', () => {
-            setFilterTag(null);
-        });
+        document.addEventListener('DOMContentLoaded', () => {
+            applyLanguageUI();
 
-        document.getElementById('search-input').addEventListener('input', () => {
-            renderPosts();
-        });
+            // Language switch button
+            const langBtn = document.getElementById('lang-toggle');
+            langBtn.addEventListener('click', () => {
+                currentLang = currentLang === 'es' ? 'en' : 'es';
+                localStorage.setItem('riccivr-lang', currentLang);
+                applyLanguageUI();
+            });
 
-        function flashElement(el) {
-            if (!el) return;
-            const prevBg = el.style.backgroundColor;
-            const prevColor = el.style.color;
-            el.style.backgroundColor = 'var(--btn-hover-bg)';
-            el.style.color = 'var(--btn-hover-text)';
-            setTimeout(() => {
-                el.style.backgroundColor = prevBg;
-                el.style.color = prevColor;
-            }, 200);
-        }
-
-        // Global keyboard shortcut dispatcher
-        document.addEventListener('keydown', (e) => {
-            if (!areKeysEnabled()) {
-                return;
-            }
-            const searchInput = document.getElementById('search-input');
-            const isSearchFocused = document.activeElement === searchInput;
-
-            if (isSearchFocused) {
-                if (e.key === 'Escape') {
-                    searchInput.value = '';
-                    searchInput.blur();
-                    setFilterTag(null);
-                    renderPosts();
+            // Theme toggle handling
+            const themeBtn = document.getElementById('theme-toggle');
+            themeBtn.addEventListener('click', () => {
+                const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+                const next = isLight ? 'dark' : 'light';
+                if (next === 'light') {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
                 }
-                return;
+                localStorage.setItem('riccivr-theme', next);
+                applyLanguageUI();
+            });
+
+            // Keyboard shortcuts toggle handling
+            const keysToggleBtn = document.getElementById('keys-toggle');
+            function areKeysEnabled() {
+                return localStorage.getItem('riccivr-keys') !== 'off';
+            }
+            keysToggleBtn.addEventListener('click', () => {
+                const currentlyEnabled = areKeysEnabled();
+                const nextState = currentlyEnabled ? 'off' : 'on';
+                localStorage.setItem('riccivr-keys', nextState);
+                applyLanguageUI();
+            });
+
+            document.getElementById('clear-tag-btn').addEventListener('click', () => {
+                setFilterTag(null);
+            });
+
+            document.getElementById('search-input').addEventListener('input', () => {
+                renderPosts();
+            });
+
+            function flashElement(el) {
+                if (!el) return;
+                const prevBg = el.style.backgroundColor;
+                const prevColor = el.style.color;
+                el.style.backgroundColor = 'var(--btn-hover-bg)';
+                el.style.color = 'var(--btn-hover-text)';
+                setTimeout(() => {
+                    el.style.backgroundColor = prevBg;
+                    el.style.color = prevColor;
+                }, 200);
             }
 
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
-                return;
-            }
-            if (e.ctrlKey || e.metaKey || e.altKey) {
-                return;
-            }
-
-            const key = e.key.toUpperCase();
-
-            if (key === 'H' || key === '<' || key === '[' || e.key === 'Escape') {
-                const homeBtn = document.querySelector('a[href="../"]');
-                flashElement(homeBtn);
-                setTimeout(() => { window.location.href = '../'; }, 150);
-            } else if (key === 'G') {
-                const ghBtn = document.querySelector('a[href="https://github.com/riccivr"]');
-                flashElement(ghBtn);
-                window.open('https://github.com/riccivr', '_blank');
-            } else if (key === 'T') {
-                const themeToggle = document.getElementById('theme-toggle');
-                flashElement(themeToggle);
-                themeToggle.click();
-            } else if (e.key === '/' || key === 'S') {
-                e.preventDefault();
-                flashElement(searchInput);
-                searchInput.focus();
-            } else if (e.key >= '1' && e.key <= '9') {
-                const index = parseInt(e.key) - 1;
-                const postLinks = document.querySelectorAll('#posts-container article a.hover\\:underline');
-                if (postLinks[index]) {
-                    flashElement(postLinks[index].closest('article'));
-                    setTimeout(() => { window.location.href = postLinks[index].href; }, 150);
+            // Global keyboard shortcut dispatcher
+            document.addEventListener('keydown', (e) => {
+                if (!areKeysEnabled()) {
+                    return;
                 }
-            }
-        });
+                const searchInput = document.getElementById('search-input');
+                const isSearchFocused = document.activeElement === searchInput;
 
-        window.setFilterTag = setFilterTag;
-        loadPosts();
+                if (isSearchFocused) {
+                    if (e.key === 'Escape') {
+                        searchInput.value = '';
+                        searchInput.blur();
+                        setFilterTag(null);
+                        renderPosts();
+                    }
+                    return;
+                }
+
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
+                    return;
+                }
+                if (e.ctrlKey || e.metaKey || e.altKey) {
+                    return;
+                }
+
+                const key = e.key.toUpperCase();
+
+                if (key === 'I') {
+                    flashElement(langBtn);
+                    langBtn.click();
+                } else if (key === 'H' || key === '<' || key === '[' || e.key === 'Escape') {
+                    const homeBtn = document.querySelector('a[href="../"]');
+                    flashElement(homeBtn);
+                    setTimeout(() => { window.location.href = '../'; }, 150);
+                } else if (key === 'G') {
+                    const ghBtn = document.querySelector('a[href="https://github.com/riccivr"]');
+                    flashElement(ghBtn);
+                    window.open('https://github.com/riccivr', '_blank');
+                } else if (key === 'T') {
+                    flashElement(themeBtn);
+                    themeBtn.click();
+                } else if (e.key === '/' || key === 'S') {
+                    e.preventDefault();
+                    flashElement(searchInput);
+                    searchInput.focus();
+                } else if (e.key >= '1' && e.key <= '9') {
+                    const index = parseInt(e.key) - 1;
+                    const postLinks = document.querySelectorAll('#posts-container article a.hover\\:underline');
+                    if (postLinks[index]) {
+                        flashElement(postLinks[index].closest('article'));
+                        setTimeout(() => { window.location.href = postLinks[index].href; }, 150);
+                    }
+                }
+            });
+
+            window.setFilterTag = setFilterTag;
+            loadPosts();
+        });
     </script>
 </body>
 </html>
