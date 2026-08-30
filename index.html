@@ -4,104 +4,190 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ricardo Veronese - Systems & Cloud Engineer</title>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Immediately apply saved or system theme to avoid FOUC
+        (function() {
+            const saved = localStorage.getItem('riccivr-theme');
+            const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+            if (saved === 'light' || (!saved && prefersLight)) {
+                document.documentElement.setAttribute('data-theme', 'light');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+        })();
+    </script>
     <style>
+        :root {
+            --bg-page: #000000;
+            --bg-frame: #000000;
+            --bg-header: rgba(180, 83, 9, 0.2);
+            --bg-section: rgba(180, 83, 9, 0.3);
+            --bg-card: rgba(69, 26, 3, 0.2);
+            --bg-card-alt: rgba(69, 26, 3, 0.35);
+            --bg-tab-active: rgba(180, 83, 9, 0.5);
+            --bg-tab-hover: rgba(180, 83, 9, 0.15);
+            --bg-badge: rgba(245, 158, 11, 0.1);
+            
+            --border-primary: #f59e0b;
+            --border-subtle: rgba(245, 158, 11, 0.5);
+            --border-dim: rgba(245, 158, 11, 0.2);
+            
+            --text-title: #fef3c7;
+            --text-heading: #fbbf24;
+            --text-main: #f59e0b;
+            --text-muted: #d97706;
+            --text-dim: #92400e;
+            
+            --scanline-color: rgba(180, 150, 0, 0.07);
+            --frame-shadow: 0 0 10px #f59e0b, 0 0 20px #f59e0b inset;
+            --avatar-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+            --btn-hover-bg: #f59e0b;
+            --btn-hover-text: #000000;
+        }
+
+        [data-theme="light"] {
+            --bg-page: #f5efe1;
+            --bg-frame: #fcf8f0;
+            --bg-header: #ebe0ca;
+            --bg-section: #efe5ce;
+            --bg-card: #f3ecdb;
+            --bg-card-alt: #eae0cb;
+            --bg-tab-active: #dfd2b5;
+            --bg-tab-hover: #eae0cb;
+            --bg-badge: rgba(146, 64, 14, 0.08);
+            
+            --border-primary: #92400e;
+            --border-subtle: rgba(146, 64, 14, 0.5);
+            --border-dim: rgba(146, 64, 14, 0.25);
+            
+            --text-title: #1a0a01;
+            --text-heading: #78350f;
+            --text-main: #2b1103;
+            --text-muted: #612809;
+            --text-dim: #92400e;
+            
+            --scanline-color: rgba(146, 64, 14, 0.035);
+            --frame-shadow: 0 3px 14px rgba(146, 64, 14, 0.18), 0 0 0 1px rgba(146, 64, 14, 0.12) inset;
+            --avatar-shadow: 0 4px 12px rgba(146, 64, 14, 0.25);
+            --btn-hover-bg: #92400e;
+            --btn-hover-text: #fcf8f0;
+        }
+
         body {
-            background-color: #000000;
-            background-image: linear-gradient(rgba(180, 150, 0, 0.07) 1px, transparent 1px);
+            background-color: var(--bg-page);
+            background-image: linear-gradient(var(--scanline-color) 1px, transparent 1px);
             background-size: 100% 4px;
             font-family: 'Courier New', Courier, monospace;
-            cursor: text;
+            color: var(--text-main);
+            transition: background-color 0.15s ease, color 0.15s ease;
         }
-        :root {
-            --color-primary: #f59e0b;
-            --color-secondary: #b45309;
-            --color-text-dim: #78350f;
-            --color-text-main: #d97706;
-        }
+
         .terminal-frame {
-            box-shadow: 0 0 10px var(--color-primary), 0 0 20px var(--color-primary) inset;
-            border: 2px solid var(--color-primary);
+            box-shadow: var(--frame-shadow);
+            border: 2px solid var(--border-primary);
+            background-color: var(--bg-frame);
         }
+
         .interactive-link {
-            transition: color 0.1s, background-color 0.1s;
+            transition: color 0.1s ease, background-color 0.1s ease, border-color 0.1s ease;
+            border-color: var(--border-primary);
+            color: var(--text-main);
         }
         .interactive-link:hover {
-            color: black;
-            background-color: var(--color-primary);
+            color: var(--btn-hover-text) !important;
+            background-color: var(--btn-hover-bg) !important;
         }
-        .text-amber-400 {
-            color: var(--color-text-main);
-        }
+
+        .theme-border { border-color: var(--border-primary); }
+        .theme-border-subtle { border-color: var(--border-subtle); }
+        .theme-border-dim { border-color: var(--border-dim); }
+
+        .theme-bg-header { background-color: var(--bg-header); }
+        .theme-bg-section { background-color: var(--bg-section); }
+        .theme-bg-card { background-color: var(--bg-card); }
+        .theme-bg-card-alt { background-color: var(--bg-card-alt); }
+
+        .theme-text-title { color: var(--text-title); }
+        .theme-text-heading { color: var(--text-heading); }
+        .theme-text-main { color: var(--text-main); }
+        .theme-text-muted { color: var(--text-muted); }
+        .theme-text-dim { color: var(--text-dim); }
     </style>
 </head>
-<body class="p-4 sm:p-8 md:p-12">
+<body class="p-4 sm:p-8 md:p-12 min-h-screen">
 
-    <div class="terminal-frame max-w-4xl mx-auto mt-4 rounded-lg overflow-hidden bg-black">
+    <div class="terminal-frame max-w-4xl mx-auto mt-4 rounded-lg overflow-hidden">
 
-        <header class="p-3 bg-amber-800/20 border-b border-amber-500 flex justify-between items-center">
-            <div class="flex space-x-2">
-                <span class="text-xs text-amber-500 tracking-wider">SYS.ID: riccivr</span>
+        <header class="p-3 theme-bg-header border-b theme-border flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center space-x-2">
+                <span class="text-xs theme-text-muted tracking-wider font-bold">SYS.ID: riccivr</span>
             </div>
-            <span class="text-amber-400 text-sm font-bold uppercase tracking-wider">
-                STATUS: ONLINE
-            </span>
+            <div class="flex items-center space-x-3">
+                <button id="theme-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Toggle Theme (CRT / Paper)">
+                    [MODE: CRT]
+                </button>
+                <span class="theme-text-main text-xs sm:text-sm font-bold uppercase tracking-wider">
+                    STATUS: ONLINE
+                </span>
+            </div>
         </header>
 
         <main class="p-6">
 
-            <section class="bg-amber-800/30 p-4 border border-amber-500 mb-6">
-                <div class="flex justify-between items-start text-amber-400">
+            <section class="theme-bg-section p-4 border theme-border mb-6">
+                <div class="flex justify-between items-start">
                     <div class="flex items-start space-x-4">
-                        <img src="./riccivr-retro.png" onerror="this.style.display='none';" class="hidden sm:block w-28 aspect-[37/27] rounded-sm border-2 border-amber-500 shadow-lg shadow-amber-500/50 mr-2" alt="Avatar">
+                        <img src="./riccivr-retro.png" onerror="this.style.display='none';" class="hidden sm:block w-28 aspect-[37/27] rounded-sm border-2 theme-border mr-2" style="box-shadow: var(--avatar-shadow);" alt="Avatar">
                         
                         <div>
-                            <h1 class="text-xl sm:text-2xl font-bold uppercase mb-1 flex items-center">
+                            <h1 class="text-xl sm:text-2xl font-bold uppercase mb-1 flex items-center theme-text-title">
                                 Ricardo Veronese
                             </h1>
-                            <p class="text-base sm:text-lg">
+                            <p class="text-base sm:text-lg theme-text-heading font-semibold">
                                 Cloud & Full-Stack Engineer at Enroly
                             </p>
-                            <p class="text-xs sm:text-sm text-amber-500/90 mt-1">
+                            <p class="text-xs sm:text-sm theme-text-muted mt-1 font-bold">
                                 AWS · CDK · TypeScript · Python · Rust · C99 · Embedded / IoT
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <div class="mt-4 pt-4 border-t border-amber-500/50 flex flex-col sm:flex-row sm:items-center justify-between">
-                    <div class="text-xs text-amber-400/80 mb-4 sm:mb-0">
+                <div class="mt-4 pt-4 border-t theme-border-subtle flex flex-col sm:flex-row sm:items-center justify-between">
+                    <div class="text-xs theme-text-muted mb-4 sm:mb-0">
                         Designing resilient cloud architectures & low-level systems.
                     </div>
 
                     <div class="flex flex-wrap gap-2 sm:gap-3">
-                        <a href="./blog/" class="interactive-link border border-amber-500 px-3 py-1 text-sm uppercase text-amber-300 font-bold bg-amber-500/10">
+                        <a href="./blog/" class="interactive-link border theme-border px-3 py-1 text-sm uppercase font-bold" style="background-color: var(--bg-badge);">
                             [B] Blog
                         </a>
-                        <a href="mailto:ricci.vr@gmail.com" class="interactive-link border border-amber-500 px-3 py-1 text-sm uppercase text-amber-400">
+                        <a href="mailto:ricci.vr@gmail.com" class="interactive-link border theme-border px-3 py-1 text-sm uppercase font-bold">
                             [C] Email
                         </a>
-                        <a href="https://github.com/riccivr" target="_blank" class="interactive-link border border-amber-500 px-3 py-1 text-sm uppercase text-amber-400">
+                        <a href="https://github.com/riccivr" target="_blank" class="interactive-link border theme-border px-3 py-1 text-sm uppercase font-bold">
                             [G] GitHub
                         </a>
-                        <a href="https://www.linkedin.com/in/riccivr/" target="_blank" class="interactive-link border border-amber-500 px-3 py-1 text-sm uppercase text-amber-400">
+                        <a href="https://www.linkedin.com/in/riccivr/" target="_blank" class="interactive-link border theme-border px-3 py-1 text-sm uppercase font-bold">
                             [L] LinkedIn
                         </a>
                     </div>
                 </div>
             </section>
 
-            <div class="flex border-b border-amber-500 mb-4 text-amber-400 overflow-x-auto">
-                <div id="tab-projects" class="tab-button px-4 py-2 border-amber-500 cursor-pointer whitespace-nowrap" data-target="projects-content">
+            <div class="flex border-b theme-border mb-4 overflow-x-auto">
+                <div id="tab-projects" class="tab-button px-4 py-2 theme-border cursor-pointer whitespace-nowrap font-bold" data-target="projects-content">
                     ACTIVE PROJECTS
                 </div>
-                <div id="tab-blog" class="tab-button px-4 py-2 cursor-pointer hover:bg-amber-800/10 transition duration-150 whitespace-nowrap" data-target="blog-content">
+                <div id="tab-blog" class="tab-button px-4 py-2 cursor-pointer transition duration-150 whitespace-nowrap font-bold" data-target="blog-content">
                     LOGS & ARTICLES
                 </div>
-                <div id="tab-skills" class="tab-button px-4 py-2 cursor-pointer hover:bg-amber-800/10 transition duration-150 whitespace-nowrap" data-target="skills-content">
+                <div id="tab-skills" class="tab-button px-4 py-2 cursor-pointer transition duration-150 whitespace-nowrap font-bold" data-target="skills-content">
                     STACK & SKILLS
                 </div>
-                <div id="tab-contact" class="tab-button px-4 py-2 cursor-pointer hover:bg-amber-800/10 transition duration-150 whitespace-nowrap" data-target="contact-content">
+                <div id="tab-contact" class="tab-button px-4 py-2 cursor-pointer transition duration-150 whitespace-nowrap font-bold" data-target="contact-content">
                     CONTACT
                 </div>
             </div>
@@ -111,226 +197,226 @@
                 <div id="projects-content" class="content-section space-y-6">
 
                     <!-- approx -->
-                    <article class="border border-amber-500/40 bg-amber-950/10 p-4">
-                        <header class="flex justify-between items-start text-amber-400 mb-2">
+                    <article class="border theme-border-subtle theme-bg-card p-4">
+                        <header class="flex justify-between items-start mb-2">
                             <div>
-                                <h2 class="font-bold text-lg text-amber-300">approx</h2>
-                                <span class="text-xs text-amber-500 font-semibold">Non-interactive POSIX fuzzy stream filter & ranker</span>
+                                <h2 class="font-bold text-lg theme-text-heading">approx</h2>
+                                <span class="text-xs theme-text-muted font-bold">Non-interactive POSIX fuzzy stream filter & ranker</span>
                             </div>
-                            <div class="text-xs text-amber-400 text-right whitespace-nowrap">
+                            <div class="text-xs theme-text-muted text-right whitespace-nowrap font-semibold">
                                 Active Focus
                             </div>
                         </header>
-                        <div class="text-sm leading-relaxed text-amber-400/90 mt-2">
+                        <div class="text-sm leading-relaxed theme-text-main mt-2">
                             <p class="mb-3">
                                 Lightweight, zero-dependency C99 CLI utility that scores, filters, and ranks streaming text using normalized approximate string distance. Space-optimized O(M) dynamic programming matching designed for automated UNIX pipelines, shell scripts, and resource-constrained embedded / IoT systems where interactive TUIs are unsuitable.
                             </p>
                             <div class="flex flex-wrap gap-2 my-2">
-                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5">C99</span>
-                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5">POSIX</span>
-                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5">ALGORITHMS</span>
-                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5">EMBEDDED / IOT</span>
-                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5">ZERO-DEP</span>
+                                <span class="text-xs border theme-border px-2 py-0.5 font-semibold">C99</span>
+                                <span class="text-xs border theme-border px-2 py-0.5 font-semibold">POSIX</span>
+                                <span class="text-xs border theme-border px-2 py-0.5 font-semibold">ALGORITHMS</span>
+                                <span class="text-xs border theme-border px-2 py-0.5 font-semibold">EMBEDDED / IOT</span>
+                                <span class="text-xs border theme-border px-2 py-0.5 font-semibold">ZERO-DEP</span>
                             </div>
                         </div>
-                        <footer class="mt-3 pt-2 border-t border-amber-500/20 flex justify-between items-center text-sm">
-                            <a href="https://github.com/riccivr/approx" target="_blank" class="interactive-link border border-amber-500 px-3 py-0.5 text-xs uppercase text-amber-400">
+                        <footer class="mt-3 pt-2 border-t theme-border-dim flex justify-between items-center text-sm">
+                            <a href="https://github.com/riccivr/approx" target="_blank" class="interactive-link border theme-border px-3 py-0.5 text-xs uppercase font-bold">
                                 [G] View Repository
                             </a>
-                            <span class="text-xs text-amber-500">riccivr/approx</span>
+                            <span class="text-xs theme-text-muted font-mono">riccivr/approx</span>
                         </footer>
                     </article>
 
                     <!-- unipaste -->
-                    <article class="border border-amber-500/40 bg-amber-950/10 p-4">
-                        <header class="flex justify-between items-start text-amber-400 mb-2">
+                    <article class="border theme-border-subtle theme-bg-card p-4">
+                        <header class="flex justify-between items-start mb-2">
                             <div>
-                                <h2 class="font-bold text-lg text-amber-300">unipaste</h2>
-                                <span class="text-xs text-amber-500 font-semibold">Universal rich-text & HTML clipboard stream formatter</span>
+                                <h2 class="font-bold text-lg theme-text-heading">unipaste</h2>
+                                <span class="text-xs theme-text-muted font-bold">Universal rich-text & HTML clipboard stream formatter</span>
                             </div>
-                            <div class="text-xs text-amber-400 text-right whitespace-nowrap">
+                            <div class="text-xs theme-text-muted text-right whitespace-nowrap font-semibold">
                                 Active Focus
                             </div>
                         </header>
-                        <div class="text-sm leading-relaxed text-amber-400/90 mt-2">
+                        <div class="text-sm leading-relaxed theme-text-main mt-2">
                             <p class="mb-3">
                                 Zero-dependency POSIX C99 stream parser converting mangled clipboard payloads and rich HTML into structured Markdown, ASCII/Unicode box tables, code fences, and hierarchical task lists. Includes comprehensive HTML entity decoding, Windows CF_HTML header handling, and a compile-time modular plugin architecture for zero-overhead sanitization.
                             </p>
                             <div class="flex flex-wrap gap-2 my-2">
-                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5">C99</span>
-                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5">PARSERS</span>
-                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5">MARKDOWN</span>
-                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5">SYSTEMS</span>
-                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5">ZERO-DEP</span>
+                                <span class="text-xs border theme-border px-2 py-0.5 font-semibold">C99</span>
+                                <span class="text-xs border theme-border px-2 py-0.5 font-semibold">PARSERS</span>
+                                <span class="text-xs border theme-border px-2 py-0.5 font-semibold">MARKDOWN</span>
+                                <span class="text-xs border theme-border px-2 py-0.5 font-semibold">SYSTEMS</span>
+                                <span class="text-xs border theme-border px-2 py-0.5 font-semibold">ZERO-DEP</span>
                             </div>
                         </div>
-                        <footer class="mt-3 pt-2 border-t border-amber-500/20 flex justify-between items-center text-sm">
-                            <a href="https://github.com/riccivr/unipaste" target="_blank" class="interactive-link border border-amber-500 px-3 py-0.5 text-xs uppercase text-amber-400">
+                        <footer class="mt-3 pt-2 border-t theme-border-dim flex justify-between items-center text-sm">
+                            <a href="https://github.com/riccivr/unipaste" target="_blank" class="interactive-link border theme-border px-3 py-0.5 text-xs uppercase font-bold">
                                 [G] View Repository
                             </a>
-                            <span class="text-xs text-amber-500">riccivr/unipaste</span>
+                            <span class="text-xs theme-text-muted font-mono">riccivr/unipaste</span>
                         </footer>
                     </article>
 
                     <!-- clipbridge -->
-                    <article class="border border-amber-500/40 bg-amber-950/10 p-4">
-                        <header class="flex justify-between items-start text-amber-400 mb-2">
+                    <article class="border theme-border-subtle theme-bg-card p-4">
+                        <header class="flex justify-between items-start mb-2">
                             <div>
-                                <h2 class="font-bold text-lg text-amber-300">clipbridge</h2>
-                                <span class="text-xs text-amber-500 font-semibold">Universal clipboard bridge daemon powered by unipaste</span>
+                                <h2 class="font-bold text-lg theme-text-heading">clipbridge</h2>
+                                <span class="text-xs theme-text-muted font-bold">Universal clipboard bridge daemon powered by unipaste</span>
                             </div>
-                            <div class="text-xs text-amber-400 text-right whitespace-nowrap">
+                            <div class="text-xs theme-text-muted text-right whitespace-nowrap font-semibold">
                                 Active Focus
                             </div>
                         </header>
-                        <div class="text-sm leading-relaxed text-amber-400/90 mt-2">
+                        <div class="text-sm leading-relaxed theme-text-main mt-2">
                             <p class="mb-3">
                                 Cross-platform clipboard listener daemon integrating native OS event listeners (Win32 clipboard sequence APIs / POSIX) directly with the unipaste formatting engine. Automatically intercepts rich text copied from Slack, Teams, browsers, or Electron apps and upgrades the plain-text clipboard slot on the fly with zero polling overhead.
                             </p>
                             <div class="flex flex-wrap gap-2 my-2">
-                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5">C99</span>
-                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5">WIN32</span>
-                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5">POSIX</span>
-                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5">DAEMON</span>
-                                <span class="text-xs text-amber-400 border border-amber-500 px-2 py-0.5">INTEGRATION</span>
+                                <span class="text-xs border theme-border px-2 py-0.5 font-semibold">C99</span>
+                                <span class="text-xs border theme-border px-2 py-0.5 font-semibold">WIN32</span>
+                                <span class="text-xs border theme-border px-2 py-0.5 font-semibold">POSIX</span>
+                                <span class="text-xs border theme-border px-2 py-0.5 font-semibold">DAEMON</span>
+                                <span class="text-xs border theme-border px-2 py-0.5 font-semibold">INTEGRATION</span>
                             </div>
                         </div>
-                        <footer class="mt-3 pt-2 border-t border-amber-500/20 flex justify-between items-center text-sm">
-                            <a href="https://github.com/riccivr/clipbridge" target="_blank" class="interactive-link border border-amber-500 px-3 py-0.5 text-xs uppercase text-amber-400">
+                        <footer class="mt-3 pt-2 border-t theme-border-dim flex justify-between items-center text-sm">
+                            <a href="https://github.com/riccivr/clipbridge" target="_blank" class="interactive-link border theme-border px-3 py-0.5 text-xs uppercase font-bold">
                                 [G] View Repository
                             </a>
-                            <span class="text-xs text-amber-500">riccivr/clipbridge</span>
+                            <span class="text-xs theme-text-muted font-mono">riccivr/clipbridge</span>
                         </footer>
                     </article>
 
                 </div>
 
                 <div id="blog-content" class="content-section hidden space-y-6">
-                    <p class="text-amber-400 mb-2 text-xs">
+                    <p class="theme-text-muted mb-2 text-xs font-semibold">
                         // Technical Writing, System Architecture Logs & Research
                     </p>
 
                     <!-- Latest Log Entry -->
-                    <article class="border border-amber-500/50 bg-amber-950/10 p-5">
-                        <header class="flex flex-col sm:flex-row justify-between sm:items-center gap-1 mb-2 border-b border-amber-500/20 pb-2">
-                            <div class="text-xs text-amber-500">
+                    <article class="border theme-border-subtle theme-bg-card p-5">
+                        <header class="flex flex-col sm:flex-row justify-between sm:items-center gap-1 mb-2 border-b theme-border-dim pb-2">
+                            <div class="text-xs theme-text-muted font-bold font-mono">
                                 LOG_2026.08.30 // ARCHITECTURE & SYSTEMS
                             </div>
-                            <div class="text-xs text-amber-400/80">
+                            <div class="text-xs theme-text-dim font-medium">
                                 Reading Time: ~5 min
                             </div>
                         </header>
 
-                        <h2 class="text-lg sm:text-xl font-bold text-amber-300 mb-2">
+                        <h2 class="text-lg sm:text-xl font-bold theme-text-heading mb-2">
                             <a href="./blog/post.html?post=using-github-as-a-database" class="hover:underline">
                                 Can You Use GitHub as a Database? SQLite, HTTP Range Requests, and Flat-File Architectures
                             </a>
                         </h2>
 
-                        <p class="text-sm leading-relaxed text-amber-400/90 mb-4">
+                        <p class="text-sm leading-relaxed theme-text-main mb-4">
                             An in-depth analysis of using GitHub as a persistent database: client-side SQLite VFS over HTTP Range requests (sql.js-httpvfs), GitHub API flat files, and architecture trade-offs.
                         </p>
 
-                        <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-amber-500/20">
+                        <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t theme-border-dim">
                             <div class="flex flex-wrap gap-1.5">
-                                <span class="text-xs text-amber-400 border border-amber-500/80 px-2 py-0.5">#SQLite</span>
-                                <span class="text-xs text-amber-400 border border-amber-500/80 px-2 py-0.5">#GitHub Pages</span>
-                                <span class="text-xs text-amber-400 border border-amber-500/80 px-2 py-0.5">#HTTP Range</span>
-                                <span class="text-xs text-amber-400 border border-amber-500/80 px-2 py-0.5">#Architecture</span>
+                                <span class="text-xs border theme-border px-2 py-0.5 font-semibold">#SQLite</span>
+                                <span class="text-xs border theme-border px-2 py-0.5 font-semibold">#GitHub Pages</span>
+                                <span class="text-xs border theme-border px-2 py-0.5 font-semibold">#HTTP Range</span>
+                                <span class="text-xs border theme-border px-2 py-0.5 font-semibold">#Architecture</span>
                             </div>
-                            <a href="./blog/post.html?post=using-github-as-a-database" class="interactive-link border border-amber-500 px-3 py-1 text-xs uppercase text-amber-400 font-bold">
+                            <a href="./blog/post.html?post=using-github-as-a-database" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
                                 [READ ESSAY ->]
                             </a>
                         </div>
                     </article>
 
-                    <div class="p-4 border border-amber-500/30 bg-amber-950/20 flex flex-col sm:flex-row justify-between items-center gap-3">
-                        <span class="text-xs text-amber-400">Looking for more technical writeups and deep dives?</span>
-                        <a href="./blog/" class="interactive-link border border-amber-500 px-4 py-1.5 text-xs uppercase text-amber-300 font-bold bg-amber-500/10">
+                    <div class="p-4 border theme-border-subtle theme-bg-card-alt flex flex-col sm:flex-row justify-between items-center gap-3">
+                        <span class="text-xs theme-text-main font-semibold">Looking for more technical writeups and deep dives?</span>
+                        <a href="./blog/" class="interactive-link border theme-border px-4 py-1.5 text-xs uppercase font-bold" style="background-color: var(--bg-badge);">
                             [BROWSE ALL POSTS ->]
                         </a>
                     </div>
                 </div>
 
-                <div id="skills-content" class="content-section hidden text-amber-400">
-                    <p class="text-amber-400 mb-4 text-xs">
+                <div id="skills-content" class="content-section hidden">
+                    <p class="theme-text-muted mb-4 text-xs font-semibold">
                         // Core Technical Proficiencies & Focus Areas
                     </p>
                     
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
-                        <div>
-                            <h3 class="text-base font-bold border-b border-amber-500/50 mb-3 text-amber-300">CLOUD & DISTRIBUTED SYSTEMS</h3>
-                            <ul class="list-none space-y-1.5 pl-2">
+                        <div class="border theme-border-subtle theme-bg-card p-4">
+                            <h3 class="text-base font-bold border-b theme-border-subtle pb-1 mb-3 theme-text-heading">CLOUD & DISTRIBUTED SYSTEMS</h3>
+                            <ul class="list-none space-y-1.5 pl-1 theme-text-main">
                                 <li class="flex items-center">
-                                    <span class="text-amber-500 mr-2">></span> <strong>AWS</strong> &nbsp;(Lambda, ECS, S3, RDS, DynamoDB, API GW)
+                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>AWS</strong> &nbsp;(Lambda, ECS, S3, RDS, DynamoDB, API GW)
                                 </li>
                                 <li class="flex items-center">
-                                    <span class="text-amber-500 mr-2">></span> <strong>Infrastructure as Code</strong> &nbsp;(AWS CDK, CloudFormation)
+                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>Infrastructure as Code</strong> &nbsp;(AWS CDK, CloudFormation)
                                 </li>
                                 <li class="flex items-center">
-                                    <span class="text-amber-500 mr-2">></span> <strong>TypeScript & Node.js</strong> &nbsp;(Backend services, APIs)
+                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>TypeScript & Node.js</strong> &nbsp;(Backend services, APIs)
                                 </li>
                                 <li class="flex items-center">
-                                    <span class="text-amber-500 mr-2">></span> <strong>Python</strong> &nbsp;(Automation, tooling, data processing)
+                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>Python</strong> &nbsp;(Automation, tooling, data processing)
                                 </li>
                                 <li class="flex items-center">
-                                    <span class="text-amber-500 mr-2">></span> <strong>Rust</strong> &nbsp;(High-performance systems & tooling)
+                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>Rust</strong> &nbsp;(High-performance systems & tooling)
                                 </li>
                                 <li class="flex items-center">
-                                    <span class="text-amber-500 mr-2">></span> <strong>CI/CD & Containers</strong> &nbsp;(GitHub Actions, Docker)
+                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>CI/CD & Containers</strong> &nbsp;(GitHub Actions, Docker)
                                 </li>
                             </ul>
                         </div>
                         
-                        <div>
-                            <h3 class="text-base font-bold border-b border-amber-500/50 mb-3 text-amber-300">SYSTEMS & EMBEDDED / IOT</h3>
-                            <ul class="list-none space-y-1.5 pl-2">
+                        <div class="border theme-border-subtle theme-bg-card p-4">
+                            <h3 class="text-base font-bold border-b theme-border-subtle pb-1 mb-3 theme-text-heading">SYSTEMS & EMBEDDED / IOT</h3>
+                            <ul class="list-none space-y-1.5 pl-1 theme-text-main">
                                 <li class="flex items-center">
-                                    <span class="text-amber-500 mr-2">></span> <strong>C99 / POSIX</strong> &nbsp;(Zero-dependency UNIX utilities)
+                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>C99 / POSIX</strong> &nbsp;(Zero-dependency UNIX utilities)
                                 </li>
                                 <li class="flex items-center">
-                                    <span class="text-amber-500 mr-2">></span> <strong>Embedded Systems & IoT</strong> &nbsp;(Microcontrollers, sensors, firmware)
+                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>Embedded Systems & IoT</strong> &nbsp;(Microcontrollers, sensors, firmware)
                                 </li>
                                 <li class="flex items-center">
-                                    <span class="text-amber-500 mr-2">></span> <strong>Win32 & Linux APIs</strong> &nbsp;(OS events, daemons, IPC)
+                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>Win32 & Linux APIs</strong> &nbsp;(OS events, daemons, IPC)
                                 </li>
                                 <li class="flex items-center">
-                                    <span class="text-amber-500 mr-2">></span> <strong>Memory-Bounded Algorithms</strong> &nbsp;(Stream filters, parsers)
+                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>Memory-Bounded Algorithms</strong> &nbsp;(Stream filters, parsers)
                                 </li>
                                 <li class="flex items-center">
-                                    <span class="text-amber-500 mr-2">></span> <strong>Testing & Sanitizers</strong> &nbsp;(ASan, UBSan, fuzzing)
+                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>Testing & Sanitizers</strong> &nbsp;(ASan, UBSan, fuzzing)
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
-                <div id="contact-content" class="content-section hidden text-amber-400">
-                    <p class="text-amber-400 mb-4 text-xs">
+                <div id="contact-content" class="content-section hidden">
+                    <p class="theme-text-muted mb-4 text-xs font-semibold">
                         // Direct Communication Channels
                     </p>
 
                     <div class="text-sm space-y-3">
-                        <div class="border border-amber-500/40 p-3 bg-amber-950/10 flex justify-between items-center">
+                        <div class="border theme-border-subtle p-3 theme-bg-card flex justify-between items-center">
                             <div>
-                                <span class="font-bold text-amber-300">EMAIL:</span> 
-                                <span class="ml-2 text-amber-400">ricci.vr@gmail.com</span>
+                                <span class="font-bold theme-text-heading">EMAIL:</span> 
+                                <span class="ml-2 theme-text-main font-mono">ricci.vr@gmail.com</span>
                             </div>
-                            <a href="mailto:ricci.vr@gmail.com" class="interactive-link border border-amber-500 px-2 py-0.5 text-xs uppercase text-amber-400">Send</a>
+                            <a href="mailto:ricci.vr@gmail.com" class="interactive-link border theme-border px-2 py-0.5 text-xs uppercase font-bold">Send</a>
                         </div>
-                        <div class="border border-amber-500/40 p-3 bg-amber-950/10 flex justify-between items-center">
+                        <div class="border theme-border-subtle p-3 theme-bg-card flex justify-between items-center">
                             <div>
-                                <span class="font-bold text-amber-300">GITHUB:</span> 
-                                <span class="ml-2 text-amber-400">github.com/riccivr</span>
+                                <span class="font-bold theme-text-heading">GITHUB:</span> 
+                                <span class="ml-2 theme-text-main font-mono">github.com/riccivr</span>
                             </div>
-                            <a href="https://github.com/riccivr" target="_blank" class="interactive-link border border-amber-500 px-2 py-0.5 text-xs uppercase text-amber-400">Open</a>
+                            <a href="https://github.com/riccivr" target="_blank" class="interactive-link border theme-border px-2 py-0.5 text-xs uppercase font-bold">Open</a>
                         </div>
-                        <div class="border border-amber-500/40 p-3 bg-amber-950/10 flex justify-between items-center">
+                        <div class="border theme-border-subtle p-3 theme-bg-card flex justify-between items-center">
                             <div>
-                                <span class="font-bold text-amber-300">LINKEDIN:</span> 
-                                <span class="ml-2 text-amber-400">linkedin.com/in/riccivr</span>
+                                <span class="font-bold theme-text-heading">LINKEDIN:</span> 
+                                <span class="ml-2 theme-text-main font-mono">linkedin.com/in/riccivr</span>
                             </div>
-                            <a href="https://www.linkedin.com/in/riccivr/" target="_blank" class="interactive-link border border-amber-500 px-2 py-0.5 text-xs uppercase text-amber-400">Open</a>
+                            <a href="https://www.linkedin.com/in/riccivr/" target="_blank" class="interactive-link border theme-border px-2 py-0.5 text-xs uppercase font-bold">Open</a>
                         </div>
                     </div>
                 </div>
@@ -339,9 +425,9 @@
             
         </main>
 
-        <footer class="p-4 border-t border-amber-500 text-sm text-amber-400 flex justify-between items-center bg-amber-800/20">
-            <span class="text-amber-400 text-xs">riccivr.github.io</span>
-            <span class="text-right text-xs">
+        <footer class="p-4 border-t theme-border text-sm flex justify-between items-center theme-bg-header">
+            <span class="theme-text-muted text-xs font-bold">riccivr.github.io</span>
+            <span class="text-right text-xs theme-text-muted font-medium">
                 Cloud Architecture · Embedded & Systems
             </span>
         </footer>
@@ -349,33 +435,74 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Theme toggle handling
+            const themeBtn = document.getElementById('theme-toggle');
+            
+            function updateThemeBtn() {
+                const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+                themeBtn.textContent = isLight ? '[MODE: PAPER / LIGHT]' : '[MODE: CRT / DARK]';
+            }
+
+            themeBtn.addEventListener('click', () => {
+                const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+                const next = isLight ? 'dark' : 'light';
+                if (next === 'light') {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                }
+                localStorage.setItem('riccivr-theme', next);
+                updateThemeBtn();
+                syncTabsStyling();
+            });
+
+            updateThemeBtn();
+
+            // Tabs handling
             const tabs = document.querySelectorAll('.tab-button');
             const contents = document.querySelectorAll('.content-section');
+            let currentTabId = 'projects-content';
+
+            function syncTabsStyling() {
+                const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+                tabs.forEach(tab => {
+                    const isSelected = tab.getAttribute('data-target') === currentTabId;
+                    if (isSelected) {
+                        tab.style.backgroundColor = isLight ? 'var(--bg-tab-active)' : 'var(--bg-tab-active)';
+                        tab.style.borderBottom = 'none';
+                    } else {
+                        tab.style.backgroundColor = 'transparent';
+                        tab.style.borderBottom = '';
+                    }
+                });
+            }
 
             function switchTab(targetId) {
-                tabs.forEach(tab => {
-                    tab.classList.remove('bg-amber-800/50', 'border-b-0', 'border-amber-500');
-                    tab.classList.add('hover:bg-amber-800/10');
-                });
+                currentTabId = targetId;
                 contents.forEach(content => {
                     content.classList.add('hidden');
                 });
 
-                const activeTab = document.querySelector(`[data-target="${targetId}"]`);
-                if (activeTab) {
-                    activeTab.classList.add('bg-amber-800/50', 'border-b-0', 'border-amber-500');
-                    activeTab.classList.remove('hover:bg-amber-800/10');
-                }
-                
                 const activeContent = document.getElementById(targetId);
                 if (activeContent) {
                     activeContent.classList.remove('hidden');
                 }
+                syncTabsStyling();
             }
 
             tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     switchTab(tab.getAttribute('data-target'));
+                });
+                tab.addEventListener('mouseenter', () => {
+                    if (tab.getAttribute('data-target') !== currentTabId) {
+                        tab.style.backgroundColor = 'var(--bg-tab-hover)';
+                    }
+                });
+                tab.addEventListener('mouseleave', () => {
+                    if (tab.getAttribute('data-target') !== currentTabId) {
+                        tab.style.backgroundColor = 'transparent';
+                    }
                 });
             });
 

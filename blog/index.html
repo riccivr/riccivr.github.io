@@ -6,70 +6,161 @@
     <title>Ricardo Veronese - Technical Blog & System Logs</title>
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Immediately apply saved or system theme to avoid FOUC
+        (function() {
+            const saved = localStorage.getItem('riccivr-theme');
+            const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+            if (saved === 'light' || (!saved && prefersLight)) {
+                document.documentElement.setAttribute('data-theme', 'light');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+        })();
+    </script>
     <style>
+        :root {
+            --bg-page: #000000;
+            --bg-frame: #000000;
+            --bg-header: rgba(180, 83, 9, 0.2);
+            --bg-section: rgba(180, 83, 9, 0.3);
+            --bg-card: rgba(69, 26, 3, 0.2);
+            --bg-card-hover: rgba(120, 53, 15, 0.3);
+            --bg-input: #0a0805;
+            --bg-badge: rgba(245, 158, 11, 0.1);
+            
+            --border-primary: #f59e0b;
+            --border-subtle: rgba(245, 158, 11, 0.5);
+            --border-dim: rgba(245, 158, 11, 0.2);
+            
+            --text-title: #fef3c7;
+            --text-heading: #fbbf24;
+            --text-main: #f59e0b;
+            --text-muted: #d97706;
+            --text-dim: #92400e;
+            
+            --scanline-color: rgba(180, 150, 0, 0.07);
+            --frame-shadow: 0 0 10px #f59e0b, 0 0 20px #f59e0b inset;
+            --btn-hover-bg: #f59e0b;
+            --btn-hover-text: #000000;
+        }
+
+        [data-theme="light"] {
+            --bg-page: #f5efe1;
+            --bg-frame: #fcf8f0;
+            --bg-header: #ebe0ca;
+            --bg-section: #efe5ce;
+            --bg-card: #f3ecdb;
+            --bg-card-hover: #e8ddc5;
+            --bg-input: #ffffff;
+            --bg-badge: rgba(146, 64, 14, 0.08);
+            
+            --border-primary: #92400e;
+            --border-subtle: rgba(146, 64, 14, 0.5);
+            --border-dim: rgba(146, 64, 14, 0.25);
+            
+            --text-title: #1a0a01;
+            --text-heading: #78350f;
+            --text-main: #2b1103;
+            --text-muted: #612809;
+            --text-dim: #92400e;
+            
+            --scanline-color: rgba(146, 64, 14, 0.035);
+            --frame-shadow: 0 3px 14px rgba(146, 64, 14, 0.18), 0 0 0 1px rgba(146, 64, 14, 0.12) inset;
+            --btn-hover-bg: #92400e;
+            --btn-hover-text: #fcf8f0;
+        }
+
         body {
-            background-color: #000000;
-            background-image: linear-gradient(rgba(180, 150, 0, 0.07) 1px, transparent 1px);
+            background-color: var(--bg-page);
+            background-image: linear-gradient(var(--scanline-color) 1px, transparent 1px);
             background-size: 100% 4px;
             font-family: 'Courier New', Courier, monospace;
-            cursor: text;
+            color: var(--text-main);
+            transition: background-color 0.15s ease, color 0.15s ease;
         }
-        :root {
-            --color-primary: #f59e0b;
-            --color-secondary: #b45309;
-            --color-text-dim: #78350f;
-            --color-text-main: #d97706;
-        }
+
         .terminal-frame {
-            box-shadow: 0 0 10px var(--color-primary), 0 0 20px var(--color-primary) inset;
-            border: 2px solid var(--color-primary);
+            box-shadow: var(--frame-shadow);
+            border: 2px solid var(--border-primary);
+            background-color: var(--bg-frame);
         }
+
         .interactive-link {
-            transition: color 0.1s, background-color 0.1s;
+            transition: color 0.1s ease, background-color 0.1s ease, border-color 0.1s ease;
+            border-color: var(--border-primary);
+            color: var(--text-main);
         }
         .interactive-link:hover {
-            color: black;
-            background-color: var(--color-primary);
+            color: var(--btn-hover-text) !important;
+            background-color: var(--btn-hover-bg) !important;
         }
-        .text-amber-400 {
-            color: var(--color-text-main);
+
+        .theme-border { border-color: var(--border-primary); }
+        .theme-border-subtle { border-color: var(--border-subtle); }
+        .theme-border-dim { border-color: var(--border-dim); }
+
+        .theme-bg-header { background-color: var(--bg-header); }
+        .theme-bg-section { background-color: var(--bg-section); }
+        .theme-bg-card { background-color: var(--bg-card); }
+
+        .theme-text-title { color: var(--text-title); }
+        .theme-text-heading { color: var(--text-heading); }
+        .theme-text-main { color: var(--text-main); }
+        .theme-text-muted { color: var(--text-muted); }
+        .theme-text-dim { color: var(--text-dim); }
+
+        #search-input {
+            background-color: var(--bg-input);
+            color: var(--text-main);
+            border-color: var(--border-subtle);
         }
-        input::placeholder {
-            color: rgba(217, 119, 6, 0.5);
+        #search-input:focus {
+            border-color: var(--border-primary);
+            outline: none;
+        }
+        #search-input::placeholder {
+            color: var(--text-dim);
+            opacity: 0.8;
         }
     </style>
 </head>
-<body class="p-4 sm:p-8 md:p-12">
+<body class="p-4 sm:p-8 md:p-12 min-h-screen">
 
-    <div class="terminal-frame max-w-4xl mx-auto mt-4 rounded-lg overflow-hidden bg-black">
+    <div class="terminal-frame max-w-4xl mx-auto mt-4 rounded-lg overflow-hidden">
 
-        <header class="p-3 bg-amber-800/20 border-b border-amber-500 flex justify-between items-center">
-            <div class="flex space-x-2">
-                <span class="text-xs text-amber-500 tracking-wider">SYS.ID: riccivr // LOGS</span>
+        <header class="p-3 theme-bg-header border-b theme-border flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center space-x-2">
+                <span class="text-xs theme-text-muted tracking-wider font-bold">SYS.ID: riccivr // LOGS</span>
             </div>
-            <span class="text-amber-400 text-sm font-bold uppercase tracking-wider">
-                STATUS: ONLINE
-            </span>
+            <div class="flex items-center space-x-3">
+                <button id="theme-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Toggle Theme (CRT / Paper)">
+                    [MODE: CRT]
+                </button>
+                <span class="theme-text-main text-xs sm:text-sm font-bold uppercase tracking-wider">
+                    STATUS: ONLINE
+                </span>
+            </div>
         </header>
 
         <main class="p-6">
 
             <!-- Banner / Nav Header -->
-            <section class="bg-amber-800/30 p-4 border border-amber-500 mb-6">
+            <section class="theme-bg-section p-4 border theme-border mb-6">
                 <div class="flex flex-col sm:flex-row justify-between sm:items-center">
                     <div>
-                        <h1 class="text-xl sm:text-2xl font-bold uppercase text-amber-300 mb-1">
+                        <h1 class="text-xl sm:text-2xl font-bold uppercase theme-text-title mb-1">
                             ENGINEERING LOGS & ESSAYS
                         </h1>
-                        <p class="text-xs sm:text-sm text-amber-500/90">
+                        <p class="text-xs sm:text-sm theme-text-muted font-bold">
                             Thoughts on systems architecture, cloud infrastructure, low-level programming & algorithms.
                         </p>
                     </div>
                     <div class="mt-4 sm:mt-0 flex space-x-2">
-                        <a href="../" class="interactive-link border border-amber-500 px-3 py-1 text-xs uppercase text-amber-400">
+                        <a href="../" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
                             [<] Home Portal
                         </a>
-                        <a href="https://github.com/riccivr" target="_blank" class="interactive-link border border-amber-500 px-3 py-1 text-xs uppercase text-amber-400">
+                        <a href="https://github.com/riccivr" target="_blank" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
                             [G] GitHub
                         </a>
                     </div>
@@ -79,30 +170,30 @@
             <!-- Search / Filter Bar -->
             <div class="mb-6 flex flex-col sm:flex-row gap-3 items-center">
                 <div class="relative w-full">
-                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-amber-500 text-sm">></span>
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center theme-text-muted text-sm font-bold">></span>
                     <input 
                         type="text" 
                         id="search-input" 
                         placeholder="Search entries or filter by tags (e.g. SQLite, Cloud)..." 
-                        class="w-full bg-black border border-amber-500/60 pl-8 pr-4 py-2 text-sm text-amber-300 focus:outline-none focus:border-amber-400 font-mono"
+                        class="w-full border pl-8 pr-4 py-2 text-sm font-mono transition-colors"
                     />
                 </div>
-                <div id="active-tag-container" class="hidden sm:flex items-center text-xs text-amber-400 whitespace-nowrap">
-                    <span id="active-tag-label" class="mr-2 border border-amber-500/60 px-2 py-1 bg-amber-950/40"></span>
-                    <button id="clear-tag-btn" class="interactive-link border border-amber-500 px-2 py-1 text-amber-400">[x] Clear</button>
+                <div id="active-tag-container" class="hidden sm:flex items-center text-xs theme-text-main whitespace-nowrap">
+                    <span id="active-tag-label" class="mr-2 border theme-border px-2 py-1 theme-bg-card font-bold"></span>
+                    <button id="clear-tag-btn" class="interactive-link border theme-border px-2 py-1 font-bold">[x] Clear</button>
                 </div>
             </div>
 
             <!-- Posts List Container -->
             <div id="posts-container" class="space-y-6">
-                <div class="text-amber-500 text-sm animate-pulse">Loading blog database entries...</div>
+                <div class="theme-text-muted text-sm animate-pulse">Loading blog database entries...</div>
             </div>
 
         </main>
 
-        <footer class="p-4 border-t border-amber-500 text-sm text-amber-400 flex justify-between items-center bg-amber-800/20">
-            <span class="text-amber-400 text-xs">riccivr.github.io/blog</span>
-            <span class="text-right text-xs">
+        <footer class="p-4 border-t theme-border text-sm flex justify-between items-center theme-bg-header">
+            <span class="theme-text-muted text-xs font-bold">riccivr.github.io/blog</span>
+            <span class="text-right text-xs theme-text-muted font-medium">
                 Markdown Engine · Static Archive
             </span>
         </footer>
@@ -110,6 +201,29 @@
     </div>
 
     <script>
+        // Theme toggle handling
+        const themeBtn = document.getElementById('theme-toggle');
+        
+        function updateThemeBtn() {
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            themeBtn.textContent = isLight ? '[MODE: PAPER / LIGHT]' : '[MODE: CRT / DARK]';
+        }
+
+        themeBtn.addEventListener('click', () => {
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            const next = isLight ? 'dark' : 'light';
+            if (next === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+            localStorage.setItem('riccivr-theme', next);
+            updateThemeBtn();
+            renderPosts();
+        });
+
+        updateThemeBtn();
+
         let allPosts = [];
         let selectedTag = null;
 
@@ -124,7 +238,7 @@
                 renderPosts();
             } catch (err) {
                 container.innerHTML = `
-                    <div class="border border-red-500/50 bg-red-950/20 p-4 text-red-400 text-sm">
+                    <div class="border border-red-500/50 p-4 text-red-500 text-sm theme-bg-card font-bold">
                         [ERROR] Could not load blog posts: ${err.message}
                     </div>
                 `;
@@ -150,7 +264,7 @@
 
             if (filtered.length === 0) {
                 container.innerHTML = `
-                    <div class="border border-amber-500/40 bg-amber-950/10 p-6 text-center text-amber-400 text-sm">
+                    <div class="border theme-border-subtle theme-bg-card p-6 text-center theme-text-muted text-sm font-semibold">
                         // No log entries matching criteria. Try another search query.
                     </div>
                 `;
@@ -159,37 +273,37 @@
 
             container.innerHTML = filtered.map(post => {
                 const tagsHtml = (post.tags || []).map(tag => `
-                    <button onclick="setFilterTag('${tag}')" class="interactive-link text-xs text-amber-400 border border-amber-500/80 px-2 py-0.5">
+                    <button onclick="setFilterTag('${tag}')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">
                         #${tag}
                     </button>
                 `).join(' ');
 
                 return `
-                    <article class="border border-amber-500/50 bg-amber-950/10 p-5 transition duration-150 hover:border-amber-400">
-                        <header class="flex flex-col sm:flex-row justify-between sm:items-center gap-1 mb-2 border-b border-amber-500/20 pb-2">
-                            <div class="text-xs text-amber-500">
+                    <article class="border theme-border-subtle theme-bg-card p-5 transition duration-150">
+                        <header class="flex flex-col sm:flex-row justify-between sm:items-center gap-1 mb-2 border-b theme-border-dim pb-2">
+                            <div class="text-xs theme-text-muted font-bold font-mono">
                                 LOG_${post.date.replace(/-/g, '.')} // ${post.category || 'GENERAL'}
                             </div>
-                            <div class="text-xs text-amber-400/80">
+                            <div class="text-xs theme-text-dim font-medium">
                                 Reading Time: ${post.readingTime || '3 min'}
                             </div>
                         </header>
 
-                        <h2 class="text-lg sm:text-xl font-bold text-amber-300 mb-2">
+                        <h2 class="text-lg sm:text-xl font-bold theme-text-heading mb-2">
                             <a href="post.html?post=${post.slug}" class="hover:underline">
                                 ${post.title}
                             </a>
                         </h2>
 
-                        <p class="text-sm leading-relaxed text-amber-400/90 mb-4">
+                        <p class="text-sm leading-relaxed theme-text-main mb-4">
                             ${post.summary}
                         </p>
 
-                        <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+                        <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t theme-border-dim">
                             <div class="flex flex-wrap gap-1.5">
                                 ${tagsHtml}
                             </div>
-                            <a href="post.html?post=${post.slug}" class="interactive-link border border-amber-500 px-3 py-1 text-xs uppercase text-amber-400 font-bold">
+                            <a href="post.html?post=${post.slug}" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
                                 [READ LOG ->]
                             </a>
                         </div>
