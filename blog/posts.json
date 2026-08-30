@@ -1,0 +1,18 @@
+[
+  {
+    "slug": "using-github-as-a-database",
+    "title": "Can You Use GitHub as a Database? SQLite, HTTP Range Requests, and Flat-File Architectures",
+    "date": "2026-08-30",
+    "category": "Architecture & Systems",
+    "tags": [
+      "SQLite",
+      "GitHub Pages",
+      "HTTP Range",
+      "Architecture",
+      "Cloud"
+    ],
+    "summary": "A common architectural question for lightweight applications, side projects, and static sites is: Can we leverage GitHub as a persistent database?",
+    "readingTime": "4 min",
+    "file": "posts/using-github-as-a-database.md"
+  }
+]

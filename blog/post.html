@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ricardo Veronese - Blog Post</title>
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/monokai.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+        body {
+            background-color: #000000;
+            background-image: linear-gradient(rgba(180, 150, 0, 0.07) 1px, transparent 1px);
+            background-size: 100% 4px;
+            font-family: 'Courier New', Courier, monospace;
+            cursor: text;
+        }
+        :root {
+            --color-primary: #f59e0b;
+            --color-secondary: #b45309;
+            --color-text-dim: #78350f;
+            --color-text-main: #d97706;
+        }
+        .terminal-frame {
+            box-shadow: 0 0 10px var(--color-primary), 0 0 20px var(--color-primary) inset;
+            border: 2px solid var(--color-primary);
+        }
+        .interactive-link {
+            transition: color 0.1s, background-color 0.1s;
+        }
+        .interactive-link:hover {
+            color: black;
+            background-color: var(--color-primary);
+        }
+        .text-amber-400 {
+            color: var(--color-text-main);
+        }
+
+        /* Markdown rendered content styles */
+        #post-content h1 {
+            color: #fcd34d;
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(245, 158, 11, 0.4);
+            text-transform: uppercase;
+        }
+        #post-content h2 {
+            color: #fbbf24;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-top: 1.8rem;
+            margin-bottom: 0.75rem;
+            border-bottom: 1px dashed rgba(245, 158, 11, 0.3);
+            padding-bottom: 0.25rem;
+        }
+        #post-content h3 {
+            color: #f59e0b;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+        #post-content p {
+            color: rgba(245, 158, 11, 0.9);
+            line-height: 1.7;
+            margin-bottom: 1.2rem;
+            font-size: 0.95rem;
+        }
+        #post-content ul, #post-content ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.2rem;
+            color: rgba(245, 158, 11, 0.9);
+            font-size: 0.95rem;
+        }
+        #post-content ul {
+            list-style-type: none;
+        }
+        #post-content ul li::before {
+            content: "> ";
+            color: #f59e0b;
+            font-weight: bold;
+        }
+        #post-content ol {
+            list-style-type: decimal;
+        }
+        #post-content li {
+            margin-bottom: 0.4rem;
+            line-height: 1.6;
+        }
+        #post-content a {
+            color: #fbbf24;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+        #post-content a:hover {
+            color: #000;
+            background-color: #f59e0b;
+        }
+        #post-content blockquote {
+            border-left: 3px solid #f59e0b;
+            background: rgba(120, 53, 15, 0.2);
+            padding: 0.75rem 1rem;
+            margin: 1.2rem 0;
+            font-style: italic;
+            color: rgba(253, 230, 138, 0.9);
+        }
+        #post-content blockquote p {
+            margin-bottom: 0;
+        }
+        #post-content hr {
+            border: 0;
+            border-top: 1px solid rgba(245, 158, 11, 0.4);
+            margin: 2rem 0;
+        }
+        #post-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.85rem;
+        }
+        #post-content th, #post-content td {
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+        }
+        #post-content th {
+            background-color: rgba(180, 83, 9, 0.3);
+            color: #fbbf24;
+            font-weight: bold;
+        }
+        #post-content td {
+            color: rgba(245, 158, 11, 0.9);
+        }
+        #post-content pre {
+            background-color: #0d0d0d !important;
+            border: 1px solid rgba(245, 158, 11, 0.5);
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border-radius: 2px;
+        }
+        #post-content code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.88rem;
+        }
+        #post-content p code, #post-content li code {
+            background-color: rgba(180, 83, 9, 0.3);
+            color: #fcd34d;
+            padding: 0.1rem 0.3rem;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8 md:p-12">
+
+    <div class="terminal-frame max-w-4xl mx-auto mt-4 rounded-lg overflow-hidden bg-black">
+
+        <header class="p-3 bg-amber-800/20 border-b border-amber-500 flex justify-between items-center">
+            <div class="flex space-x-2">
+                <span class="text-xs text-amber-500 tracking-wider" id="header-sys-id">SYS.ID: riccivr // LOG_VIEWER</span>
+            </div>
+            <span class="text-amber-400 text-sm font-bold uppercase tracking-wider">
+                STATUS: ONLINE
+            </span>
+        </header>
+
+        <main class="p-6">
+
+            <!-- Navigation Controls -->
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-4 mb-6 border-b border-amber-500/50">
+                <div class="flex space-x-2">
+                    <a href="index.html" class="interactive-link border border-amber-500 px-3 py-1 text-xs uppercase text-amber-400 font-bold">
+                        [<] Return to Logs Index
+                    </a>
+                    <a href="../" class="interactive-link border border-amber-500 px-3 py-1 text-xs uppercase text-amber-400">
+                        [H] Home Portal
+                    </a>
+                </div>
+                <div class="flex space-x-2">
+                    <button id="copy-link-btn" class="interactive-link border border-amber-500 px-3 py-1 text-xs uppercase text-amber-400">
+                        [S] Copy Link
+                    </button>
+                    <a href="https://github.com/riccivr/riccivr.github.io" target="_blank" class="interactive-link border border-amber-500 px-3 py-1 text-xs uppercase text-amber-400">
+                        [G] Repo
+                    </a>
+                </div>
+            </div>
+
+            <!-- Post Container -->
+            <article id="post-article">
+                <div id="post-loading" class="text-amber-500 text-sm animate-pulse p-6 text-center">
+                    Fetching markdown stream from repository...
+                </div>
+                
+                <div id="post-content" class="hidden"></div>
+            </article>
+
+            <!-- Bottom Return Navigation -->
+            <div class="mt-8 pt-4 border-t border-amber-500/50 flex justify-between items-center">
+                <a href="index.html" class="interactive-link border border-amber-500 px-3 py-1 text-xs uppercase text-amber-400">
+                    [<] Back to Index
+                </a>
+                <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="interactive-link border border-amber-500 px-3 py-1 text-xs uppercase text-amber-400">
+                    [^] Top of Page
+                </a>
+            </div>
+
+        </main>
+
+        <footer class="p-4 border-t border-amber-500 text-sm text-amber-400 flex justify-between items-center bg-amber-800/20">
+            <span class="text-amber-400 text-xs">riccivr.github.io/blog</span>
+            <span class="text-right text-xs">
+                Rendered with marked.js + highlight.js
+            </span>
+        </footer>
+
+    </div>
+
+    <script>
+        marked.setOptions({
+            highlight: function(code, lang) {
+                if (lang && hljs.getLanguage(lang)) {
+                    try {
+                        return hljs.highlight(code, { language: lang }).value;
+                    } catch (err) {}
+                }
+                return hljs.highlightAuto(code).value;
+            },
+            breaks: true,
+            gfm: true
+        });
+
+        async function loadPost() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const slug = urlParams.get('post');
+            const loadingEl = document.getElementById('post-loading');
+            const contentEl = document.getElementById('post-content');
+
+            if (!slug) {
+                loadingEl.innerHTML = `
+                    <div class="border border-amber-500/40 bg-amber-950/20 p-4 text-amber-400 text-sm">
+                        [!] No log entry specified. <a href="index.html" class="underline">[Browse all logs]</a>
+                    </div>
+                `;
+                return;
+            }
+
+            try {
+                // Fetch post manifest to get file path and title
+                const manifestRes = await fetch('posts.json');
+                if (!manifestRes.ok) throw new Error('Failed to load posts index');
+                const manifest = await manifestRes.json();
+                const postMeta = manifest.find(p => p.slug === slug);
+
+                const mdFile = postMeta ? postMeta.file : `posts/${slug}.md`;
+                const mdRes = await fetch(mdFile);
+                if (!mdRes.ok) throw new Error(`Log file "${slug}.md" not found`);
+
+                const markdownText = await mdRes.text();
+                contentEl.innerHTML = marked.parse(markdownText);
+                
+                if (postMeta && postMeta.title) {
+                    document.title = `${postMeta.title} - Ricardo Veronese`;
+                    document.getElementById('header-sys-id').textContent = `SYS.ID: riccivr // ${postMeta.slug}`;
+                }
+
+                loadingEl.classList.add('hidden');
+                contentEl.classList.remove('hidden');
+
+                // Highlight remaining code blocks
+                document.querySelectorAll('pre code').forEach((block) => {
+                    hljs.highlightElement(block);
+                });
+            } catch (err) {
+                loadingEl.innerHTML = `
+                    <div class="border border-red-500/50 bg-red-950/20 p-4 text-red-400 text-sm">
+                        [ERROR] Failed to load log entry: ${err.message}<br>
+                        <a href="index.html" class="interactive-link border border-amber-500 px-2 py-1 mt-3 inline-block text-amber-400 text-xs uppercase">[<] Return to Index</a>
+                    </div>
+                `;
+            }
+        }
+
+        document.getElementById('copy-link-btn').addEventListener('click', () => {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                const btn = document.getElementById('copy-link-btn');
+                const prev = btn.textContent;
+                btn.textContent = '[✓] Copied!';
+                setTimeout(() => { btn.textContent = prev; }, 2000);
+            });
+        });
+
+        loadPost();
+    </script>
+</body>
+</html>

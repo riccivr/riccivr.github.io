@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ricardo Veronese - Technical Blog & System Logs</title>
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #000000;
+            background-image: linear-gradient(rgba(180, 150, 0, 0.07) 1px, transparent 1px);
+            background-size: 100% 4px;
+            font-family: 'Courier New', Courier, monospace;
+            cursor: text;
+        }
+        :root {
+            --color-primary: #f59e0b;
+            --color-secondary: #b45309;
+            --color-text-dim: #78350f;
+            --color-text-main: #d97706;
+        }
+        .terminal-frame {
+            box-shadow: 0 0 10px var(--color-primary), 0 0 20px var(--color-primary) inset;
+            border: 2px solid var(--color-primary);
+        }
+        .interactive-link {
+            transition: color 0.1s, background-color 0.1s;
+        }
+        .interactive-link:hover {
+            color: black;
+            background-color: var(--color-primary);
+        }
+        .text-amber-400 {
+            color: var(--color-text-main);
+        }
+        input::placeholder {
+            color: rgba(217, 119, 6, 0.5);
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8 md:p-12">
+
+    <div class="terminal-frame max-w-4xl mx-auto mt-4 rounded-lg overflow-hidden bg-black">
+
+        <header class="p-3 bg-amber-800/20 border-b border-amber-500 flex justify-between items-center">
+            <div class="flex space-x-2">
+                <span class="text-xs text-amber-500 tracking-wider">SYS.ID: riccivr // LOGS</span>
+            </div>
+            <span class="text-amber-400 text-sm font-bold uppercase tracking-wider">
+                STATUS: ONLINE
+            </span>
+        </header>
+
+        <main class="p-6">
+
+            <!-- Banner / Nav Header -->
+            <section class="bg-amber-800/30 p-4 border border-amber-500 mb-6">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center">
+                    <div>
+                        <h1 class="text-xl sm:text-2xl font-bold uppercase text-amber-300 mb-1">
+                            ENGINEERING LOGS & ESSAYS
+                        </h1>
+                        <p class="text-xs sm:text-sm text-amber-500/90">
+                            Thoughts on systems architecture, cloud infrastructure, low-level programming & algorithms.
+                        </p>
+                    </div>
+                    <div class="mt-4 sm:mt-0 flex space-x-2">
+                        <a href="../" class="interactive-link border border-amber-500 px-3 py-1 text-xs uppercase text-amber-400">
+                            [<] Home Portal
+                        </a>
+                        <a href="https://github.com/riccivr" target="_blank" class="interactive-link border border-amber-500 px-3 py-1 text-xs uppercase text-amber-400">
+                            [G] GitHub
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Search / Filter Bar -->
+            <div class="mb-6 flex flex-col sm:flex-row gap-3 items-center">
+                <div class="relative w-full">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-amber-500 text-sm">></span>
+                    <input 
+                        type="text" 
+                        id="search-input" 
+                        placeholder="Search entries or filter by tags (e.g. SQLite, Cloud)..." 
+                        class="w-full bg-black border border-amber-500/60 pl-8 pr-4 py-2 text-sm text-amber-300 focus:outline-none focus:border-amber-400 font-mono"
+                    />
+                </div>
+                <div id="active-tag-container" class="hidden sm:flex items-center text-xs text-amber-400 whitespace-nowrap">
+                    <span id="active-tag-label" class="mr-2 border border-amber-500/60 px-2 py-1 bg-amber-950/40"></span>
+                    <button id="clear-tag-btn" class="interactive-link border border-amber-500 px-2 py-1 text-amber-400">[x] Clear</button>
+                </div>
+            </div>
+
+            <!-- Posts List Container -->
+            <div id="posts-container" class="space-y-6">
+                <div class="text-amber-500 text-sm animate-pulse">Loading blog database entries...</div>
+            </div>
+
+        </main>
+
+        <footer class="p-4 border-t border-amber-500 text-sm text-amber-400 flex justify-between items-center bg-amber-800/20">
+            <span class="text-amber-400 text-xs">riccivr.github.io/blog</span>
+            <span class="text-right text-xs">
+                Markdown Engine · Static Archive
+            </span>
+        </footer>
+
+    </div>
+
+    <script>
+        let allPosts = [];
+        let selectedTag = null;
+
+        async function loadPosts() {
+            const container = document.getElementById('posts-container');
+            try {
+                const response = await fetch('posts.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load posts index');
+                }
+                allPosts = await response.json();
+                renderPosts();
+            } catch (err) {
+                container.innerHTML = `
+                    <div class="border border-red-500/50 bg-red-950/20 p-4 text-red-400 text-sm">
+                        [ERROR] Could not load blog posts: ${err.message}
+                    </div>
+                `;
+            }
+        }
+
+        function filterPosts(searchTerm = '') {
+            const term = searchTerm.toLowerCase().trim();
+            return allPosts.filter(post => {
+                const matchesTag = !selectedTag || (post.tags && post.tags.some(t => t.toLowerCase() === selectedTag.toLowerCase()));
+                const matchesSearch = !term || 
+                    post.title.toLowerCase().includes(term) || 
+                    post.summary.toLowerCase().includes(term) || 
+                    (post.tags && post.tags.some(t => t.toLowerCase().includes(term)));
+                return matchesTag && matchesSearch;
+            });
+        }
+
+        function renderPosts() {
+            const container = document.getElementById('posts-container');
+            const searchInput = document.getElementById('search-input');
+            const filtered = filterPosts(searchInput.value);
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="border border-amber-500/40 bg-amber-950/10 p-6 text-center text-amber-400 text-sm">
+                        // No log entries matching criteria. Try another search query.
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map(post => {
+                const tagsHtml = (post.tags || []).map(tag => `
+                    <button onclick="setFilterTag('${tag}')" class="interactive-link text-xs text-amber-400 border border-amber-500/80 px-2 py-0.5">
+                        #${tag}
+                    </button>
+                `).join(' ');
+
+                return `
+                    <article class="border border-amber-500/50 bg-amber-950/10 p-5 transition duration-150 hover:border-amber-400">
+                        <header class="flex flex-col sm:flex-row justify-between sm:items-center gap-1 mb-2 border-b border-amber-500/20 pb-2">
+                            <div class="text-xs text-amber-500">
+                                LOG_${post.date.replace(/-/g, '.')} // ${post.category || 'GENERAL'}
+                            </div>
+                            <div class="text-xs text-amber-400/80">
+                                Reading Time: ${post.readingTime || '3 min'}
+                            </div>
+                        </header>
+
+                        <h2 class="text-lg sm:text-xl font-bold text-amber-300 mb-2">
+                            <a href="post.html?post=${post.slug}" class="hover:underline">
+                                ${post.title}
+                            </a>
+                        </h2>
+
+                        <p class="text-sm leading-relaxed text-amber-400/90 mb-4">
+                            ${post.summary}
+                        </p>
+
+                        <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+                            <div class="flex flex-wrap gap-1.5">
+                                ${tagsHtml}
+                            </div>
+                            <a href="post.html?post=${post.slug}" class="interactive-link border border-amber-500 px-3 py-1 text-xs uppercase text-amber-400 font-bold">
+                                [READ LOG ->]
+                            </a>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        function setFilterTag(tag) {
+            selectedTag = tag;
+            const container = document.getElementById('active-tag-container');
+            const label = document.getElementById('active-tag-label');
+            if (tag) {
+                container.classList.remove('hidden');
+                label.textContent = `Tag: #${tag}`;
+            } else {
+                container.classList.add('hidden');
+            }
+            renderPosts();
+        }
+
+        document.getElementById('clear-tag-btn').addEventListener('click', () => {
+            setFilterTag(null);
+        });
+
+        document.getElementById('search-input').addEventListener('input', () => {
+            renderPosts();
+        });
+
+        window.setFilterTag = setFilterTag;
+        loadPosts();
+    </script>
+</body>
+</html>
