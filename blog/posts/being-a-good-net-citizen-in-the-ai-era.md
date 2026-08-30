@@ -1,78 +1,78 @@
-# Being a Good Net Citizen in the AI Era: A Guide to Modern Web Discoverability
+# Ser un buen ciudadano de la red en la era de la IA: Guía moderna para el rastreo y descubrimiento web
 
-*Published: August 30, 2026 · Category: Web Standards & Cloud · Reading Time: ~6 min*
-*Tags: Web Standards, AI, SEO, Crawlers, Architecture, Semantic Web*
-
----
-
-The way information is discovered, indexed, and cited across the internet is undergoing its most profound transformation since the invention of the search engine. 
-
-For decades, website owners optimized content for traditional search engine algorithms—ranking for keywords, building backlink profiles, and tuning meta tags for human searchers clicking blue links. 
-
-Today, web traffic and discovery are increasingly mediated by **autonomous AI agents, retrieval-augmented generation (RAG) pipelines, and semantic search engines** (Perplexity, ChatGPT Search, Gemini, Claude, and specialized research scrapers). 
-
-If an AI agent cannot deterministically parse your architecture, understand your authorship, or extract your technical documentation without executing 15MB of client-side JavaScript, your content effectively does not exist.
-
-Here is a pragmatic guide to being a "good net citizen" in the AI era—ensuring your website is seamlessly discoverable, machine-readable, and respectably indexed.
+*Publicado: 30 de agosto de 2026 · Categoría: Estándares Web y Cloud · Tiempo de lectura: ~6 min*
+*Etiquetas: Estándares Web, IA, SEO, Rastreadores, Arquitectura, Web Semántica*
 
 ---
 
-## 1. Static-First & Semantic HTML (The Anti-Hydration Advantage)
+La forma en que se descubre, indexa y cita la información en internet está viviendo el cambio más arrecho desde que se inventaron los motores de búsqueda.
 
-Many modern AI ingestors, research scrapers, and headless crawlers operate under strict latency and token budgets. While Googlebot can afford to spin up headless Chromium instances to render bloated client-side Single Page Applications (SPAs), many autonomous agents and lightweight indexers **do not execute JavaScript at all** or time out after 500ms.
+Durante décadas, los dueños de sitios web optimizaban su contenido para los algoritmos de búsqueda tradicionales: posicionar palabras clave, conseguir enlaces externos (backlinks) y afinar metaetiquetas para que la gente hiciera clic en los típicos enlaces azules.
+
+Hoy en día, el tráfico y el descubrimiento web pasan cada vez más por **agentes autónomos de IA, flujos de trabajo RAG (Generación Aumentada por Recuperación) y motores de búsqueda semántica** (como Perplexity, ChatGPT Search, Gemini, Claude y rastreadores de investigación especializados).
+
+Si un agente de IA no puede procesar tu arquitectura de forma determinista, entender la autoría o extraer tu documentación técnica sin tener que ejecutar 15MB de JavaScript en el cliente, para efectos prácticos tu contenido no existe.
+
+Aquí te dejo una guía práctica para ser un "buen ciudadano de la red" en estos tiempos de IA: garantizando que tu sitio sea fácil de descubrir, legible para máquinas y respetuosamente indexado.
+
+---
+
+## 1. HTML Semántico y Primero Estático (Cero peos con la hidratación)
+
+Muchos indexadores de IA, scrapers de investigación y rastreadores headless trabajan con presupuestos de latencia y tokens súper estrictos. Mientras que Googlebot puede darse el lujo de levantar instancias de Chromium headless para renderizar aplicaciones lentas de una sola página (SPAs), la mayoría de los agentes autónomos e indexadores ligeros **ni siquiera ejecutan JavaScript** o se caen por timeout a los 500ms.
 
 ```
-AI Crawler Request (GET /article)
+Petición del Rastreador de IA (GET /articulo)
          │
-         ├── [Heavy Client-side SPA] ──> Returns <div id="root"></div> ──> ❌ Content Dropped
+         ├── [SPA pesada del lado del cliente] ──> Devuelve <div id="root"></div> ──> ❌ Contenido perdido
          │
-         └── [Static Pre-rendered HTML] ──> Returns clean semantic DOM  ──> ✅ Instant Ingestion
+         └── [HTML estático pre-renderizado]   ──> Devuelve el DOM semántico limpio ──> ✅ Ingesta instantánea
 ```
 
-### Best Practices:
-- **Server-Side Render (SSR) or Pre-Render Static HTML**: Ensure that the raw `GET` response contains the full article body, code fences, and headings before any client scripts run.
-- **Semantic Structure**: Use standard HTML5 tags (`<main>`, `<article>`, `<header>`, `<nav>`, `<aside>`, `<time datetime="...">`). AI parsers use these tags to isolate primary prose from navigation bars, sidebars, and footer boilerplate.
-- **Meaningful Headings Hierarchy**: Organize topics with logical `<h1>` through `<h4>` hierarchies. LLM contextual chunking algorithms rely directly on heading boundaries to split documents into coherent embeddings.
+### Buenas Prácticas:
+- **Renderizado del lado del servidor (SSR) o HTML pre-renderizado**: Asegúrate de que la respuesta `GET` cruda contenga todo el cuerpo del artículo, los bloques de código y los encabezados antes de que corra cualquier script en el cliente.
+- **Estructura semántica real**: Usa las etiquetas estándar de HTML5 (`<main>`, `<article>`, `<header>`, `<nav>`, `<aside>`, `<time datetime="...">`). Los analizadores de IA usan estas etiquetas para separar la prosa principal de barras de navegación, menús laterales y basura en el pie de página.
+- **Jerarquía de títulos con sentido**: Organiza los temas con una jerarquía lógica de `<h1>` a `<h4>`. Los algoritmos de división contextual (chunking) de los LLM se basan directamente en los encabezados para partir documentos en fragmentos coherentes.
 
 ---
 
-## 2. Adopt `llms.txt` and Machine-Readable Text Feeds
+## 2. Implementar `llms.txt` y Feeds de Texto en Bruto
 
-One of the most practical emergent web standards is the **[`llms.txt`](https://llmstxt.org/)** specification—a dedicated manifest file hosted at `/llms.txt` designed specifically for LLM context ingestion.
+Uno de los estándares emergentes más útiles es la especificación **[`llms.txt`](https://llmstxt.org/)**: un archivo manifiesto ubicado en `/llms.txt` diseñado específicamente para la ingesta de contexto en modelos de lenguaje.
 
-Just as `/robots.txt` guides classical web crawlers, `/llms.txt` provides AI agents with a curated, lightweight markdown index of your website's most important documentation, tutorials, and architectural overviews.
+Así como `/robots.txt` guía a los rastreadores clásicos, `/llms.txt` le brinda a los agentes de IA un índice curado y ligero en Markdown con la documentación, tutoriales y resúmenes arquitectónicos más importantes de tu sitio.
 
 ```
-# Example /llms.txt
-# Ricardo Veronese - Technical Systems & Engineering
+# Ejemplo de /llms.txt
+# Ricardo Veronese - Sistemas Técnicos e Ingeniería
 
-> High-performance UNIX utilities, cloud architectures, and systems programming.
+> Utilidades UNIX de alto rendimiento, arquitecturas cloud y programación de sistemas.
 
-## Projects
-- [approx](https://riccivr.github.io/): Non-interactive POSIX fuzzy stream filter in C99.
-- [unipaste](https://riccivr.github.io/): Universal rich-text clipboard formatting engine.
+## Proyectos Activos
+- [approx](https://riccivr.github.io/): Filtro y clasificador difuso POSIX no interactivo en C99.
+- [unipaste](https://riccivr.github.io/): Motor de formateo universal para el portapapeles.
 
-## Core Articles
-- [Archiving the Web with Git](https://riccivr.github.io/blog/posts/preserving-the-web-with-git.md): Deep dive into Git-native web crawling.
-- [Can You Use GitHub as a Database?](https://riccivr.github.io/blog/posts/using-github-as-a-database.md): SQLite VFS over HTTP range queries.
+## Artículos Principales
+- [Archivando la web con Git](https://riccivr.github.io/blog/posts/preserving-the-web-with-git.md): Análisis a fondo del rastreo web nativo en Git.
+- [¿Se puede usar GitHub como base de datos?](https://riccivr.github.io/blog/posts/using-github-as-a-database.md): SQLite VFS mediante peticiones HTTP Range.
 ```
 
-### In Addition to `llms.txt`:
-- **Clean RSS / Atom / JSON Feeds**: Maintain an unadulterated feed at `/feed.xml` or `/blog/feed.xml`. AI agents and aggregators use feeds to track new publications with zero scraping overhead.
-- **Markdown Content Negotiation**: Where possible, support `Accept: text/markdown` or provide direct `.md` download mirrors for technical writeups.
+### Además de `llms.txt`:
+- **Feeds RSS / Atom / JSON limpios**: Mantén un feed sin adulterar en `/feed.xml` o `/blog/feed.xml`. Los agentes de IA y agregadores usan feeds para rastrear publicaciones nuevas sin necesidad de scrapear nada.
+- **Negociación de contenido en Markdown**: Siempre que sea posible, soporta `Accept: text/markdown` o proporciona enlaces directos a las versiones `.md` de tus artículos técnicos.
 
 ---
 
-## 3. Structured Data & Rich Schema.org Markup
+## 3. Datos Estructurados con Schema.org y JSON-LD
 
-To ensure AI engines correctly attribute your name, publication timestamps, and code snippets, embed structured **JSON-LD** in the `<head>` of every article:
+Para garantizar que los motores de IA atribuyan correctamente tu nombre, fechas de publicación y fragmentos de código, incluye **JSON-LD** estructurado en el `<head>` de cada artículo:
 
 ```html
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "TechArticle",
-  "headline": "Archiving the Web with Git: Building a Content-Addressable Web Historian",
+  "headline": "Archivando la web con Git: Construyendo un historiador web direccionable por contenido",
   "author": {
     "@type": "Person",
     "name": "Ricardo Veronese",
@@ -80,24 +80,24 @@ To ensure AI engines correctly attribute your name, publication timestamps, and 
   },
   "datePublished": "2026-08-30",
   "dateModified": "2026-08-30",
-  "description": "An architectural deep dive into Git-native web archival and packfile delta compression.",
+  "description": "Análisis arquitectónico del archivado web nativo en Git y compresión delta en packfiles.",
   "dependencies": "C99, POSIX, Git"
 }
 </script>
 ```
 
-### Why This Matters:
-- **Canonical Attribution**: When an AI chatbot generates an answer citing your work, schema markup ensures your name and canonical link are correctly referenced rather than hallucinated or scraped without credit.
-- **Temporal Validity**: Explicit `datePublished` and `dateModified` timestamps help models assess whether documentation reflects current best practices or legacy APIs.
+### Por qué importa esto:
+- **Atribución canónica garantizada**: Cuando un chatbot de IA responde citando tu trabajo, el marcado schema asegura que tu nombre y enlace canónico aparezcan bien referenciados en lugar de inventar vainas o robarse el crédito.
+- **Validez temporal**: Las marcas `datePublished` y `dateModified` le indican al modelo si la documentación está al día o si describe APIs obsoletas.
 
 ---
 
-## 4. Nuanced `robots.txt` & AI Crawl Governance
+## 4. `robots.txt` con Criterio y Gobernanza de IA
 
-In the AI era, blocking all bots with a blanket `User-agent: * Disallow: /` can inadvertently destroy your search presence. Modern site owners should differentiate between **model training scrapers** and **real-time search/citation crawlers**:
+En la era de la IA, trancar a todos los bots con un `User-agent: * Disallow: /` a lo loco puede borrarte del mapa de búsquedas sin querer. Los administradores de sitios web deben diferenciar entre los **scrapers de entrenamiento masivo** y los **rastreadores de búsqueda y citación en tiempo real**:
 
 ```txt
-# Allow search & citation bots so your site can be referenced
+# Permitir bots de búsqueda y citación para que puedan referenciarte
 User-agent: Google-Extended
 Allow: /
 
@@ -107,38 +107,38 @@ Allow: /
 User-agent: PerplexityBot
 Allow: /
 
-# Optionally manage large-scale bulk dataset training scrapers
+# Opcional: controlar scrapers de entrenamiento de datasets gigantescos
 User-agent: CCBot
-Disallow: /telemetry/
+Disallow: /telemetria/
 
-# Global Crawl Politeness
+# Cortesía global de rastreo
 Crawl-delay: 1
 Sitemap: https://riccivr.github.io/sitemap.xml
 ```
 
-- **Provide a Clean `sitemap.xml`**: Always specify accurate `<lastmod>` timestamps so crawlers don't repeatedly fetch unchanged historical pages, preserving both your bandwidth and the crawler's energy footprint.
+- **Ofrece un `sitemap.xml` al pelo**: Declara siempre las marcas `<lastmod>` precisas para que los rastreadores no gasten tiempo ni ancho de banda volviendo a bajar páginas que no han cambiado.
 
 ---
 
-## 5. Clean HTTP Cache Headers & Politeness
+## 5. Cabeceras HTTP Limpias, Caché y Cortesía de Red
 
-A truly good net citizen respects server and network resources:
+Un verdadero buen ciudadano de la red cuida los recursos del servidor y del ecosistema:
 
-1. **Leverage `ETag` and `If-Modified-Since`**: Return `HTTP 304 Not Modified` whenever a crawler checks a page that has not changed. This drastically reduces CPU, CDN, and electrical overhead.
-2. **Avoid Aggressive Anti-Bot Captchas on Public Content**: Blocking standard `curl`, `python-requests`, or `fetch` requests with mandatory Cloudflare/browser challenges makes your public open-source documentation inaccessible to researchers, terminal users, and automated CLI tooling.
-3. **Transparent Open Graph Metadata**: Ensure `og:title`, `og:description`, `og:image`, and `rel="canonical"` are accurately declared.
+1. **Aprovecha `ETag` e `If-Modified-Since`**: Responde con `HTTP 304 Not Modified` cuando un bot consulte una página idéntica. Esto ahorra CPU, ancho de banda y electricidad en ambos lados.
+2. **Evita captchas agresivos en contenido público**: Meterle retos de Cloudflare o bloqueos a peticiones estándar de `curl`, `python-requests` o `fetch` vuelve tu documentación inaccesible para investigadores, usuarios de terminal y herramientas CLI automatizadas.
+3. **Metadatos Open Graph transparentes**: Declara siempre de forma correcta `og:title`, `og:description`, `og:image` y `rel="canonical"`.
 
 ---
 
-## Summary Checklist for Modern Website Owners
+## Resumen para Desarrolladores y Dueños de Sitios
 
-| Area | Best Practice | Benefit |
+| Área | Buena Práctica | Beneficio |
 | :--- | :--- | :--- |
-| **Rendering** | Static HTML / Server-Rendered DOM | Zero hydration latency, instant scraper parsing |
-| **Semantics** | Valid HTML5 `<article>`, `<main>`, `<time>` | Deterministic RAG chunking and context extraction |
-| **AI Indexing** | Host `/llms.txt` and clean RSS/Atom feeds | Direct token-efficient ingestion for AI agents |
-| **Attribution** | Schema.org JSON-LD (`TechArticle` / `Author`) | Reliable citation and author attribution in AI answers |
-| **Caching** | Support `ETag` and `304 Not Modified` | Bandwidth savings and green crawl efficiency |
-| **Governance** | Granular `robots.txt` + accurate `sitemap.xml` | Control AI training vs search citation access |
+| **Renderizado** | HTML estático / DOM del lado del servidor | Cero demoras de hidratación, parseo instantáneo |
+| **Semántica** | Etiquetas HTML5 estándar (`<article>`, `<main>`, `<time>`) | División contextual (chunking) determinista para RAG |
+| **Indexación IA** | Publicar `/llms.txt` y feeds RSS/Atom limpios | Ingesta directa y eficiente en consumo de tokens |
+| **Atribución** | Schema.org JSON-LD (`TechArticle` / `Author`) | Citas confiables y autoría visible en respuestas de IA |
+| **Caché** | Soportar `ETag` y respuestas `304 Not Modified` | Ahorro de ancho de banda y rastreo ecológico |
+| **Gobernanza** | `robots.txt` granular + `sitemap.xml` al día | Control claro entre entrenamiento y citación de búsqueda |
 
-Being a good net citizen today means building for both **humans and machines**: high-contrast readable design for users in their browsers, and clean, deterministic, semantic data for the autonomous agents navigating the web on their behalf.
+Ser un buen ciudadano de la red hoy en día significa diseñar para **humanos y máquinas por igual**: una interfaz con buen contraste y legible para la gente en el navegador, junto a datos limpios, deterministas y semánticos para los agentes autónomos que navegan en su nombre.

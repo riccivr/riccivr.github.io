@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Ricardo Veronese - Technical Logs & Systems</title>
+    <title>Ricardo Veronese - Bitácoras Técnicas y Sistemas</title>
     <link>https://riccivr.github.io/blog/</link>
-    <description>Thoughts on cloud architecture, systems engineering, C99, algorithms & embedded IoT.</description>
-    <language>en-us</language>
-    <lastBuildDate>Sun, 30 Aug 2026 19:06:26 GMT</lastBuildDate>
+    <description>Reflexiones sobre arquitectura cloud, ingeniería de sistemas, C99, algoritmos y sistemas embebidos IoT.</description>
+    <language>es-ve</language>
+    <lastBuildDate>Sun, 30 Aug 2026 19:47:30 GMT</lastBuildDate>
     <atom:link href="https://riccivr.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
-      <title>Being a Good Net Citizen in the AI Era: A Guide to Modern Web Discoverability</title>
+      <title>Ser un buen ciudadano de la red en la era de la IA: Guía moderna para el rastreo y descubrimiento web</title>
       <link>https://riccivr.github.io/blog/post.html?post=being-a-good-net-citizen-in-the-ai-era</link>
       <guid isPermaLink="true">https://riccivr.github.io/blog/post.html?post=being-a-good-net-citizen-in-the-ai-era</guid>
       <pubDate>Sun, 30 Aug 2026 12:00:00 GMT</pubDate>
-      <description>The way information is discovered, indexed, and cited across the internet is undergoing its most profound transformation since the invention of the search engine.</description>
-      <category>Web Standards</category>
-      <category>AI</category>
+      <description>La forma en que se descubre, indexa y cita la información en internet está viviendo el cambio más arrecho desde que se inventaron los motores de búsqueda.</description>
+      <category>Estándares Web</category>
+      <category>IA</category>
       <category>SEO</category>
-      <category>Crawlers</category>
-      <category>Architecture</category>
-      <category>Semantic Web</category>
+      <category>Rastreadores</category>
+      <category>Arquitectura</category>
+      <category>Web Semántica</category>
     </item>
     <item>
-      <title>Archiving the Web with Git: Building a Content-Addressable Web Historian</title>
+      <title>Archivando la web con Git: Construyendo un historiador web direccionable por contenido</title>
       <link>https://riccivr.github.io/blog/post.html?post=preserving-the-web-with-git</link>
       <guid isPermaLink="true">https://riccivr.github.io/blog/post.html?post=preserving-the-web-with-git</guid>
       <pubDate>Sun, 30 Aug 2026 12:00:00 GMT</pubDate>
-      <description>The modern web is notoriously ephemeral. Pages mutate silently, documentation disappears during corporate rebrands, terms of service update without diffs, and links rot at an alarming rate.</description>
+      <description>La web moderna es notoriamente efímera. Las páginas mutan en silencio, la documentación desaparece durante rediseños corporativos, los términos de servicio se actualizan sin dejar rastro y los enlaces se rompen a una vel...</description>
       <category>Git</category>
-      <category>Web Archiving</category>
-      <category>Crawlers</category>
-      <category>Systems</category>
+      <category>Archivado Web</category>
+      <category>Rastreadores</category>
+      <category>Sistemas</category>
       <category>C99</category>
-      <category>Architecture</category>
+      <category>Arquitectura</category>
     </item>
     <item>
-      <title>Can You Use GitHub as a Database? SQLite, HTTP Range Requests, and Flat-File Architectures</title>
+      <title>¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y arquitecturas de archivos planos</title>
       <link>https://riccivr.github.io/blog/post.html?post=using-github-as-a-database</link>
       <guid isPermaLink="true">https://riccivr.github.io/blog/post.html?post=using-github-as-a-database</guid>
       <pubDate>Sun, 30 Aug 2026 12:00:00 GMT</pubDate>
-      <description>A common architectural question for lightweight applications, side projects, and static sites is: Can we leverage GitHub as a persistent database?</description>
+      <description>Una pregunta recurrente al diseñar proyectos personales, sitios estáticos o aplicaciones ligeras es: ¿Se puede utilizar GitHub como una base de datos persistente?</description>
       <category>SQLite</category>
       <category>GitHub Pages</category>
       <category>HTTP Range</category>
-      <category>Architecture</category>
+      <category>Arquitectura</category>
       <category>Cloud</category>
     </item>
   </channel>

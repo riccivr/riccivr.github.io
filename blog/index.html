@@ -1,28 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ricardo Veronese - Technical Blog & System Logs</title>
+    <title>Ricardo Veronese - Bitácoras Técnicas y Sistemas</title>
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
-    <meta name="description" content="Technical blog and systems architecture logs by Ricardo Veronese. Cloud infrastructure, C99/POSIX utilities, parsers, and web standards.">
+    <meta name="description" content="Bitácoras técnicas y registros de arquitectura de sistemas por Ricardo Veronese. Infraestructura cloud, utilidades C99/POSIX, parsers y estándares web.">
     <meta name="author" content="Ricardo Veronese">
     <link rel="canonical" href="https://riccivr.github.io/blog/">
-    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed" href="https://riccivr.github.io/feed.xml">
-    <link rel="help" type="text/markdown" title="LLM Documentation" href="https://riccivr.github.io/llms.txt">
+    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Feed RSS de Bitácoras" href="https://riccivr.github.io/feed.xml">
+    <link rel="help" type="text/markdown" title="Documentación para LLMs" href="https://riccivr.github.io/llms.txt">
 
     <!-- Open Graph -->
     <meta property="og:type" content="blog">
     <meta property="og:url" content="https://riccivr.github.io/blog/">
-    <meta property="og:title" content="Ricardo Veronese - Technical Blog & System Logs">
-    <meta property="og:description" content="Technical logs, cloud architecture writeups, POSIX low-level programming & algorithms.">
+    <meta property="og:title" content="Ricardo Veronese - Bitácoras Técnicas y Sistemas">
+    <meta property="og:description" content="Bitácoras técnicas, análisis de arquitectura cloud, programación en bajo nivel con POSIX y algoritmos.">
     <meta property="og:image" content="https://riccivr.github.io/riccivr-retro.png">
     <meta property="og:site_name" content="Ricardo Veronese">
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Ricardo Veronese - Technical Blog & System Logs">
-    <meta name="twitter:description" content="Technical logs, cloud architecture writeups, POSIX low-level programming & algorithms.">
+    <meta name="twitter:title" content="Ricardo Veronese - Bitácoras Técnicas y Sistemas">
+    <meta name="twitter:description" content="Bitácoras técnicas, análisis de arquitectura cloud, programación en bajo nivel con POSIX y algoritmos.">
     <meta name="twitter:image" content="https://riccivr.github.io/riccivr-retro.png">
 
     <!-- Schema.org JSON-LD -->
@@ -30,9 +30,9 @@
     {
       "@context": "https://schema.org",
       "@type": "Blog",
-      "name": "Ricardo Veronese - Engineering Logs & Essays",
+      "name": "Ricardo Veronese - Bitácoras de Ingeniería y Artículos",
       "url": "https://riccivr.github.io/blog/",
-      "description": "Thoughts on systems architecture, cloud infrastructure, low-level programming & algorithms.",
+      "description": "Reflexiones sobre arquitectura de sistemas, infraestructura cloud, programación en bajo nivel y algoritmos.",
       "author": {
         "@type": "Person",
         "name": "Ricardo Veronese",
@@ -87,8 +87,8 @@
             --bg-header: #ebe0ca;
             --bg-section: #efe5ce;
             --bg-card: #f3ecdb;
-            --bg-card-hover: #e8ddc5;
-            --bg-input: #ffffff;
+            --bg-card-hover: #e5dac2;
+            --bg-input: #fdfbf7;
             --bg-badge: rgba(146, 64, 14, 0.08);
             
             --border-primary: #92400e;
@@ -167,17 +167,17 @@
 
         <header class="p-3 theme-bg-header border-b theme-border flex flex-wrap justify-between items-center gap-2">
             <div class="flex items-center space-x-2">
-                <span class="text-xs theme-text-muted tracking-wider font-bold">SYS.ID: riccivr // LOGS</span>
+                <span class="text-xs theme-text-muted tracking-wider font-bold">ID.SISTEMA: riccivr // BITÁCORAS</span>
             </div>
             <div class="flex items-center space-x-2 sm:space-x-3">
-                <button id="keys-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Toggle Keyboard Navigation Shortcuts">
-                    [KEYS: ON]
+                <button id="keys-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Alternar atajos de navegación por teclado">
+                    [TECLAS: ACT]
                 </button>
-                <button id="theme-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Toggle Theme (CRT / Paper)">
-                    [MODE: CRT]
+                <button id="theme-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Alternar tema (CRT / Papel)">
+                    [MODO: CRT]
                 </button>
                 <span class="theme-text-main text-xs sm:text-sm font-bold uppercase tracking-wider">
-                    STATUS: ONLINE
+                    ESTADO: EN LÍNEA
                 </span>
             </div>
         </header>
@@ -189,15 +189,15 @@
                 <div class="flex flex-col sm:flex-row justify-between sm:items-center">
                     <div>
                         <h1 class="text-xl sm:text-2xl font-bold uppercase theme-text-title mb-1">
-                            ENGINEERING LOGS & ESSAYS
+                            BITÁCORAS TÉCNICAS Y ARTÍCULOS
                         </h1>
                         <p class="text-xs sm:text-sm theme-text-muted font-bold">
-                            Thoughts on systems architecture, cloud infrastructure, low-level programming & algorithms.
+                            Reflexiones sobre arquitectura de sistemas, infraestructura cloud, programación en bajo nivel y algoritmos.
                         </p>
                     </div>
                     <div class="mt-4 sm:mt-0 flex space-x-2">
                         <a href="../" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
-                            [<] Home Portal
+                            [<] Portal Principal
                         </a>
                         <a href="https://github.com/riccivr" target="_blank" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
                             [G] GitHub
@@ -213,19 +213,19 @@
                     <input 
                         type="text" 
                         id="search-input" 
-                        placeholder="Search entries or filter by tags (e.g. SQLite, Cloud)..." 
+                        placeholder="Buscar bitácoras o filtrar por etiquetas (ej. SQLite, Cloud, Git)..." 
                         class="w-full border pl-8 pr-4 py-2 text-sm font-mono transition-colors"
                     />
                 </div>
                 <div id="active-tag-container" class="hidden sm:flex items-center text-xs theme-text-main whitespace-nowrap">
                     <span id="active-tag-label" class="mr-2 border theme-border px-2 py-1 theme-bg-card font-bold"></span>
-                    <button id="clear-tag-btn" class="interactive-link border theme-border px-2 py-1 font-bold">[x] Clear</button>
+                    <button id="clear-tag-btn" class="interactive-link border theme-border px-2 py-1 font-bold">[x] Limpiar</button>
                 </div>
             </div>
 
             <!-- Posts List Container -->
             <div id="posts-container" class="space-y-6">
-                <div class="theme-text-muted text-sm animate-pulse">Loading blog database entries...</div>
+                <div class="theme-text-muted text-sm animate-pulse">Cargando bitácoras desde la base de datos...</div>
             </div>
 
         </main>
@@ -233,7 +233,7 @@
         <footer class="p-4 border-t theme-border text-sm flex justify-between items-center theme-bg-header">
             <span class="theme-text-muted text-xs font-bold">riccivr.github.io/blog</span>
             <span class="text-right text-xs theme-text-muted font-medium">
-                Markdown Engine · Static Archive
+                Motor Markdown · Archivo Estático
             </span>
         </footer>
 
@@ -245,7 +245,7 @@
         
         function updateThemeBtn() {
             const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-            themeBtn.textContent = isLight ? '[MODE: PAPER / LIGHT]' : '[MODE: CRT / DARK]';
+            themeBtn.textContent = isLight ? '[MODO: PAPEL]' : '[MODO: CRT]';
         }
 
         themeBtn.addEventListener('click', () => {
@@ -271,7 +271,7 @@
         function updateKeysBtn() {
             if (!keysToggleBtn) return;
             const enabled = areKeysEnabled();
-            keysToggleBtn.textContent = enabled ? '[KEYS: ON]' : '[KEYS: OFF]';
+            keysToggleBtn.textContent = enabled ? '[TECLAS: ACT]' : '[TECLAS: DES]';
             keysToggleBtn.style.opacity = enabled ? '1' : '0.6';
         }
         keysToggleBtn.addEventListener('click', () => {
@@ -290,14 +290,14 @@
             try {
                 const response = await fetch('posts.json');
                 if (!response.ok) {
-                    throw new Error('Failed to load posts index');
+                    throw new Error('Fallo al cargar el índice de bitácoras');
                 }
                 allPosts = await response.json();
                 renderPosts();
             } catch (err) {
                 container.innerHTML = `
                     <div class="border border-red-500/50 p-4 text-red-500 text-sm theme-bg-card font-bold">
-                        [ERROR] Could not load blog posts: ${err.message}
+                        [ERROR] No se pudieron cargar las bitácoras: ${err.message}
                     </div>
                 `;
             }
@@ -323,7 +323,7 @@
             if (filtered.length === 0) {
                 container.innerHTML = `
                     <div class="border theme-border-subtle theme-bg-card p-6 text-center theme-text-muted text-sm font-semibold">
-                        // No log entries matching criteria. Try another search query.
+                        // No se encontraron bitácoras que coincidan con la búsqueda. Prueba con otro término.
                     </div>
                 `;
                 return;
@@ -340,10 +340,10 @@
                     <article class="border theme-border-subtle theme-bg-card p-5 transition duration-150">
                         <header class="flex flex-col sm:flex-row justify-between sm:items-center gap-1 mb-2 border-b theme-border-dim pb-2">
                             <div class="text-xs theme-text-muted font-bold font-mono">
-                                LOG_${post.date.replace(/-/g, '.')} // ${post.category || 'GENERAL'}
+                                BITÁCORA_${post.date.replace(/-/g, '.')} // ${(post.category || 'GENERAL').toUpperCase()}
                             </div>
                             <div class="text-xs theme-text-dim font-medium">
-                                Reading Time: ${post.readingTime || '3 min'}
+                                Tiempo de lectura: ${post.readingTime || '4 min'}
                             </div>
                         </header>
 
@@ -362,7 +362,7 @@
                                 ${tagsHtml}
                             </div>
                             <a href="post.html?post=${post.slug}" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
-                                [READ LOG ->]
+                                [LEER BITÁCORA ->]
                             </a>
                         </div>
                     </article>
@@ -376,12 +376,20 @@
             const label = document.getElementById('active-tag-label');
             if (tag) {
                 container.classList.remove('hidden');
-                label.textContent = `Tag: #${tag}`;
+                label.textContent = `Etiqueta: #${tag}`;
             } else {
                 container.classList.add('hidden');
             }
             renderPosts();
         }
+
+        document.getElementById('clear-tag-btn').addEventListener('click', () => {
+            setFilterTag(null);
+        });
+
+        document.getElementById('search-input').addEventListener('input', () => {
+            renderPosts();
+        });
 
         function flashElement(el) {
             if (!el) return;

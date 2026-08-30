@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ricardo Veronese - Blog Post</title>
+    <title>Ricardo Veronese - Lector de Bitácoras</title>
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
     <meta name="author" content="Ricardo Veronese">
-    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed" href="https://riccivr.github.io/feed.xml">
-    <link rel="help" type="text/markdown" title="LLM Documentation" href="https://riccivr.github.io/llms.txt">
+    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Feed RSS de Bitácoras" href="https://riccivr.github.io/feed.xml">
+    <link rel="help" type="text/markdown" title="Documentación para LLMs" href="https://riccivr.github.io/llms.txt">
 
     <!-- Open Graph Default -->
     <meta property="og:type" content="article">
@@ -41,10 +41,8 @@
             --bg-frame: #000000;
             --bg-header: rgba(180, 83, 9, 0.2);
             --bg-card: rgba(69, 26, 3, 0.2);
-            --bg-blockquote: rgba(120, 53, 15, 0.2);
-            --bg-code-block: #0a0805;
-            --bg-inline-code: rgba(180, 83, 9, 0.3);
-            --bg-table-header: rgba(180, 83, 9, 0.3);
+            --bg-card-alt: rgba(69, 26, 3, 0.35);
+            --bg-badge: rgba(245, 158, 11, 0.1);
             
             --border-primary: #f59e0b;
             --border-subtle: rgba(245, 158, 11, 0.5);
@@ -55,13 +53,18 @@
             --text-main: #f59e0b;
             --text-muted: #d97706;
             --text-dim: #92400e;
+            --text-code: #fef3c7;
             --text-blockquote: #fde68a;
-            --text-code: #fcd34d;
             
             --scanline-color: rgba(180, 150, 0, 0.07);
             --frame-shadow: 0 0 10px #f59e0b, 0 0 20px #f59e0b inset;
             --btn-hover-bg: #f59e0b;
             --btn-hover-text: #000000;
+            
+            --bg-code-block: #0d0a06;
+            --bg-inline-code: rgba(245, 158, 11, 0.15);
+            --bg-blockquote: rgba(180, 83, 9, 0.12);
+            --bg-table-header: rgba(180, 83, 9, 0.25);
         }
 
         [data-theme="light"] {
@@ -69,10 +72,8 @@
             --bg-frame: #fcf8f0;
             --bg-header: #ebe0ca;
             --bg-card: #f3ecdb;
-            --bg-blockquote: #efe5ce;
-            --bg-code-block: #f3ecdb;
-            --bg-inline-code: #eae0cb;
-            --bg-table-header: #ebe0ca;
+            --bg-card-alt: #eae0cb;
+            --bg-badge: rgba(146, 64, 14, 0.08);
             
             --border-primary: #92400e;
             --border-subtle: rgba(146, 64, 14, 0.5);
@@ -83,13 +84,18 @@
             --text-main: #2b1103;
             --text-muted: #612809;
             --text-dim: #92400e;
+            --text-code: #581c87;
             --text-blockquote: #451a03;
-            --text-code: #612809;
             
             --scanline-color: rgba(146, 64, 14, 0.035);
             --frame-shadow: 0 3px 14px rgba(146, 64, 14, 0.18), 0 0 0 1px rgba(146, 64, 14, 0.12) inset;
             --btn-hover-bg: #92400e;
             --btn-hover-text: #fcf8f0;
+            
+            --bg-code-block: #f7f1e4;
+            --bg-inline-code: #eeddc3;
+            --bg-blockquote: #f0e6d2;
+            --bg-table-header: #ebdcc0;
         }
 
         body {
@@ -120,56 +126,54 @@
         .theme-border { border-color: var(--border-primary); }
         .theme-border-subtle { border-color: var(--border-subtle); }
         .theme-border-dim { border-color: var(--border-dim); }
+
         .theme-bg-header { background-color: var(--bg-header); }
+        .theme-bg-card { background-color: var(--bg-card); }
+        .theme-bg-card-alt { background-color: var(--bg-card-alt); }
+
+        .theme-text-title { color: var(--text-title); }
+        .theme-text-heading { color: var(--text-heading); }
+        .theme-text-main { color: var(--text-main); }
         .theme-text-muted { color: var(--text-muted); }
         .theme-text-dim { color: var(--text-dim); }
 
-        /* Markdown rendered content styles */
+        /* Typography & Markdown Styles */
         #post-content h1 {
+            font-size: 1.65rem;
+            font-weight: 800;
             color: var(--text-title);
-            font-size: 1.6rem;
-            font-weight: bold;
-            margin-top: 1.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-primary);
             padding-bottom: 0.5rem;
-            border-bottom: 1px solid var(--border-subtle);
             text-transform: uppercase;
         }
         #post-content h2 {
-            color: var(--text-heading);
             font-size: 1.3rem;
-            font-weight: bold;
-            margin-top: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-top: 2rem;
             margin-bottom: 0.75rem;
             border-bottom: 1px dashed var(--border-subtle);
-            padding-bottom: 0.25rem;
+            padding-bottom: 0.3rem;
         }
         #post-content h3 {
-            color: var(--text-heading);
             font-size: 1.1rem;
-            font-weight: bold;
-            margin-top: 1.4rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-top: 1.5rem;
             margin-bottom: 0.5rem;
         }
         #post-content p {
-            color: var(--text-main);
+            margin-bottom: 1.25rem;
             line-height: 1.7;
-            margin-bottom: 1.2rem;
-            font-size: 0.95rem;
+            color: var(--text-main);
         }
         #post-content ul, #post-content ol {
-            margin-left: 1.5rem;
-            margin-bottom: 1.2rem;
-            color: var(--text-main);
-            font-size: 0.95rem;
+            margin-bottom: 1.25rem;
+            padding-left: 1.5rem;
         }
         #post-content ul {
-            list-style-type: none;
-        }
-        #post-content ul li::before {
-            content: "> ";
-            color: var(--border-primary);
-            font-weight: bold;
+            list-style-type: square;
         }
         #post-content ol {
             list-style-type: decimal;
@@ -181,22 +185,20 @@
         #post-content a {
             color: var(--text-heading);
             text-decoration: underline;
-            text-underline-offset: 3px;
             font-weight: bold;
             transition: color 0.1s ease, background-color 0.1s ease;
         }
         #post-content a:hover {
-            color: var(--btn-hover-text) !important;
-            background-color: var(--btn-hover-bg) !important;
+            color: var(--btn-hover-text);
+            background-color: var(--btn-hover-bg);
+            text-decoration: none;
         }
         #post-content a code {
             color: inherit !important;
             background-color: transparent !important;
             border: none !important;
             text-decoration: underline;
-            text-underline-offset: 3px;
             padding: 0 !important;
-            font-weight: bold;
         }
         #post-content a:hover code {
             color: var(--btn-hover-text) !important;
@@ -278,17 +280,17 @@
 
         <header class="p-3 theme-bg-header border-b theme-border flex flex-wrap justify-between items-center gap-2">
             <div class="flex items-center space-x-2">
-                <span class="text-xs theme-text-muted tracking-wider font-bold" id="header-sys-id">SYS.ID: riccivr // LOG_VIEWER</span>
+                <span class="text-xs theme-text-muted tracking-wider font-bold" id="header-sys-id">ID.SISTEMA: riccivr // LECTOR_DE_BITÁCORAS</span>
             </div>
             <div class="flex items-center space-x-2 sm:space-x-3">
-                <button id="keys-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Toggle Keyboard Navigation Shortcuts">
-                    [KEYS: ON]
+                <button id="keys-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Alternar atajos de navegación por teclado">
+                    [TECLAS: ACT]
                 </button>
-                <button id="theme-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Toggle Theme (CRT / Paper)">
-                    [MODE: CRT]
+                <button id="theme-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Alternar tema (CRT / Papel)">
+                    [MODO: CRT]
                 </button>
                 <span class="theme-text-main text-xs sm:text-sm font-bold uppercase tracking-wider">
-                    STATUS: ONLINE
+                    ESTADO: EN LÍNEA
                 </span>
             </div>
         </header>
@@ -299,18 +301,18 @@
             <div class="flex flex-wrap items-center justify-between gap-3 pb-4 mb-6 border-b theme-border-subtle">
                 <div class="flex space-x-2">
                     <a href="index.html" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
-                        [<] Return to Logs Index
+                        [<] Volver al Índice
                     </a>
                     <a href="../" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
-                        [H] Home Portal
+                        [H] Portal Principal
                     </a>
                 </div>
                 <div class="flex space-x-2">
                     <button id="copy-link-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
-                        [S] Copy Link
+                        [S] Copiar Enlace
                     </button>
                     <a href="https://github.com/riccivr/riccivr.github.io" target="_blank" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
-                        [G] Repo
+                        [G] Repositorio
                     </a>
                 </div>
             </div>
@@ -318,7 +320,7 @@
             <!-- Post Container -->
             <article id="post-article">
                 <div id="post-loading" class="theme-text-muted text-sm animate-pulse p-6 text-center font-bold">
-                    Fetching markdown stream from repository...
+                    Obteniendo stream de Markdown desde el repositorio...
                 </div>
                 
                 <div id="post-content" class="hidden"></div>
@@ -327,10 +329,10 @@
             <!-- Bottom Return Navigation -->
             <div class="mt-8 pt-4 border-t theme-border-subtle flex justify-between items-center">
                 <a href="index.html" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
-                    [<] Back to Index
+                    [<] Volver al Índice
                 </a>
                 <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
-                    [^] Top of Page
+                    [^] Subir al Inicio
                 </a>
             </div>
 
@@ -339,7 +341,7 @@
         <footer class="p-4 border-t theme-border text-sm flex justify-between items-center theme-bg-header">
             <span class="theme-text-muted text-xs font-bold">riccivr.github.io/blog</span>
             <span class="text-right text-xs theme-text-muted font-medium">
-                Rendered with marked.js + highlight.js
+                Renderizado con marked.js + highlight.js
             </span>
         </footer>
 
@@ -363,7 +365,7 @@
 
         function updateThemeBtn() {
             const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-            themeBtn.textContent = isLight ? '[MODE: PAPER / LIGHT]' : '[MODE: CRT / DARK]';
+            themeBtn.textContent = isLight ? '[MODO: PAPEL]' : '[MODO: CRT]';
             syncHljsTheme(isLight);
         }
 
@@ -389,7 +391,7 @@
         function updateKeysBtn() {
             if (!keysToggleBtn) return;
             const enabled = areKeysEnabled();
-            keysToggleBtn.textContent = enabled ? '[KEYS: ON]' : '[KEYS: OFF]';
+            keysToggleBtn.textContent = enabled ? '[TECLAS: ACT]' : '[TECLAS: DES]';
             keysToggleBtn.style.opacity = enabled ? '1' : '0.6';
         }
         keysToggleBtn.addEventListener('click', () => {
@@ -422,7 +424,7 @@
             if (!slug) {
                 loadingEl.innerHTML = `
                     <div class="border theme-border-subtle p-4 theme-text-muted text-sm font-bold">
-                        [!] No log entry specified. <a href="index.html" class="underline">[Browse all logs]</a>
+                        [!] No se especificó ninguna bitácora. <a href="index.html" class="underline">[Explorar todas las bitácoras]</a>
                     </div>
                 `;
                 return;
@@ -431,20 +433,20 @@
             try {
                 // Fetch post manifest to get file path and title
                 const manifestRes = await fetch('posts.json');
-                if (!manifestRes.ok) throw new Error('Failed to load posts index');
+                if (!manifestRes.ok) throw new Error('Fallo al cargar el índice de bitácoras');
                 const manifest = await manifestRes.json();
                 const postMeta = manifest.find(p => p.slug === slug);
 
                 const mdFile = postMeta ? postMeta.file : `posts/${slug}.md`;
                 const mdRes = await fetch(mdFile);
-                if (!mdRes.ok) throw new Error(`Log file "${slug}.md" not found`);
+                if (!mdRes.ok) throw new Error(`Archivo de bitácora "${slug}.md" no encontrado`);
 
                 const markdownText = await mdRes.text();
                 contentEl.innerHTML = marked.parse(markdownText);
                 
                 if (postMeta && postMeta.title) {
                     document.title = `${postMeta.title} - Ricardo Veronese`;
-                    document.getElementById('header-sys-id').textContent = `SYS.ID: riccivr // ${postMeta.slug}`;
+                    document.getElementById('header-sys-id').textContent = `ID.SISTEMA: riccivr // ${postMeta.slug}`;
 
                     // Inject Schema.org TechArticle JSON-LD
                     const existingSchema = document.getElementById('post-schema');
@@ -484,8 +486,8 @@
             } catch (err) {
                 loadingEl.innerHTML = `
                     <div class="border border-red-500/50 p-4 text-red-500 text-sm font-bold">
-                        [ERROR] Failed to load log entry: ${err.message}<br>
-                        <a href="index.html" class="interactive-link border theme-border px-2 py-1 mt-3 inline-block text-xs uppercase">[<] Return to Index</a>
+                        [ERROR] No se pudo cargar la entrada: ${err.message}<br>
+                        <a href="index.html" class="interactive-link border theme-border px-2 py-1 mt-3 inline-block text-xs uppercase">[<] Volver al Índice</a>
                     </div>
                 `;
             }
@@ -495,7 +497,7 @@
             navigator.clipboard.writeText(window.location.href).then(() => {
                 const btn = document.getElementById('copy-link-btn');
                 const prev = btn.textContent;
-                btn.textContent = '[✓] Copied!';
+                btn.textContent = '[✓] ¡Copiado!';
                 setTimeout(() => { btn.textContent = prev; }, 2000);
             });
         });
