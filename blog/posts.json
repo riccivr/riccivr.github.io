@@ -2,8 +2,8 @@
   {
     "slug": "being-a-good-net-citizen-in-the-ai-era",
     "date": "2026-08-30",
-    "title": "Ser un buen ciudadano de la red en la era de la IA: Guía moderna para el rastreo y descubrimiento web",
-    "category": "Web Standards & Cloud",
+    "title": "Ser un buen ciudadano de la red en la era de la IA: guía moderna para el rastreo y descubrimiento web",
+    "category": "Web Standards & Cloud. Tiempo de lectura: ~5 min",
     "tags": [
       "Web Standards",
       "IA",
@@ -12,13 +12,13 @@
       "Arquitectura",
       "Semantic Web"
     ],
-    "summary": "La forma en que se descubre, indexa y cita la información en internet está viviendo el cambio más profundo desde que se inventaron los motores de búsqueda.",
-    "readingTime": "6 min",
+    "summary": "Los buscadores cambiaron la web indexando enlaces. Hoy en día, los agentes automatizados, los pipelines RAG y herramientas de búsqueda como Perplexity o Claude recorren sitios web para responder preguntas directamente a ...",
+    "readingTime": "5 min",
     "file": "posts/being-a-good-net-citizen-in-the-ai-era.es.md",
     "en": {
-      "title": "Being a Good Net Citizen in the AI Era: A Guide to Modern Web Discoverability",
+      "title": "Being a good net citizen in the AI era: a guide to web discoverability",
       "date": "2026-08-30",
-      "category": "Web Standards & Cloud",
+      "category": "Web Standards & Cloud. Reading time: ~5 min",
       "tags": [
         "Web Standards",
         "AI",
@@ -27,14 +27,14 @@
         "Architecture",
         "Semantic Web"
       ],
-      "summary": "The way information is discovered, indexed, and cited across the internet is undergoing its most profound transformation since the invention of the search engine.",
-      "readingTime": "5 min",
+      "summary": "Search engines changed the web by indexing links. Now automated agents, RAG pipelines, and LLM search tools like Perplexity and Claude are crawling sites to answer user queries directly.",
+      "readingTime": "4 min",
       "file": "posts/being-a-good-net-citizen-in-the-ai-era.en.md"
     },
     "es": {
-      "title": "Ser un buen ciudadano de la red en la era de la IA: Guía moderna para el rastreo y descubrimiento web",
+      "title": "Ser un buen ciudadano de la red en la era de la IA: guía moderna para el rastreo y descubrimiento web",
       "date": "2026-08-30",
-      "category": "Web Standards & Cloud",
+      "category": "Web Standards & Cloud. Tiempo de lectura: ~5 min",
       "tags": [
         "Web Standards",
         "IA",
@@ -43,16 +43,16 @@
         "Arquitectura",
         "Semantic Web"
       ],
-      "summary": "La forma en que se descubre, indexa y cita la información en internet está viviendo el cambio más profundo desde que se inventaron los motores de búsqueda.",
-      "readingTime": "6 min",
+      "summary": "Los buscadores cambiaron la web indexando enlaces. Hoy en día, los agentes automatizados, los pipelines RAG y herramientas de búsqueda como Perplexity o Claude recorren sitios web para responder preguntas directamente a ...",
+      "readingTime": "5 min",
       "file": "posts/being-a-good-net-citizen-in-the-ai-era.es.md"
     }
   },
   {
     "slug": "preserving-the-web-with-git",
     "date": "2026-08-30",
-    "title": "Archivar la web con Git: Construyendo un crawler e indexador histórico direccionable por contenido",
-    "category": "Sistemas & Arquitectura",
+    "title": "Archivar la web con Git: construyendo un crawler e indexador histórico",
+    "category": "Sistemas & Arquitectura. Tiempo de lectura: ~5 min",
     "tags": [
       "Git",
       "Web Archiving",
@@ -61,13 +61,13 @@
       "C99",
       "Arquitectura"
     ],
-    "summary": "La web moderna es notoriamente efímera. Las páginas mutan en silencio, la documentación desaparece durante rediseños corporativos, los términos de servicio se actualizan sin dejar diffs y los links se rompen a una veloci...",
-    "readingTime": "5 min",
+    "summary": "Las páginas web desaparecen todo el tiempo. Las empresas borran documentación durante rediseños, los términos de servicio cambian sin aviso y los enlaces se rompen.",
+    "readingTime": "4 min",
     "file": "posts/preserving-the-web-with-git.es.md",
     "en": {
-      "title": "Archiving the Web with Git: Building a Content-Addressable Web Historian",
+      "title": "Archiving the web with Git: building a content-addressable crawler",
       "date": "2026-08-30",
-      "category": "Systems & Architecture",
+      "category": "Systems & Architecture. Reading time: ~5 min",
       "tags": [
         "Git",
         "Web Archiving",
@@ -76,14 +76,14 @@
         "C99",
         "Architecture"
       ],
-      "summary": "The modern web is notoriously ephemeral. Pages mutate silently, documentation disappears during corporate rebrands, terms of service update without diffs, and links rot at an alarming rate.",
-      "readingTime": "5 min",
+      "summary": "Web pages disappear all the time. Companies delete docs during rebrands, terms of service change without changelogs, and links rot.",
+      "readingTime": "4 min",
       "file": "posts/preserving-the-web-with-git.en.md"
     },
     "es": {
-      "title": "Archivar la web con Git: Construyendo un crawler e indexador histórico direccionable por contenido",
+      "title": "Archivar la web con Git: construyendo un crawler e indexador histórico",
       "date": "2026-08-30",
-      "category": "Sistemas & Arquitectura",
+      "category": "Sistemas & Arquitectura. Tiempo de lectura: ~5 min",
       "tags": [
         "Git",
         "Web Archiving",
@@ -92,16 +92,16 @@
         "C99",
         "Arquitectura"
       ],
-      "summary": "La web moderna es notoriamente efímera. Las páginas mutan en silencio, la documentación desaparece durante rediseños corporativos, los términos de servicio se actualizan sin dejar diffs y los links se rompen a una veloci...",
-      "readingTime": "5 min",
+      "summary": "Las páginas web desaparecen todo el tiempo. Las empresas borran documentación durante rediseños, los términos de servicio cambian sin aviso y los enlaces se rompen.",
+      "readingTime": "4 min",
       "file": "posts/preserving-the-web-with-git.es.md"
     }
   },
   {
     "slug": "using-github-as-a-database",
     "date": "2026-08-30",
-    "title": "¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y arquitecturas flat-file",
-    "category": "Arquitectura & Sistemas",
+    "title": "¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos",
+    "category": "Arquitectura & Sistemas. Tiempo de lectura: ~4 min",
     "tags": [
       "SQLite",
       "GitHub Pages",
@@ -109,13 +109,13 @@
       "Arquitectura",
       "Cloud"
     ],
-    "summary": "Una pregunta recurrente al diseñar side projects, sitios estáticos o aplicaciones ligeras es: ¿Se puede utilizar GitHub como una base de datos persistente?",
-    "readingTime": "4 min",
+    "summary": "Una pregunta común en side projects y sitios estáticos es si se puede usar GitHub como una base de datos persistente.",
+    "readingTime": "3 min",
     "file": "posts/using-github-as-a-database.es.md",
     "en": {
-      "title": "Can You Use GitHub as a Database? SQLite, HTTP Range Requests, and Flat-File Architectures",
+      "title": "Can you use GitHub as a database? SQLite, HTTP range requests, and flat files",
       "date": "2026-08-30",
-      "category": "Architecture & Systems",
+      "category": "Architecture & Systems. Reading time: ~4 min",
       "tags": [
         "SQLite",
         "GitHub Pages",
@@ -123,14 +123,14 @@
         "Architecture",
         "Cloud"
       ],
-      "summary": "A common architectural question for lightweight applications, side projects, and static sites is: Can we leverage GitHub as a persistent database?",
-      "readingTime": "4 min",
+      "summary": "A common question for side projects and static sites is whether you can use GitHub as a persistent database.",
+      "readingTime": "3 min",
       "file": "posts/using-github-as-a-database.en.md"
     },
     "es": {
-      "title": "¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y arquitecturas flat-file",
+      "title": "¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos",
       "date": "2026-08-30",
-      "category": "Arquitectura & Sistemas",
+      "category": "Arquitectura & Sistemas. Tiempo de lectura: ~4 min",
       "tags": [
         "SQLite",
         "GitHub Pages",
@@ -138,8 +138,8 @@
         "Arquitectura",
         "Cloud"
       ],
-      "summary": "Una pregunta recurrente al diseñar side projects, sitios estáticos o aplicaciones ligeras es: ¿Se puede utilizar GitHub como una base de datos persistente?",
-      "readingTime": "4 min",
+      "summary": "Una pregunta común en side projects y sitios estáticos es si se puede usar GitHub como una base de datos persistente.",
+      "readingTime": "3 min",
       "file": "posts/using-github-as-a-database.es.md"
     }
   }

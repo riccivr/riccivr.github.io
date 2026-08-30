@@ -5,14 +5,14 @@
     <link>https://riccivr.github.io/blog/</link>
     <description>Reflections on cloud architecture, systems engineering, C99, algorithms, and IoT.</description>
     <language>es-ve</language>
-    <lastBuildDate>Sun, 30 Aug 2026 20:08:53 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 30 Aug 2026 20:23:19 GMT</lastBuildDate>
     <atom:link href="https://riccivr.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
-      <title>Ser un buen ciudadano de la red en la era de la IA: Guía moderna para el rastreo y descubrimiento web</title>
+      <title>Ser un buen ciudadano de la red en la era de la IA: guía moderna para el rastreo y descubrimiento web</title>
       <link>https://riccivr.github.io/blog/post.html?post=being-a-good-net-citizen-in-the-ai-era</link>
       <guid isPermaLink="true">https://riccivr.github.io/blog/post.html?post=being-a-good-net-citizen-in-the-ai-era</guid>
       <pubDate>Sun, 30 Aug 2026 12:00:00 GMT</pubDate>
-      <description>La forma en que se descubre, indexa y cita la información en internet está viviendo el cambio más profundo desde que se inventaron los motores de búsqueda.</description>
+      <description>Los buscadores cambiaron la web indexando enlaces. Hoy en día, los agentes automatizados, los pipelines RAG y herramientas de búsqueda como Perplexity o Claude recorren sitios web para responder preguntas directamente a ...</description>
       <category>Web Standards</category>
       <category>IA</category>
       <category>SEO</category>
@@ -21,11 +21,11 @@
       <category>Semantic Web</category>
     </item>
     <item>
-      <title>Archivar la web con Git: Construyendo un crawler e indexador histórico direccionable por contenido</title>
+      <title>Archivar la web con Git: construyendo un crawler e indexador histórico</title>
       <link>https://riccivr.github.io/blog/post.html?post=preserving-the-web-with-git</link>
       <guid isPermaLink="true">https://riccivr.github.io/blog/post.html?post=preserving-the-web-with-git</guid>
       <pubDate>Sun, 30 Aug 2026 12:00:00 GMT</pubDate>
-      <description>La web moderna es notoriamente efímera. Las páginas mutan en silencio, la documentación desaparece durante rediseños corporativos, los términos de servicio se actualizan sin dejar diffs y los links se rompen a una veloci...</description>
+      <description>Las páginas web desaparecen todo el tiempo. Las empresas borran documentación durante rediseños, los términos de servicio cambian sin aviso y los enlaces se rompen.</description>
       <category>Git</category>
       <category>Web Archiving</category>
       <category>Crawlers</category>
@@ -34,11 +34,11 @@
       <category>Arquitectura</category>
     </item>
     <item>
-      <title>¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y arquitecturas flat-file</title>
+      <title>¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos</title>
       <link>https://riccivr.github.io/blog/post.html?post=using-github-as-a-database</link>
       <guid isPermaLink="true">https://riccivr.github.io/blog/post.html?post=using-github-as-a-database</guid>
       <pubDate>Sun, 30 Aug 2026 12:00:00 GMT</pubDate>
-      <description>Una pregunta recurrente al diseñar side projects, sitios estáticos o aplicaciones ligeras es: ¿Se puede utilizar GitHub como una base de datos persistente?</description>
+      <description>Una pregunta común en side projects y sitios estáticos es si se puede usar GitHub como una base de datos persistente.</description>
       <category>SQLite</category>
       <category>GitHub Pages</category>
       <category>HTTP Range</category>

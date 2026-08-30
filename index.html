@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="meta-title">Ricardo Veronese - Ingeniero de Cloud & Sistemas</title>
+    <title id="meta-title">Ricardo Veronese - Cloud & Systems Engineer</title>
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
-    <meta id="meta-desc" name="description" content="Ricardo Veronese - Cloud & Full-Stack Systems Engineer. AWS CDK, TypeScript, Python, Rust, C99, sistemas de bajo nivel POSIX & IoT embebido.">
+    <meta id="meta-desc" name="description" content="Ricardo Veronese. Cloud and systems engineer. AWS CDK, TypeScript, Python, Rust, C99, POSIX systems, and embedded IoT.">
     <meta name="author" content="Ricardo Veronese">
     <link rel="canonical" href="https://riccivr.github.io/">
     <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed" href="https://riccivr.github.io/feed.xml">
@@ -14,15 +14,15 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://riccivr.github.io/">
-    <meta id="og-title" property="og:title" content="Ricardo Veronese - Ingeniero de Cloud & Sistemas">
-    <meta id="og-desc" property="og:description" content="Arquitecturas cloud, sistemas distribuidos, utilidades POSIX en C99, algoritmos & IoT embebido.">
+    <meta id="og-title" property="og:title" content="Ricardo Veronese - Cloud & Systems Engineer">
+    <meta id="og-desc" property="og:description" content="Cloud infrastructure, systems tools in C99, algorithms, and embedded IoT.">
     <meta property="og:image" content="https://riccivr.github.io/riccivr-retro.png">
     <meta property="og:site_name" content="Ricardo Veronese">
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta id="tw-title" name="twitter:title" content="Ricardo Veronese - Ingeniero de Cloud & Sistemas">
-    <meta id="tw-desc" name="twitter:description" content="Arquitecturas cloud, sistemas distribuidos, utilidades POSIX en C99, algoritmos & IoT embebido.">
+    <meta id="tw-title" name="twitter:title" content="Ricardo Veronese - Cloud & Systems Engineer">
+    <meta id="tw-desc" name="twitter:description" content="Cloud infrastructure, systems tools in C99, algorithms, and embedded IoT.">
     <meta name="twitter:image" content="https://riccivr.github.io/riccivr-retro.png">
 
     <!-- Schema.org JSON-LD Structured Data -->
@@ -51,7 +51,6 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        // Immediately apply saved or system theme and language to avoid FOUC
         (function() {
             const savedTheme = localStorage.getItem('riccivr-theme');
             const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
@@ -171,16 +170,16 @@
 
         <header class="p-3 theme-bg-header border-b theme-border flex flex-wrap justify-between items-center gap-2">
             <div class="flex items-center space-x-2">
-                <span class="text-xs theme-text-muted tracking-wider font-bold" id="sys-id-label">ID.SISTEMA: riccivr</span>
+                <span class="text-xs theme-text-muted tracking-wider font-bold" id="sys-id-label">SYS.ID: riccivr</span>
             </div>
             <div class="flex items-center space-x-2 sm:space-x-3">
-                <button id="lang-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Alternar idioma / Toggle Language [I]">
+                <button id="lang-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Alternar idioma / Toggle language [I]">
                     [LANG: ES]
                 </button>
-                <button id="keys-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Alternar atajos de navegación por teclado">
+                <button id="keys-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Alternar atajos de teclado / Toggle keyboard shortcuts">
                     [TECLAS: ACT]
                 </button>
-                <button id="theme-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Alternar tema (CRT / Papel)">
+                <button id="theme-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Alternar tema / Toggle theme (CRT / Papel)">
                     [MODO: CRT]
                 </button>
                 <span id="status-label" class="theme-text-main text-xs sm:text-sm font-bold uppercase tracking-wider">
@@ -212,7 +211,7 @@
 
                 <div class="mt-4 pt-4 border-t theme-border-subtle flex flex-col sm:flex-row sm:items-center justify-between">
                     <div id="bio-motto" class="text-xs theme-text-muted mb-4 sm:mb-0">
-                        Diseñando arquitecturas cloud resilientes y sistemas de bajo nivel sin rodeos.
+                        Trabajo armando infraestructura cloud en el día a día y escribiendo herramientas en C en mi tiempo libre.
                     </div>
 
                     <div class="flex flex-wrap gap-2 sm:gap-3">
@@ -259,12 +258,12 @@
                                 <span id="approx-sub" class="text-xs theme-text-muted font-bold">Filtro y ranker difuso para streams POSIX (no interactivo)</span>
                             </div>
                             <div id="approx-badge" class="text-xs theme-text-muted text-right whitespace-nowrap font-semibold">
-                                Enfoque Activo
+                                Activo
                             </div>
                         </header>
                         <div class="text-sm leading-relaxed theme-text-main mt-2">
                             <p id="approx-desc" class="mb-3">
-                                CLI ultraligera en C99 con cero dependencias que califica, filtra y ordena streams de texto usando distancia aproximada normalizada de cadenas. Coincidencia por programación dinámica O(M) optimizada en memoria para pipelines UNIX, scripts de shell y sistemas embedded / IoT con recursos limitados donde las TUIs interactivas no aplican.
+                                Herramienta CLI en C99 para filtrar y ordenar texto en streams usando coincidencia difusa. Usa memoria O(M) con programación dinámica. La hice para meterla en scripts, pipelines UNIX y dispositivos pequeños donde no hace falta una interfaz interactiva como fzf.
                             </p>
                             <div class="flex flex-wrap gap-2 my-2">
                                 <span class="text-xs border theme-border px-2 py-0.5 font-semibold">C99</span>
@@ -287,15 +286,15 @@
                         <header class="flex justify-between items-start mb-2">
                             <div>
                                 <h2 class="font-bold text-lg theme-text-heading">unipaste</h2>
-                                <span id="unipaste-sub" class="text-xs theme-text-muted font-bold">Stream formatter universal de HTML y texto enriquecido para el portapapeles</span>
+                                <span id="unipaste-sub" class="text-xs theme-text-muted font-bold">Formateador universal de streams HTML y texto enriquecido para el portapapeles</span>
                             </div>
                             <div id="unipaste-badge" class="text-xs theme-text-muted text-right whitespace-nowrap font-semibold">
-                                Enfoque Activo
+                                Activo
                             </div>
                         </header>
                         <div class="text-sm leading-relaxed theme-text-main mt-2">
                             <p id="unipaste-desc" class="mb-3">
-                                Stream parser en C99 / POSIX sin dependencias que convierte payloads enredados del portapapeles y HTML enriquecido en Markdown estructurado, tablas ASCII/Unicode en cajas, code fences y task lists jerárquicas. Incluye decoding exhaustivo de entidades HTML, manejo de headers CF_HTML de Windows y arquitectura de plugins modulares en compilación con cero sobrecarga.
+                                Parser en C99 que agarra el HTML del portapapeles y lo convierte en Markdown limpio. Convierte tablas a cajas ASCII, parsea listas de tareas, decodifica entidades HTML y quita los headers de Windows sin depender de navegadores ni librerías pesadas.
                             </p>
                             <div class="flex flex-wrap gap-2 my-2">
                                 <span class="text-xs border theme-border px-2 py-0.5 font-semibold">C99</span>
@@ -321,12 +320,12 @@
                                 <span id="clipbridge-sub" class="text-xs theme-text-muted font-bold">Daemon y bridge universal de portapapeles potenciado por unipaste</span>
                             </div>
                             <div id="clipbridge-badge" class="text-xs theme-text-muted text-right whitespace-nowrap font-semibold">
-                                Enfoque Activo
+                                Activo
                             </div>
                         </header>
                         <div class="text-sm leading-relaxed theme-text-main mt-2">
                             <p id="clipbridge-desc" class="mb-3">
-                                Daemon multiplataforma para escuchar eventos nativos del portapapeles (APIs de secuencia Win32 / POSIX) integrado directamente con el motor de formateo de unipaste. Intercepta texto enriquecido copiado desde Slack, Teams, browsers o apps de Electron y actualiza el slot de texto plano al instante con zero polling overhead.
+                                Daemon para Windows y Linux que escucha el portapapeles en segundo plano. Cuando copias texto de Slack, Teams o el navegador, le pasa el HTML a unipaste y actualiza tu portapapeles de texto plano al instante con Markdown listo para pegar.
                             </p>
                             <div class="flex flex-wrap gap-2 my-2">
                                 <span class="text-xs border theme-border px-2 py-0.5 font-semibold">C99</span>
@@ -348,7 +347,7 @@
 
                 <div id="blog-content" class="content-section hidden space-y-6">
                     <p id="blog-section-intro" class="theme-text-muted mb-2 text-xs font-semibold">
-                        // Artículos técnicos, arquitectura de sistemas & research
+                        // Artículos técnicos, arquitectura de sistemas y notas de trabajo
                     </p>
 
                     <!-- Latest Log Entry -->
@@ -369,7 +368,7 @@
                         </h2>
 
                         <p id="featured-post-summary" class="text-sm leading-relaxed theme-text-main mb-4">
-                            Una guía práctica para el descubrimiento web moderno: renderizado static-first, etiquetas DOM semánticas, estándar llms.txt, atribución con Schema.org JSON-LD y crawl governance con criterio para bots de IA.
+                            Pasos prácticos para que tu sitio sea fácil de rastrear e indexar por agentes de búsqueda de IA sin sobrecargar tu servidor: HTML estático, etiquetas semánticas, llms.txt y Schema.org.
                         </p>
 
                         <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t theme-border-dim">
@@ -386,7 +385,7 @@
                     </article>
 
                     <div class="p-4 border theme-border-subtle theme-bg-card-alt flex flex-col sm:flex-row justify-between items-center gap-3">
-                        <span id="blog-banner-text" class="text-xs theme-text-main font-semibold">¿Buscando más artículos técnicos y deep dives?</span>
+                        <span id="blog-banner-text" class="text-xs theme-text-main font-semibold">¿Quieres ver más artículos y experimentos?</span>
                         <a href="./blog/" id="blog-banner-btn" class="interactive-link border theme-border px-4 py-1.5 text-xs uppercase font-bold" style="background-color: var(--bg-badge);">
                             [VER TODOS LOS POSTS ->]
                         </a>
@@ -395,12 +394,12 @@
 
                 <div id="skills-content" class="content-section hidden">
                     <p id="skills-intro" class="theme-text-muted mb-4 text-xs font-semibold">
-                        // Core Technical Proficiencies & Focus Areas
+                        // Competencias técnicas y herramientas de uso diario
                     </p>
                     
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
                         <div class="border theme-border-subtle theme-bg-card p-4">
-                            <h3 id="skill-card-1-title" class="text-base font-bold border-b theme-border-subtle pb-1 mb-3 theme-text-heading">CLOUD & DISTRIBUTED SYSTEMS</h3>
+                            <h3 id="skill-card-1-title" class="text-base font-bold border-b theme-border-subtle pb-1 mb-3 theme-text-heading">CLOUD & SISTEMAS DISTRIBUIDOS</h3>
                             <ul id="skill-card-1-list" class="list-none space-y-1.5 pl-1 theme-text-main">
                                 <li class="flex items-center">
                                     <span class="theme-text-muted mr-2 font-bold">></span> <strong>AWS</strong> &nbsp;(Lambda, ECS, S3, RDS, DynamoDB, API GW)
@@ -409,13 +408,13 @@
                                     <span class="theme-text-muted mr-2 font-bold">></span> <strong>Infrastructure as Code</strong> &nbsp;(AWS CDK, CloudFormation)
                                 </li>
                                 <li class="flex items-center">
-                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>TypeScript & Node.js</strong> &nbsp;(Backend services, APIs)
+                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>TypeScript & Node.js</strong> &nbsp;(Servicios backend, APIs)
                                 </li>
                                 <li class="flex items-center">
-                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>Python</strong> &nbsp;(Automation, tooling, data processing)
+                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>Python</strong> &nbsp;(Automatización, herramientas, procesamiento de datos)
                                 </li>
                                 <li class="flex items-center">
-                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>Rust</strong> &nbsp;(Sistemas de alto rendimiento & tooling)
+                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>Rust</strong> &nbsp;(Herramientas de alto rendimiento y utilidades)
                                 </li>
                                 <li class="flex items-center">
                                     <span class="theme-text-muted mr-2 font-bold">></span> <strong>CI/CD & Containers</strong> &nbsp;(GitHub Actions, Docker)
@@ -424,22 +423,22 @@
                         </div>
                         
                         <div class="border theme-border-subtle theme-bg-card p-4">
-                            <h3 id="skill-card-2-title" class="text-base font-bold border-b theme-border-subtle pb-1 mb-3 theme-text-heading">SYSTEMS, EMBEDDED & IOT</h3>
+                            <h3 id="skill-card-2-title" class="text-base font-bold border-b theme-border-subtle pb-1 mb-3 theme-text-heading">SISTEMAS, EMBEDDED & IOT</h3>
                             <ul id="skill-card-2-list" class="list-none space-y-1.5 pl-1 theme-text-main">
                                 <li class="flex items-center">
-                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>C99 / POSIX</strong> &nbsp;(Zero-dependency UNIX utilities)
+                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>C99 / POSIX</strong> &nbsp;(Utilidades UNIX con cero dependencias)
                                 </li>
                                 <li class="flex items-center">
-                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>Embedded Systems & IoT</strong> &nbsp;(Microcontrollers, sensors, firmware)
+                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>Sistemas embebidos e IoT</strong> &nbsp;(Microcontroladores, sensores, firmware)
                                 </li>
                                 <li class="flex items-center">
-                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>APIs de Win32 & Linux</strong> &nbsp;(OS events, daemons, IPC)
+                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>APIs de Win32 & Linux</strong> &nbsp;(Eventos del SO, daemons, IPC)
                                 </li>
                                 <li class="flex items-center">
-                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>Memory-Bounded Algorithms</strong> &nbsp;(Stream filters, parsers)
+                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>Algoritmos de memoria acotada</strong> &nbsp;(Filtros de streams, parsers)
                                 </li>
                                 <li class="flex items-center">
-                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>Testing & Sanitizers</strong> &nbsp;(ASan, UBSan, fuzzing)
+                                    <span class="theme-text-muted mr-2 font-bold">></span> <strong>Pruebas y sanitizadores</strong> &nbsp;(ASan, UBSan, fuzzing)
                                 </li>
                             </ul>
                         </div>
@@ -448,7 +447,7 @@
 
                 <div id="contact-content" class="content-section hidden">
                     <p id="contact-intro" class="theme-text-muted mb-4 text-xs font-semibold">
-                        // Canales de comunicación directa
+                        // Canales de contacto
                     </p>
 
                     <div class="text-sm space-y-3">
@@ -491,9 +490,9 @@
     <script>
         const i18n = {
             es: {
-                metaTitle: "Ricardo Veronese - Ingeniero de Cloud & Sistemas",
-                metaDesc: "Ricardo Veronese - Cloud & Full-Stack Systems Engineer. AWS CDK, TypeScript, Python, Rust, C99, sistemas de bajo nivel POSIX & IoT embebido.",
-                sysId: "ID.SISTEMA: riccivr",
+                metaTitle: "Ricardo Veronese - Cloud & Systems Engineer",
+                metaDesc: "Ricardo Veronese. Ingeniero de cloud y sistemas. AWS CDK, TypeScript, Python, Rust, C99, sistemas de bajo nivel POSIX e IoT embebido.",
+                sysId: "SYS.ID: riccivr",
                 status: "ESTADO: EN LÍNEA",
                 langToggle: "[LANG: ES]",
                 keysOn: "[TECLAS: ACT]",
@@ -502,7 +501,7 @@
                 modePaper: "[MODO: PAPEL]",
                 bioRole: "Cloud & Full-Stack Engineer en Enroly",
                 bioStack: "AWS · CDK · TypeScript · Python · Rust · C99 · Embedded / IoT",
-                bioMotto: "Diseñando arquitecturas cloud resilientes y sistemas de bajo nivel sin rodeos.",
+                bioMotto: "Trabajo armando infraestructura cloud en el día a día y escribiendo herramientas en C en mi tiempo libre.",
                 navBlog: "[B] Blog",
                 navEmail: "[C] Correo",
                 tabProjects: "PROYECTOS ACTIVOS",
@@ -510,53 +509,53 @@
                 tabSkills: "STACK & SKILLS",
                 tabContact: "CONTACTO",
                 approxSub: "Filtro y ranker difuso para streams POSIX (no interactivo)",
-                approxBadge: "Enfoque Activo",
-                approxDesc: "CLI ultraligera en C99 con cero dependencias que califica, filtra y ordena streams de texto usando distancia aproximada normalizada de cadenas. Coincidencia por programación dinámica O(M) optimizada en memoria para pipelines UNIX, scripts de shell y sistemas embedded / IoT con recursos limitados donde las TUIs interactivas no aplican.",
+                approxBadge: "Activo",
+                approxDesc: "Herramienta CLI en C99 para filtrar y ordenar texto en streams usando coincidencia difusa. Usa memoria O(M) con programación dinámica. La hice para meterla en scripts, pipelines UNIX y dispositivos pequeños donde no hace falta una interfaz interactiva como fzf.",
                 approxRepo: "[G] Repo",
-                unipasteSub: "Stream formatter universal de HTML y texto enriquecido para el portapapeles",
-                unipasteBadge: "Enfoque Activo",
-                unipasteDesc: "Stream parser en C99 / POSIX sin dependencias que convierte payloads enredados del portapapeles y HTML enriquecido en Markdown estructurado, tablas ASCII/Unicode en cajas, code fences y task lists jerárquicas. Incluye decoding exhaustivo de entidades HTML, manejo de headers CF_HTML de Windows y arquitectura de plugins modulares en compilación con cero sobrecarga.",
+                unipasteSub: "Formateador universal de streams HTML y texto enriquecido para el portapapeles",
+                unipasteBadge: "Activo",
+                unipasteDesc: "Parser en C99 que agarra el HTML del portapapeles y lo convierte en Markdown limpio. Convierte tablas a cajas ASCII, parsea listas de tareas, decodifica entidades HTML y quita los headers de Windows sin depender de navegadores ni librerías pesadas.",
                 unipasteRepo: "[G] Repo",
                 clipbridgeSub: "Daemon y bridge universal de portapapeles potenciado por unipaste",
-                clipbridgeBadge: "Enfoque Activo",
-                clipbridgeDesc: "Daemon multiplataforma para escuchar eventos nativos del portapapeles (APIs de secuencia Win32 / POSIX) integrado directamente con el motor de formateo de unipaste. Intercepta texto enriquecido copiado desde Slack, Teams, browsers o apps de Electron y actualiza el slot de texto plano al instante con zero polling overhead.",
+                clipbridgeBadge: "Activo",
+                clipbridgeDesc: "Daemon para Windows y Linux que escucha el portapapeles en segundo plano. Cuando copias texto de Slack, Teams o el navegador, le pasa el HTML a unipaste y actualiza tu portapapeles de texto plano al instante con Markdown listo para pegar.",
                 clipbridgeRepo: "[G] Repo",
-                blogIntro: "// Artículos técnicos, arquitectura de sistemas & research",
+                blogIntro: "// Artículos técnicos, arquitectura de sistemas y notas de trabajo",
                 featuredTag: "POST_2026.08.30 // WEB STANDARDS & CLOUD",
                 featuredReading: "Lectura: ~6 min",
                 featuredTitle: "Ser un buen ciudadano de la red en la era de la IA: Guía moderna para el rastreo y descubrimiento web",
-                featuredSummary: "Una guía práctica para el descubrimiento web moderno: renderizado static-first, etiquetas DOM semánticas, estándar llms.txt, atribución con Schema.org JSON-LD y crawl governance con criterio para bots de IA.",
+                featuredSummary: "Pasos prácticos para que tu sitio sea fácil de rastrear e indexar por agentes de búsqueda de IA sin sobrecargar tu servidor: HTML estático, etiquetas semánticas, llms.txt y Schema.org.",
                 featuredBadges: ["#Web Standards", "#IA", "#SEO", "#Semantic Web"],
                 featuredBtn: "[LEER ARTÍCULO ->]",
-                blogBannerText: "¿Buscando más artículos técnicos y deep dives?",
+                blogBannerText: "¿Quieres ver más artículos y experimentos?",
                 blogBannerBtn: "[VER TODOS LOS POSTS ->]",
-                skillsIntro: "// Core Technical Proficiencies & Focus Areas",
-                skillCard1Title: "CLOUD & DISTRIBUTED SYSTEMS",
+                skillsIntro: "// Competencias técnicas y herramientas de uso diario",
+                skillCard1Title: "CLOUD & SISTEMAS DISTRIBUIDOS",
                 skillCard1List: [
                     "<strong>AWS</strong> &nbsp;(Lambda, ECS, S3, RDS, DynamoDB, API GW)",
                     "<strong>Infrastructure as Code</strong> &nbsp;(AWS CDK, CloudFormation)",
                     "<strong>TypeScript & Node.js</strong> &nbsp;(Servicios backend, APIs)",
-                    "<strong>Python</strong> &nbsp;(Automation, tooling, procesamiento de datos)",
-                    "<strong>Rust</strong> &nbsp;(Sistemas de alto rendimiento & tooling)",
+                    "<strong>Python</strong> &nbsp;(Automatización, herramientas, procesamiento de datos)",
+                    "<strong>Rust</strong> &nbsp;(Herramientas de alto rendimiento y utilidades)",
                     "<strong>CI/CD & Containers</strong> &nbsp;(GitHub Actions, Docker)"
                 ],
-                skillCard2Title: "SYSTEMS, EMBEDDED & IOT",
+                skillCard2Title: "SISTEMAS, EMBEDDED & IOT",
                 skillCard2List: [
-                    "<strong>C99 / POSIX</strong> &nbsp;(Zero-dependency UNIX utilities)",
-                    "<strong>Embedded Systems & IoT</strong> &nbsp;(Microcontrollers, sensors, firmware)",
-                    "<strong>APIs de Win32 & Linux</strong> &nbsp;(OS events, daemons, IPC)",
-                    "<strong>Memory-Bounded Algorithms</strong> &nbsp;(Stream filters, parsers)",
-                    "<strong>Testing & Sanitizers</strong> &nbsp;(ASan, UBSan, fuzzing)"
+                    "<strong>C99 / POSIX</strong> &nbsp;(Utilidades UNIX con cero dependencias)",
+                    "<strong>Sistemas embebidos e IoT</strong> &nbsp;(Microcontroladores, sensores, firmware)",
+                    "<strong>APIs de Win32 & Linux</strong> &nbsp;(Eventos del SO, daemons, IPC)",
+                    "<strong>Algoritmos de memoria acotada</strong> &nbsp;(Filtros de streams, parsers)",
+                    "<strong>Pruebas y sanitizadores</strong> &nbsp;(ASan, UBSan, fuzzing)"
                 ],
-                contactIntro: "// Canales de comunicación directa",
+                contactIntro: "// Canales de contacto",
                 contactEmailLabel: "EMAIL:",
                 contactEmailBtn: "Enviar",
                 contactOpenBtn: "Abrir",
                 footerText: "Cloud Architecture · Embedded & Systems"
             },
             en: {
-                metaTitle: "Ricardo Veronese - Systems & Cloud Engineer",
-                metaDesc: "Ricardo Veronese - Cloud & Full-Stack Systems Engineer. AWS CDK, TypeScript, Python, Rust, C99, POSIX low-level systems & embedded IoT.",
+                metaTitle: "Ricardo Veronese - Cloud & Systems Engineer",
+                metaDesc: "Ricardo Veronese. Cloud and systems engineer. AWS CDK, TypeScript, Python, Rust, C99, POSIX low-level systems, and embedded IoT.",
                 sysId: "SYS.ID: riccivr",
                 status: "STATUS: ONLINE",
                 langToggle: "[LANG: EN]",
@@ -566,53 +565,53 @@
                 modePaper: "[MODE: PAPER]",
                 bioRole: "Cloud & Full-Stack Engineer at Enroly",
                 bioStack: "AWS · CDK · TypeScript · Python · Rust · C99 · Embedded / IoT",
-                bioMotto: "Designing resilient cloud architectures & low-level systems.",
+                bioMotto: "I build cloud infrastructure at work and write low-level C tools at home.",
                 navBlog: "[B] Blog",
                 navEmail: "[C] Email",
                 tabProjects: "ACTIVE PROJECTS",
                 tabBlog: "LOGS & ARTICLES",
                 tabSkills: "STACK & SKILLS",
                 tabContact: "CONTACT",
-                approxSub: "Non-interactive POSIX fuzzy stream filter & ranker",
-                approxBadge: "Active Focus",
-                approxDesc: "Lightweight, zero-dependency C99 CLI utility that scores, filters, and ranks streaming text using normalized approximate string distance. Space-optimized O(M) dynamic programming matching designed for automated UNIX pipelines, shell scripts, and resource-constrained embedded / IoT systems where interactive TUIs are unsuitable.",
+                approxSub: "Non-interactive POSIX fuzzy stream filter and ranker",
+                approxBadge: "Active",
+                approxDesc: "A small C99 CLI tool that filters and sorts streams of text using fuzzy string matching. It uses an O(M) memory layout with dynamic programming. Built for automated UNIX pipelines, cron jobs, and small devices where you want fuzzy filtering without an interactive terminal UI like fzf.",
                 approxRepo: "[G] Repo",
-                unipasteSub: "Universal rich-text & HTML clipboard stream formatter",
-                unipasteBadge: "Active Focus",
-                unipasteDesc: "Zero-dependency POSIX C99 stream parser converting mangled clipboard payloads and rich HTML into structured Markdown, ASCII/Unicode box tables, code fences, and hierarchical task lists. Includes comprehensive HTML entity decoding, Windows CF_HTML header handling, and a compile-time modular plugin architecture for zero-overhead sanitization.",
+                unipasteSub: "Universal rich-text and HTML clipboard stream formatter",
+                unipasteBadge: "Active",
+                unipasteDesc: "A C99 stream parser that turns messy clipboard HTML into clean Markdown. It formats tables into ASCII boxes, parses task lists, decodes HTML entities, and strips Windows CF_HTML headers without running a heavy runtime or browser engine.",
                 unipasteRepo: "[G] Repo",
                 clipbridgeSub: "Universal clipboard bridge daemon powered by unipaste",
-                clipbridgeBadge: "Active Focus",
-                clipbridgeDesc: "Cross-platform clipboard listener daemon integrating native OS event listeners (Win32 clipboard sequence APIs / POSIX) directly with the unipaste formatting engine. Automatically intercepts rich text copied from Slack, Teams, browsers, or Electron apps and upgrades the plain-text clipboard slot on the fly with zero polling overhead.",
+                clipbridgeBadge: "Active",
+                clipbridgeDesc: "A background daemon that listens for OS clipboard events on Windows and Linux. When you copy rich text from apps like Slack, Teams, or browsers, it runs the HTML through unipaste and writes clean Markdown straight into your plain text clipboard slot.",
                 clipbridgeRepo: "[G] Repo",
-                blogIntro: "// Technical Writing, System Architecture Logs & Research",
-                featuredTag: "LOG_2026.08.30 // WEB STANDARDS & CLOUD",
-                featuredReading: "Reading Time: ~6 min",
+                blogIntro: "// Technical notes, systems architecture writeups, and research",
+                featuredTag: "POST_2026.08.30 // WEB STANDARDS & CLOUD",
+                featuredReading: "Reading time: ~6 min",
                 featuredTitle: "Being a Good Net Citizen in the AI Era: A Guide to Modern Web Discoverability",
-                featuredSummary: "A pragmatic guide to modern web discoverability: static-first rendering, semantic DOM tagging, llms.txt standards, Schema.org JSON-LD attribution, and nuanced AI bot governance.",
+                featuredSummary: "Practical steps to make your site easy for AI search agents to index without overloading your server: static HTML, semantic tags, llms.txt, and Schema.org.",
                 featuredBadges: ["#Web Standards", "#AI", "#SEO", "#Semantic Web"],
-                featuredBtn: "[READ LOG ->]",
-                blogBannerText: "Looking for more technical writeups and deep dives?",
+                featuredBtn: "[READ POST ->]",
+                blogBannerText: "Looking for more writeups and experiments?",
                 blogBannerBtn: "[BROWSE ALL POSTS ->]",
-                skillsIntro: "// Core Technical Proficiencies & Focus Areas",
+                skillsIntro: "// Daily tools and engineering focus",
                 skillCard1Title: "CLOUD & DISTRIBUTED SYSTEMS",
                 skillCard1List: [
                     "<strong>AWS</strong> &nbsp;(Lambda, ECS, S3, RDS, DynamoDB, API GW)",
                     "<strong>Infrastructure as Code</strong> &nbsp;(AWS CDK, CloudFormation)",
                     "<strong>TypeScript & Node.js</strong> &nbsp;(Backend services, APIs)",
                     "<strong>Python</strong> &nbsp;(Automation, tooling, data processing)",
-                    "<strong>Rust</strong> &nbsp;(High-performance systems & tooling)",
+                    "<strong>Rust</strong> &nbsp;(High-performance tools and utilities)",
                     "<strong>CI/CD & Containers</strong> &nbsp;(GitHub Actions, Docker)"
                 ],
-                skillCard2Title: "SYSTEMS & EMBEDDED / IOT",
+                skillCard2Title: "SYSTEMS, EMBEDDED & IOT",
                 skillCard2List: [
                     "<strong>C99 / POSIX</strong> &nbsp;(Zero-dependency UNIX utilities)",
-                    "<strong>Embedded Systems & IoT</strong> &nbsp;(Microcontrollers, sensors, firmware)",
+                    "<strong>Embedded systems and IoT</strong> &nbsp;(Microcontrollers, sensors, firmware)",
                     "<strong>Win32 & Linux APIs</strong> &nbsp;(OS events, daemons, IPC)",
-                    "<strong>Memory-Bounded Algorithms</strong> &nbsp;(Stream filters, parsers)",
-                    "<strong>Testing & Sanitizers</strong> &nbsp;(ASan, UBSan, fuzzing)"
+                    "<strong>Memory-bounded algorithms</strong> &nbsp;(Stream filters, parsers)",
+                    "<strong>Testing & sanitizers</strong> &nbsp;(ASan, UBSan, fuzzing)"
                 ],
-                contactIntro: "// Direct Communication Channels",
+                contactIntro: "// Direct contact",
                 contactEmailLabel: "EMAIL:",
                 contactEmailBtn: "Send",
                 contactOpenBtn: "Open",
@@ -703,7 +702,6 @@
             let currentLang = getLanguage();
             applyLanguage(currentLang);
 
-            // Lang toggle button
             const langBtn = document.getElementById('lang-toggle');
             langBtn.addEventListener('click', () => {
                 currentLang = currentLang === 'es' ? 'en' : 'es';
@@ -711,7 +709,6 @@
                 applyLanguage(currentLang);
             });
 
-            // Theme toggle handling
             const themeBtn = document.getElementById('theme-toggle');
             
             function updateThemeBtn() {
@@ -735,7 +732,6 @@
 
             updateThemeBtn();
 
-            // Keyboard shortcuts toggle handling
             const keysToggleBtn = document.getElementById('keys-toggle');
             function areKeysEnabled() {
                 return localStorage.getItem('riccivr-keys') !== 'off';
@@ -755,7 +751,6 @@
             });
             updateKeysBtn();
 
-            // Tabs handling
             const tabs = document.querySelectorAll('.tab-button');
             const contents = document.querySelectorAll('.content-section');
             let currentTabId = 'projects-content';
@@ -815,7 +810,6 @@
                 }, 200);
             }
 
-            // Keyboard shortcut dispatcher
             document.addEventListener('keydown', (e) => {
                 if (!areKeysEnabled()) {
                     return;

@@ -1,78 +1,71 @@
-# Being a Good Net Citizen in the AI Era: A Guide to Modern Web Discoverability
+# Being a good net citizen in the AI era: a guide to web discoverability
 
-*Published: August 30, 2026 · Category: Web Standards & Cloud · Reading Time: ~6 min*
+*Published: August 30, 2026. Category: Web Standards & Cloud. Reading time: ~5 min*
 *Tags: Web Standards, AI, SEO, Crawlers, Architecture, Semantic Web*
 
 ---
 
-The way information is discovered, indexed, and cited across the internet is undergoing its most profound transformation since the invention of the search engine. 
+Search engines changed the web by indexing links. Now automated agents, RAG pipelines, and LLM search tools like Perplexity and Claude are crawling sites to answer user queries directly.
 
-For decades, website owners optimized content for traditional search engine algorithms—ranking for keywords, building backlink profiles, and tuning meta tags for human searchers clicking blue links. 
+If a crawler needs to run 15MB of client-side JavaScript just to see your content, it will drop the connection. Many AI agents run on strict token and latency budgets and do not execute JavaScript.
 
-Today, web traffic and discovery are increasingly mediated by **autonomous AI agents, retrieval-augmented generation (RAG) pipelines, and semantic search engines** (Perplexity, ChatGPT Search, Gemini, Claude, and specialized research scrapers). 
-
-If an AI agent cannot deterministically parse your architecture, understand your authorship, or extract your technical documentation without executing 15MB of client-side JavaScript, your content effectively does not exist.
-
-Here is a pragmatic guide to being a "good net citizen" in the AI era—ensuring your website is seamlessly discoverable, machine-readable, and respectably indexed.
+Here are practical steps to make a site readable for machines without wasting server bandwidth or fighting crawlers.
 
 ---
 
-## 1. Static-First & Semantic HTML (The Anti-Hydration Advantage)
+## 1. Static-first HTML and real semantic tags
 
-Many modern AI ingestors, research scrapers, and headless crawlers operate under strict latency and token budgets. While Googlebot can afford to spin up headless Chromium instances to render bloated client-side Single Page Applications (SPAs), many autonomous agents and lightweight indexers **do not execute JavaScript at all** or time out after 500ms.
+Googlebot can spin up headless Chromium instances to render complex single page apps. Most smaller crawlers and AI search bots do not do that. They make a basic GET request and expect raw text back.
 
 ```
-AI Crawler Request (GET /article)
+Crawler GET request (/article)
          │
-         ├── [Heavy Client-side SPA] ──> Returns <div id="root"></div> ──> ❌ Content Dropped
+         ├── Heavy client SPA ──> Returns <div id="root"></div> ──> Dropped
          │
-         └── [Static Pre-rendered HTML] ──> Returns clean semantic DOM  ──> ✅ Instant Ingestion
+         └── Static HTML      ──> Returns complete semantic DOM ──> Parsed
 ```
 
-### Best Practices:
-- **Server-Side Render (SSR) or Pre-Render Static HTML**: Ensure that the raw `GET` response contains the full article body, code fences, and headings before any client scripts run.
-- **Semantic Structure**: Use standard HTML5 tags (`<main>`, `<article>`, `<header>`, `<nav>`, `<aside>`, `<time datetime="...">`). AI parsers use these tags to isolate primary prose from navigation bars, sidebars, and footer boilerplate.
-- **Meaningful Headings Hierarchy**: Organize topics with logical `<h1>` through `<h4>` hierarchies. LLM contextual chunking algorithms rely directly on heading boundaries to split documents into coherent embeddings.
+### What to do:
+- Return pre-rendered HTML. Make sure your articles and docs exist in the initial HTTP response before any client scripts run.
+- Use real HTML5 tags like `<main>`, `<article>`, `<header>`, `<nav>`, `<aside>`, and `<time>`. Parsers use these tags to separate article content from navigation bars and footers.
+- Use logical heading levels from `<h1>` to `<h4>`. LLM chunking algorithms split documents by headings when building context windows.
 
 ---
 
-## 2. Adopt `llms.txt` and Machine-Readable Text Feeds
+## 2. Host an `llms.txt` file and plain text feeds
 
-One of the most practical emergent web standards is the **[`llms.txt`](https://llmstxt.org/)** specification—a dedicated manifest file hosted at `/llms.txt` designed specifically for LLM context ingestion.
-
-Just as `/robots.txt` guides classical web crawlers, `/llms.txt` provides AI agents with a curated, lightweight markdown index of your website's most important documentation, tutorials, and architectural overviews.
+The `llms.txt` standard is a simple Markdown file hosted at `/llms.txt`. It gives LLMs a clean index of your most relevant pages and project docs without scraping junk.
 
 ```
-# Example /llms.txt
-# Ricardo Veronese - Technical Systems & Engineering
+# Ricardo Veronese
 
-> High-performance UNIX utilities, cloud architectures, and systems programming.
+> Systems tools in C99, cloud infrastructure, and algorithms.
 
 ## Projects
-- [approx](https://riccivr.github.io/): Non-interactive POSIX fuzzy stream filter in C99.
-- [unipaste](https://riccivr.github.io/): Universal rich-text clipboard formatting engine.
+- [approx](https://riccivr.github.io/): POSIX fuzzy stream filter in C99.
+- [unipaste](https://riccivr.github.io/): Clipboard HTML to Markdown formatter.
 
-## Core Articles
-- [Archiving the Web with Git](https://riccivr.github.io/blog/posts/preserving-the-web-with-git.md): Deep dive into Git-native web crawling.
-- [Can You Use GitHub as a Database?](https://riccivr.github.io/blog/posts/using-github-as-a-database.md): SQLite VFS over HTTP range queries.
+## Core articles
+- [Archiving the web with Git](https://riccivr.github.io/blog/posts/preserving-the-web-with-git.en.md): Git-native web crawling.
+- [Can you use GitHub as a database?](https://riccivr.github.io/blog/posts/using-github-as-a-database.en.md): SQLite VFS over HTTP range queries.
 ```
 
-### In Addition to `llms.txt`:
-- **Clean RSS / Atom / JSON Feeds**: Maintain an unadulterated feed at `/feed.xml` or `/blog/feed.xml`. AI agents and aggregators use feeds to track new publications with zero scraping overhead.
-- **Markdown Content Negotiation**: Where possible, support `Accept: text/markdown` or provide direct `.md` download mirrors for technical writeups.
+### Other useful feeds:
+- Keep an RSS or Atom feed at `/feed.xml`. AI agents and feed readers check this to find new articles without polling the entire site.
+- When possible, serve raw Markdown directly or provide `.md` mirrors of your technical writeups.
 
 ---
 
-## 3. Structured Data & Rich Schema.org Markup
+## 3. Structured data with Schema.org JSON-LD
 
-To ensure AI engines correctly attribute your name, publication timestamps, and code snippets, embed structured **JSON-LD** in the `<head>` of every article:
+To help AI search engines cite your name, original URL, and publication date correctly, put a small JSON-LD block in the `<head>` of each article.
 
 ```html
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "TechArticle",
-  "headline": "Archiving the Web with Git: Building a Content-Addressable Web Historian",
+  "headline": "Archiving the web with Git: building a content-addressable web historian",
   "author": {
     "@type": "Person",
     "name": "Ricardo Veronese",
@@ -80,24 +73,22 @@ To ensure AI engines correctly attribute your name, publication timestamps, and 
   },
   "datePublished": "2026-08-30",
   "dateModified": "2026-08-30",
-  "description": "An architectural deep dive into Git-native web archival and packfile delta compression.",
+  "description": "Using Git packfiles and low-level plumbing to archive web pages.",
   "dependencies": "C99, POSIX, Git"
 }
 </script>
 ```
 
-### Why This Matters:
-- **Canonical Attribution**: When an AI chatbot generates an answer citing your work, schema markup ensures your name and canonical link are correctly referenced rather than hallucinated or scraped without credit.
-- **Temporal Validity**: Explicit `datePublished` and `dateModified` timestamps help models assess whether documentation reflects current best practices or legacy APIs.
+When an agent cites your post in a summary, this schema helps it reference your canonical link and publication date instead of hallucinating details.
 
 ---
 
-## 4. Nuanced `robots.txt` & AI Crawl Governance
+## 4. Clear `robots.txt` rules
 
-In the AI era, blocking all bots with a blanket `User-agent: * Disallow: /` can inadvertently destroy your search presence. Modern site owners should differentiate between **model training scrapers** and **real-time search/citation crawlers**:
+Blocking all bots with `User-agent: * Disallow: /` removes your site from AI search indexes. It helps to separate live search crawlers from bulk training scrapers.
 
 ```txt
-# Allow search & citation bots so your site can be referenced
+# Allow search and citation crawlers
 User-agent: Google-Extended
 Allow: /
 
@@ -107,38 +98,37 @@ Allow: /
 User-agent: PerplexityBot
 Allow: /
 
-# Optionally manage large-scale bulk dataset training scrapers
+# Block bulk training scrapers if desired
 User-agent: CCBot
 Disallow: /telemetry/
 
-# Global Crawl Politeness
 Crawl-delay: 1
 Sitemap: https://riccivr.github.io/sitemap.xml
 ```
 
-- **Provide a Clean `sitemap.xml`**: Always specify accurate `<lastmod>` timestamps so crawlers don't repeatedly fetch unchanged historical pages, preserving both your bandwidth and the crawler's energy footprint.
+Always include a clean `sitemap.xml` with accurate `lastmod` dates so crawlers do not re-download unchanged pages.
 
 ---
 
-## 5. Clean HTTP Cache Headers & Politeness
+## 5. HTTP caching and server politeness
 
-A truly good net citizen respects server and network resources:
+Good sites respect both human visitors and automated tools.
 
-1. **Leverage `ETag` and `If-Modified-Since`**: Return `HTTP 304 Not Modified` whenever a crawler checks a page that has not changed. This drastically reduces CPU, CDN, and electrical overhead.
-2. **Avoid Aggressive Anti-Bot Captchas on Public Content**: Blocking standard `curl`, `python-requests`, or `fetch` requests with mandatory Cloudflare/browser challenges makes your public open-source documentation inaccessible to researchers, terminal users, and automated CLI tooling.
-3. **Transparent Open Graph Metadata**: Ensure `og:title`, `og:description`, `og:image`, and `rel="canonical"` are accurately declared.
+1. Support `ETag` and `If-Modified-Since` headers. Returning `HTTP 304 Not Modified` saves bandwidth for both you and the crawler.
+2. Avoid Cloudflare challenges or CAPTCHAs on public open-source documentation. Forcing interactive verification breaks tools like `curl`, CLI scrapers, and terminal readers.
+3. Set accurate Open Graph tags like `og:title`, `og:description`, and `rel="canonical"`.
 
 ---
 
-## Summary Checklist for Modern Website Owners
+## Summary
 
-| Area | Best Practice | Benefit |
+| Topic | Recommendation | Reason |
 | :--- | :--- | :--- |
-| **Rendering** | Static HTML / Server-Rendered DOM | Zero hydration latency, instant scraper parsing |
-| **Semantics** | Valid HTML5 `<article>`, `<main>`, `<time>` | Deterministic RAG chunking and context extraction |
-| **AI Indexing** | Host `/llms.txt` and clean RSS/Atom feeds | Direct token-efficient ingestion for AI agents |
-| **Attribution** | Schema.org JSON-LD (`TechArticle` / `Author`) | Reliable citation and author attribution in AI answers |
-| **Caching** | Support `ETag` and `304 Not Modified` | Bandwidth savings and green crawl efficiency |
-| **Governance** | Granular `robots.txt` + accurate `sitemap.xml` | Control AI training vs search citation access |
+| HTML rendering | Static HTML or server-rendered DOM | Fast parsing, zero client JS requirement |
+| Semantics | Standard HTML5 tags | Clean chunking for RAG pipelines |
+| Machine indexes | `/llms.txt` and `/feed.xml` | Low token consumption for AI agents |
+| Attribution | Schema.org JSON-LD | Accurate author and link citations |
+| Caching | `ETag` and `304 Not Modified` | Saves server bandwidth and energy |
+| Crawl policy | Clear `robots.txt` and `sitemap.xml` | Controls search bots vs bulk scrapers |
 
-Being a good net citizen today means building for both **humans and machines**: high-contrast readable design for users in their browsers, and clean, deterministic, semantic data for the autonomous agents navigating the web on their behalf.
+Building for the modern web means making content readable for people in browsers and easy to parse for automated tools.

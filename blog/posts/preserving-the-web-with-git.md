@@ -1,110 +1,94 @@
-# Archivar la web con Git: Construyendo un crawler e indexador histórico direccionable por contenido
+# Archivar la web con Git: construyendo un crawler e indexador histórico
 
-*Publicado: 30 de agosto de 2026 · Categoría: Sistemas & Arquitectura · Tiempo de lectura: ~6 min*
+*Publicado: 30 de agosto de 2026. Categoría: Sistemas & Arquitectura. Tiempo de lectura: ~5 min*
 *Etiquetas: Git, Web Archiving, Crawlers, Sistemas, C99, Arquitectura*
 
 ---
 
-La web moderna es notoriamente efímera. Las páginas mutan en silencio, la documentación desaparece durante rediseños corporativos, los términos de servicio se actualizan sin dejar diffs y los links se rompen a una velocidad descomunal.
+Las páginas web desaparecen todo el tiempo. Las empresas borran documentación durante rediseños, los términos de servicio cambian sin aviso y los enlaces se rompen.
 
-Aunque servicios públicos como la Wayback Machine de Internet Archive son brutales para preservar la historia visual, están pensados para ver páginas en el navegador y no para **queries programáticas locales, diffs instantáneos en la terminal e integración con pipelines UNIX automatizados**.
+La Wayback Machine de Internet Archive es excelente para navegar visualmente, pero no está hecha para correr diffs rápidos en local, hacer búsquedas con grep o automatizar tareas en scripts de shell.
 
-Últimamente he estado diseñando e investigando la arquitectura de una herramienta dedicada a crawlear, versionar e indexar el historial web directamente dentro de **repositorios Git**.
+He estado probando un enfoque distinto: crawlear páginas web y guardar su historial directamente en repositorios Git.
 
-Aquí te comparto los hallazgos técnicos, la mecánica interna y las consideraciones de arquitectura detrás de usar Git como un motor de archivado web distribuido y direccionable por contenido.
-
----
-
-## 1. ¿Por qué usar Git como motor de storage histórico?
-
-En el fondo, Git no es sólo un sistema de control de versiones para código; es un **sistema de archivos estructurado como grafo acíclico dirigido (DAG) y direccionable por contenido**, optimizado a muerte para rastrear texto en evolución.
-
-```
-+-------------------------------------------------------------+
-| CRAWLER PIPELINE                                            |
-|                                                             |
-| URL Fetch -> Sanitización DOM -> Normalización Markdown     |
-+-------------------------------------------------------------+
-                              |
-                   Commit atómico del árbol
-                              v
-+-------------------------------------------------------------+
-| GIT OBJECT STORE (.git/objects)                             |
-|                                                             |
-| Commit Object (Autor, Timestamp, Tree SHA)                  |
-|   └── Tree Object (ejemplo.com/docs/)                       |
-|         ├── Blob (index.md) -> Delta compression vs v1      |
-|         ├── Blob (metadata.json)                            |
-|         └── Blob (assets/hero.webp) -> SHA deduplicado      |
-+-------------------------------------------------------------+
-```
-
-### Ventajas Arquitectónicas Clave
-
-1. **Deduplicación direccionable por contenido**: 
-   Cada versión de página, bundle de CSS y asset de imagen se indexa mediante su hash criptográfico (SHA-1/SHA-256). Si 500 subpáginas crawleadas apuntan al mismo stylesheet o avatar, Git almacena el `blob` una sola vez en disco.
-2. **Delta compression en packfiles**:
-   Cuando un artículo o página de docs cambia apenas un párrafo, la compresión delta por sliding-window de Git (`git pack-objects`) guarda únicamente el byte delta. Sitios pesados crawleados cientos de veces apenas inflan el tamaño del repo comparado con guardar snapshots completos independientes.
-3. **Diffs e inspección histórica al instante**:
-   Los comandos nativos de Git se convierten en herramientas analíticas poderosas:
-   - `git diff v1.0..v2.0 -- ruta/a/pagina.md`: Visualización instantánea en la terminal de líneas agregadas y eliminadas.
-   - `git log -p -S "deprecated_feature"`: Auditoría histórica exacta de cuándo se introdujo o borró un parámetro o string en todo el dominio.
-   - `git bisect`: Búsqueda binaria automatizada en el historial para encontrar el commit exacto donde ocurrió un breaking change o regresión en un sitio externo.
+Aquí te muestro cómo funciona Git como motor de almacenamiento para archivar la web y lo que aprendí armando un prototipo.
 
 ---
 
-## 2. Pipeline de Ingesta y Normalización
+## 1. Por qué Git funciona bien como backend de almacenamiento
 
-El reto más bravo al archivar páginas web en Git es el **ruido no determinista**.
-
-Si haces commit del HTML crudo directo del response, cada crawl generará diffs falsos por culpa de:
-- Tokens CSRF efímeros, cookies de sesión y timestamps dinámicos.
-- Slots de publicidad, recomendaciones y IDs de DOM aleatorios.
-- Claves JSON desordenadas o variaciones arbitrarias de espacios en blanco.
+Git es un almacén de objetos direccionable por contenido estructurado como un grafo acíclico dirigido. Está pensado para rastrear cambios en archivos de texto ocupando el menor espacio posible en disco.
 
 ```
-Payload Web en Crudo
-     │
-     ▼
-[ Headless Fetch / HTTP Stream ]
-     │
-     ▼
-[ Sanitizador de DOM y Ad Stripper ] ──> (Elimina scripts, tracking pixels, atributos volátiles)
-     │
-     ▼
-[ Stream Parser (Motor tipo unipaste) ] ──> (Convierte el DOM enriquecido en Markdown canónico)
-     │
-     ▼
-[ Formateador Canónico ] ──> (Ordena links, normaliza URLs, limpia headers)
-     │
-     ▼
-[ Generador de Árbol Git ] ──> (Escribe objetos directamente sin checkout al working-tree)
+Pipeline del crawler
+Descarga URL -> Sanitización DOM -> Normalización a Markdown
+                       │
+                       ▼ Commit atómico
+Almacén de objetos Git (.git/objects)
+Commit (Autor, Timestamp, Hash del árbol)
+  └── Tree (ejemplo.com/docs/)
+        ├── Blob (index.md) -> Compresión delta
+        ├── Blob (metadata.json)
+        └── Blob (assets/hero.webp) -> Deduplicado por SHA
 ```
 
-### Estrategia: Storage en Dos Niveles
+### Ventajas prácticas:
 
-Para combinar la legibilidad humana con la fidelidad forense, cada snapshot se guarda en dos archivos:
+1. Deduplicación por contenido. Git indexa cada archivo por su hash criptográfico. Si 500 páginas crawleadas usan el mismo CSS o la misma imagen, Git guarda ese blob una sola vez.
+2. Compresión delta en packfiles. Cuando una página de documentación cambia una sola línea, los packfiles de Git (`git pack-objects`) guardan solo la diferencia en bytes. Crawlear un sitio cientos de veces no duplica el HTML completo en cada corrida.
+3. Herramientas estándar de Git. Tienes acceso inmediato a comandos nativos:
+   - `git diff v1..v2 -- ruta/a/pagina.md` te muestra los cambios exactos en la terminal.
+   - `git log -p -S "parametro_deprecado"` encuentra el commit exacto donde se agregó o borró una palabra en todo el historial.
+   - `git bisect` corre pruebas automáticas sobre los snapshots para encontrar cuándo un sitio externo rompió una API.
+
+---
+
+## 2. Ingesta y reducción de ruido
+
+El problema principal al meter HTML en Git es el ruido dinámico.
+
+Si haces commit del HTML crudo que devuelve el servidor, cada corrida genera diffs falsos por tokens CSRF, cookies de sesión, banners con fechas y bloques de publicidad aleatorios.
+
+```
+Respuesta HTTP en crudo
+       │
+       ▼
+[ Stream de descarga ]
+       │
+       ▼
+[ Sanitizador de DOM ] ──> Quita scripts, pixeles de rastreo y atributos variables
+       │
+       ▼
+[ Parser de streams ]  ──> Convierte el DOM limpio en Markdown normalizado
+       │
+       ▼
+[ Plomería de Git ]    ──> Escribe el commit directo en .git/objects
+```
+
+### Esquema de almacenamiento en dos archivos:
+
+Para tener diffs limpios sin perder la respuesta original, cada captura guarda dos archivos:
 
 ```
 archive/
   └── example.com/
         └── api/
               └── v1/
-                    ├── index.md        <-- Markdown normalizado (para git diffs limpios)
-                    ├── index.html.gz   <-- Payload HTML original comprimido intacto
-                    └── metadata.json   <-- Headers HTTP, status code, IP, TLS cert SHA, fecha
+                    ├── index.md        <-- Markdown limpio para git diff
+                    ├── index.html.gz   <-- HTML original comprimido intacto
+                    └── metadata.json   <-- Cabeceras HTTP, status code, IP, fecha
 ```
 
-- **`index.md`**: Permite diffs impecables e instantáneos en la terminal con tablas, code fences y listas estructuradas.
-- **`metadata.json`**: Guarda headers HTTP, content-types, redirect chains y resolución DNS.
+- `index.md` genera diffs legibles en terminal con tablas, bloques de código y listas.
+- `metadata.json` guarda cabeceras HTTP, cadenas de redirección y hashes de certificados TLS.
 
 ---
 
-## 3. Jerarquía y Sharding de Directorios
+## 3. Fragmentación de carpetas
 
-Al crawlear cientos de dominios o miles de URLs, meter todo en una carpeta plana colapsaría el rendimiento de inodos del filesystem y ralentizaría los recorridos del árbol de Git.
+Guardar miles de URLs en una sola carpeta afecta el rendimiento del sistema de archivos.
 
-La solución es una descomposición jerárquica que mapea las URLs directamente a rutas de archivos:
+Dividir la URL en subcarpetas mantiene los directorios ordenados y rápidos:
 
 ```
 https://docs.kernel.org/process/submitting-patches.html
@@ -115,38 +99,33 @@ https://docs.kernel.org/process/submitting-patches.html
                     └── metadata.json
 ```
 
-### Reglas de Sanitización de Rutas:
-- **Query Parameters**: Se ordenan alfabéticamente y se hashean o mapean a carpetas (`?page=2` -> `_params/page_2.json`).
-- **Caracteres reservados en el filesystem**: Los caracteres prohibidos en POSIX o Windows (`:`, `*`, `?`, `"`, `<`, `>`, `|`) se escapan de forma determinista usando percent-encoding o hashes seguros.
+Los parámetros de consulta (query params) se ordenan alfabéticamente y se guardan en carpetas dedicadas. Los caracteres reservados en POSIX y Windows (`:`, `*`, `?`, `"`, `<`, `>`, `|`) se reemplazan con hashes seguros.
 
 ---
 
-## 4. Estrategias de Rendimiento y Escalabilidad en Git
+## 4. Escribir directo a objetos para mayor velocidad
 
-Comandos de alto nivel como `git checkout` o `git add .` son lentos en repos gigantescos porque obligan al disco a leer y escribir cada archivo en el working tree.
+Comandos como `git add` y `git checkout` tocan el disco para cada archivo en el directorio de trabajo. En repositorios grandes con miles de páginas, las operaciones de disco se vuelven el cuello de botella.
 
-Para un crawler de alta velocidad, nos saltamos el working tree por completo y escribimos directo a la base de datos de objetos usando la **plomería de bajo nivel de Git** (o `libgit2` / bindings en C):
+Para una ingesta rápida, puedes saltarte el directorio de trabajo y escribir los objetos directo a `.git/objects` usando comandos de plomería de Git o librerías en C:
 
 ```
-1. Escribir Blob:     git hash-object -w <contenido>     -> devuelve Blob SHA
-2. Armar Árbol:       git mktree <definicion_arbol>      -> devuelve Tree SHA
-3. Crear Commit:      git commit-tree <tree_sha> -p HEAD -> devuelve Commit SHA
-4. Actualizar Ref:    git update-ref refs/heads/main <commit_sha>
+1. Escribir Blob:    git hash-object -w <contenido>     -> Hash del Blob
+2. Armar Árbol:      git mktree <definicion_arbol>      -> Hash del Árbol
+3. Crear Commit:     git commit-tree <hash_arbol> -p HEAD -> Hash del Commit
+4. Actualizar Rama:  git update-ref refs/heads/main <hash_commit>
 ```
 
-### Ventajas de Rendimiento:
-- **Cero I/O en el working tree**: Las instantáneas se inyectan en memoria directo a `.git/objects`.
-- **Commits en microsegundos**: Guardar miles de páginas modificadas toma milisegundos en vez de segundos.
-- **Mantenimiento automatizado**: Ejecutar periódicamente `git gc --prune=now` mantiene la compresión delta en niveles óptimos.
+Esto procesa los commits en memoria en milisegundos por lote. Ejecutar `git gc --prune=now` cada cierto tiempo mantiene los packfiles comprimidos.
 
 ---
 
-## 5. Próximos Pasos y Roadmap
+## 5. Estado del prototipo
 
-Actualmente estoy armando el prototipo de una herramienta CLI standalone basada en esta arquitectura:
+Estoy construyendo una herramienta CLI standalone basada en esta estructura:
 
-1. **Core en C99 / POSIX**: Fetcher y sanitizador de streams de alta velocidad con cero dependencias externas.
-2. **Motor Markdown Integrado**: Reutilizando la tecnología de parseo de streams de [`unipaste`](https://github.com/riccivr/unipaste) para generar tablas y code fences limpios.
-3. **Búsqueda Difusa en el Historial**: Integrando [`approx`](https://github.com/riccivr/approx) para hacer queries difusas ultra rápidas sobre el historial web archivado directamente desde la shell.
+1. Un motor central en C99 para descargas HTTP en streaming y limpieza sin librerías externas.
+2. Un parser de streams basado en la lógica de conversión a Markdown de [`unipaste`](https://github.com/riccivr/unipaste).
+3. Búsqueda rápida con [`approx`](https://github.com/riccivr/approx) para encontrar páginas en el historial usando coincidencia difusa desde la shell.
 
-¡Pronto estaré publicando benchmarks, el repo en open-source y análisis a fondo de la implementación!
+Publicaré benchmarks y el código abierto una vez que el núcleo en C esté estable.
