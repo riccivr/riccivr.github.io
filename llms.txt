@@ -8,11 +8,13 @@
 - [clipbridge](https://github.com/riccivr/clipbridge): Cross-platform universal clipboard listener daemon powered by unipaste.
 
 ## Engineering Logs & Articles
-- [Being a Good Net Citizen in the AI Era: A Guide to Modern Web Discoverability](https://riccivr.github.io/blog/posts/being-a-good-net-citizen-in-the-ai-era.md): Best practices for static-first HTML, semantic DOM structures, llms.txt, Schema.org JSON-LD, and AI agent crawlability.
-- [Archiving the Web with Git: Building a Content-Addressable Web Historian](https://riccivr.github.io/blog/posts/preserving-the-web-with-git.md): Deep dive into Git-native web archival, sliding-window delta compression, and high-velocity object plumbing.
-- [Can You Use GitHub as a Database?](https://riccivr.github.io/blog/posts/using-github-as-a-database.md): Client-side SQLite VFS over HTTP Range requests, GitHub API flat files, and architecture trade-offs.
+- [Being a Good Net Citizen in the AI Era: A Guide to Modern Web Discoverability](https://riccivr.github.io/blog/posts/being-a-good-net-citizen-in-the-ai-era.md): The way information is discovered, indexed, and cited across the internet is undergoing its most profound transformation since the invention of the search engine.
+- [Archiving the Web with Git: Building a Content-Addressable Web Historian](https://riccivr.github.io/blog/posts/preserving-the-web-with-git.md): The modern web is notoriously ephemeral. Pages mutate silently, documentation disappears during corporate rebrands, terms of service update without diffs, and links rot at an alarming rate.
+- [Can You Use GitHub as a Database? SQLite, HTTP Range Requests, and Flat-File Architectures](https://riccivr.github.io/blog/posts/using-github-as-a-database.md): A common architectural question for lightweight applications, side projects, and static sites is: Can we leverage GitHub as a persistent database?
 
-## Contact & Links
+## Machine Feeds & Meta
+- RSS Feed: https://riccivr.github.io/feed.xml
+- Sitemap: https://riccivr.github.io/sitemap.xml
 - Website: https://riccivr.github.io/
 - Blog: https://riccivr.github.io/blog/
 - GitHub: https://github.com/riccivr

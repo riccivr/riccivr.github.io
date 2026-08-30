@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ricardo Veronese - Blog Post</title>
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <meta name="author" content="Ricardo Veronese">
+    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed" href="https://riccivr.github.io/feed.xml">
+    <link rel="help" type="text/markdown" title="LLM Documentation" href="https://riccivr.github.io/llms.txt">
+
+    <!-- Open Graph Default -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Ricardo Veronese">
+    <meta property="og:image" content="https://riccivr.github.io/riccivr-retro.png">
+
+    <!-- Twitter Cards Default -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://riccivr.github.io/riccivr-retro.png">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/monokai.min.css" id="hljs-dark-theme">
@@ -432,6 +445,33 @@
                 if (postMeta && postMeta.title) {
                     document.title = `${postMeta.title} - Ricardo Veronese`;
                     document.getElementById('header-sys-id').textContent = `SYS.ID: riccivr // ${postMeta.slug}`;
+
+                    // Inject Schema.org TechArticle JSON-LD
+                    const existingSchema = document.getElementById('post-schema');
+                    if (existingSchema) existingSchema.remove();
+                    const schemaScript = document.createElement('script');
+                    schemaScript.id = 'post-schema';
+                    schemaScript.type = 'application/ld+json';
+                    schemaScript.textContent = JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "TechArticle",
+                        "headline": postMeta.title,
+                        "description": postMeta.summary,
+                        "datePublished": postMeta.date,
+                        "dateModified": postMeta.date,
+                        "author": {
+                            "@type": "Person",
+                            "name": "Ricardo Veronese",
+                            "url": "https://riccivr.github.io/"
+                        },
+                        "publisher": {
+                            "@type": "Person",
+                            "name": "Ricardo Veronese"
+                        },
+                        "mainEntityOfPage": window.location.href,
+                        "keywords": (postMeta.tags || []).join(", ")
+                    });
+                    document.head.appendChild(schemaScript);
                 }
 
                 loadingEl.classList.add('hidden');

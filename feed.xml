@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ricardo Veronese - Technical Logs & Systems</title>
+    <link>https://riccivr.github.io/blog/</link>
+    <description>Thoughts on cloud architecture, systems engineering, C99, algorithms & embedded IoT.</description>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 30 Aug 2026 19:06:26 GMT</lastBuildDate>
+    <atom:link href="https://riccivr.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Being a Good Net Citizen in the AI Era: A Guide to Modern Web Discoverability</title>
+      <link>https://riccivr.github.io/blog/post.html?post=being-a-good-net-citizen-in-the-ai-era</link>
+      <guid isPermaLink="true">https://riccivr.github.io/blog/post.html?post=being-a-good-net-citizen-in-the-ai-era</guid>
+      <pubDate>Sun, 30 Aug 2026 12:00:00 GMT</pubDate>
+      <description>The way information is discovered, indexed, and cited across the internet is undergoing its most profound transformation since the invention of the search engine.</description>
+      <category>Web Standards</category>
+      <category>AI</category>
+      <category>SEO</category>
+      <category>Crawlers</category>
+      <category>Architecture</category>
+      <category>Semantic Web</category>
+    </item>
+    <item>
+      <title>Archiving the Web with Git: Building a Content-Addressable Web Historian</title>
+      <link>https://riccivr.github.io/blog/post.html?post=preserving-the-web-with-git</link>
+      <guid isPermaLink="true">https://riccivr.github.io/blog/post.html?post=preserving-the-web-with-git</guid>
+      <pubDate>Sun, 30 Aug 2026 12:00:00 GMT</pubDate>
+      <description>The modern web is notoriously ephemeral. Pages mutate silently, documentation disappears during corporate rebrands, terms of service update without diffs, and links rot at an alarming rate.</description>
+      <category>Git</category>
+      <category>Web Archiving</category>
+      <category>Crawlers</category>
+      <category>Systems</category>
+      <category>C99</category>
+      <category>Architecture</category>
+    </item>
+    <item>
+      <title>Can You Use GitHub as a Database? SQLite, HTTP Range Requests, and Flat-File Architectures</title>
+      <link>https://riccivr.github.io/blog/post.html?post=using-github-as-a-database</link>
+      <guid isPermaLink="true">https://riccivr.github.io/blog/post.html?post=using-github-as-a-database</guid>
+      <pubDate>Sun, 30 Aug 2026 12:00:00 GMT</pubDate>
+      <description>A common architectural question for lightweight applications, side projects, and static sites is: Can we leverage GitHub as a persistent database?</description>
+      <category>SQLite</category>
+      <category>GitHub Pages</category>
+      <category>HTTP Range</category>
+      <category>Architecture</category>
+      <category>Cloud</category>
+    </item>
+  </channel>
+</rss>
