@@ -74,6 +74,7 @@ def parse_post(filepath):
         tags = ["Systems", "Architecture"]
 
     reading_time = estimate_reading_time(content)
+    mtime = os.path.getmtime(filepath)
 
     return {
         "slug": slug,
@@ -83,25 +84,30 @@ def parse_post(filepath):
         "tags": tags,
         "summary": summary,
         "readingTime": reading_time,
-        "file": f"posts/{os.path.basename(filepath)}"
+        "file": f"posts/{os.path.basename(filepath)}",
+        "_mtime": mtime
     }
 
 def cmd_build():
     os.makedirs(POSTS_DIR, exist_ok=True)
     posts = []
-    for fname in sorted(os.listdir(POSTS_DIR), reverse=True):
+    for fname in os.listdir(POSTS_DIR):
         if fname.endswith('.md'):
             fpath = os.path.join(POSTS_DIR, fname)
             post_meta = parse_post(fpath)
             posts.append(post_meta)
 
-    # Sort by date descending
-    posts.sort(key=lambda x: x['date'], reverse=True)
+    # Sort by date descending, then by modification time descending (newest first)
+    posts.sort(key=lambda x: (x['date'], x['_mtime']), reverse=True)
+
+    # Remove internal _mtime before saving
+    for p in posts:
+        p.pop('_mtime', None)
 
     with open(POSTS_JSON, 'w', encoding='utf-8') as f:
         json.dump(posts, f, indent=2)
 
-    print(f"[✓] Indexed {len(posts)} posts into {POSTS_JSON}")
+    print(f"[✓] Indexed {len(posts)} posts into {POSTS_JSON} (newest first)")
 
 def cmd_new(title):
     os.makedirs(POSTS_DIR, exist_ok=True)
