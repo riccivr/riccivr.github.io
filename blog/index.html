@@ -215,20 +215,20 @@
             </section>
 
             <!-- Search / Filter Bar -->
-            <div class="mb-6 flex flex-col sm:flex-row gap-3 items-center">
-                <div class="relative w-full">
-                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center theme-text-muted text-sm font-bold">></span>
-                    <input 
-                        type="text" 
-                        id="search-input" 
-                        placeholder="Buscar posts o filtrar por tags (ej. SQLite, Cloud, Git)..." 
-                        class="w-full border pl-8 pr-4 py-2 text-sm font-mono transition-colors"
-                    />
-                </div>
-                <div id="active-tag-container" class="hidden sm:flex items-center text-xs theme-text-main whitespace-nowrap">
-                    <span id="active-tag-label" class="mr-2 border theme-border px-2 py-1 theme-bg-card font-bold"></span>
-                    <button id="clear-tag-btn" class="interactive-link border theme-border px-2 py-1 font-bold">[x] Limpiar</button>
-                </div>
+            <div class="mb-6 relative w-full flex items-center">
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center theme-text-muted text-sm font-bold pointer-events-none">></span>
+                <input 
+                    type="text" 
+                    id="search-input" 
+                    placeholder="Buscar posts o filtrar por tags (ej. SQLite, Cloud, Git)..." 
+                    class="w-full border pl-8 pr-28 py-2 text-sm font-mono transition-colors"
+                />
+                <button 
+                    id="clear-btn" 
+                    class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 interactive-link border theme-border px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider" 
+                    title="Limpiar búsqueda / Clear">
+                    [x] Limpiar
+                </button>
             </div>
 
             <!-- Posts List Container -->
@@ -263,10 +263,9 @@
                 bannerDesc: "Reflexiones sobre arquitectura de sistemas, infraestructura cloud, programación de bajo nivel y algoritmos.",
                 homePortal: "[<] Portal Principal",
                 searchPlaceholder: "Buscar posts o filtrar por tags (ej. SQLite, Cloud, Git)...",
-                clearTag: "[x] Limpiar",
+                clearBtn: "[x] Limpiar",
                 loading: "Cargando posts...",
                 emptyMsg: "// No hay posts que coincidan con la búsqueda. Prueba con otro término.",
-                tagPrefix: "Tag:",
                 logPrefix: "POST_",
                 readingPrefix: "Lectura:",
                 readPostBtn: "[LEER ARTÍCULO ->]",
@@ -286,10 +285,9 @@
                 bannerDesc: "Thoughts on systems architecture, cloud infrastructure, low-level programming & algorithms.",
                 homePortal: "[<] Home Portal",
                 searchPlaceholder: "Search entries or filter by tags (e.g. SQLite, Cloud, Git)...",
-                clearTag: "[x] Clear",
+                clearBtn: "[x] Clear",
                 loading: "Loading blog posts...",
                 emptyMsg: "// No log entries matching criteria. Try another search query.",
-                tagPrefix: "Tag:",
                 logPrefix: "POST_",
                 readingPrefix: "Reading Time:",
                 readPostBtn: "[READ POST ->]",
@@ -305,8 +303,19 @@
         }
 
         let allPosts = [];
-        let selectedTag = null;
         let currentLang = getLanguage();
+
+        function updateClearBtnVisibility() {
+            const searchInput = document.getElementById('search-input');
+            const clearBtn = document.getElementById('clear-btn');
+            if (searchInput && clearBtn) {
+                if (searchInput.value.trim().length > 0) {
+                    clearBtn.classList.remove('hidden');
+                } else {
+                    clearBtn.classList.add('hidden');
+                }
+            }
+        }
 
         function applyLanguageUI() {
             const t = i18n[currentLang] || i18n.es;
@@ -333,7 +342,7 @@
             document.getElementById('banner-desc').textContent = t.bannerDesc;
             document.getElementById('home-portal-btn').textContent = t.homePortal;
             document.getElementById('search-input').setAttribute('placeholder', t.searchPlaceholder);
-            document.getElementById('clear-tag-btn').textContent = t.clearTag;
+            document.getElementById('clear-btn').textContent = t.clearBtn;
             document.getElementById('footer-text').textContent = t.footerText;
 
             renderPosts();
@@ -359,16 +368,19 @@
         }
 
         function filterPosts(searchTerm = '') {
-            const term = searchTerm.toLowerCase().trim();
+            let term = searchTerm.toLowerCase().trim();
+            if (term.startsWith('#')) {
+                term = term.slice(1);
+            }
+            if (!term) return allPosts;
+
             return allPosts.filter(post => {
                 const meta = post[currentLang] || post['es'] || post['en'] || post;
                 const tags = meta.tags || [];
-                const matchesTag = !selectedTag || tags.some(t => t.toLowerCase() === selectedTag.toLowerCase());
-                const matchesSearch = !term || 
-                    (meta.title && meta.title.toLowerCase().includes(term)) || 
+                return (meta.title && meta.title.toLowerCase().includes(term)) || 
                     (meta.summary && meta.summary.toLowerCase().includes(term)) || 
+                    (meta.category && meta.category.toLowerCase().includes(term)) ||
                     tags.some(t => t.toLowerCase().includes(term));
-                return matchesTag && matchesSearch;
             });
         }
 
@@ -431,17 +443,13 @@
         }
 
         function setFilterTag(tag) {
-            selectedTag = tag;
-            const container = document.getElementById('active-tag-container');
-            const label = document.getElementById('active-tag-label');
-            const t = i18n[currentLang] || i18n.es;
-            if (tag) {
-                container.classList.remove('hidden');
-                label.textContent = `${t.tagPrefix} #${tag}`;
-            } else {
-                container.classList.add('hidden');
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                searchInput.value = tag;
+                updateClearBtnVisibility();
+                renderPosts();
+                searchInput.focus();
             }
-            renderPosts();
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -481,11 +489,18 @@
                 applyLanguageUI();
             });
 
-            document.getElementById('clear-tag-btn').addEventListener('click', () => {
-                setFilterTag(null);
+            const searchInput = document.getElementById('search-input');
+            const clearBtn = document.getElementById('clear-btn');
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                updateClearBtnVisibility();
+                renderPosts();
+                searchInput.focus();
             });
 
-            document.getElementById('search-input').addEventListener('input', () => {
+            searchInput.addEventListener('input', () => {
+                updateClearBtnVisibility();
                 renderPosts();
             });
 
@@ -506,14 +521,13 @@
                 if (!areKeysEnabled()) {
                     return;
                 }
-                const searchInput = document.getElementById('search-input');
                 const isSearchFocused = document.activeElement === searchInput;
 
                 if (isSearchFocused) {
                     if (e.key === 'Escape') {
                         searchInput.value = '';
+                        updateClearBtnVisibility();
                         searchInput.blur();
-                        setFilterTag(null);
                         renderPosts();
                     }
                     return;
