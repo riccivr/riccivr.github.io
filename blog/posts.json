@@ -1,5 +1,22 @@
 [
   {
+    "slug": "being-a-good-net-citizen-in-the-ai-era",
+    "title": "Being a Good Net Citizen in the AI Era: A Guide to Modern Web Discoverability",
+    "date": "2026-08-30",
+    "category": "Web Standards & Cloud",
+    "tags": [
+      "Web Standards",
+      "AI",
+      "SEO",
+      "Crawlers",
+      "Architecture",
+      "Semantic Web"
+    ],
+    "summary": "The way information is discovered, indexed, and cited across the internet is undergoing its most profound transformation since the invention of the search engine.",
+    "readingTime": "5 min",
+    "file": "posts/being-a-good-net-citizen-in-the-ai-era.md"
+  },
+  {
     "slug": "preserving-the-web-with-git",
     "title": "Archiving the Web with Git: Building a Content-Addressable Web Historian",
     "date": "2026-08-30",

@@ -1,0 +1,20 @@
+# Ricardo Veronese
+
+> Systems & Cloud Engineer specializing in AWS, Cloud Architecture, C99/POSIX low-level systems, parsers, and memory-bounded algorithms.
+
+## Active Projects
+- [approx](https://github.com/riccivr/approx): Non-interactive POSIX fuzzy stream filter and ranker in clean Suckless C with zero dependencies.
+- [unipaste](https://github.com/riccivr/unipaste): Zero-dependency POSIX universal rich text & clipboard converter producing structured Markdown and ASCII tables.
+- [clipbridge](https://github.com/riccivr/clipbridge): Cross-platform universal clipboard listener daemon powered by unipaste.
+
+## Engineering Logs & Articles
+- [Being a Good Net Citizen in the AI Era: A Guide to Modern Web Discoverability](https://riccivr.github.io/blog/posts/being-a-good-net-citizen-in-the-ai-era.md): Best practices for static-first HTML, semantic DOM structures, llms.txt, Schema.org JSON-LD, and AI agent crawlability.
+- [Archiving the Web with Git: Building a Content-Addressable Web Historian](https://riccivr.github.io/blog/posts/preserving-the-web-with-git.md): Deep dive into Git-native web archival, sliding-window delta compression, and high-velocity object plumbing.
+- [Can You Use GitHub as a Database?](https://riccivr.github.io/blog/posts/using-github-as-a-database.md): Client-side SQLite VFS over HTTP Range requests, GitHub API flat files, and architecture trade-offs.
+
+## Contact & Links
+- Website: https://riccivr.github.io/
+- Blog: https://riccivr.github.io/blog/
+- GitHub: https://github.com/riccivr
+- LinkedIn: https://www.linkedin.com/in/riccivr/
+- Email: ricci.vr@gmail.com
