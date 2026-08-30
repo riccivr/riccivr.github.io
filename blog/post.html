@@ -170,10 +170,32 @@
             text-decoration: underline;
             text-underline-offset: 3px;
             font-weight: bold;
+            transition: color 0.1s ease, background-color 0.1s ease;
         }
         #post-content a:hover {
-            color: var(--btn-hover-text);
-            background-color: var(--btn-hover-bg);
+            color: var(--btn-hover-text) !important;
+            background-color: var(--btn-hover-bg) !important;
+        }
+        #post-content a code {
+            color: inherit !important;
+            background-color: transparent !important;
+            border: none !important;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            padding: 0 !important;
+            font-weight: bold;
+        }
+        #post-content a:hover code {
+            color: var(--btn-hover-text) !important;
+            background-color: transparent !important;
+        }
+        #post-content code a {
+            color: var(--text-heading) !important;
+            text-decoration: underline;
+        }
+        #post-content code a:hover {
+            color: var(--btn-hover-text) !important;
+            background-color: var(--btn-hover-bg) !important;
         }
         #post-content blockquote {
             border-left: 3px solid var(--border-primary);
@@ -218,6 +240,10 @@
             overflow-x: auto;
             margin: 1.2rem 0;
             border-radius: 2px;
+        }
+        #post-content pre code a {
+            color: var(--text-heading) !important;
+            text-decoration: underline;
         }
         #post-content code {
             font-family: 'Courier New', Courier, monospace;
@@ -410,6 +436,54 @@
                 btn.textContent = '[✓] Copied!';
                 setTimeout(() => { btn.textContent = prev; }, 2000);
             });
+        });
+
+        function flashElement(el) {
+            if (!el) return;
+            const prevBg = el.style.backgroundColor;
+            const prevColor = el.style.color;
+            el.style.backgroundColor = 'var(--btn-hover-bg)';
+            el.style.color = 'var(--btn-hover-text)';
+            setTimeout(() => {
+                el.style.backgroundColor = prevBg;
+                el.style.color = prevColor;
+            }, 200);
+        }
+
+        // Global keyboard shortcut dispatcher
+        document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
+                return;
+            }
+            if (e.ctrlKey || e.metaKey || e.altKey) {
+                return;
+            }
+
+            const key = e.key.toUpperCase();
+
+            if (key === 'B' || key === '<' || key === '[' || e.key === 'Escape') {
+                const backBtn = document.querySelector('a[href="index.html"]');
+                flashElement(backBtn);
+                setTimeout(() => { window.location.href = 'index.html'; }, 150);
+            } else if (key === 'H') {
+                const homeBtn = document.querySelector('a[href="../"]');
+                flashElement(homeBtn);
+                setTimeout(() => { window.location.href = '../'; }, 150);
+            } else if (key === 'S') {
+                const copyBtn = document.getElementById('copy-link-btn');
+                flashElement(copyBtn);
+                copyBtn.click();
+            } else if (key === 'G') {
+                const repoBtn = document.querySelector('a[href*="github.com"]');
+                flashElement(repoBtn);
+                window.open('https://github.com/riccivr/riccivr.github.io', '_blank');
+            } else if (key === 'T') {
+                const themeToggle = document.getElementById('theme-toggle');
+                flashElement(themeToggle);
+                themeToggle.click();
+            } else if (key === '^' || key === 'K' || e.key === 'ArrowUp') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         });
 
         loadPost();

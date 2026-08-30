@@ -506,6 +506,68 @@
                 });
             });
 
+            function flashElement(el) {
+                if (!el) return;
+                const prevBg = el.style.backgroundColor;
+                const prevColor = el.style.color;
+                el.style.backgroundColor = 'var(--btn-hover-bg)';
+                el.style.color = 'var(--btn-hover-text)';
+                setTimeout(() => {
+                    el.style.backgroundColor = prevBg;
+                    el.style.color = prevColor;
+                }, 200);
+            }
+
+            // Keyboard shortcut dispatcher
+            document.addEventListener('keydown', (e) => {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
+                    return;
+                }
+                if (e.ctrlKey || e.metaKey || e.altKey) {
+                    return;
+                }
+
+                const key = e.key.toUpperCase();
+                
+                if (key === 'B') {
+                    const blogBtn = document.querySelector('a[href="./blog/"]');
+                    flashElement(blogBtn);
+                    setTimeout(() => { window.location.href = './blog/'; }, 150);
+                } else if (key === 'C') {
+                    const emailBtn = document.querySelector('a[href^="mailto:"]');
+                    flashElement(emailBtn);
+                    window.location.href = 'mailto:ricci.vr@gmail.com';
+                } else if (key === 'G') {
+                    const ghBtn = document.querySelector('a[href="https://github.com/riccivr"]');
+                    flashElement(ghBtn);
+                    window.open('https://github.com/riccivr', '_blank');
+                } else if (key === 'L') {
+                    const liBtn = document.querySelector('a[href*="linkedin.com"]');
+                    flashElement(liBtn);
+                    window.open('https://www.linkedin.com/in/riccivr/', '_blank');
+                } else if (key === 'T') {
+                    const themeBtn = document.getElementById('theme-toggle');
+                    flashElement(themeBtn);
+                    themeBtn.click();
+                } else if (key === '1' || key === 'P') {
+                    const tab = document.getElementById('tab-projects');
+                    flashElement(tab);
+                    switchTab('projects-content');
+                } else if (key === '2') {
+                    const tab = document.getElementById('tab-blog');
+                    flashElement(tab);
+                    switchTab('blog-content');
+                } else if (key === '3' || key === 'S') {
+                    const tab = document.getElementById('tab-skills');
+                    flashElement(tab);
+                    switchTab('skills-content');
+                } else if (key === '4') {
+                    const tab = document.getElementById('tab-contact');
+                    flashElement(tab);
+                    switchTab('contact-content');
+                }
+            });
+
             switchTab('projects-content');
         });
     </script>
