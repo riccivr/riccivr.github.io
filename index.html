@@ -182,6 +182,9 @@
 </head>
 <body class="p-2 sm:p-6 md:p-12 min-h-screen">
 
+    <a href="#main-content" id="skip-link" class="skip-link">[SALTAR AL CONTENIDO]</a>
+    <div id="a11y-announcer" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+
     <div class="terminal-frame max-w-4xl mx-auto mt-1 sm:mt-4 rounded-lg overflow-hidden">
 
         <header class="p-2.5 sm:p-3 theme-bg-header border-b theme-border flex flex-col sm:flex-row justify-between sm:items-center gap-2">
@@ -193,13 +196,13 @@
             </div>
             <div class="flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2">
                 <div class="flex items-center gap-1.5 sm:gap-2">
-                    <button id="lang-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" title="Alternar idioma / Toggle language [I]">
+                    <button id="lang-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-label="Alternar idioma / Toggle language [I]" title="Alternar idioma / Toggle language [I]">
                         [LANG: ES]
                     </button>
-                    <button id="keys-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" title="Alternar atajos de teclado / Toggle keyboard shortcuts">
+                    <button id="keys-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-pressed="true" aria-label="Alternar atajos de teclado / Toggle keyboard shortcuts" title="Alternar atajos de teclado / Toggle keyboard shortcuts">
                         [TECLAS: ACT]
                     </button>
-                    <button id="theme-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" title="Alternar tema / Toggle theme (CRT / Papel)">
+                    <button id="theme-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-label="Alternar tema / Toggle theme (CRT / Papel)" title="Alternar tema / Toggle theme (CRT / Papel)">
                         [MODO: CRT]
                     </button>
                 </div>
@@ -209,14 +212,14 @@
             </div>
         </header>
 
-        <main class="p-3.5 sm:p-6 md:p-8">
+        <main id="main-content" class="p-3.5 sm:p-6 md:p-8" tabindex="-1">
 
             <section class="theme-bg-section p-4 border theme-border mb-6">
                 <div class="flex justify-between items-start">
                     <div class="flex items-start space-x-4">
                         <picture class="hidden sm:block mr-2 flex-shrink-0">
                             <source srcset="./riccivr-retro.webp" type="image/webp">
-                            <img src="./riccivr-retro-avatar.png" width="112" height="82" fetchpriority="high" class="w-28 aspect-[37/27] rounded-sm border-2 theme-border" style="box-shadow: var(--avatar-shadow);" alt="Avatar de Ricardo Veronese">
+                            <img src="./riccivr-retro-avatar.png" width="112" height="82" fetchpriority="high" class="w-28 aspect-[37/27] rounded-sm border-2 theme-border" style="box-shadow: var(--avatar-shadow);" alt="Avatar pixel art de Ricardo Veronese">
                         </picture>
                         
                         <div>
@@ -239,48 +242,48 @@
                     </div>
 
                     <div class="flex flex-wrap gap-2 sm:gap-3 pt-1">
-                        <a href="./blog/" id="nav-btn-blog" class="interactive-link border theme-border px-3 py-1 text-sm uppercase font-bold" style="background-color: var(--bg-badge);">
+                        <a href="./blog/" id="nav-btn-blog" aria-label="Ir a la sección de blog y artículos técnicos" class="interactive-link border theme-border px-3 py-1 text-sm uppercase font-bold" style="background-color: var(--bg-badge);">
                             [B] Blog
                         </a>
-                        <a href="mailto:ricci.vr@gmail.com" id="nav-btn-email" class="interactive-link border theme-border px-3 py-1 text-sm uppercase font-bold">
+                        <a href="mailto:ricci.vr@gmail.com" id="nav-btn-email" aria-label="Enviar correo electrónico a Ricardo Veronese" class="interactive-link border theme-border px-3 py-1 text-sm uppercase font-bold">
                             [C] Correo
                         </a>
-                        <a href="https://github.com/riccivr" target="_blank" class="interactive-link border theme-border px-3 py-1 text-sm uppercase font-bold">
+                        <a href="https://github.com/riccivr" target="_blank" rel="noopener noreferrer" id="nav-btn-gh" aria-label="Perfil de GitHub de Ricardo Veronese (se abre en una nueva pestaña)" class="interactive-link border theme-border px-3 py-1 text-sm uppercase font-bold">
                             [G] GitHub
                         </a>
-                        <a href="https://www.linkedin.com/in/riccivr/" target="_blank" class="interactive-link border theme-border px-3 py-1 text-sm uppercase font-bold">
+                        <a href="https://www.linkedin.com/in/riccivr/" target="_blank" rel="noopener noreferrer" id="nav-btn-li" aria-label="Perfil de LinkedIn de Ricardo Veronese (se abre en una nueva pestaña)" class="interactive-link border theme-border px-3 py-1 text-sm uppercase font-bold">
                             [L] LinkedIn
                         </a>
                     </div>
                 </div>
             </section>
 
-            <div class="flex border-b theme-border mb-4 overflow-x-auto">
-                <div id="tab-projects" class="tab-button px-4 py-2 theme-border cursor-pointer whitespace-nowrap font-bold" data-target="projects-content">
+            <nav role="tablist" id="portfolio-tablist" aria-label="Secciones del portafolio" class="flex border-b theme-border mb-4 overflow-x-auto">
+                <button type="button" role="tab" id="tab-projects" aria-selected="true" aria-controls="projects-content" tabindex="0" class="tab-button interactive-link px-4 py-2 theme-border cursor-pointer whitespace-nowrap font-bold text-left" data-target="projects-content">
                     PROYECTOS ACTIVOS
-                </div>
-                <div id="tab-blog" class="tab-button px-4 py-2 cursor-pointer transition duration-150 whitespace-nowrap font-bold" data-target="blog-content">
+                </button>
+                <button type="button" role="tab" id="tab-blog" aria-selected="false" aria-controls="blog-content" tabindex="0" class="tab-button interactive-link px-4 py-2 cursor-pointer transition duration-150 whitespace-nowrap font-bold text-left" data-target="blog-content">
                     BLOG & ARTÍCULOS
-                </div>
-                <div id="tab-skills" class="tab-button px-4 py-2 cursor-pointer transition duration-150 whitespace-nowrap font-bold" data-target="skills-content">
+                </button>
+                <button type="button" role="tab" id="tab-skills" aria-selected="false" aria-controls="skills-content" tabindex="0" class="tab-button interactive-link px-4 py-2 cursor-pointer transition duration-150 whitespace-nowrap font-bold text-left" data-target="skills-content">
                     STACK & SKILLS
-                </div>
-                <div id="tab-contact" class="tab-button px-4 py-2 cursor-pointer transition duration-150 whitespace-nowrap font-bold" data-target="contact-content">
+                </button>
+                <button type="button" role="tab" id="tab-contact" aria-selected="false" aria-controls="contact-content" tabindex="0" class="tab-button interactive-link px-4 py-2 cursor-pointer transition duration-150 whitespace-nowrap font-bold text-left" data-target="contact-content">
                     CONTACTO
-                </div>
-            </div>
+                </button>
+            </nav>
 
             <div class="content-container">
 
-                <div id="projects-content" class="content-section space-y-6">
+                <section id="projects-content" role="tabpanel" aria-labelledby="tab-projects" tabindex="0" class="content-section space-y-6">
 
                     <!-- approx -->
                     <article class="border theme-border-subtle theme-bg-card p-4 transition duration-150">
                         <header class="flex justify-between items-start mb-2">
                             <div>
                                 <h2 class="font-bold text-lg theme-text-heading">
-                                    <a href="https://github.com/riccivr/approx" target="_blank" class="hover:underline inline-flex items-center gap-1.5">
-                                        approx <span class="text-xs opacity-75">↗</span>
+                                    <a href="https://github.com/riccivr/approx" target="_blank" rel="noopener noreferrer" id="approx-link" aria-label="Repositorio approx en GitHub (se abre en una nueva pestaña)" class="hover:underline inline-flex items-center gap-1.5">
+                                        approx <span class="text-xs opacity-75" aria-hidden="true">↗</span>
                                     </a>
                                 </h2>
                                 <span id="approx-sub" class="text-xs theme-text-muted font-bold">Filtro y ranker difuso para streams POSIX (no interactivo)</span>
@@ -308,8 +311,8 @@
                         <header class="flex justify-between items-start mb-2">
                             <div>
                                 <h2 class="font-bold text-lg theme-text-heading">
-                                    <a href="https://github.com/riccivr/unipaste" target="_blank" class="hover:underline inline-flex items-center gap-1.5">
-                                        unipaste <span class="text-xs opacity-75">↗</span>
+                                    <a href="https://github.com/riccivr/unipaste" target="_blank" rel="noopener noreferrer" id="unipaste-link" aria-label="Repositorio unipaste en GitHub (se abre en una nueva pestaña)" class="hover:underline inline-flex items-center gap-1.5">
+                                        unipaste <span class="text-xs opacity-75" aria-hidden="true">↗</span>
                                     </a>
                                 </h2>
                                 <span id="unipaste-sub" class="text-xs theme-text-muted font-bold">Formateador universal de streams HTML y texto enriquecido para el portapapeles</span>
@@ -337,8 +340,8 @@
                         <header class="flex justify-between items-start mb-2">
                             <div>
                                 <h2 class="font-bold text-lg theme-text-heading">
-                                    <a href="https://github.com/riccivr/clipbridge" target="_blank" class="hover:underline inline-flex items-center gap-1.5">
-                                        clipbridge <span class="text-xs opacity-75">↗</span>
+                                    <a href="https://github.com/riccivr/clipbridge" target="_blank" rel="noopener noreferrer" id="clipbridge-link" aria-label="Repositorio clipbridge en GitHub (se abre en una nueva pestaña)" class="hover:underline inline-flex items-center gap-1.5">
+                                        clipbridge <span class="text-xs opacity-75" aria-hidden="true">↗</span>
                                     </a>
                                 </h2>
                                 <span id="clipbridge-sub" class="text-xs theme-text-muted font-bold">Daemon y bridge universal de portapapeles potenciado por unipaste</span>
@@ -361,9 +364,9 @@
                         </div>
                     </article>
 
-                </div>
+                </section>
 
-                <div id="blog-content" class="content-section hidden space-y-6">
+                <section id="blog-content" role="tabpanel" aria-labelledby="tab-blog" tabindex="0" class="content-section hidden space-y-6">
                     <p id="blog-section-intro" class="theme-text-muted mb-2 text-xs font-semibold">
                         // Artículos técnicos, arquitectura de sistemas y notas de trabajo
                     </p>
@@ -408,9 +411,9 @@
                             [VER TODOS LOS POSTS ->]
                         </a>
                     </div>
-                </div>
+                </section>
 
-                <div id="skills-content" class="content-section hidden space-y-4">
+                <section id="skills-content" role="tabpanel" aria-labelledby="tab-skills" tabindex="0" class="content-section hidden space-y-4">
                     <p id="skills-intro" class="theme-text-muted mb-2 text-xs font-semibold">
                         // Competencias técnicas y herramientas de uso diario
                     </p>
@@ -440,9 +443,9 @@
                             <div id="skill-card-2-list" class="space-y-3"></div>
                         </div>
                     </div>
-                </div>
+                </section>
 
-                <div id="contact-content" class="content-section hidden">
+                <section id="contact-content" role="tabpanel" aria-labelledby="tab-contact" tabindex="0" class="content-section hidden">
                     <p id="contact-intro" class="theme-text-muted mb-4 text-xs font-semibold">
                         // Canales de contacto
                     </p>
@@ -457,20 +460,20 @@
                         </div>
                         <div class="border theme-border-subtle p-3 theme-bg-card flex justify-between items-center">
                             <div>
-                                <span class="font-bold theme-text-heading">GITHUB:</span> 
+                                <span id="contact-gh-label" class="font-bold theme-text-heading">GITHUB:</span> 
                                 <span class="ml-2 theme-text-main font-mono">github.com/riccivr</span>
                             </div>
-                            <a href="https://github.com/riccivr" target="_blank" id="contact-gh-btn" class="interactive-link border theme-border px-2 py-0.5 text-xs uppercase font-bold">Abrir</a>
+                            <a href="https://github.com/riccivr" target="_blank" rel="noopener noreferrer" id="contact-gh-btn" aria-label="Abrir perfil de GitHub de Ricardo Veronese (se abre en una nueva pestaña)" class="interactive-link border theme-border px-2 py-0.5 text-xs uppercase font-bold">Abrir</a>
                         </div>
                         <div class="border theme-border-subtle p-3 theme-bg-card flex justify-between items-center">
                             <div>
-                                <span class="font-bold theme-text-heading">LINKEDIN:</span> 
+                                <span id="contact-li-label" class="font-bold theme-text-heading">LINKEDIN:</span> 
                                 <span class="ml-2 theme-text-main font-mono">linkedin.com/in/riccivr</span>
                             </div>
-                            <a href="https://www.linkedin.com/in/riccivr/" target="_blank" id="contact-li-btn" class="interactive-link border theme-border px-2 py-0.5 text-xs uppercase font-bold">Abrir</a>
+                            <a href="https://www.linkedin.com/in/riccivr/" target="_blank" rel="noopener noreferrer" id="contact-li-btn" aria-label="Abrir perfil de LinkedIn de Ricardo Veronese (se abre en una nueva pestaña)" class="interactive-link border theme-border px-2 py-0.5 text-xs uppercase font-bold">Abrir</a>
                         </div>
                     </div>
-                </div>
+                </section>
 
             </div>
             
@@ -489,22 +492,41 @@
             es: {
                 metaTitle: "Ricardo Veronese - Cloud & Systems Engineer",
                 metaDesc: "Ricardo Veronese. Ingeniero de cloud y sistemas. AWS CDK, TypeScript, Python, Rust, C99, sistemas de bajo nivel POSIX e IoT embebido.",
+                skipLink: "[SALTAR AL CONTENIDO]",
                 sysId: "SYS.ID: riccivr",
                 status: "ESTADO: EN LÍNEA",
                 langToggle: "[LANG: ES]",
+                langAria: "Alternar idioma a inglés (actual: Español)",
+                langAnnounce: "Idioma cambiado a español",
                 keysOn: "[TECLAS: ACT]",
                 keysOff: "[TECLAS: DES]",
+                keysAria: "Alternar atajos de navegación por teclado",
+                keysAnnounceOn: "Atajos de teclado activados",
+                keysAnnounceOff: "Atajos de teclado desactivados",
                 modeCrt: "[MODO: CRT]",
                 modePaper: "[MODO: PAPEL]",
+                themeAria: "Alternar tema visual (actual: CRT)",
+                themeAriaPaper: "Alternar tema visual (actual: Papel)",
+                themeAnnouncePaper: "Tema cambiado a modo papel",
+                themeAnnounceCrt: "Tema cambiado a modo CRT",
                 bioRole: "Cloud & Full-Stack Engineer en Enroly",
                 bioStack: "AWS · CDK · Remix · React · TypeScript · Python · Rust · C99 · Embedded / IoT",
                 bioMotto: "Desarrollando productos full-stack y backends serverless con Remix, React y AWS Lambda. Cacharreando con C de bajo nivel, sistemas embebidos e IoT en mi tiempo libre.",
                 navBlog: "[B] Blog",
+                navBlogAria: "Ir a la sección de blog y artículos técnicos",
                 navEmail: "[C] Correo",
+                navEmailAria: "Enviar correo electrónico a Ricardo Veronese",
+                navGhAria: "Perfil de GitHub de Ricardo Veronese (se abre en una nueva pestaña)",
+                navLiAria: "Perfil de LinkedIn de Ricardo Veronese (se abre en una nueva pestaña)",
+                tablistLabel: "Secciones del portafolio",
                 tabProjects: "PROYECTOS ACTIVOS",
                 tabBlog: "BLOG & ARTÍCULOS",
                 tabSkills: "STACK & SKILLS",
                 tabContact: "CONTACTO",
+                tabAnnounceProjects: "Sección Proyectos Activos mostrada",
+                tabAnnounceBlog: "Sección Blog y Artículos mostrada",
+                tabAnnounceSkills: "Sección Stack y Habilidades mostrada",
+                tabAnnounceContact: "Sección Contacto mostrada",
                 approxSub: "Filtro y ranker difuso para streams POSIX (no interactivo)",
                 approxBadge: "Activo",
                 approxDesc: "CLI ultraligera en C99 con cero dependencias para filtrar y ordenar texto en streams usando coincidencia difusa. Usa memoria O(M) con programación dinámica. La armé para meterla en scripts, pipelines UNIX y microcontroladores donde las TUIs interactivas como fzf no dan la talla.",
@@ -570,28 +592,51 @@
                 contactIntro: "// Canales de contacto",
                 contactEmailLabel: "EMAIL:",
                 contactEmailBtn: "Enviar",
+                contactGhLabel: "GITHUB:",
+                contactLiLabel: "LINKEDIN:",
                 contactOpenBtn: "Abrir",
+                contactGhAria: "Abrir perfil de GitHub de Ricardo Veronese (se abre en una nueva pestaña)",
+                contactLiAria: "Abrir perfil de LinkedIn de Ricardo Veronese (se abre en una nueva pestaña)",
                 footerText: "Cloud Architecture · Embedded & Systems"
             },
             en: {
                 metaTitle: "Ricardo Veronese - Cloud & Systems Engineer",
                 metaDesc: "Ricardo Veronese. Cloud and systems engineer. AWS CDK, Remix, React, TypeScript, Python, Rust, C99, POSIX low-level systems, and embedded IoT.",
+                skipLink: "[SKIP TO CONTENT]",
                 sysId: "SYS.ID: riccivr",
                 status: "STATUS: ONLINE",
                 langToggle: "[LANG: EN]",
+                langAria: "Toggle language to Spanish (current: English)",
+                langAnnounce: "Language switched to English",
                 keysOn: "[KEYS: ON]",
                 keysOff: "[KEYS: OFF]",
+                keysAria: "Toggle keyboard navigation shortcuts",
+                keysAnnounceOn: "Keyboard shortcuts enabled",
+                keysAnnounceOff: "Keyboard shortcuts disabled",
                 modeCrt: "[MODE: CRT]",
                 modePaper: "[MODE: PAPER]",
+                themeAria: "Toggle visual theme (current: CRT)",
+                themeAriaPaper: "Toggle visual theme (current: Paper)",
+                themeAnnouncePaper: "Theme switched to paper mode",
+                themeAnnounceCrt: "Theme switched to CRT mode",
                 bioRole: "Cloud & Full-Stack Engineer at Enroly",
                 bioStack: "AWS · CDK · Remix · React · TypeScript · Python · Rust · C99 · Embedded / IoT",
                 bioMotto: "Building full-stack products and serverless backends with Remix, React & AWS Lambda. Tinkering with low-level C, embedded systems & IoT on the side.",
                 navBlog: "[B] Blog",
+                navBlogAria: "Go to technical blog and articles section",
                 navEmail: "[C] Email",
+                navEmailAria: "Send email to Ricardo Veronese",
+                navGhAria: "Ricardo Veronese's GitHub profile (opens in a new tab)",
+                navLiAria: "Ricardo Veronese's LinkedIn profile (opens in a new tab)",
+                tablistLabel: "Portfolio sections",
                 tabProjects: "ACTIVE PROJECTS",
                 tabBlog: "LOGS & ARTICLES",
                 tabSkills: "STACK & SKILLS",
                 tabContact: "CONTACT",
+                tabAnnounceProjects: "Active Projects section displayed",
+                tabAnnounceBlog: "Blog and Articles section displayed",
+                tabAnnounceSkills: "Stack and Skills section displayed",
+                tabAnnounceContact: "Contact section displayed",
                 approxSub: "Non-interactive POSIX fuzzy stream filter and ranker",
                 approxBadge: "Active",
                 approxDesc: "A small C99 CLI tool that filters and sorts streams of text using fuzzy string matching. It uses an O(M) memory layout with dynamic programming. Built for automated UNIX pipelines, cron jobs, and small devices where you want fuzzy filtering without an interactive terminal UI like fzf.",
@@ -657,7 +702,11 @@
                 contactIntro: "// Direct contact",
                 contactEmailLabel: "EMAIL:",
                 contactEmailBtn: "Send",
+                contactGhLabel: "GITHUB:",
+                contactLiLabel: "LINKEDIN:",
                 contactOpenBtn: "Open",
+                contactGhAria: "Open Ricardo Veronese's GitHub profile (opens in a new tab)",
+                contactLiAria: "Open Ricardo Veronese's LinkedIn profile (opens in a new tab)",
                 footerText: "Cloud Architecture · Embedded & Systems"
             }
         };
@@ -682,6 +731,15 @@
             `).join('');
         }
 
+        function announceA11y(message) {
+            const announcer = document.getElementById('a11y-announcer');
+            if (!announcer || !message) return;
+            announcer.textContent = '';
+            setTimeout(() => {
+                announcer.textContent = message;
+            }, 60);
+        }
+
         function applyLanguage(lang) {
             const t = i18n[lang] || i18n.es;
             document.documentElement.setAttribute('lang', lang);
@@ -693,23 +751,49 @@
             document.getElementById('tw-title').setAttribute('content', t.metaTitle);
             document.getElementById('tw-desc').setAttribute('content', t.metaDesc);
 
+            const skipLink = document.getElementById('skip-link');
+            if (skipLink) skipLink.textContent = t.skipLink;
+
             document.getElementById('sys-id-label').textContent = t.sysId;
             document.getElementById('status-label').textContent = t.status;
             const statusMobile = document.getElementById('status-label-mobile');
             if (statusMobile) statusMobile.textContent = t.status;
-            document.getElementById('lang-toggle').textContent = t.langToggle;
+
+            const langBtn = document.getElementById('lang-toggle');
+            langBtn.textContent = t.langToggle;
+            langBtn.setAttribute('aria-label', t.langAria);
 
             const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-            document.getElementById('theme-toggle').textContent = isLight ? t.modePaper : t.modeCrt;
+            const themeBtn = document.getElementById('theme-toggle');
+            themeBtn.textContent = isLight ? t.modePaper : t.modeCrt;
+            themeBtn.setAttribute('aria-label', isLight ? t.themeAriaPaper : t.themeAria);
 
             const keysEnabled = localStorage.getItem('riccivr-keys') !== 'off';
-            document.getElementById('keys-toggle').textContent = keysEnabled ? t.keysOn : t.keysOff;
+            const keysBtn = document.getElementById('keys-toggle');
+            keysBtn.textContent = keysEnabled ? t.keysOn : t.keysOff;
+            keysBtn.setAttribute('aria-label', t.keysAria);
+            keysBtn.setAttribute('aria-pressed', keysEnabled ? 'true' : 'false');
 
             document.getElementById('bio-role').textContent = t.bioRole;
             document.getElementById('bio-stack').textContent = t.bioStack;
             document.getElementById('bio-motto').textContent = t.bioMotto;
-            document.getElementById('nav-btn-blog').textContent = t.navBlog;
-            document.getElementById('nav-btn-email').textContent = t.navEmail;
+
+            const navBlog = document.getElementById('nav-btn-blog');
+            navBlog.textContent = t.navBlog;
+            navBlog.setAttribute('aria-label', t.navBlogAria);
+
+            const navEmail = document.getElementById('nav-btn-email');
+            navEmail.textContent = t.navEmail;
+            navEmail.setAttribute('aria-label', t.navEmailAria);
+
+            const navGh = document.getElementById('nav-btn-gh');
+            if (navGh) navGh.setAttribute('aria-label', t.navGhAria);
+
+            const navLi = document.getElementById('nav-btn-li');
+            if (navLi) navLi.setAttribute('aria-label', t.navLiAria);
+
+            const tablist = document.getElementById('portfolio-tablist');
+            if (tablist) tablist.setAttribute('aria-label', t.tablistLabel);
 
             document.getElementById('tab-projects').textContent = t.tabProjects;
             document.getElementById('tab-blog').textContent = t.tabBlog;
@@ -720,16 +804,22 @@
             document.getElementById('approx-badge').textContent = t.approxBadge;
             document.getElementById('approx-desc').textContent = t.approxDesc;
             document.getElementById('approx-tags').innerHTML = t.approxTags.map(tag => `<span class="text-xs border theme-border px-2 py-0.5 font-semibold">${tag}</span>`).join('');
+            const approxLink = document.getElementById('approx-link');
+            if (approxLink) approxLink.setAttribute('aria-label', t.approxGhAria || 'approx');
 
             document.getElementById('unipaste-sub').textContent = t.unipasteSub;
             document.getElementById('unipaste-badge').textContent = t.unipasteBadge;
             document.getElementById('unipaste-desc').textContent = t.unipasteDesc;
             document.getElementById('unipaste-tags').innerHTML = t.unipasteTags.map(tag => `<span class="text-xs border theme-border px-2 py-0.5 font-semibold">${tag}</span>`).join('');
+            const unipasteLink = document.getElementById('unipaste-link');
+            if (unipasteLink) unipasteLink.setAttribute('aria-label', t.unipasteGhAria || 'unipaste');
 
             document.getElementById('clipbridge-sub').textContent = t.clipbridgeSub;
             document.getElementById('clipbridge-badge').textContent = t.clipbridgeBadge;
             document.getElementById('clipbridge-desc').textContent = t.clipbridgeDesc;
             document.getElementById('clipbridge-tags').innerHTML = t.clipbridgeTags.map(tag => `<span class="text-xs border theme-border px-2 py-0.5 font-semibold">${tag}</span>`).join('');
+            const clipbridgeLink = document.getElementById('clipbridge-link');
+            if (clipbridgeLink) clipbridgeLink.setAttribute('aria-label', t.clipbridgeGhAria || 'clipbridge');
 
             document.getElementById('blog-section-intro').textContent = t.blogIntro;
             document.getElementById('featured-post-tag').textContent = t.featuredTag;
@@ -737,9 +827,15 @@
             document.getElementById('featured-post-link').textContent = t.featuredTitle;
             document.getElementById('featured-post-summary').textContent = t.featuredSummary;
             document.getElementById('featured-post-badges').innerHTML = t.featuredBadges.map(b => `<span class="text-xs border theme-border px-2 py-0.5 font-semibold">${b}</span>`).join('');
-            document.getElementById('featured-post-btn').textContent = t.featuredBtn;
+            
+            const featuredBtn = document.getElementById('featured-post-btn');
+            featuredBtn.textContent = t.featuredBtn;
+            if (t.featuredBtnAria) featuredBtn.setAttribute('aria-label', t.featuredBtnAria);
+
             document.getElementById('blog-banner-text').textContent = t.blogBannerText;
-            document.getElementById('blog-banner-btn').textContent = t.blogBannerBtn;
+            const blogBannerBtn = document.getElementById('blog-banner-btn');
+            blogBannerBtn.textContent = t.blogBannerBtn;
+            if (t.allPostsAria) blogBannerBtn.setAttribute('aria-label', t.allPostsAria);
 
             document.getElementById('skills-intro').textContent = t.skillsIntro;
             document.getElementById('skill-card-1-title').textContent = t.skillCard1Title;
@@ -753,8 +849,21 @@
             document.getElementById('contact-intro').textContent = t.contactIntro;
             document.getElementById('contact-email-label').textContent = t.contactEmailLabel;
             document.getElementById('contact-email-btn').textContent = t.contactEmailBtn;
-            document.getElementById('contact-gh-btn').textContent = t.contactOpenBtn;
-            document.getElementById('contact-li-btn').textContent = t.contactOpenBtn;
+            const ghLabel = document.getElementById('contact-gh-label');
+            if (ghLabel) ghLabel.textContent = t.contactGhLabel;
+            const liLabel = document.getElementById('contact-li-label');
+            if (liLabel) liLabel.textContent = t.contactLiLabel;
+
+            const contactGh = document.getElementById('contact-gh-btn');
+            if (contactGh) {
+                contactGh.textContent = t.contactOpenBtn;
+                contactGh.setAttribute('aria-label', t.contactGhAria);
+            }
+            const contactLi = document.getElementById('contact-li-btn');
+            if (contactLi) {
+                contactLi.textContent = t.contactOpenBtn;
+                contactLi.setAttribute('aria-label', t.contactLiAria);
+            }
 
             document.getElementById('footer-text').textContent = t.footerText;
         }
@@ -768,6 +877,8 @@
                 currentLang = currentLang === 'es' ? 'en' : 'es';
                 localStorage.setItem('riccivr-lang', currentLang);
                 applyLanguage(currentLang);
+                const t = i18n[currentLang] || i18n.es;
+                announceA11y(t.langAnnounce);
             });
 
             const themeBtn = document.getElementById('theme-toggle');
@@ -776,6 +887,7 @@
                 const isLight = document.documentElement.getAttribute('data-theme') === 'light';
                 const t = i18n[currentLang] || i18n.es;
                 themeBtn.textContent = isLight ? t.modePaper : t.modeCrt;
+                themeBtn.setAttribute('aria-label', isLight ? t.themeAriaPaper : t.themeAria);
             }
 
             themeBtn.addEventListener('click', () => {
@@ -789,6 +901,8 @@
                 localStorage.setItem('riccivr-theme', next);
                 updateThemeBtn();
                 syncTabsStyling();
+                const t = i18n[currentLang] || i18n.es;
+                announceA11y(next === 'light' ? t.themeAnnouncePaper : t.themeAnnounceCrt);
             });
 
             updateThemeBtn();
@@ -802,6 +916,8 @@
                 const enabled = areKeysEnabled();
                 const t = i18n[currentLang] || i18n.es;
                 keysToggleBtn.textContent = enabled ? t.keysOn : t.keysOff;
+                keysToggleBtn.setAttribute('aria-pressed', enabled ? 'true' : 'false');
+                keysToggleBtn.setAttribute('aria-label', t.keysAria);
                 keysToggleBtn.style.opacity = enabled ? '1' : '0.6';
             }
             keysToggleBtn.addEventListener('click', () => {
@@ -809,28 +925,32 @@
                 const nextState = currentlyEnabled ? 'off' : 'on';
                 localStorage.setItem('riccivr-keys', nextState);
                 updateKeysBtn();
+                const t = i18n[currentLang] || i18n.es;
+                announceA11y(nextState === 'on' ? t.keysAnnounceOn : t.keysAnnounceOff);
             });
             updateKeysBtn();
 
-            const tabs = document.querySelectorAll('.tab-button');
+            const tabButtons = Array.from(document.querySelectorAll('.tab-button'));
             const contents = document.querySelectorAll('.content-section');
             let currentTabId = 'projects-content';
 
             function syncTabsStyling() {
                 const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-                tabs.forEach(tab => {
+                tabButtons.forEach(tab => {
                     const isSelected = tab.getAttribute('data-target') === currentTabId;
+                    tab.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+                    tab.setAttribute('tabindex', '0');
                     if (isSelected) {
                         tab.style.backgroundColor = isLight ? 'var(--bg-tab-active)' : 'var(--bg-tab-active)';
-                        tab.style.borderBottom = 'none';
+                        tab.style.borderBottom = '2px solid var(--border-primary)';
                     } else {
                         tab.style.backgroundColor = 'transparent';
-                        tab.style.borderBottom = '';
+                        tab.style.borderBottom = 'none';
                     }
                 });
             }
 
-            function switchTab(targetId) {
+            function switchTab(targetId, shouldAnnounce = false) {
                 currentTabId = targetId;
                 contents.forEach(content => {
                     content.classList.add('hidden');
@@ -841,12 +961,47 @@
                     activeContent.classList.remove('hidden');
                 }
                 syncTabsStyling();
+
+                if (shouldAnnounce) {
+                    const t = i18n[currentLang] || i18n.es;
+                    const map = {
+                        'projects-content': t.tabAnnounceProjects,
+                        'blog-content': t.tabAnnounceBlog,
+                        'skills-content': t.tabAnnounceSkills,
+                        'contact-content': t.tabAnnounceContact
+                    };
+                    announceA11y(map[targetId] || targetId);
+                }
             }
 
-            tabs.forEach(tab => {
+            tabButtons.forEach((tab, index) => {
                 tab.addEventListener('click', () => {
-                    switchTab(tab.getAttribute('data-target'));
+                    switchTab(tab.getAttribute('data-target'), true);
                 });
+
+                // Keyboard arrow navigation for tabs (WAI-ARIA Tablist Pattern)
+                tab.addEventListener('keydown', (e) => {
+                    let targetIndex = null;
+                    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        targetIndex = (index + 1) % tabButtons.length;
+                    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        targetIndex = (index - 1 + tabButtons.length) % tabButtons.length;
+                    } else if (e.key === 'Home') {
+                        e.preventDefault();
+                        targetIndex = 0;
+                    } else if (e.key === 'End') {
+                        e.preventDefault();
+                        targetIndex = tabButtons.length - 1;
+                    }
+
+                    if (targetIndex !== null) {
+                        tabButtons[targetIndex].focus();
+                        switchTab(tabButtons[targetIndex].getAttribute('data-target'), true);
+                    }
+                });
+
                 tab.addEventListener('mouseenter', () => {
                     if (tab.getAttribute('data-target') !== currentTabId) {
                         tab.style.backgroundColor = 'var(--bg-tab-hover)';
@@ -896,11 +1051,11 @@
                     flashElement(emailBtn);
                     window.location.href = 'mailto:ricci.vr@gmail.com';
                 } else if (key === 'G') {
-                    const ghBtn = document.querySelector('a[href="https://github.com/riccivr"]');
+                    const ghBtn = document.getElementById('nav-btn-gh') || document.querySelector('a[href="https://github.com/riccivr"]');
                     flashElement(ghBtn);
                     window.open('https://github.com/riccivr', '_blank');
                 } else if (key === 'L') {
-                    const liBtn = document.querySelector('a[href*="linkedin.com"]');
+                    const liBtn = document.getElementById('nav-btn-li') || document.querySelector('a[href*="linkedin.com"]');
                     flashElement(liBtn);
                     window.open('https://www.linkedin.com/in/riccivr/', '_blank');
                 } else if (key === 'T') {
@@ -909,23 +1064,23 @@
                 } else if (key === '1' || key === 'P') {
                     const tab = document.getElementById('tab-projects');
                     flashElement(tab);
-                    switchTab('projects-content');
+                    switchTab('projects-content', true);
                 } else if (key === '2') {
                     const tab = document.getElementById('tab-blog');
                     flashElement(tab);
-                    switchTab('blog-content');
+                    switchTab('blog-content', true);
                 } else if (key === '3' || key === 'S') {
                     const tab = document.getElementById('tab-skills');
                     flashElement(tab);
-                    switchTab('skills-content');
+                    switchTab('skills-content', true);
                 } else if (key === '4') {
                     const tab = document.getElementById('tab-contact');
                     flashElement(tab);
-                    switchTab('contact-content');
+                    switchTab('contact-content', true);
                 }
             });
 
-            switchTab('projects-content');
+            switchTab('projects-content', false);
         });
     </script>
 

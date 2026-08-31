@@ -185,6 +185,9 @@
 </head>
 <body class="p-2 sm:p-6 md:p-12 min-h-screen">
 
+    <a href="#main-content" id="skip-link" class="skip-link">[SALTAR AL CONTENIDO]</a>
+    <div id="a11y-announcer" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+
     <div class="terminal-frame max-w-4xl mx-auto mt-1 sm:mt-4 rounded-lg overflow-hidden">
 
         <header class="p-2.5 sm:p-3 theme-bg-header border-b theme-border flex flex-col sm:flex-row justify-between sm:items-center gap-2">
@@ -196,13 +199,13 @@
             </div>
             <div class="flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2">
                 <div class="flex items-center gap-1.5 sm:gap-2">
-                    <button id="lang-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" title="Alternar idioma / Toggle Language [I]">
+                    <button id="lang-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-label="Alternar idioma / Toggle Language [I]" title="Alternar idioma / Toggle Language [I]">
                         [LANG: ES]
                     </button>
-                    <button id="keys-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" title="Alternar atajos de navegación por teclado">
+                    <button id="keys-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-pressed="true" aria-label="Alternar atajos de navegación por teclado" title="Alternar atajos de navegación por teclado">
                         [TECLAS: ACT]
                     </button>
-                    <button id="theme-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" title="Alternar tema (CRT / Papel)">
+                    <button id="theme-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-label="Alternar tema (CRT / Papel)" title="Alternar tema (CRT / Papel)">
                         [MODO: CRT]
                     </button>
                 </div>
@@ -212,7 +215,7 @@
             </div>
         </header>
 
-        <main class="p-3.5 sm:p-6 md:p-8">
+        <main id="main-content" class="p-3.5 sm:p-6 md:p-8" tabindex="-1">
 
             <!-- Banner / Nav Header -->
             <section class="theme-bg-section p-4 border theme-border mb-6">
@@ -229,7 +232,7 @@
                         <a href="../" id="home-portal-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
                             [<] Portal Principal
                         </a>
-                        <a href="https://github.com/riccivr" target="_blank" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
+                        <a href="https://github.com/riccivr" target="_blank" rel="noopener noreferrer" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold" aria-label="GitHub de Ricardo Veronese (se abre en nueva pestaña)">
                             [G] GitHub
                         </a>
                     </div>

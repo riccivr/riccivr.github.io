@@ -237,3 +237,55 @@ img, video {
     .md\:p-8 { padding: 2rem; }
     .md\:p-12 { padding: 3rem; }
 }
+
+/* Accessibility & Focus Utilities */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.skip-link {
+    position: absolute;
+    top: -120px;
+    left: 1rem;
+    background-color: var(--bg-header, #1a140d);
+    color: var(--text-heading, #fef08a);
+    border: 2px solid var(--border-primary, #d97706);
+    padding: 0.5rem 1rem;
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    z-index: 9999;
+    text-decoration: none;
+    transition: top 0.15s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.skip-link:focus, .skip-link:focus-visible {
+    top: 0.75rem;
+    outline: 2px solid var(--border-primary, #d97706);
+    outline-offset: 2px;
+}
+
+:focus-visible {
+    outline: 2px solid var(--border-primary, #d97706);
+    outline-offset: 2px;
+}
+
+.tab-button {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    border: none;
+    background: transparent;
+    text-align: inherit;
+    color: var(--text-main);
+}
