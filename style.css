@@ -284,8 +284,25 @@ img, video {
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
-    border: none;
-    background: transparent;
-    text-align: inherit;
+    font-weight: 700;
     color: var(--text-main);
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    text-align: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+    padding: 0.5rem 1rem;
+    transition: background-color 150ms ease, color 150ms ease;
 }
+
+.tab-button:focus {
+    outline: none;
+}
+
+.tab-button:focus-visible {
+    outline: 1px dashed var(--border-primary, #d97706) !important;
+    outline-offset: -2px !important;
+    background-color: var(--bg-tab-hover) !important;
+}
+

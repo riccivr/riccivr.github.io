@@ -259,16 +259,16 @@
             </section>
 
             <nav role="tablist" id="portfolio-tablist" aria-label="Secciones del portafolio" class="flex border-b theme-border mb-4 overflow-x-auto">
-                <button type="button" role="tab" id="tab-projects" aria-selected="true" aria-controls="projects-content" tabindex="0" class="tab-button interactive-link px-4 py-2 theme-border cursor-pointer whitespace-nowrap font-bold text-left" data-target="projects-content">
+                <button type="button" role="tab" id="tab-projects" aria-selected="true" aria-controls="projects-content" tabindex="0" class="tab-button px-4 py-2 cursor-pointer whitespace-nowrap font-bold text-left" data-target="projects-content">
                     PROYECTOS ACTIVOS
                 </button>
-                <button type="button" role="tab" id="tab-blog" aria-selected="false" aria-controls="blog-content" tabindex="0" class="tab-button interactive-link px-4 py-2 cursor-pointer transition duration-150 whitespace-nowrap font-bold text-left" data-target="blog-content">
+                <button type="button" role="tab" id="tab-blog" aria-selected="false" aria-controls="blog-content" tabindex="0" class="tab-button px-4 py-2 cursor-pointer whitespace-nowrap font-bold text-left" data-target="blog-content">
                     BLOG & ARTÍCULOS
                 </button>
-                <button type="button" role="tab" id="tab-skills" aria-selected="false" aria-controls="skills-content" tabindex="0" class="tab-button interactive-link px-4 py-2 cursor-pointer transition duration-150 whitespace-nowrap font-bold text-left" data-target="skills-content">
+                <button type="button" role="tab" id="tab-skills" aria-selected="false" aria-controls="skills-content" tabindex="0" class="tab-button px-4 py-2 cursor-pointer whitespace-nowrap font-bold text-left" data-target="skills-content">
                     STACK & SKILLS
                 </button>
-                <button type="button" role="tab" id="tab-contact" aria-selected="false" aria-controls="contact-content" tabindex="0" class="tab-button interactive-link px-4 py-2 cursor-pointer transition duration-150 whitespace-nowrap font-bold text-left" data-target="contact-content">
+                <button type="button" role="tab" id="tab-contact" aria-selected="false" aria-controls="contact-content" tabindex="0" class="tab-button px-4 py-2 cursor-pointer whitespace-nowrap font-bold text-left" data-target="contact-content">
                     CONTACTO
                 </button>
             </nav>
@@ -942,10 +942,10 @@
                     tab.setAttribute('tabindex', '0');
                     if (isSelected) {
                         tab.style.backgroundColor = isLight ? 'var(--bg-tab-active)' : 'var(--bg-tab-active)';
-                        tab.style.borderBottom = '2px solid var(--border-primary)';
+                        tab.style.borderBottom = 'none';
                     } else {
                         tab.style.backgroundColor = 'transparent';
-                        tab.style.borderBottom = 'none';
+                        tab.style.borderBottom = '';
                     }
                 });
             }
@@ -1016,10 +1016,11 @@
 
             function flashElement(el) {
                 if (!el) return;
+                const isTab = el.classList.contains('tab-button');
                 const prevBg = el.style.backgroundColor;
                 const prevColor = el.style.color;
-                el.style.backgroundColor = 'var(--btn-hover-bg)';
-                el.style.color = 'var(--btn-hover-text)';
+                el.style.backgroundColor = isTab ? 'var(--bg-tab-hover)' : 'var(--btn-hover-bg)';
+                if (!isTab) el.style.color = 'var(--btn-hover-text)';
                 setTimeout(() => {
                     el.style.backgroundColor = prevBg;
                     el.style.color = prevColor;
