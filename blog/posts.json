@@ -1,5 +1,57 @@
 [
   {
+    "slug": "gitcrawl-content-addressable-web-archiver",
+    "date": "2026-08-31",
+    "title": "gitcrawl: crawler web direccionable por contenido y motor de snapshots en Git",
+    "category": "Sistemas & Arquitectura",
+    "tags": [
+      "C99",
+      "Git",
+      "Web Archiving",
+      "Crawlers",
+      "POSIX",
+      "Arquitectura",
+      "Sistemas"
+    ],
+    "summary": "En mi artículo anterior sobre archivar la web con Git, exploré la teoría detrás de usar el almacén de objetos direccionable por contenido de Git como base de datos histórica para páginas web y documentación técnica.",
+    "readingTime": "4 min",
+    "file": "posts/gitcrawl-content-addressable-web-archiver.es.md",
+    "en": {
+      "title": "gitcrawl: Content-Addressable Web Archiver and Snapshot Engine Backed by Git",
+      "date": "2026-08-31",
+      "category": "Systems & Architecture",
+      "tags": [
+        "C99",
+        "Git",
+        "Web Archiving",
+        "Crawlers",
+        "POSIX",
+        "Architecture",
+        "Systems"
+      ],
+      "summary": "In my previous article on archiving the web with Git, I explored the theory behind using Git's content-addressable object store as a historical database for web pages and technical documentation.",
+      "readingTime": "4 min",
+      "file": "posts/gitcrawl-content-addressable-web-archiver.en.md"
+    },
+    "es": {
+      "title": "gitcrawl: crawler web direccionable por contenido y motor de snapshots en Git",
+      "date": "2026-08-31",
+      "category": "Sistemas & Arquitectura",
+      "tags": [
+        "C99",
+        "Git",
+        "Web Archiving",
+        "Crawlers",
+        "POSIX",
+        "Arquitectura",
+        "Sistemas"
+      ],
+      "summary": "En mi artículo anterior sobre archivar la web con Git, exploré la teoría detrás de usar el almacén de objetos direccionable por contenido de Git como base de datos histórica para páginas web y documentación técnica.",
+      "readingTime": "4 min",
+      "file": "posts/gitcrawl-content-addressable-web-archiver.es.md"
+    }
+  },
+  {
     "slug": "being-a-good-net-citizen-in-the-ai-era",
     "date": "2026-08-30",
     "title": "Ser un buen ciudadano de la red en la era de la IA: guía moderna para el rastreo y descubrimiento web",
@@ -61,8 +113,8 @@
       "C99",
       "Arquitectura"
     ],
-    "summary": "Las páginas web mutan y desaparecen a cada rato. Las empresas borran documentación durante rediseños corporativos, los términos de servicio cambian sin avisar y los links se rompen de la nada.",
-    "readingTime": "4 min",
+    "summary": "> Actualización: El prototipo descrito en este artículo ya es una realidad y está disponible en código abierto como gitcrawl. Puedes leer el desglose técnico, benchmarks y especificaciones de arquitectura completas en: g...",
+    "readingTime": "5 min",
     "file": "posts/preserving-the-web-with-git.es.md",
     "en": {
       "title": "Archiving the web with Git: building a content-addressable crawler",
@@ -76,7 +128,7 @@
         "C99",
         "Architecture"
       ],
-      "summary": "Web pages disappear all the time. Companies delete docs during rebrands, terms of service change without changelogs, and links rot.",
+      "summary": "> Update: The concepts explored in this post are now implemented and available as an open-source project: gitcrawl. Read the full technical writeup, benchmarks, and architecture specifications in: gitcrawl: Content-Addre...",
       "readingTime": "4 min",
       "file": "posts/preserving-the-web-with-git.en.md"
     },
@@ -92,8 +144,8 @@
         "C99",
         "Arquitectura"
       ],
-      "summary": "Las páginas web mutan y desaparecen a cada rato. Las empresas borran documentación durante rediseños corporativos, los términos de servicio cambian sin avisar y los links se rompen de la nada.",
-      "readingTime": "4 min",
+      "summary": "> Actualización: El prototipo descrito en este artículo ya es una realidad y está disponible en código abierto como gitcrawl. Puedes leer el desglose técnico, benchmarks y especificaciones de arquitectura completas en: g...",
+      "readingTime": "5 min",
       "file": "posts/preserving-the-web-with-git.es.md"
     }
   },

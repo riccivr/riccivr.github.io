@@ -277,6 +277,35 @@
 
                 <section id="projects-content" role="tabpanel" aria-labelledby="tab-projects" tabindex="0" class="content-section space-y-6">
 
+                    <!-- gitcrawl -->
+                    <article class="border theme-border-subtle theme-bg-card p-4 transition duration-150">
+                        <header class="flex justify-between items-start mb-2">
+                            <div>
+                                <h2 class="font-bold text-lg theme-text-heading">
+                                    <a href="https://github.com/riccivr/gitcrawl" target="_blank" rel="noopener noreferrer" id="gitcrawl-link" aria-label="Repositorio gitcrawl en GitHub (se abre en una nueva pestaña)" class="hover:underline inline-flex items-center gap-1.5">
+                                        gitcrawl <span class="text-xs opacity-75" aria-hidden="true">↗</span>
+                                    </a>
+                                </h2>
+                                <span id="gitcrawl-sub" class="text-xs theme-text-muted font-bold">Crawler y archivador web direccionable por contenido sobre repositorios Git</span>
+                            </div>
+                            <div id="gitcrawl-badge" class="text-xs theme-text-muted text-right whitespace-nowrap font-semibold">
+                                Activo
+                            </div>
+                        </header>
+                        <div class="text-sm leading-relaxed theme-text-main mt-2">
+                            <p id="gitcrawl-desc" class="mb-3">
+                                CLI en C99 que rastrea sitios web y guarda snapshots históricos en Markdown directamente dentro de repositorios Git (.git/objects). Se salta el working tree escribiendo objetos en memoria, usa compresión delta nativa para ahorrar gigabytes y te permite auditar cambios con git diff y git log sin bases de datos.
+                            </p>
+                            <div id="gitcrawl-tags" class="flex flex-wrap gap-1.5 pt-1">
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">C99</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">GIT PLUMBING</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">CRAWLERS</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">POSIX</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">ZERO-DEP</span>
+                            </div>
+                        </div>
+                    </article>
+
                     <!-- approx -->
                     <article class="border theme-border-subtle theme-bg-card p-4 transition duration-150">
                         <header class="flex justify-between items-start mb-2">
@@ -527,6 +556,11 @@
                 tabAnnounceBlog: "Sección Blog y Artículos mostrada",
                 tabAnnounceSkills: "Sección Stack y Habilidades mostrada",
                 tabAnnounceContact: "Sección Contacto mostrada",
+                gitcrawlSub: "Crawler y archivador web direccionable por contenido sobre repositorios Git",
+                gitcrawlBadge: "Activo",
+                gitcrawlDesc: "CLI en C99 que rastrea sitios web y guarda snapshots históricos en Markdown directamente dentro de repositorios Git (.git/objects). Se salta el working tree escribiendo objetos en memoria, usa compresión delta nativa para ahorrar gigabytes y te permite auditar cambios con git diff y git log sin bases de datos.",
+                gitcrawlTags: ["C99", "GIT PLUMBING", "CRAWLERS", "POSIX", "ZERO-DEP"],
+                gitcrawlGhAria: "Repositorio gitcrawl en GitHub (se abre en una nueva pestaña)",
                 approxSub: "Filtro y ranker difuso para streams POSIX (no interactivo)",
                 approxBadge: "Activo",
                 approxDesc: "CLI ultraligera en C99 con cero dependencias para filtrar y ordenar texto en streams usando coincidencia difusa. Usa memoria O(M) con programación dinámica. La armé para meterla en scripts, pipelines UNIX y microcontroladores donde las TUIs interactivas como fzf no dan la talla.",
@@ -637,6 +671,11 @@
                 tabAnnounceBlog: "Blog and Articles section displayed",
                 tabAnnounceSkills: "Stack and Skills section displayed",
                 tabAnnounceContact: "Contact section displayed",
+                gitcrawlSub: "Content-addressable web archiver & snapshot engine backed by Git",
+                gitcrawlBadge: "Active",
+                gitcrawlDesc: "A C99 CLI tool that crawls web pages and commits historical Markdown snapshots directly into Git repositories (.git/objects). It bypasses the working tree by writing in-memory objects, leverages native delta compression to save gigabytes, and lets you audit changes with git diff and git log with zero databases.",
+                gitcrawlTags: ["C99", "GIT PLUMBING", "CRAWLERS", "POSIX", "ZERO-DEP"],
+                gitcrawlGhAria: "gitcrawl repository on GitHub (opens in a new tab)",
                 approxSub: "Non-interactive POSIX fuzzy stream filter and ranker",
                 approxBadge: "Active",
                 approxDesc: "A small C99 CLI tool that filters and sorts streams of text using fuzzy string matching. It uses an O(M) memory layout with dynamic programming. Built for automated UNIX pipelines, cron jobs, and small devices where you want fuzzy filtering without an interactive terminal UI like fzf.",
@@ -799,6 +838,13 @@
             document.getElementById('tab-blog').textContent = t.tabBlog;
             document.getElementById('tab-skills').textContent = t.tabSkills;
             document.getElementById('tab-contact').textContent = t.tabContact;
+
+            document.getElementById('gitcrawl-sub').textContent = t.gitcrawlSub;
+            document.getElementById('gitcrawl-badge').textContent = t.gitcrawlBadge;
+            document.getElementById('gitcrawl-desc').textContent = t.gitcrawlDesc;
+            document.getElementById('gitcrawl-tags').innerHTML = t.gitcrawlTags.map(tag => `<span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">${tag}</span>`).join('');
+            const gitcrawlLink = document.getElementById('gitcrawl-link');
+            if (gitcrawlLink) gitcrawlLink.setAttribute('aria-label', t.gitcrawlGhAria || 'gitcrawl');
 
             document.getElementById('approx-sub').textContent = t.approxSub;
             document.getElementById('approx-badge').textContent = t.approxBadge;

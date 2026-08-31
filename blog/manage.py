@@ -40,6 +40,7 @@ SPANISH_MONTHS = {
 }
 
 POST_CHRONO_ORDER = {
+    "gitcrawl-content-addressable-web-archiver": 4,
     "being-a-good-net-citizen-in-the-ai-era": 3,
     "preserving-the-web-with-git": 2,
     "using-github-as-a-database": 1
@@ -226,6 +227,7 @@ def generate_llms_txt(posts):
         "> Systems & Cloud Engineer specializing in AWS, Cloud Architecture, C99/POSIX low-level systems, parsers, and memory-bounded algorithms.",
         "",
         "## Active Projects",
+        "- [gitcrawl](https://github.com/riccivr/gitcrawl): Content-addressable web archiver and crawler CLI storing structured Markdown snapshots directly into native Git repositories.",
         "- [approx](https://github.com/riccivr/approx): Non-interactive POSIX fuzzy stream filter and ranker in clean Suckless C with zero dependencies.",
         "- [unipaste](https://github.com/riccivr/unipaste): Zero-dependency POSIX universal rich text & clipboard converter producing structured Markdown and ASCII tables.",
         "- [clipbridge](https://github.com/riccivr/clipbridge): Cross-platform universal clipboard listener daemon powered by unipaste.",

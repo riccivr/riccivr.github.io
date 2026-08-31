@@ -5,6 +5,10 @@
 
 ---
 
+> **Update**: The concepts explored in this post are now implemented and available as an open-source project: [**`gitcrawl`**](https://github.com/riccivr/gitcrawl). Read the full technical writeup, benchmarks, and architecture specifications in: [**`gitcrawl: Content-Addressable Web Archiver and Snapshot Engine Backed by Git`**](post.html?post=gitcrawl-content-addressable-web-archiver).
+
+---
+
 Web pages disappear all the time. Companies delete docs during rebrands, terms of service change without changelogs, and links rot.
 
 The Wayback Machine is great for visual browsing, but it is not built for running fast local diffs, grep queries, or UNIX shell scripts.
@@ -120,12 +124,12 @@ This keeps commits in memory and takes milliseconds instead of seconds per batch
 
 ---
 
-## 5. Prototype status
+## 5. From prototype to `gitcrawl`
 
-I am putting together a standalone CLI tool based on this design:
+The standalone CLI tool based on this architecture is now live:
 
-1. A C99 core engine for streaming HTTP downloads and sanitization without external libraries.
-2. A stream parser using the Markdown generation logic from [`unipaste`](https://github.com/riccivr/unipaste).
-3. Fast search using [`approx`](https://github.com/riccivr/approx) to fuzzy-match historical pages from the shell.
+1. A core C99 engine for streaming HTTP fetches and DOM sanitization with zero dependencies: [**`gitcrawl`**](https://github.com/riccivr/gitcrawl).
+2. A stream parser based on the Markdown conversion engine from [`unipaste`](https://github.com/riccivr/unipaste).
+3. Fast terminal history search using fuzzy matching with [`approx`](https://github.com/riccivr/approx).
 
-I will publish benchmarks and the open source repo once the C core is stable.
+Check out the full technical writeup, compression benchmarks, and usage patterns in the launch post: [**`gitcrawl: Content-Addressable Web Archiver and Snapshot Engine Backed by Git`**](post.html?post=gitcrawl-content-addressable-web-archiver).

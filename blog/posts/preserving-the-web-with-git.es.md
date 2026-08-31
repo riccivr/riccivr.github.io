@@ -5,6 +5,10 @@
 
 ---
 
+> **Actualización**: El prototipo descrito en este artículo ya es una realidad y está disponible en código abierto como [**`gitcrawl`**](https://github.com/riccivr/gitcrawl). Puedes leer el desglose técnico, benchmarks y especificaciones de arquitectura completas en: [**`gitcrawl: crawler web direccionable por contenido y motor de snapshots en Git`**](post.html?post=gitcrawl-content-addressable-web-archiver).
+
+---
+
 Las páginas web mutan y desaparecen a cada rato. Las empresas borran documentación durante rediseños corporativos, los términos de servicio cambian sin avisar y los links se rompen de la nada.
 
 La Wayback Machine de Internet Archive es una nota para ver páginas en el navegador, pero no está hecha para correr diffs rápidos en local, meterle grep o armar scripts en la terminal.
@@ -120,12 +124,12 @@ Esto procesa los commits en memoria a millón. Ejecutar `git gc --prune=now` cad
 
 ---
 
-## 5. Echándole pichón al prototipo
+## 5. Del prototipo a `gitcrawl`
 
-Estoy armando una herramienta CLI standalone basada en esta estructura:
+La herramienta CLI standalone basada en esta estructura ya está publicada:
 
-1. Un motor central en C99 para descargas HTTP en streaming y sanitización sin dependencias raras.
+1. Un motor central en C99 para descargas HTTP en streaming y sanitización sin dependencias externas: [**`gitcrawl`**](https://github.com/riccivr/gitcrawl).
 2. Un parser de streams basado en la lógica de conversión a Markdown de [`unipaste`](https://github.com/riccivr/unipaste).
 3. Búsqueda rápida con [`approx`](https://github.com/riccivr/approx) para encontrar páginas en el historial usando coincidencia difusa directo desde la shell.
 
-Pronto estaré publicando benchmarks y el código en open-source cuando el núcleo en C esté fino.
+Revisa el artículo completo con especificaciones, benchmarks de compresión y casos de uso en el post de lanzamiento: [**`gitcrawl: crawler web direccionable por contenido y motor de snapshots en Git`**](post.html?post=gitcrawl-content-addressable-web-archiver).
