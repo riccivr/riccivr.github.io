@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
     <meta name="author" content="Ricardo Veronese">
     <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed" href="https://riccivr.github.io/feed.xml">
-    <link rel="help" type="text/markdown" title="Documentación para LLMs" href="https://riccivr.github.io/llms.txt">
+    <meta name="description" id="meta-desc" content="Artículos y análisis técnicos sobre arquitectura cloud, sistemas POSIX en C99, parsers y desarrollo web por Ricardo Veronese.">
 
     <!-- Open Graph Default -->
     <meta property="og:type" content="article">
@@ -19,8 +19,7 @@
     <meta name="twitter:image" content="https://riccivr.github.io/riccivr-retro-og.png">
 
     <link rel="stylesheet" href="../style.css">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="posts-data.js"></script>
     <script>
         // Immediately apply saved or system theme and language to avoid FOUC
         (function() {
@@ -381,18 +380,18 @@
             <!-- Navigation Controls -->
             <div class="flex flex-wrap items-center justify-between gap-3 pb-4 mb-6 border-b theme-border-subtle">
                 <div class="flex space-x-2">
-                    <a href="index.html" id="back-index-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
+                    <a href="index.html" id="back-index-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold" aria-label="Volver a la lista del blog">
                         [<] Volver al Blog
                     </a>
-                    <a href="../" id="home-portal-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
+                    <a href="../" id="home-portal-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold" aria-label="Ir al portal principal">
                         [H] Portal Principal
                     </a>
                 </div>
                 <div class="flex space-x-2">
-                    <button id="copy-link-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
+                    <button id="copy-link-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold" aria-label="Copiar enlace de este artículo">
                         [S] Copiar Enlace
                     </button>
-                    <a href="https://github.com/riccivr/riccivr.github.io" target="_blank" id="repo-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
+                    <a href="https://github.com/riccivr/riccivr.github.io" target="_blank" id="repo-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold" aria-label="Ver repositorio en GitHub">
                         [G] Repo
                     </a>
                 </div>
@@ -400,19 +399,15 @@
 
             <!-- Post Container -->
             <article id="post-article">
-                <div id="post-loading" class="theme-text-muted text-sm animate-pulse p-6 text-center font-bold">
-                    Cargando markdown stream desde el repo...
-                </div>
-                
-                <div id="post-content" class="hidden"></div>
+                <div id="post-content"></div>
             </article>
 
             <!-- Bottom Return Navigation -->
             <div class="mt-8 pt-4 border-t theme-border-subtle flex justify-between items-center">
-                <a href="index.html" id="bottom-back-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
+                <a href="index.html" id="bottom-back-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold" aria-label="Volver a la lista de artículos">
                     [<] Volver al Blog
                 </a>
-                <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" id="bottom-top-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
+                <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" id="bottom-top-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold" aria-label="Ir arriba">
                     [^] Arriba
                 </a>
             </div>
@@ -422,7 +417,7 @@
         <footer class="p-4 border-t theme-border text-sm flex justify-between items-center theme-bg-header">
             <span class="theme-text-muted text-xs font-bold">riccivr.github.io/blog</span>
             <span id="footer-text" class="text-right text-xs theme-text-muted font-medium">
-                Markdown Engine · marked.js + highlight.js
+                Markdown Engine · Static Pre-rendered
             </span>
         </footer>
 
@@ -443,11 +438,11 @@
                 copyLink: "[S] Copiar Enlace",
                 copied: "[✓] ¡Copiado!",
                 repo: "[G] Repo",
-                loading: "Cargando markdown stream desde el repo...",
+                loading: "Cargando...",
                 noPost: "[!] No se especificó ningún post.",
                 browseAll: "[Explorar todos los posts]",
                 topBtn: "[^] Arriba",
-                footerText: "Markdown Engine · marked.js + highlight.js"
+                footerText: "Markdown Engine · Static Pre-rendered"
             },
             en: {
                 sysId: "SYS.ID: riccivr // BLOG",
@@ -462,11 +457,11 @@
                 copyLink: "[S] Copy Link",
                 copied: "[✓] Copied!",
                 repo: "[G] Repo",
-                loading: "Fetching markdown stream from repository...",
+                loading: "Loading...",
                 noPost: "[!] No post specified.",
                 browseAll: "[Browse all posts]",
                 topBtn: "[^] Top",
-                footerText: "Markdown Engine · marked.js + highlight.js"
+                footerText: "Markdown Engine · Static Pre-rendered"
             }
         };
 
@@ -541,107 +536,57 @@
             updateKeysBtn();
         });
 
-        marked.setOptions({
-            highlight: function(code, lang) {
-                if (lang && hljs.getLanguage(lang)) {
-                    try {
-                        return hljs.highlight(code, { language: lang }).value;
-                    } catch (err) {}
-                }
-                return hljs.highlightAuto(code).value;
-            },
-            breaks: true,
-            gfm: true
-        });
-
-        async function loadPost() {
+        function loadPost() {
             const urlParams = new URLSearchParams(window.location.search);
-            const slug = urlParams.get('post');
-            const loadingEl = document.getElementById('post-loading');
+            const slug = urlParams.get('post') || 'being-a-good-net-citizen-in-the-ai-era';
             const contentEl = document.getElementById('post-content');
             const t = i18n[currentLang] || i18n.es;
 
-            if (!slug) {
-                loadingEl.innerHTML = `
+            if (window.__POSTS_DATA__ && window.__POSTS_DATA__[slug]) {
+                const postEntry = window.__POSTS_DATA__[slug];
+                const postMeta = postEntry[currentLang] || postEntry['es'] || postEntry['en'] || postEntry;
+
+                document.title = `${postMeta.title} - Ricardo Veronese`;
+                const sysId = document.getElementById('header-sys-id');
+                if (sysId) sysId.textContent = `SYS.ID: riccivr // ${postEntry.slug}`;
+
+                const metaDescEl = document.getElementById('meta-desc');
+                if (metaDescEl && postMeta.summary) {
+                    metaDescEl.setAttribute('content', postMeta.summary);
+                }
+
+                // Inject Schema.org TechArticle JSON-LD
+                const existingSchema = document.getElementById('post-schema');
+                if (existingSchema) existingSchema.remove();
+                const schemaScript = document.createElement('script');
+                schemaScript.id = 'post-schema';
+                schemaScript.type = 'application/ld+json';
+                schemaScript.textContent = JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "TechArticle",
+                    "headline": postMeta.title,
+                    "description": postMeta.summary,
+                    "datePublished": postEntry.date,
+                    "dateModified": postEntry.date,
+                    "author": {
+                        "@type": "Person",
+                        "name": "Ricardo Veronese",
+                        "url": "https://riccivr.github.io/"
+                    },
+                    "publisher": {
+                        "@type": "Person",
+                        "name": "Ricardo Veronese"
+                    },
+                    "mainEntityOfPage": window.location.href,
+                    "keywords": (postMeta.tags || []).join(", ")
+                });
+                document.head.appendChild(schemaScript);
+
+                contentEl.innerHTML = postMeta.html || '';
+            } else {
+                contentEl.innerHTML = `
                     <div class="border theme-border-subtle p-4 theme-text-muted text-sm font-bold">
                         ${t.noPost} <a href="index.html" class="underline">${t.browseAll}</a>
-                    </div>
-                `;
-                return;
-            }
-
-            loadingEl.textContent = t.loading;
-            loadingEl.classList.remove('hidden');
-            contentEl.classList.add('hidden');
-
-            try {
-                // Fetch post manifest to get file path and title
-                const manifestRes = await fetch('posts.json');
-                if (!manifestRes.ok) throw new Error('Failed to load posts index');
-                const manifest = await manifestRes.json();
-                const postEntry = manifest.find(p => p.slug === slug);
-
-                const postMeta = postEntry ? (postEntry[currentLang] || postEntry['es'] || postEntry['en'] || postEntry) : null;
-                
-                // Determine file path: prefer localized file, fallback to standard
-                let mdFile = `posts/${slug}.${currentLang}.md`;
-                if (postMeta && postMeta.file) {
-                    mdFile = postMeta.file;
-                }
-
-                let mdRes = await fetch(mdFile);
-                if (!mdRes.ok) {
-                    mdRes = await fetch(`posts/${slug}.md`);
-                }
-                if (!mdRes.ok) throw new Error(`Log file "${slug}" not found`);
-
-                const markdownText = await mdRes.text();
-                contentEl.innerHTML = marked.parse(markdownText);
-                
-                if (postMeta && postMeta.title) {
-                    document.title = `${postMeta.title} - Ricardo Veronese`;
-                    document.getElementById('header-sys-id').textContent = `SYS.ID: riccivr // ${postEntry.slug}`;
-
-                    // Inject Schema.org TechArticle JSON-LD
-                    const existingSchema = document.getElementById('post-schema');
-                    if (existingSchema) existingSchema.remove();
-                    const schemaScript = document.createElement('script');
-                    schemaScript.id = 'post-schema';
-                    schemaScript.type = 'application/ld+json';
-                    schemaScript.textContent = JSON.stringify({
-                        "@context": "https://schema.org",
-                        "@type": "TechArticle",
-                        "headline": postMeta.title,
-                        "description": postMeta.summary,
-                        "datePublished": postEntry.date,
-                        "dateModified": postEntry.date,
-                        "author": {
-                            "@type": "Person",
-                            "name": "Ricardo Veronese",
-                            "url": "https://riccivr.github.io/"
-                        },
-                        "publisher": {
-                            "@type": "Person",
-                            "name": "Ricardo Veronese"
-                        },
-                        "mainEntityOfPage": window.location.href,
-                        "keywords": (postMeta.tags || []).join(", ")
-                    });
-                    document.head.appendChild(schemaScript);
-                }
-
-                loadingEl.classList.add('hidden');
-                contentEl.classList.remove('hidden');
-
-                // Highlight code blocks
-                document.querySelectorAll('pre code').forEach((block) => {
-                    hljs.highlightElement(block);
-                });
-            } catch (err) {
-                loadingEl.innerHTML = `
-                    <div class="border border-red-500/50 p-4 text-red-500 text-sm font-bold">
-                        [ERROR] ${err.message}<br>
-                        <a href="index.html" class="interactive-link border theme-border px-2 py-1 mt-3 inline-block text-xs uppercase">${t.backIndex}</a>
                     </div>
                 `;
             }

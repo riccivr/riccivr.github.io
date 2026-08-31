@@ -12,10 +12,16 @@ import json
 import datetime
 from xml.sax.saxutils import escape
 
+try:
+    import markdown
+except ImportError:
+    markdown = None
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SITE_ROOT = os.path.dirname(BASE_DIR)
 POSTS_DIR = os.path.join(BASE_DIR, "posts")
 POSTS_JSON = os.path.join(BASE_DIR, "posts.json")
+POSTS_DATA_JS = os.path.join(BASE_DIR, "posts-data.js")
 SITEMAP_XML = os.path.join(SITE_ROOT, "sitemap.xml")
 FEED_XML = os.path.join(SITE_ROOT, "feed.xml")
 LLMS_TXT = os.path.join(SITE_ROOT, "llms.txt")
@@ -72,6 +78,12 @@ def parse_date(content):
 
     return datetime.date.today().isoformat()
 
+def markdown_to_html(content):
+    if markdown:
+        md = markdown.Markdown(extensions=['fenced_code', 'tables', 'nl2br', 'sane_lists'])
+        return md.convert(content)
+    return "<p>" + content.replace("\n\n", "</p><p>") + "</p>"
+
 def parse_markdown_file(filepath):
     with open(filepath, 'r', encoding='utf-8') as f:
         content = f.read()
@@ -101,6 +113,7 @@ def parse_markdown_file(filepath):
         tags = ["Systems", "Architecture"]
 
     reading_time = estimate_reading_time(content)
+    html_content = markdown_to_html(content)
 
     return {
         "title": title,
@@ -109,6 +122,7 @@ def parse_markdown_file(filepath):
         "tags": tags,
         "summary": summary,
         "readingTime": reading_time,
+        "html": html_content,
         "file": f"posts/{os.path.basename(filepath)}"
     }
 
@@ -126,24 +140,18 @@ def generate_sitemap(posts):
     today = datetime.date.today().isoformat()
     xml_lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+        '  <url>',
+        f'    <loc>{SITE_URL}/</loc>',
+        '    <changefreq>weekly</changefreq>',
+        '    <priority>1.0</priority>',
+        '  </url>',
+        '  <url>',
+        f'    <loc>{SITE_URL}/blog/</loc>',
+        '    <changefreq>weekly</changefreq>',
+        '    <priority>0.9</priority>',
+        '  </url>'
     ]
-
-    # Home page
-    xml_lines.append('  <url>')
-    xml_lines.append(f'    <loc>{SITE_URL}/</loc>')
-    xml_lines.append(f'    <lastmod>{today}</lastmod>')
-    xml_lines.append('    <changefreq>weekly</changefreq>')
-    xml_lines.append('    <priority>1.0</priority>')
-    xml_lines.append('  </url>')
-
-    # Blog index
-    xml_lines.append('  <url>')
-    xml_lines.append(f'    <loc>{SITE_URL}/blog/</loc>')
-    xml_lines.append(f'    <lastmod>{today}</lastmod>')
-    xml_lines.append('    <changefreq>daily</changefreq>')
-    xml_lines.append('    <priority>0.9</priority>')
-    xml_lines.append('  </url>')
 
     # Each post
     for post in posts:
@@ -275,14 +283,34 @@ def cmd_build():
     posts.sort(key=lambda x: (x['date'], POST_CHRONO_ORDER.get(x['slug'], x['_mtime'])), reverse=True)
 
     clean_posts = []
+    posts_data_dict = {}
+
     for p in posts:
         item = dict(p)
         item.pop('_mtime', None)
-        clean_posts.append(item)
+        
+        # Clean JSON without large html strings in posts.json
+        clean_item = dict(item)
+        if clean_item.get('en') and 'html' in clean_item['en']:
+            clean_item_en = dict(clean_item['en'])
+            clean_item_en.pop('html', None)
+            clean_item['en'] = clean_item_en
+        if clean_item.get('es') and 'html' in clean_item['es']:
+            clean_item_es = dict(clean_item['es'])
+            clean_item_es.pop('html', None)
+            clean_item['es'] = clean_item_es
+        clean_posts.append(clean_item)
+
+        # Full precompiled dictionary in posts-data.js
+        posts_data_dict[p['slug']] = item
 
     with open(POSTS_JSON, 'w', encoding='utf-8') as f:
         json.dump(clean_posts, f, indent=2, ensure_ascii=False)
     print(f"[✓] Indexed {len(clean_posts)} bilingual posts into {POSTS_JSON}")
+
+    with open(POSTS_DATA_JS, 'w', encoding='utf-8') as f:
+        f.write("window.__POSTS_DATA__ = " + json.dumps(posts_data_dict, ensure_ascii=False) + ";\n")
+    print(f"[✓] Generated pre-rendered post bundle {POSTS_DATA_JS}")
 
     generate_sitemap(clean_posts)
     generate_rss(clean_posts)
