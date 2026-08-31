@@ -72,13 +72,13 @@
             
             --border-primary: #d97706;
             --border-subtle: rgba(217, 119, 6, 0.45);
-            --border-dim: rgba(217, 119, 6, 0.2);
+            --border-dim: rgba(217, 119, 6, 0.3);
             
             --text-title: #fffbeb;
             --text-heading: #fef08a;
             --text-main: #fde68a;
-            --text-muted: #d97706;
-            --text-dim: #92400e;
+            --text-muted: #fbbf24;
+            --text-dim: #f59e0b;
             
             --scanline-color: rgba(245, 158, 11, 0.035);
             --frame-shadow: 0 0 16px rgba(245, 158, 11, 0.2), 0 0 1px rgba(245, 158, 11, 0.4) inset;
@@ -104,7 +104,7 @@
             --text-heading: #78350f;
             --text-main: #2b1103;
             --text-muted: #612809;
-            --text-dim: #92400e;
+            --text-dim: #78350f;
             
             --scanline-color: rgba(146, 64, 14, 0.035);
             --frame-shadow: 0 3px 14px rgba(146, 64, 14, 0.18), 0 0 0 1px rgba(146, 64, 14, 0.12) inset;
@@ -236,11 +236,13 @@
                 <input 
                     type="text" 
                     id="search-input" 
+                    aria-label="Buscar artículos o filtrar por etiquetas"
                     placeholder="Buscar posts o filtrar por tags (ej. SQLite, Cloud, Git)..." 
                     class="w-full border pl-8 pr-28 py-2 text-sm font-mono transition-colors"
                 />
                 <button 
                     id="clear-btn" 
+                    aria-label="Limpiar búsqueda"
                     class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 interactive-link border theme-border px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider" 
                     title="Limpiar búsqueda / Clear">
                     [x] Limpiar
@@ -249,7 +251,101 @@
 
             <!-- Posts List Container -->
             <div id="posts-container" class="space-y-6">
-                <div id="loading-message" class="theme-text-muted text-sm animate-pulse">Cargando posts...</div>
+                <!-- Post 1 -->
+                <article class="border theme-border-subtle theme-bg-card p-5 transition duration-150">
+                    <header class="flex flex-col sm:flex-row justify-between sm:items-center gap-1 mb-2 border-b theme-border-dim pb-2">
+                        <div class="text-xs theme-text-muted font-bold font-mono">
+                            POST_2026.08.30 // WEB STANDARDS & CLOUD
+                        </div>
+                        <div class="text-xs theme-text-dim font-medium">
+                            Lectura: ~5 min
+                        </div>
+                    </header>
+                    <h2 class="text-lg sm:text-xl font-bold theme-text-heading mb-2">
+                        <a href="post.html?post=being-a-good-net-citizen-in-the-ai-era" class="hover:underline">
+                            Ser un buen ciudadano de la red en la era de la IA: guía moderna para el rastreo y descubrimiento web
+                        </a>
+                    </h2>
+                    <p class="text-sm leading-relaxed theme-text-main mb-4">
+                        Los buscadores cambiaron la web indexando enlaces. Hoy en día la vaina es otra: los agentes de IA, los pipelines RAG y motores como Perplexity o Claude recorren sitios web para responderle de una vez a la gente.
+                    </p>
+                    <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t theme-border-dim">
+                        <div class="flex flex-wrap gap-1.5">
+                            <button onclick="setFilterTag('Web Standards')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#Web Standards</button>
+                            <button onclick="setFilterTag('IA')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#IA</button>
+                            <button onclick="setFilterTag('SEO')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#SEO</button>
+                            <button onclick="setFilterTag('Crawlers')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#Crawlers</button>
+                            <button onclick="setFilterTag('Arquitectura')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#Arquitectura</button>
+                        </div>
+                        <a href="post.html?post=being-a-good-net-citizen-in-the-ai-era" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold" aria-label="Leer artículo: Ser un buen ciudadano de la red en la era de la IA">
+                            [LEER ARTÍCULO ->]
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Post 2 -->
+                <article class="border theme-border-subtle theme-bg-card p-5 transition duration-150">
+                    <header class="flex flex-col sm:flex-row justify-between sm:items-center gap-1 mb-2 border-b theme-border-dim pb-2">
+                        <div class="text-xs theme-text-muted font-bold font-mono">
+                            POST_2026.08.30 // SISTEMAS & ARQUITECTURA
+                        </div>
+                        <div class="text-xs theme-text-dim font-medium">
+                            Lectura: ~4 min
+                        </div>
+                    </header>
+                    <h2 class="text-lg sm:text-xl font-bold theme-text-heading mb-2">
+                        <a href="post.html?post=preserving-the-web-with-git" class="hover:underline">
+                            Archivar la web con Git: construyendo un crawler e indexador histórico
+                        </a>
+                    </h2>
+                    <p class="text-sm leading-relaxed theme-text-main mb-4">
+                        Las páginas web mutan y desaparecen a cada rato. Las empresas borran documentación durante rediseños corporativos, los términos de servicio cambian sin avisar y los links se rompen de la nada.
+                    </p>
+                    <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t theme-border-dim">
+                        <div class="flex flex-wrap gap-1.5">
+                            <button onclick="setFilterTag('Git')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#Git</button>
+                            <button onclick="setFilterTag('Web Archiving')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#Web Archiving</button>
+                            <button onclick="setFilterTag('Crawlers')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#Crawlers</button>
+                            <button onclick="setFilterTag('Sistemas')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#Sistemas</button>
+                            <button onclick="setFilterTag('C99')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#C99</button>
+                        </div>
+                        <a href="post.html?post=preserving-the-web-with-git" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold" aria-label="Leer artículo: Archivar la web con Git">
+                            [LEER ARTÍCULO ->]
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Post 3 -->
+                <article class="border theme-border-subtle theme-bg-card p-5 transition duration-150">
+                    <header class="flex flex-col sm:flex-row justify-between sm:items-center gap-1 mb-2 border-b theme-border-dim pb-2">
+                        <div class="text-xs theme-text-muted font-bold font-mono">
+                            POST_2026.08.30 // ARQUITECTURA & SISTEMAS
+                        </div>
+                        <div class="text-xs theme-text-dim font-medium">
+                            Lectura: ~4 min
+                        </div>
+                    </header>
+                    <h2 class="text-lg sm:text-xl font-bold theme-text-heading mb-2">
+                        <a href="post.html?post=using-github-as-a-database" class="hover:underline">
+                            ¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos
+                        </a>
+                    </h2>
+                    <p class="text-sm leading-relaxed theme-text-main mb-4">
+                        Una pregunta que siempre sale al armar side projects y sitios estáticos es si de pana se puede usar GitHub como una base de datos persistente.
+                    </p>
+                    <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t theme-border-dim">
+                        <div class="flex flex-wrap gap-1.5">
+                            <button onclick="setFilterTag('SQLite')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#SQLite</button>
+                            <button onclick="setFilterTag('GitHub Pages')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#GitHub Pages</button>
+                            <button onclick="setFilterTag('HTTP Range')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#HTTP Range</button>
+                            <button onclick="setFilterTag('Arquitectura')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#Arquitectura</button>
+                            <button onclick="setFilterTag('Cloud')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#Cloud</button>
+                        </div>
+                        <a href="post.html?post=using-github-as-a-database" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold" aria-label="Leer artículo: ¿Se puede usar GitHub como base de datos?">
+                            [LEER ARTÍCULO ->]
+                        </a>
+                    </div>
+                </article>
             </div>
 
         </main>
@@ -279,12 +375,14 @@
                 bannerDesc: "Reflexiones sobre arquitectura de sistemas, infraestructura cloud, programación de bajo nivel y algoritmos.",
                 homePortal: "[<] Portal Principal",
                 searchPlaceholder: "Buscar posts o filtrar por tags (ej. SQLite, Cloud, Git)...",
+                searchAria: "Buscar artículos o filtrar por etiquetas",
                 clearBtn: "[x] Limpiar",
                 loading: "Cargando posts...",
                 emptyMsg: "// No hay posts que coincidan con la búsqueda. Prueba con otro término.",
                 logPrefix: "POST_",
                 readingPrefix: "Lectura:",
                 readPostBtn: "[LEER ARTÍCULO ->]",
+                readAriaPrefix: "Leer artículo:",
                 footerText: "Markdown Engine · Archivo Estático"
             },
             en: {
@@ -301,12 +399,14 @@
                 bannerDesc: "Thoughts on systems architecture, cloud infrastructure, low-level programming & algorithms.",
                 homePortal: "[<] Home Portal",
                 searchPlaceholder: "Search entries or filter by tags (e.g. SQLite, Cloud, Git)...",
+                searchAria: "Search blog posts or filter by tags",
                 clearBtn: "[x] Clear",
                 loading: "Loading blog posts...",
                 emptyMsg: "// No log entries matching criteria. Try another search query.",
                 logPrefix: "POST_",
                 readingPrefix: "Reading Time:",
                 readPostBtn: "[READ POST ->]",
+                readAriaPrefix: "Read post:",
                 footerText: "Markdown Engine · Static Archive"
             }
         };
@@ -318,7 +418,83 @@
             return browserLang.startsWith('es') ? 'es' : 'en';
         }
 
-        let allPosts = [];
+        let allPosts = [
+          {
+            "slug": "being-a-good-net-citizen-in-the-ai-era",
+            "date": "2026-08-30",
+            "title": "Ser un buen ciudadano de la red en la era de la IA: guía moderna para el rastreo y descubrimiento web",
+            "category": "Web Standards & Cloud",
+            "tags": ["Web Standards", "IA", "SEO", "Crawlers", "Arquitectura", "Semantic Web"],
+            "summary": "Los buscadores cambiaron la web indexando enlaces. Hoy en día la vaina es otra: los agentes de IA, los pipelines RAG y motores como Perplexity o Claude recorren sitios web para responderle de una vez a la gente.",
+            "readingTime": "5 min",
+            "en": {
+              "title": "Being a good net citizen in the AI era: a guide to web discoverability",
+              "date": "2026-08-30",
+              "category": "Web Standards & Cloud",
+              "tags": ["Web Standards", "AI", "SEO", "Crawlers", "Architecture", "Semantic Web"],
+              "summary": "Search engines changed the web by indexing links. Now automated agents, RAG pipelines, and LLM search tools like Perplexity and Claude are crawling sites to answer user queries directly.",
+              "readingTime": "4 min"
+            },
+            "es": {
+              "title": "Ser un buen ciudadano de la red en la era de la IA: guía moderna para el rastreo y descubrimiento web",
+              "date": "2026-08-30",
+              "category": "Web Standards & Cloud",
+              "tags": ["Web Standards", "IA", "SEO", "Crawlers", "Arquitectura", "Semantic Web"],
+              "summary": "Los buscadores cambiaron la web indexando enlaces. Hoy en día la vaina es otra: los agentes de IA, los pipelines RAG y motores como Perplexity o Claude recorren sitios web para responderle de una vez a la gente.",
+              "readingTime": "5 min"
+            }
+          },
+          {
+            "slug": "preserving-the-web-with-git",
+            "date": "2026-08-30",
+            "title": "Archivar la web con Git: construyendo un crawler e indexador histórico",
+            "category": "Sistemas & Arquitectura",
+            "tags": ["Git", "Web Archiving", "Crawlers", "Sistemas", "C99", "Arquitectura"],
+            "summary": "Las páginas web mutan y desaparecen a cada rato. Las empresas borran documentación durante rediseños corporativos, los términos de servicio cambian sin avisar y los links se rompen de la nada.",
+            "readingTime": "4 min",
+            "en": {
+              "title": "Archiving the web with Git: building a content-addressable crawler",
+              "date": "2026-08-30",
+              "category": "Systems & Architecture",
+              "tags": ["Git", "Web Archiving", "Crawlers", "Systems", "C99", "Architecture"],
+              "summary": "Web pages disappear all the time. Companies delete docs during rebrands, terms of service change without changelogs, and links rot.",
+              "readingTime": "4 min"
+            },
+            "es": {
+              "title": "Archivar la web con Git: construyendo un crawler e indexador histórico",
+              "date": "2026-08-30",
+              "category": "Sistemas & Arquitectura",
+              "tags": ["Git", "Web Archiving", "Crawlers", "Sistemas", "C99", "Arquitectura"],
+              "summary": "Las páginas web mutan y desaparecen a cada rato. Las empresas borran documentación durante rediseños corporativos, los términos de servicio cambian sin avisar y los links se rompen de la nada.",
+              "readingTime": "4 min"
+            }
+          },
+          {
+            "slug": "using-github-as-a-database",
+            "date": "2026-08-30",
+            "title": "¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos",
+            "category": "Arquitectura & Sistemas",
+            "tags": ["SQLite", "GitHub Pages", "HTTP Range", "Arquitectura", "Cloud"],
+            "summary": "Una pregunta que siempre sale al armar side projects y sitios estáticos es si de pana se puede usar GitHub como una base de datos persistente.",
+            "readingTime": "4 min",
+            "en": {
+              "title": "Can you use GitHub as a database? SQLite, HTTP range requests, and flat files",
+              "date": "2026-08-30",
+              "category": "Architecture & Systems",
+              "tags": ["SQLite", "GitHub Pages", "HTTP Range", "Architecture", "Cloud"],
+              "summary": "A common question for side projects and static sites is whether you can use GitHub as a persistent database.",
+              "readingTime": "3 min"
+            },
+            "es": {
+              "title": "¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos",
+              "date": "2026-08-30",
+              "category": "Arquitectura & Sistemas",
+              "tags": ["SQLite", "GitHub Pages", "HTTP Range", "Arquitectura", "Cloud"],
+              "summary": "Una pregunta que siempre sale al armar side projects y sitios estáticos es si de pana se puede usar GitHub como una base de datos persistente.",
+              "readingTime": "4 min"
+            }
+          }
+        ];
         let currentLang = getLanguage();
 
         function updateClearBtnVisibility() {
@@ -357,30 +533,15 @@
             document.getElementById('banner-title').textContent = t.bannerTitle;
             document.getElementById('banner-desc').textContent = t.bannerDesc;
             document.getElementById('home-portal-btn').textContent = t.homePortal;
-            document.getElementById('search-input').setAttribute('placeholder', t.searchPlaceholder);
+            
+            const searchInput = document.getElementById('search-input');
+            searchInput.setAttribute('placeholder', t.searchPlaceholder);
+            searchInput.setAttribute('aria-label', t.searchAria);
+            
             document.getElementById('clear-btn').textContent = t.clearBtn;
             document.getElementById('footer-text').textContent = t.footerText;
 
             renderPosts();
-        }
-
-        async function loadPosts() {
-            const container = document.getElementById('posts-container');
-            const t = i18n[currentLang] || i18n.es;
-            try {
-                const response = await fetch('posts.json');
-                if (!response.ok) {
-                    throw new Error('Failed to load posts index');
-                }
-                allPosts = await response.json();
-                renderPosts();
-            } catch (err) {
-                container.innerHTML = `
-                    <div class="border border-red-500/50 p-4 text-red-500 text-sm theme-bg-card font-bold">
-                        [ERROR] ${err.message}
-                    </div>
-                `;
-            }
         }
 
         function filterPosts(searchTerm = '') {
@@ -449,7 +610,7 @@
                             <div class="flex flex-wrap gap-1.5">
                                 ${tagsHtml}
                             </div>
-                            <a href="post.html?post=${post.slug}" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
+                            <a href="post.html?post=${post.slug}" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold" aria-label="${t.readAriaPrefix} ${meta.title}">
                                 ${t.readPostBtn}
                             </a>
                         </div>
@@ -587,7 +748,6 @@
             });
 
             window.setFilterTag = setFilterTag;
-            loadPosts();
         });
     </script>
 </body>
