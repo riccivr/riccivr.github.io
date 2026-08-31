@@ -17,7 +17,7 @@
     "readingTime": "7 min",
     "file": "posts/gitcrawl-content-addressable-web-archiver.es.md",
     "en": {
-      "title": "gitcrawl: Content-Addressable Web Archiver and Snapshot Engine Backed by Git",
+      "title": "gitcrawl: content-addressable web archiver and snapshot engine backed by Git",
       "date": "2026-08-31",
       "category": "Systems & Architecture",
       "tags": [
@@ -29,7 +29,7 @@
         "Architecture",
         "Systems"
       ],
-      "summary": "In my previous article on archiving the web with Git, I explored the theory behind using Git's content-addressable object store as a historical database for web pages and technical documentation.",
+      "summary": "In my previous article on archiving the web with Git, I explored using Git's content-addressable object store as a historical database for web pages and documentation.",
       "readingTime": "6 min",
       "file": "posts/gitcrawl-content-addressable-web-archiver.en.md"
     },

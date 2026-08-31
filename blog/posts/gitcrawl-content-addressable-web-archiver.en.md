@@ -1,23 +1,23 @@
-# gitcrawl: Content-Addressable Web Archiver and Snapshot Engine Backed by Git
+# gitcrawl: content-addressable web archiver and snapshot engine backed by Git
 
 *Published: August 31, 2026. Category: Systems & Architecture. Reading time: ~6 min*
 *Tags: C99, Git, Web Archiving, Crawlers, POSIX, Architecture, Systems*
 
 ---
 
-In my [previous article on archiving the web with Git](post.html?post=preserving-the-web-with-git), I explored the theory behind using Git's content-addressable object store as a historical database for web pages and technical documentation.
+In my [previous article on archiving the web with Git](post.html?post=preserving-the-web-with-git), I explored using Git's content-addressable object store as a historical database for web pages and documentation.
 
-The core premise was simple: instead of hoarding gigabytes of monolithic WARC archives or directories packed with duplicate HTML, use Git's directed acyclic graph and delta compression to get instant terminal diffs with `git diff` and `git log`.
+The core idea was simple: instead of hoarding gigabytes of monolithic WARC archives or directories full of duplicate HTML, use Git's directed acyclic graph and delta compression to get instant terminal diffs with `git diff` and `git log`.
 
-Today I published the complete open-source implementation: [**`gitcrawl`**](https://github.com/riccivr/gitcrawl).
+Today I published the open-source implementation: [**`gitcrawl`**](https://github.com/riccivr/gitcrawl).
 
-Here is the C99 engine architecture, how it talks directly to Git plumbing without touching the working directory, and storage benchmarks.
+Here is the C99 engine architecture, how it talks directly to Git plumbing without touching the working directory, and the storage numbers.
 
 ---
 
-## 1. Pipeline Architecture
+## 1. Pipeline architecture
 
-`gitcrawl` is built on the UNIX philosophy: a modular CLI tool written in clean C99, free of heavy runtimes, and optimized for automated pipelines and cron jobs.
+`gitcrawl` follows the UNIX philosophy: a modular CLI tool written in clean C99, free of heavy runtimes, and built for automated pipelines and cron jobs.
 
 ```
                   ┌────────────────────────────────────────┐
@@ -61,7 +61,7 @@ Here is the C99 engine architecture, how it talks directly to Git plumbing witho
 
 ---
 
-## 2. In-Memory Ingest: Bypassing the Working Tree
+## 2. In-memory ingest: bypassing the working tree
 
 A primary bottleneck when tracking thousands of URLs is filesystem I/O. If you checkout a repository containing 50,000 pages, the filesystem struggles creating and deleting inodes.
 
@@ -87,11 +87,11 @@ When processing a URL:
 2. The engine generates two blobs: `index.md` (normalized readable content) and `metadata.json` (HTTP headers, timestamp, remote IP, status code, and redirect chain).
 3. The hierarchical tree (`git mktree`) is constructed by sharding host and path (`docs.rs/tokio/index.md`).
 4. If the computed tree hash matches the previous commit, `gitcrawl` detects in **0 ms** that the page is unchanged and skips commit creation.
-5. If changes occurred, an atomic commit is generated (`git commit-tree`) and the branch ref is updated (`git update-ref refs/heads/archive`).
+5. If changes occurred, it generates an atomic commit (`git commit-tree`) and updates the branch ref (`git update-ref refs/heads/archive`).
 
 ---
 
-## 3. Noise Reduction and Normalization
+## 3. Noise reduction and normalization
 
 Committing raw HTML produces dirty diffs on every crawl cycle due to session cookies, CSRF nonces, and server render timestamps.
 
@@ -110,7 +110,7 @@ Committing raw HTML produces dirty diffs on every crawl cycle due to session coo
 
 ---
 
-## 4. Benchmarks and Storage Efficiency
+## 4. Benchmarks and storage efficiency
 
 We tested `gitcrawl` by snapshotting 500 technical documentation pages (RFC specs, Python docs, and POSIX manuals) daily across 30 days:
 
@@ -124,43 +124,44 @@ Thanks to Git delta compression (`git pack-objects`), pages with only minor text
 
 ---
 
-## 5. Why Not SQLite or Flat Files? The Distributed & Multi-Agent Advantage
+## 5. Why not SQLite or flat files? The distributed advantage
 
-A recurring question when designing this storage architecture is: *Why not store snapshots in an embedded database like SQLite, or in an S3 bucket with flat files?*
+A common question when designing this storage setup is: *Why not store snapshots in an embedded database like SQLite, or in an S3 bucket with flat files?*
 
-For single-node local runs, SQLite works fine. But as soon as you scale to modern workflows with **multiple distributed crawler agents** running concurrently across machines, containers, or regions, traditional storage models break down:
+For single-node local runs, SQLite works well. But once you scale to workflows with multiple crawler agents running concurrently across machines, containers, or serverless workers, traditional storage setups struggle.
 
-### The Limitations of SQLite and Flat Files in Multi-Agent Systems:
-1. **Lock Contention & Network Sync Friction:** SQLite does not support multiple concurrent network writers without blocking (`SQLITE_BUSY` or write-ahead log lock queues). Synchronizing SQLite across nodes requires heavy consensus layers (Raft/LiteFS) or copying whole databases.
-2. **Merging Conflict Nightmare:** If three autonomous crawler agents run across different cloud regions and later try to combine their SQLite databases, reconciling auto-increment IDs, timestamp collisions, and row-level conflicts becomes complicated.
-3. **Flat Files / S3 Race Conditions:** Storing raw files leads to race conditions (*Last Write Wins*), wiping intermediate historical states when two workers hit the same URL around the same time. There is also no native cross-revision delta compression.
+### Limitations of SQLite and flat files
+
+1. **Lock contention and network sync.** SQLite does not support multiple concurrent network writers without blocking (`SQLITE_BUSY` or write-ahead log lock queues). Synchronizing SQLite across nodes requires consensus layers (Raft/LiteFS) or copying whole databases.
+2. **Merging conflicts.** If three autonomous crawler agents run across different regions and later try to combine their SQLite databases, reconciling auto-increment IDs, timestamp collisions, and row-level conflicts is messy.
+3. **Flat files on S3.** Storing raw files leads to race conditions (*Last Write Wins*), wiping intermediate historical states when two workers hit the same URL around the same time. There is also no native cross-revision delta compression.
 
 ```
-                      Agent Alpha (us-east)   ──> Branch: agent/alpha
-                                                            │
-                      Agent Bravo (eu-west)   ──> Branch: agent/bravo ──> Git Merge (Lock-Free)
-                                                            │             ├── Automatic SHA Deduplication
-                      Agent Charlie (ap-tokyo) ──> Branch: agent/charlie └── Packfile Delta Compression
+                      Agent Alpha (us-east)    --> Branch: agent/alpha
+                                                            |
+                      Agent Bravo (eu-west)    --> Branch: agent/bravo --> Git Merge (Lock-Free)
+                                                            |             ├── Automatic SHA Deduplication
+                      Agent Charlie (ap-tokyo) --> Branch: agent/charlie  └── Packfile Delta Compression
 ```
 
-### Why Git's Merkle DAG Naturally Tames Multi-Agent Chaos:
+### Why Git's Merkle DAG handles multi-agent crawling
 
-1. **Zero-Coordination Cryptographic Deduplication:** Git is a content-addressable store. If 10 distributed crawler agents scrape the exact same page at the exact same moment and the content is unchanged, all 10 compute the *exact same SHA hash*. Deduplication happens mathematically and instantly without a central coordinator or distributed locks.
-2. **Independent Branching & Conflict-Free Convergence:** Each crawler agent works on its own branch (`agent/crawler-eu`, `agent/crawler-us`) or local clone. When a batch finishes, they push to a central bare repo (or sync peer-to-peer). Reconciling the entire archive history is a standard non-blocking `git merge`. Because crawlers touch disjoint directory paths in the tree, merges resolve in milliseconds.
-3. **Cryptographic Provenance & Tamper Evidence:** Every snapshot is cryptographically linked to its parent tree and author metadata. It is mathematically impossible to modify a historical snapshot without invalidating all downstream commit hashes. Commits can be signed (`git commit -S`) to trace exactly which agent or AI pipeline captured a given version.
-4. **Bandwidth-Efficient Delta Syncing:** Git's native wire protocol (`git-upload-pack` / `git-receive-pack`) computes deltas on the fly. Agents only transfer the bytes that actually changed over the network, drastically cutting down cloud egress costs.
+1. **Zero-coordination cryptographic deduplication.** Git is a content-addressable store. If 10 distributed crawler agents scrape the exact same page at the exact same moment and the content is unchanged, all 10 compute the exact same SHA hash. Deduplication happens mathematically and instantly without a central coordinator or distributed locks.
+2. **Independent branching and conflict-free convergence.** Each crawler agent works on its own branch (`agent/crawler-eu`, `agent/crawler-us`) or local clone. When a batch finishes, they push to a central bare repo or sync peer-to-peer. Reconciling the entire archive history is a standard non-blocking `git merge`. Because crawlers touch disjoint directory paths in the tree, merges resolve in milliseconds.
+3. **Cryptographic provenance and tamper evidence.** Every snapshot links to its parent tree and author metadata. It is mathematically impossible to modify a historical snapshot without invalidating all downstream commit hashes. Commits can be signed (`git commit -S`) to trace exactly which agent or AI pipeline captured a given version.
+4. **Bandwidth-efficient delta syncing.** Git's native wire protocol (`git-upload-pack` / `git-receive-pack`) computes deltas on the fly. Agents only transfer the bytes that actually changed over the network, cutting down cloud egress costs.
 
 ---
 
-## 6. CLI Toolchain Integration
+## 6. CLI toolchain integration
 
-Because snapshots reside in standard Git repositories, `gitcrawl` integrates seamlessly with your terminal workflow:
+Because snapshots reside in standard Git repositories, `gitcrawl` works directly with standard terminal tools:
 
 - **Fuzzy history inspection with [`approx`](https://github.com/riccivr/approx):**
   ```bash
   git log --name-only --format="" | sort -u | approx "stripe charges"
   ```
-- **Tracking keyword evolutions:**
+- **Tracking keyword changes:**
   ```bash
   git log -p -S "deprecated" -- docs.github.com/
   ```
