@@ -1,6 +1,6 @@
 # Ricardo Veronese
 
-> Systems & Cloud Engineer specializing in AWS, Cloud Architecture, C99/POSIX low-level systems, parsers, and memory-bounded algorithms.
+> Full-stack & cloud engineer building with Remix, React & AWS Lambda. Writing low-level C and building embedded systems & IoT on the side.
 
 ## Active Projects
 - [approx](https://github.com/riccivr/approx): Non-interactive POSIX fuzzy stream filter and ranker in clean Suckless C with zero dependencies.
