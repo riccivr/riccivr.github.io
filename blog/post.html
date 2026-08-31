@@ -42,34 +42,34 @@
     </script>
     <style>
         :root {
-            --bg-page: #000000;
-            --bg-frame: #000000;
-            --bg-header: rgba(180, 83, 9, 0.2);
-            --bg-card: rgba(69, 26, 3, 0.2);
-            --bg-card-alt: rgba(69, 26, 3, 0.35);
-            --bg-badge: rgba(245, 158, 11, 0.1);
+            --bg-page: #0c0a07;
+            --bg-frame: #110e0a;
+            --bg-header: #1a140d;
+            --bg-card: #16120b;
+            --bg-card-alt: #1c160e;
+            --bg-badge: rgba(245, 158, 11, 0.12);
             
-            --border-primary: #f59e0b;
-            --border-subtle: rgba(245, 158, 11, 0.5);
-            --border-dim: rgba(245, 158, 11, 0.2);
+            --border-primary: #d97706;
+            --border-subtle: rgba(217, 119, 6, 0.45);
+            --border-dim: rgba(217, 119, 6, 0.2);
             
-            --text-title: #fef3c7;
-            --text-heading: #fbbf24;
-            --text-main: #f59e0b;
+            --text-title: #fffbeb;
+            --text-heading: #fef08a;
+            --text-main: #fde68a;
             --text-muted: #d97706;
             --text-dim: #92400e;
-            --text-code: #fef3c7;
+            --text-code: #fef08a;
             --text-blockquote: #fde68a;
             
-            --scanline-color: rgba(180, 150, 0, 0.07);
-            --frame-shadow: 0 0 10px #f59e0b, 0 0 20px #f59e0b inset;
+            --scanline-color: rgba(245, 158, 11, 0.035);
+            --frame-shadow: 0 0 16px rgba(245, 158, 11, 0.2), 0 0 1px rgba(245, 158, 11, 0.4) inset;
             --btn-hover-bg: #f59e0b;
-            --btn-hover-text: #000000;
+            --btn-hover-text: #110e0a;
             
-            --bg-code-block: #0d0a06;
-            --bg-inline-code: rgba(245, 158, 11, 0.15);
-            --bg-blockquote: rgba(180, 83, 9, 0.12);
-            --bg-table-header: rgba(180, 83, 9, 0.25);
+            --bg-code-block: #080705;
+            --bg-inline-code: rgba(245, 158, 11, 0.14);
+            --bg-blockquote: rgba(245, 158, 11, 0.08);
+            --bg-table-header: rgba(245, 158, 11, 0.18);
         }
 
         [data-theme="light"] {
@@ -101,6 +101,81 @@
             --bg-inline-code: #eeddc3;
             --bg-blockquote: #f0e6d2;
             --bg-table-header: #ebdcc0;
+        }
+
+        /* Custom retro scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-page);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-subtle);
+            border-radius: 2px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border-primary);
+        }
+
+        #post-content pre::-webkit-scrollbar-track {
+            background: var(--bg-code-block);
+        }
+
+        /* Scoped CRT Syntax Highlighting */
+        .hljs {
+            background: transparent !important;
+            color: var(--text-main) !important;
+        }
+        .hljs-keyword, .hljs-selector-tag, .hljs-subst {
+            color: #f59e0b !important;
+            font-weight: bold;
+        }
+        .hljs-string, .hljs-attribute, .hljs-symbol, .hljs-bullet, .hljs-addition {
+            color: #a3e635 !important;
+        }
+        .hljs-title, .hljs-section, .hljs-selector-id, .hljs-function {
+            color: #fef08a !important;
+            font-weight: bold;
+        }
+        .hljs-variable, .hljs-template-variable, .hljs-attr {
+            color: #fde047 !important;
+        }
+        .hljs-type, .hljs-class .hljs-title {
+            color: #fcd34d !important;
+        }
+        .hljs-number, .hljs-literal {
+            color: #fbbf24 !important;
+        }
+        .hljs-comment, .hljs-quote, .hljs-deletion {
+            color: #856133 !important;
+            font-style: italic;
+        }
+        .hljs-meta, .hljs-link {
+            color: #d97706 !important;
+        }
+
+        [data-theme="light"] .hljs-keyword, [data-theme="light"] .hljs-selector-tag, [data-theme="light"] .hljs-subst {
+            color: #7e22ce !important;
+            font-weight: bold;
+        }
+        [data-theme="light"] .hljs-string, [data-theme="light"] .hljs-attribute, [data-theme="light"] .hljs-symbol, [data-theme="light"] .hljs-bullet, [data-theme="light"] .hljs-addition {
+            color: #15803d !important;
+        }
+        [data-theme="light"] .hljs-title, [data-theme="light"] .hljs-section, [data-theme="light"] .hljs-selector-id, [data-theme="light"] .hljs-function {
+            color: #92400e !important;
+            font-weight: bold;
+        }
+        [data-theme="light"] .hljs-variable, [data-theme="light"] .hljs-template-variable, [data-theme="light"] .hljs-attr {
+            color: #0369a1 !important;
+        }
+        [data-theme="light"] .hljs-number, [data-theme="light"] .hljs-literal {
+            color: #c2410c !important;
+        }
+        [data-theme="light"] .hljs-comment, [data-theme="light"] .hljs-quote, [data-theme="light"] .hljs-deletion {
+            color: #854d0e !important;
+            font-style: italic;
         }
 
         body {

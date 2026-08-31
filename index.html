@@ -68,31 +68,31 @@
     </script>
     <style>
         :root {
-            --bg-page: #000000;
-            --bg-frame: #000000;
-            --bg-header: rgba(180, 83, 9, 0.2);
-            --bg-section: rgba(180, 83, 9, 0.3);
-            --bg-card: rgba(69, 26, 3, 0.2);
-            --bg-card-alt: rgba(69, 26, 3, 0.35);
-            --bg-tab-active: rgba(180, 83, 9, 0.5);
-            --bg-tab-hover: rgba(180, 83, 9, 0.15);
-            --bg-badge: rgba(245, 158, 11, 0.1);
+            --bg-page: #0c0a07;
+            --bg-frame: #110e0a;
+            --bg-header: #1a140d;
+            --bg-section: #18130c;
+            --bg-card: #16120b;
+            --bg-card-alt: #1c160e;
+            --bg-tab-active: #291e13;
+            --bg-tab-hover: rgba(245, 158, 11, 0.12);
+            --bg-badge: rgba(245, 158, 11, 0.12);
             
-            --border-primary: #f59e0b;
-            --border-subtle: rgba(245, 158, 11, 0.5);
-            --border-dim: rgba(245, 158, 11, 0.2);
+            --border-primary: #d97706;
+            --border-subtle: rgba(217, 119, 6, 0.45);
+            --border-dim: rgba(217, 119, 6, 0.2);
             
-            --text-title: #fef3c7;
-            --text-heading: #fbbf24;
-            --text-main: #f59e0b;
+            --text-title: #fffbeb;
+            --text-heading: #fef08a;
+            --text-main: #fde68a;
             --text-muted: #d97706;
             --text-dim: #92400e;
             
-            --scanline-color: rgba(180, 150, 0, 0.07);
-            --frame-shadow: 0 0 10px #f59e0b, 0 0 20px #f59e0b inset;
-            --avatar-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+            --scanline-color: rgba(245, 158, 11, 0.035);
+            --frame-shadow: 0 0 16px rgba(245, 158, 11, 0.2), 0 0 1px rgba(245, 158, 11, 0.4) inset;
+            --avatar-shadow: 0 0 16px rgba(245, 158, 11, 0.3);
             --btn-hover-bg: #f59e0b;
-            --btn-hover-text: #000000;
+            --btn-hover-text: #110e0a;
         }
 
         [data-theme="light"] {
@@ -121,6 +121,22 @@
             --avatar-shadow: 0 4px 12px rgba(146, 64, 14, 0.25);
             --btn-hover-bg: #92400e;
             --btn-hover-text: #fcf8f0;
+        }
+
+        /* Custom retro scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-page);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-subtle);
+            border-radius: 2px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border-primary);
         }
 
         body {
