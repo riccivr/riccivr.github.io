@@ -42,6 +42,7 @@
     </script>
 
     <link rel="stylesheet" href="../style.css">
+    <script src="posts-data.js"></script>
     <script>
         // Immediately apply saved or system theme and language to avoid FOUC
         (function() {
@@ -418,83 +419,7 @@
             return browserLang.startsWith('es') ? 'es' : 'en';
         }
 
-        let allPosts = [
-          {
-            "slug": "being-a-good-net-citizen-in-the-ai-era",
-            "date": "2026-08-30",
-            "title": "Ser un buen ciudadano de la red en la era de la IA: guía moderna para el rastreo y descubrimiento web",
-            "category": "Web Standards & Cloud",
-            "tags": ["Web Standards", "IA", "SEO", "Crawlers", "Arquitectura", "Semantic Web"],
-            "summary": "Los buscadores cambiaron la web indexando enlaces. Hoy en día la vaina es otra: los agentes de IA, los pipelines RAG y motores como Perplexity o Claude recorren sitios web para responderle de una vez a la gente.",
-            "readingTime": "5 min",
-            "en": {
-              "title": "Being a good net citizen in the AI era: a guide to web discoverability",
-              "date": "2026-08-30",
-              "category": "Web Standards & Cloud",
-              "tags": ["Web Standards", "AI", "SEO", "Crawlers", "Architecture", "Semantic Web"],
-              "summary": "Search engines changed the web by indexing links. Now automated agents, RAG pipelines, and LLM search tools like Perplexity and Claude are crawling sites to answer user queries directly.",
-              "readingTime": "4 min"
-            },
-            "es": {
-              "title": "Ser un buen ciudadano de la red en la era de la IA: guía moderna para el rastreo y descubrimiento web",
-              "date": "2026-08-30",
-              "category": "Web Standards & Cloud",
-              "tags": ["Web Standards", "IA", "SEO", "Crawlers", "Arquitectura", "Semantic Web"],
-              "summary": "Los buscadores cambiaron la web indexando enlaces. Hoy en día la vaina es otra: los agentes de IA, los pipelines RAG y motores como Perplexity o Claude recorren sitios web para responderle de una vez a la gente.",
-              "readingTime": "5 min"
-            }
-          },
-          {
-            "slug": "preserving-the-web-with-git",
-            "date": "2026-08-30",
-            "title": "Archivar la web con Git: construyendo un crawler e indexador histórico",
-            "category": "Sistemas & Arquitectura",
-            "tags": ["Git", "Web Archiving", "Crawlers", "Sistemas", "C99", "Arquitectura"],
-            "summary": "Las páginas web mutan y desaparecen a cada rato. Las empresas borran documentación durante rediseños corporativos, los términos de servicio cambian sin avisar y los links se rompen de la nada.",
-            "readingTime": "4 min",
-            "en": {
-              "title": "Archiving the web with Git: building a content-addressable crawler",
-              "date": "2026-08-30",
-              "category": "Systems & Architecture",
-              "tags": ["Git", "Web Archiving", "Crawlers", "Systems", "C99", "Architecture"],
-              "summary": "Web pages disappear all the time. Companies delete docs during rebrands, terms of service change without changelogs, and links rot.",
-              "readingTime": "4 min"
-            },
-            "es": {
-              "title": "Archivar la web con Git: construyendo un crawler e indexador histórico",
-              "date": "2026-08-30",
-              "category": "Sistemas & Arquitectura",
-              "tags": ["Git", "Web Archiving", "Crawlers", "Sistemas", "C99", "Arquitectura"],
-              "summary": "Las páginas web mutan y desaparecen a cada rato. Las empresas borran documentación durante rediseños corporativos, los términos de servicio cambian sin avisar y los links se rompen de la nada.",
-              "readingTime": "4 min"
-            }
-          },
-          {
-            "slug": "using-github-as-a-database",
-            "date": "2026-08-30",
-            "title": "¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos",
-            "category": "Arquitectura & Sistemas",
-            "tags": ["SQLite", "GitHub Pages", "HTTP Range", "Arquitectura", "Cloud"],
-            "summary": "Una pregunta que siempre sale al armar side projects y sitios estáticos es si de pana se puede usar GitHub como una base de datos persistente.",
-            "readingTime": "4 min",
-            "en": {
-              "title": "Can you use GitHub as a database? SQLite, HTTP range requests, and flat files",
-              "date": "2026-08-30",
-              "category": "Architecture & Systems",
-              "tags": ["SQLite", "GitHub Pages", "HTTP Range", "Architecture", "Cloud"],
-              "summary": "A common question for side projects and static sites is whether you can use GitHub as a persistent database.",
-              "readingTime": "3 min"
-            },
-            "es": {
-              "title": "¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos",
-              "date": "2026-08-30",
-              "category": "Arquitectura & Sistemas",
-              "tags": ["SQLite", "GitHub Pages", "HTTP Range", "Arquitectura", "Cloud"],
-              "summary": "Una pregunta que siempre sale al armar side projects y sitios estáticos es si de pana se puede usar GitHub como una base de datos persistente.",
-              "readingTime": "4 min"
-            }
-          }
-        ];
+        let allPosts = window.__POSTS_DATA__ ? Object.values(window.__POSTS_DATA__) : [];
         let currentLang = getLanguage();
 
         function updateClearBtnVisibility() {
