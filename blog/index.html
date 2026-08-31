@@ -183,31 +183,36 @@
         }
     </style>
 </head>
-<body class="p-4 sm:p-8 md:p-12 min-h-screen">
+<body class="p-2 sm:p-6 md:p-12 min-h-screen">
 
-    <div class="terminal-frame max-w-4xl mx-auto mt-4 rounded-lg overflow-hidden">
+    <div class="terminal-frame max-w-4xl mx-auto mt-1 sm:mt-4 rounded-lg overflow-hidden">
 
-        <header class="p-3 theme-bg-header border-b theme-border flex flex-wrap justify-between items-center gap-2">
-            <div class="flex items-center space-x-2">
+        <header class="p-2.5 sm:p-3 theme-bg-header border-b theme-border flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+            <div class="flex items-center justify-between sm:justify-start gap-2">
                 <span class="text-xs theme-text-muted tracking-wider font-bold" id="sys-id-label">SYS.ID: riccivr // BLOG</span>
+                <span class="theme-text-main text-[11px] font-bold uppercase tracking-wider sm:hidden" id="status-label-mobile">
+                    ESTADO: EN LÍNEA
+                </span>
             </div>
-            <div class="flex items-center space-x-2 sm:space-x-3">
-                <button id="lang-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Alternar idioma / Toggle Language [I]">
-                    [LANG: ES]
-                </button>
-                <button id="keys-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Alternar atajos de navegación por teclado">
-                    [TECLAS: ACT]
-                </button>
-                <button id="theme-toggle" class="interactive-link border theme-border px-2.5 py-0.5 text-xs uppercase font-bold tracking-wider" title="Alternar tema (CRT / Papel)">
-                    [MODO: CRT]
-                </button>
-                <span id="status-label" class="theme-text-main text-xs sm:text-sm font-bold uppercase tracking-wider">
+            <div class="flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2">
+                <div class="flex items-center gap-1.5 sm:gap-2">
+                    <button id="lang-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" title="Alternar idioma / Toggle Language [I]">
+                        [LANG: ES]
+                    </button>
+                    <button id="keys-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" title="Alternar atajos de navegación por teclado">
+                        [TECLAS: ACT]
+                    </button>
+                    <button id="theme-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" title="Alternar tema (CRT / Papel)">
+                        [MODO: CRT]
+                    </button>
+                </div>
+                <span id="status-label" class="theme-text-main text-xs sm:text-sm font-bold uppercase tracking-wider hidden sm:inline-block ml-2">
                     ESTADO: EN LÍNEA
                 </span>
             </div>
         </header>
 
-        <main class="p-6">
+        <main class="p-3.5 sm:p-6 md:p-8">
 
             <!-- Banner / Nav Header -->
             <section class="theme-bg-section p-4 border theme-border mb-6">
@@ -447,6 +452,8 @@
 
             document.getElementById('sys-id-label').textContent = t.sysId;
             document.getElementById('status-label').textContent = t.status;
+            const statusMobile = document.getElementById('status-label-mobile');
+            if (statusMobile) statusMobile.textContent = t.status;
             document.getElementById('lang-toggle').textContent = t.langToggle;
 
             const isLight = document.documentElement.getAttribute('data-theme') === 'light';
