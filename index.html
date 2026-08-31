@@ -23,7 +23,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta id="tw-title" name="twitter:title" content="Ricardo Veronese - Cloud & Systems Engineer">
     <meta id="tw-desc" name="twitter:description" content="Arquitectura cloud, sistemas distribuidos, utilidades POSIX en C99, algoritmos e IoT embebido.">
-    <meta name="twitter:image" content="https://riccivr.github.io/riccivr-retro.png">
+    <meta name="twitter:image" content="https://riccivr.github.io/riccivr-retro-og.png">
 
     <!-- Schema.org JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -39,7 +39,7 @@
           "name": "Enroly"
         },
         "url": "https://riccivr.github.io/",
-        "image": "https://riccivr.github.io/riccivr-retro.png",
+        "image": "https://riccivr.github.io/riccivr-retro-og.png",
         "sameAs": [
           "https://github.com/riccivr",
           "https://www.linkedin.com/in/riccivr/"
@@ -49,7 +49,7 @@
     }
     </script>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./style.css">
     <script>
         (function() {
             const savedTheme = localStorage.getItem('riccivr-theme');
@@ -209,7 +209,10 @@
             <section class="theme-bg-section p-4 border theme-border mb-6">
                 <div class="flex justify-between items-start">
                     <div class="flex items-start space-x-4">
-                        <img src="./riccivr-retro.png" onerror="this.style.display='none';" class="hidden sm:block w-28 aspect-[37/27] rounded-sm border-2 theme-border mr-2" style="box-shadow: var(--avatar-shadow);" alt="Avatar">
+                        <picture class="hidden sm:block mr-2 flex-shrink-0">
+                            <source srcset="./riccivr-retro.webp" type="image/webp">
+                            <img src="./riccivr-retro-avatar.png" width="112" height="82" fetchpriority="high" class="w-28 aspect-[37/27] rounded-sm border-2 theme-border" style="box-shadow: var(--avatar-shadow);" alt="Avatar de Ricardo Veronese">
+                        </picture>
                         
                         <div>
                             <h1 class="text-xl sm:text-2xl font-bold uppercase mb-1 flex items-center theme-text-title">

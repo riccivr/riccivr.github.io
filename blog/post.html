@@ -12,16 +12,14 @@
     <!-- Open Graph Default -->
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="Ricardo Veronese">
-    <meta property="og:image" content="https://riccivr.github.io/riccivr-retro.png">
+    <meta property="og:image" content="https://riccivr.github.io/riccivr-retro-og.png">
 
     <!-- Twitter Cards Default -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://riccivr.github.io/riccivr-retro.png">
+    <meta name="twitter:image" content="https://riccivr.github.io/riccivr-retro-og.png">
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../style.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/monokai.min.css" id="hljs-dark-theme">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/solarized-light.min.css" id="hljs-light-theme" disabled>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script>
         // Immediately apply saved or system theme and language to avoid FOUC
@@ -505,24 +503,11 @@
 
         // Theme toggle handling
         const themeBtn = document.getElementById('theme-toggle');
-        const darkHljs = document.getElementById('hljs-dark-theme');
-        const lightHljs = document.getElementById('hljs-light-theme');
         
-        function syncHljsTheme(isLight) {
-            if (isLight) {
-                darkHljs.disabled = true;
-                lightHljs.disabled = false;
-            } else {
-                darkHljs.disabled = false;
-                lightHljs.disabled = true;
-            }
-        }
-
         function updateThemeBtn() {
             const isLight = document.documentElement.getAttribute('data-theme') === 'light';
             const t = i18n[currentLang] || i18n.es;
             themeBtn.textContent = isLight ? t.modePaper : t.modeCrt;
-            syncHljsTheme(isLight);
         }
 
         themeBtn.addEventListener('click', () => {
