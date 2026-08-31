@@ -267,10 +267,14 @@
                 <div id="projects-content" class="content-section space-y-6">
 
                     <!-- approx -->
-                    <article class="border theme-border-subtle theme-bg-card p-4">
+                    <article class="border theme-border-subtle theme-bg-card p-4 transition duration-150">
                         <header class="flex justify-between items-start mb-2">
                             <div>
-                                <h2 class="font-bold text-lg theme-text-heading">approx</h2>
+                                <h2 class="font-bold text-lg theme-text-heading">
+                                    <a href="https://github.com/riccivr/approx" target="_blank" class="hover:underline inline-flex items-center gap-1.5">
+                                        approx <span class="text-xs opacity-75">↗</span>
+                                    </a>
+                                </h2>
                                 <span id="approx-sub" class="text-xs theme-text-muted font-bold">Filtro y ranker difuso para streams POSIX (no interactivo)</span>
                             </div>
                             <div id="approx-badge" class="text-xs theme-text-muted text-right whitespace-nowrap font-semibold">
@@ -281,7 +285,7 @@
                             <p id="approx-desc" class="mb-3">
                                 CLI ultraligera en C99 con cero dependencias para filtrar y ordenar texto en streams usando coincidencia difusa. Usa memoria O(M) con programación dinámica. La armé para meterla en scripts, pipelines UNIX y microcontroladores donde las TUIs interactivas como fzf no dan la talla.
                             </p>
-                            <div id="approx-tags" class="flex flex-wrap gap-2 my-2">
+                            <div id="approx-tags" class="flex flex-wrap gap-2 pt-1">
                                 <span class="text-xs border theme-border px-2 py-0.5 font-semibold">C99</span>
                                 <span class="text-xs border theme-border px-2 py-0.5 font-semibold">POSIX</span>
                                 <span class="text-xs border theme-border px-2 py-0.5 font-semibold">ALGORITMOS</span>
@@ -289,19 +293,17 @@
                                 <span class="text-xs border theme-border px-2 py-0.5 font-semibold">ZERO-DEP</span>
                             </div>
                         </div>
-                        <footer class="mt-3 pt-2 border-t theme-border-dim flex justify-between items-center text-sm">
-                            <a href="https://github.com/riccivr/approx" target="_blank" id="approx-repo-btn" class="interactive-link border theme-border px-3 py-0.5 text-xs uppercase font-bold">
-                                [G] Repo
-                            </a>
-                            <span class="text-xs theme-text-muted font-mono">riccivr/approx</span>
-                        </footer>
                     </article>
 
                     <!-- unipaste -->
-                    <article class="border theme-border-subtle theme-bg-card p-4">
+                    <article class="border theme-border-subtle theme-bg-card p-4 transition duration-150">
                         <header class="flex justify-between items-start mb-2">
                             <div>
-                                <h2 class="font-bold text-lg theme-text-heading">unipaste</h2>
+                                <h2 class="font-bold text-lg theme-text-heading">
+                                    <a href="https://github.com/riccivr/unipaste" target="_blank" class="hover:underline inline-flex items-center gap-1.5">
+                                        unipaste <span class="text-xs opacity-75">↗</span>
+                                    </a>
+                                </h2>
                                 <span id="unipaste-sub" class="text-xs theme-text-muted font-bold">Formateador universal de streams HTML y texto enriquecido para el portapapeles</span>
                             </div>
                             <div id="unipaste-badge" class="text-xs theme-text-muted text-right whitespace-nowrap font-semibold">
@@ -312,7 +314,7 @@
                             <p id="unipaste-desc" class="mb-3">
                                 Parser en C99 que agarra el HTML enredado del portapapeles y lo convierte en Markdown limpiecito. Te arma tablas en cajas ASCII al pelo, parsea listas de tareas, decodifica entidades HTML y le quita los headers raros de Windows sin depender de navegadores ni librerías pesadas.
                             </p>
-                            <div id="unipaste-tags" class="flex flex-wrap gap-2 my-2">
+                            <div id="unipaste-tags" class="flex flex-wrap gap-2 pt-1">
                                 <span class="text-xs border theme-border px-2 py-0.5 font-semibold">C99</span>
                                 <span class="text-xs border theme-border px-2 py-0.5 font-semibold">PARSERS</span>
                                 <span class="text-xs border theme-border px-2 py-0.5 font-semibold">MARKDOWN</span>
@@ -320,19 +322,17 @@
                                 <span class="text-xs border theme-border px-2 py-0.5 font-semibold">ZERO-DEP</span>
                             </div>
                         </div>
-                        <footer class="mt-3 pt-2 border-t theme-border-dim flex justify-between items-center text-sm">
-                            <a href="https://github.com/riccivr/unipaste" target="_blank" id="unipaste-repo-btn" class="interactive-link border theme-border px-3 py-0.5 text-xs uppercase font-bold">
-                                [G] Repo
-                            </a>
-                            <span class="text-xs theme-text-muted font-mono">riccivr/unipaste</span>
-                        </footer>
                     </article>
 
                     <!-- clipbridge -->
-                    <article class="border theme-border-subtle theme-bg-card p-4">
+                    <article class="border theme-border-subtle theme-bg-card p-4 transition duration-150">
                         <header class="flex justify-between items-start mb-2">
                             <div>
-                                <h2 class="font-bold text-lg theme-text-heading">clipbridge</h2>
+                                <h2 class="font-bold text-lg theme-text-heading">
+                                    <a href="https://github.com/riccivr/clipbridge" target="_blank" class="hover:underline inline-flex items-center gap-1.5">
+                                        clipbridge <span class="text-xs opacity-75">↗</span>
+                                    </a>
+                                </h2>
                                 <span id="clipbridge-sub" class="text-xs theme-text-muted font-bold">Daemon y bridge universal de portapapeles potenciado por unipaste</span>
                             </div>
                             <div id="clipbridge-badge" class="text-xs theme-text-muted text-right whitespace-nowrap font-semibold">
@@ -343,7 +343,7 @@
                             <p id="clipbridge-desc" class="mb-3">
                                 Daemon para Windows y Linux que se queda escuchando el portapapeles en segundo plano. Cuando copias cualquier vaina de Slack, Teams o el navegador, le pasa el HTML a unipaste y te actualiza el portapapeles de texto plano al tiro con Markdown listo para pegar.
                             </p>
-                            <div id="clipbridge-tags" class="flex flex-wrap gap-2 my-2">
+                            <div id="clipbridge-tags" class="flex flex-wrap gap-2 pt-1">
                                 <span class="text-xs border theme-border px-2 py-0.5 font-semibold">C99</span>
                                 <span class="text-xs border theme-border px-2 py-0.5 font-semibold">WIN32</span>
                                 <span class="text-xs border theme-border px-2 py-0.5 font-semibold">POSIX</span>
@@ -351,12 +351,6 @@
                                 <span class="text-xs border theme-border px-2 py-0.5 font-semibold">INTEGRACIÓN</span>
                             </div>
                         </div>
-                        <footer class="mt-3 pt-2 border-t theme-border-dim flex justify-between items-center text-sm">
-                            <a href="https://github.com/riccivr/clipbridge" target="_blank" id="clipbridge-repo-btn" class="interactive-link border theme-border px-3 py-0.5 text-xs uppercase font-bold">
-                                [G] Repo
-                            </a>
-                            <span class="text-xs theme-text-muted font-mono">riccivr/clipbridge</span>
-                        </footer>
                     </article>
 
                 </div>
@@ -507,17 +501,14 @@
                 approxBadge: "Activo",
                 approxDesc: "CLI ultraligera en C99 con cero dependencias para filtrar y ordenar texto en streams usando coincidencia difusa. Usa memoria O(M) con programación dinámica. La armé para meterla en scripts, pipelines UNIX y microcontroladores donde las TUIs interactivas como fzf no dan la talla.",
                 approxTags: ["C99", "POSIX", "ALGORITMOS", "EMBEBIDOS / IOT", "ZERO-DEP"],
-                approxRepo: "[G] Repo",
                 unipasteSub: "Formateador universal de streams HTML y texto enriquecido para el portapapeles",
                 unipasteBadge: "Activo",
                 unipasteDesc: "Parser en C99 que agarra el HTML enredado del portapapeles y lo convierte en Markdown limpiecito. Te arma tablas en cajas ASCII al pelo, parsea listas de tareas, decodifica entidades HTML y le quita los headers raros de Windows sin depender de navegadores ni librerías pesadas.",
                 unipasteTags: ["C99", "PARSERS", "MARKDOWN", "SISTEMAS", "ZERO-DEP"],
-                unipasteRepo: "[G] Repo",
                 clipbridgeSub: "Daemon y bridge universal de portapapeles potenciado por unipaste",
                 clipbridgeBadge: "Activo",
                 clipbridgeDesc: "Daemon para Windows y Linux que se queda escuchando el portapapeles en segundo plano. Cuando copias cualquier vaina de Slack, Teams o el navegador, le pasa el HTML a unipaste y te actualiza el portapapeles de texto plano al tiro con Markdown listo para pegar.",
                 clipbridgeTags: ["C99", "WIN32", "POSIX", "DAEMON", "INTEGRACIÓN"],
-                clipbridgeRepo: "[G] Repo",
                 blogIntro: "// Artículos técnicos, arquitectura de sistemas y notas de trabajo",
                 featuredTag: "POST_2026.08.30 // WEB STANDARDS & CLOUD",
                 featuredReading: "Lectura: ~6 min",
@@ -597,17 +588,14 @@
                 approxBadge: "Active",
                 approxDesc: "A small C99 CLI tool that filters and sorts streams of text using fuzzy string matching. It uses an O(M) memory layout with dynamic programming. Built for automated UNIX pipelines, cron jobs, and small devices where you want fuzzy filtering without an interactive terminal UI like fzf.",
                 approxTags: ["C99", "POSIX", "ALGORITHMS", "EMBEDDED / IOT", "ZERO-DEP"],
-                approxRepo: "[G] Repo",
                 unipasteSub: "Universal rich-text and HTML clipboard stream formatter",
                 unipasteBadge: "Active",
                 unipasteDesc: "A C99 stream parser that turns messy clipboard HTML into clean Markdown. It formats tables into ASCII boxes, parses task lists, decodes HTML entities, and strips Windows CF_HTML headers without running a heavy runtime or browser engine.",
                 unipasteTags: ["C99", "PARSERS", "MARKDOWN", "SYSTEMS", "ZERO-DEP"],
-                unipasteRepo: "[G] Repo",
                 clipbridgeSub: "Universal clipboard bridge daemon powered by unipaste",
                 clipbridgeBadge: "Active",
                 clipbridgeDesc: "A background daemon that listens for OS clipboard events on Windows and Linux. When you copy rich text from apps like Slack, Teams, or browsers, it runs the HTML through unipaste and writes clean Markdown straight into your plain text clipboard slot.",
                 clipbridgeTags: ["C99", "WIN32", "POSIX", "DAEMON", "INTEGRATION"],
-                clipbridgeRepo: "[G] Repo",
                 blogIntro: "// Technical notes, systems architecture writeups, and research",
                 featuredTag: "POST_2026.08.30 // WEB STANDARDS & CLOUD",
                 featuredReading: "Reading time: ~6 min",
@@ -722,19 +710,16 @@
             document.getElementById('approx-badge').textContent = t.approxBadge;
             document.getElementById('approx-desc').textContent = t.approxDesc;
             document.getElementById('approx-tags').innerHTML = t.approxTags.map(tag => `<span class="text-xs border theme-border px-2 py-0.5 font-semibold">${tag}</span>`).join('');
-            document.getElementById('approx-repo-btn').textContent = t.approxRepo;
 
             document.getElementById('unipaste-sub').textContent = t.unipasteSub;
             document.getElementById('unipaste-badge').textContent = t.unipasteBadge;
             document.getElementById('unipaste-desc').textContent = t.unipasteDesc;
             document.getElementById('unipaste-tags').innerHTML = t.unipasteTags.map(tag => `<span class="text-xs border theme-border px-2 py-0.5 font-semibold">${tag}</span>`).join('');
-            document.getElementById('unipaste-repo-btn').textContent = t.unipasteRepo;
 
             document.getElementById('clipbridge-sub').textContent = t.clipbridgeSub;
             document.getElementById('clipbridge-badge').textContent = t.clipbridgeBadge;
             document.getElementById('clipbridge-desc').textContent = t.clipbridgeDesc;
             document.getElementById('clipbridge-tags').innerHTML = t.clipbridgeTags.map(tag => `<span class="text-xs border theme-border px-2 py-0.5 font-semibold">${tag}</span>`).join('');
-            document.getElementById('clipbridge-repo-btn').textContent = t.clipbridgeRepo;
 
             document.getElementById('blog-section-intro').textContent = t.blogIntro;
             document.getElementById('featured-post-tag').textContent = t.featuredTag;
