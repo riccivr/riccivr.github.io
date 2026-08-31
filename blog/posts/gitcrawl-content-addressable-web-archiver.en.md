@@ -124,7 +124,35 @@ Thanks to Git delta compression (`git pack-objects`), pages with only minor text
 
 ---
 
-## 5. CLI Toolchain Integration
+## 5. Why Not SQLite or Flat Files? The Distributed & Multi-Agent Advantage
+
+A recurring question when designing this storage architecture is: *Why not store snapshots in an embedded database like SQLite, or in an S3 bucket with flat files?*
+
+For single-node local runs, SQLite works fine. But as soon as you scale to modern workflows with **multiple distributed crawler agents** running concurrently across machines, containers, or regions, traditional storage models break down:
+
+### The Limitations of SQLite and Flat Files in Multi-Agent Systems:
+1. **Lock Contention & Network Sync Friction:** SQLite does not support multiple concurrent network writers without blocking (`SQLITE_BUSY` or write-ahead log lock queues). Synchronizing SQLite across nodes requires heavy consensus layers (Raft/LiteFS) or copying whole databases.
+2. **Merging Conflict Nightmare:** If three autonomous crawler agents run across different cloud regions and later try to combine their SQLite databases, reconciling auto-increment IDs, timestamp collisions, and row-level conflicts becomes complicated.
+3. **Flat Files / S3 Race Conditions:** Storing raw files leads to race conditions (*Last Write Wins*), wiping intermediate historical states when two workers hit the same URL around the same time. There is also no native cross-revision delta compression.
+
+```
+                      Agent Alpha (us-east)   ──> Branch: agent/alpha
+                                                            │
+                      Agent Bravo (eu-west)   ──> Branch: agent/bravo ──> Git Merge (Lock-Free)
+                                                            │             ├── Automatic SHA Deduplication
+                      Agent Charlie (ap-tokyo) ──> Branch: agent/charlie └── Packfile Delta Compression
+```
+
+### Why Git's Merkle DAG Naturally Tames Multi-Agent Chaos:
+
+1. **Zero-Coordination Cryptographic Deduplication:** Git is a content-addressable store. If 10 distributed crawler agents scrape the exact same page at the exact same moment and the content is unchanged, all 10 compute the *exact same SHA hash*. Deduplication happens mathematically and instantly without a central coordinator or distributed locks.
+2. **Independent Branching & Conflict-Free Convergence:** Each crawler agent works on its own branch (`agent/crawler-eu`, `agent/crawler-us`) or local clone. When a batch finishes, they push to a central bare repo (or sync peer-to-peer). Reconciling the entire archive history is a standard non-blocking `git merge`. Because crawlers touch disjoint directory paths in the tree, merges resolve in milliseconds.
+3. **Cryptographic Provenance & Tamper Evidence:** Every snapshot is cryptographically linked to its parent tree and author metadata. It is mathematically impossible to modify a historical snapshot without invalidating all downstream commit hashes. Commits can be signed (`git commit -S`) to trace exactly which agent or AI pipeline captured a given version.
+4. **Bandwidth-Efficient Delta Syncing:** Git's native wire protocol (`git-upload-pack` / `git-receive-pack`) computes deltas on the fly. Agents only transfer the bytes that actually changed over the network, drastically cutting down cloud egress costs.
+
+---
+
+## 6. CLI Toolchain Integration
 
 Because snapshots reside in standard Git repositories, `gitcrawl` integrates seamlessly with your terminal workflow:
 

@@ -14,7 +14,7 @@
       "Sistemas"
     ],
     "summary": "En mi artículo anterior sobre archivar la web con Git, exploré la teoría detrás de usar el almacén de objetos direccionable por contenido de Git como base de datos histórica para páginas web y documentación técnica.",
-    "readingTime": "4 min",
+    "readingTime": "7 min",
     "file": "posts/gitcrawl-content-addressable-web-archiver.es.md",
     "en": {
       "title": "gitcrawl: Content-Addressable Web Archiver and Snapshot Engine Backed by Git",
@@ -30,7 +30,7 @@
         "Systems"
       ],
       "summary": "In my previous article on archiving the web with Git, I explored the theory behind using Git's content-addressable object store as a historical database for web pages and technical documentation.",
-      "readingTime": "4 min",
+      "readingTime": "6 min",
       "file": "posts/gitcrawl-content-addressable-web-archiver.en.md"
     },
     "es": {
@@ -47,7 +47,7 @@
         "Sistemas"
       ],
       "summary": "En mi artículo anterior sobre archivar la web con Git, exploré la teoría detrás de usar el almacén de objetos direccionable por contenido de Git como base de datos histórica para páginas web y documentación técnica.",
-      "readingTime": "4 min",
+      "readingTime": "7 min",
       "file": "posts/gitcrawl-content-addressable-web-archiver.es.md"
     }
   },

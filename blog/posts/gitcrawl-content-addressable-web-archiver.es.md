@@ -124,7 +124,35 @@ Gracias a la compresión delta de Git (`git pack-objects`), las páginas donde s
 
 ---
 
-## 5. Integración con el Ecosistema CLI
+## 5. ¿Por qué no SQLite o almacenamiento plano? La ventaja distribuida y multi-agente
+
+Una de las preguntas más lógicas al diseñar esta herramienta fue: *¿Por qué no meter los snapshots en una base de datos embebida como SQLite, o en un bucket S3 con archivos planos?*
+
+Para un crawler de una sola máquina, SQLite es una maravilla. Pero en el momento en que escalas a un entorno moderno con **múltiples agentes de rastreo concurrentes y distribuidos**, las bases de datos monolíticas y los sistemas de archivos tradicionales muestran sus costuras:
+
+### Los problemas de SQLite y archivos planos en entornos distribuidos:
+1. **Bloqueos de concurrencia y replicación pesada:** SQLite no tolera múltiples escritores en red sin caer en bloqueos (`SQLITE_BUSY` o WAL locks). Sincronizar bases de datos SQLite entre servidores requiere protocolos de consenso complejos (Raft/LiteFS) o mover archivos enteros por la red.
+2. **Colisiones al fusionar capturas:** Si tienes tres agentes crawleando en distintas regiones y luego quieres combinar sus bases de datos SQLite, te toca lidiar con conflictos de IDs autoincrementales, colisiones de timestamps y reconciliación manual fila por fila.
+3. **Archivos planos en disco / S3:** Almacenar carpetas crudas produce condiciones de carrera (*Last Write Wins*), destruyendo versiones intermedias si dos agentes actualizan la misma URL casi al mismo tiempo. Además, no hay compresión delta nativa entre revisiones.
+
+```
+                      Agente Alpha (us-east)  ──> Branch: agent/alpha
+                                                            │
+                      Agente Bravo (eu-west)  ──> Branch: agent/bravo ──> Git Merge (Sin Bloqueos)
+                                                            │             ├── Deduplicación SHA automática
+                      Agente Charlie (ap-tokyo) ──> Branch: agent/charlie └── Compresión Delta en Packfiles
+```
+
+### Por qué el Merkle DAG de Git maneja el caos multi-agente de forma natural:
+
+1. **Deduplicación criptográfica sin coordinación:** Git es un almacén direccionable por contenido. Si 10 agentes en distintos servidores descargan la misma página al mismo segundo y el contenido es idéntico, los 10 calculan el *mismo hash SHA*. La deduplicación es matemática e inmediata, sin necesidad de consultar un servidor central ni adquirir bloqueos distribuidos.
+2. **Ramas independientes y convergencia sin dolor:** Cada agente puede trabajar en su propia rama (`agent/crawler-eu`, `agent/crawler-us`, etc.) o en un fork local. Cuando terminan su lote, hacen `git push` a un repositorio central (o peer-to-peer). La reconciliación de todo el historial es un simple `git merge` de árboles. Dado que los crawlers operan sobre rutas disjuntas del árbol de directorios, los merges se resuelven en milisegundos de forma no bloqueante.
+3. **Procedencia criptográfica e inmutabilidad:** Cada snapshot queda sellado con el autor, timestamp y hash del commit padre. Es imposible alterar una captura histórica sin invalidar todo el grafo posterior. Puedes firmar commits (`git commit -S`) para auditar qué agente o modelo de IA capturó exactamente cada versión de la web.
+4. **Transporte de red ultra-optimizado:** El protocolo nativo de Git (`git-upload-pack` / `git-receive-pack`) calcula deltas al vuelo. Cuando un agente sincroniza su trabajo con la base central, solo viajan los bytes que cambiaron, ahorrando ancho de banda masivo en flujos de trabajo en la nube.
+
+---
+
+## 6. Integración con el Ecosistema CLI
 
 Al guardar los snapshots en un repositorio Git estándar, puedes combinar `gitcrawl` con el resto de tus herramientas de terminal:
 
