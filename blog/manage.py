@@ -80,7 +80,17 @@ def parse_date(content):
 
 def markdown_to_html(content):
     if markdown:
-        md = markdown.Markdown(extensions=['fenced_code', 'tables', 'nl2br', 'sane_lists'])
+        md = markdown.Markdown(
+            extensions=['fenced_code', 'tables', 'nl2br', 'sane_lists', 'codehilite'],
+            extension_configs={
+                'codehilite': {
+                    'css_class': 'code-highlight',
+                    'guess_lang': False,
+                    'use_pygments': True,
+                    'noclasses': False
+                }
+            }
+        )
         return md.convert(content)
     return "<p>" + content.replace("\n\n", "</p><p>") + "</p>"
 

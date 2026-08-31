@@ -325,21 +325,23 @@
         #post-content td {
             color: var(--text-main);
         }
-        #post-content pre {
+        #post-content pre, .code-highlight pre {
             background-color: var(--bg-code-block) !important;
             border: 1px solid var(--border-subtle);
             padding: 1rem;
             overflow-x: auto;
             margin: 1.2rem 0;
             border-radius: 2px;
+            color: var(--text-main);
         }
-        #post-content pre code a {
+        #post-content pre code a, .code-highlight pre code a {
             color: var(--text-heading) !important;
             text-decoration: underline;
         }
-        #post-content code {
+        #post-content code, .code-highlight code {
             font-family: 'Courier New', Courier, monospace;
             font-size: 0.88rem;
+            line-height: 1.5;
         }
         #post-content p code, #post-content li code {
             background-color: var(--bg-inline-code);
@@ -348,6 +350,111 @@
             border: 1px solid var(--border-dim);
             border-radius: 2px;
             font-weight: 600;
+        }
+
+        /* Build-Time Pygments Syntax Highlighting (0 KB JS, 0 ms cost) */
+        /* CRT Dark Amber Phosphor Scheme */
+        .code-highlight .k, .code-highlight .kd, .code-highlight .kn, .code-highlight .kp, .code-highlight .kr, .code-highlight .kt {
+            color: #f59e0b;
+            font-weight: bold;
+        }
+        .code-highlight .nf, .code-highlight .nc, .code-highlight .nd, .code-highlight .na, .code-highlight .ne, .code-highlight .fm {
+            color: #fef08a;
+            font-weight: 600;
+        }
+        .code-highlight .s, .code-highlight .s1, .code-highlight .s2, .code-highlight .sa, .code-highlight .sb, .code-highlight .sc, .code-highlight .sd, .code-highlight .se, .code-highlight .sh, .code-highlight .si, .code-highlight .sx, .code-highlight .sr, .code-highlight .ss {
+            color: #a3e635;
+        }
+        .code-highlight .m, .code-highlight .mi, .code-highlight .mf, .code-highlight .mh, .code-highlight .mo, .code-highlight .mb, .code-highlight .kc {
+            color: #fb923c;
+        }
+        .code-highlight .c, .code-highlight .c1, .code-highlight .cm, .code-highlight .cp, .code-highlight .cs, .code-highlight .ch {
+            color: #d97706;
+            font-style: italic;
+        }
+        .code-highlight .o, .code-highlight .ow {
+            color: #fde68a;
+        }
+        .code-highlight .p {
+            color: #fef08a;
+        }
+        .code-highlight .nb, .code-highlight .bp {
+            color: #fbbf24;
+        }
+        .code-highlight .nv, .code-highlight .vc, .code-highlight .vg, .code-highlight .vi, .code-highlight .vm, .code-highlight .n {
+            color: #fde68a;
+        }
+
+        /* Light Paper Theme Syntax Highlighting */
+        [data-theme="light"] .code-highlight .k,
+        [data-theme="light"] .code-highlight .kd,
+        [data-theme="light"] .code-highlight .kn,
+        [data-theme="light"] .code-highlight .kp,
+        [data-theme="light"] .code-highlight .kr,
+        [data-theme="light"] .code-highlight .kt {
+            color: #9a3412;
+            font-weight: bold;
+        }
+        [data-theme="light"] .code-highlight .nf,
+        [data-theme="light"] .code-highlight .nc,
+        [data-theme="light"] .code-highlight .nd,
+        [data-theme="light"] .code-highlight .na,
+        [data-theme="light"] .code-highlight .ne,
+        [data-theme="light"] .code-highlight .fm {
+            color: #1e3a8a;
+            font-weight: 600;
+        }
+        [data-theme="light"] .code-highlight .s,
+        [data-theme="light"] .code-highlight .s1,
+        [data-theme="light"] .code-highlight .s2,
+        [data-theme="light"] .code-highlight .sa,
+        [data-theme="light"] .code-highlight .sb,
+        [data-theme="light"] .code-highlight .sc,
+        [data-theme="light"] .code-highlight .sd,
+        [data-theme="light"] .code-highlight .se,
+        [data-theme="light"] .code-highlight .sh,
+        [data-theme="light"] .code-highlight .si,
+        [data-theme="light"] .code-highlight .sx,
+        [data-theme="light"] .code-highlight .sr,
+        [data-theme="light"] .code-highlight .ss {
+            color: #15803d;
+        }
+        [data-theme="light"] .code-highlight .m,
+        [data-theme="light"] .code-highlight .mi,
+        [data-theme="light"] .code-highlight .mf,
+        [data-theme="light"] .code-highlight .mh,
+        [data-theme="light"] .code-highlight .mo,
+        [data-theme="light"] .code-highlight .mb,
+        [data-theme="light"] .code-highlight .kc {
+            color: #c2410c;
+        }
+        [data-theme="light"] .code-highlight .c,
+        [data-theme="light"] .code-highlight .c1,
+        [data-theme="light"] .code-highlight .cm,
+        [data-theme="light"] .code-highlight .cp,
+        [data-theme="light"] .code-highlight .cs,
+        [data-theme="light"] .code-highlight .ch {
+            color: #78716c;
+            font-style: italic;
+        }
+        [data-theme="light"] .code-highlight .o,
+        [data-theme="light"] .code-highlight .ow {
+            color: #451a03;
+        }
+        [data-theme="light"] .code-highlight .p {
+            color: #2b1103;
+        }
+        [data-theme="light"] .code-highlight .nb,
+        [data-theme="light"] .code-highlight .bp {
+            color: #6b21a8;
+        }
+        [data-theme="light"] .code-highlight .nv,
+        [data-theme="light"] .code-highlight .vc,
+        [data-theme="light"] .code-highlight .vg,
+        [data-theme="light"] .code-highlight .vi,
+        [data-theme="light"] .code-highlight .vm,
+        [data-theme="light"] .code-highlight .n {
+            color: #2b1103;
         }
     </style>
 </head>
