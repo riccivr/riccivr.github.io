@@ -81,7 +81,7 @@ def parse_markdown_file(filepath):
 
     date = parse_date(content)
 
-    cat_match = re.search(r'(?:Categor[íi]a|Category):\s*([^·\n*]+)', content, re.IGNORECASE)
+    cat_match = re.search(r'(?:Categor[íi]a|Category):\s*([^.·\n*]+)', content, re.IGNORECASE)
     category = cat_match.group(1).strip() if cat_match else "Systems & Architecture"
 
     paragraphs = [p.strip() for p in re.split(r'\n\s*\n', content) if p.strip()]

@@ -3,7 +3,7 @@
     "slug": "being-a-good-net-citizen-in-the-ai-era",
     "date": "2026-08-30",
     "title": "Ser un buen ciudadano de la red en la era de la IA: guía moderna para el rastreo y descubrimiento web",
-    "category": "Web Standards & Cloud. Tiempo de lectura: ~5 min",
+    "category": "Web Standards & Cloud",
     "tags": [
       "Web Standards",
       "IA",
@@ -18,7 +18,7 @@
     "en": {
       "title": "Being a good net citizen in the AI era: a guide to web discoverability",
       "date": "2026-08-30",
-      "category": "Web Standards & Cloud. Reading time: ~5 min",
+      "category": "Web Standards & Cloud",
       "tags": [
         "Web Standards",
         "AI",
@@ -34,7 +34,7 @@
     "es": {
       "title": "Ser un buen ciudadano de la red en la era de la IA: guía moderna para el rastreo y descubrimiento web",
       "date": "2026-08-30",
-      "category": "Web Standards & Cloud. Tiempo de lectura: ~5 min",
+      "category": "Web Standards & Cloud",
       "tags": [
         "Web Standards",
         "IA",
@@ -52,7 +52,7 @@
     "slug": "preserving-the-web-with-git",
     "date": "2026-08-30",
     "title": "Archivar la web con Git: construyendo un crawler e indexador histórico",
-    "category": "Sistemas & Arquitectura. Tiempo de lectura: ~5 min",
+    "category": "Sistemas & Arquitectura",
     "tags": [
       "Git",
       "Web Archiving",
@@ -67,7 +67,7 @@
     "en": {
       "title": "Archiving the web with Git: building a content-addressable crawler",
       "date": "2026-08-30",
-      "category": "Systems & Architecture. Reading time: ~5 min",
+      "category": "Systems & Architecture",
       "tags": [
         "Git",
         "Web Archiving",
@@ -83,7 +83,7 @@
     "es": {
       "title": "Archivar la web con Git: construyendo un crawler e indexador histórico",
       "date": "2026-08-30",
-      "category": "Sistemas & Arquitectura. Tiempo de lectura: ~5 min",
+      "category": "Sistemas & Arquitectura",
       "tags": [
         "Git",
         "Web Archiving",
@@ -101,7 +101,7 @@
     "slug": "using-github-as-a-database",
     "date": "2026-08-30",
     "title": "¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos",
-    "category": "Arquitectura & Sistemas. Tiempo de lectura: ~4 min",
+    "category": "Arquitectura & Sistemas",
     "tags": [
       "SQLite",
       "GitHub Pages",
@@ -115,7 +115,7 @@
     "en": {
       "title": "Can you use GitHub as a database? SQLite, HTTP range requests, and flat files",
       "date": "2026-08-30",
-      "category": "Architecture & Systems. Reading time: ~4 min",
+      "category": "Architecture & Systems",
       "tags": [
         "SQLite",
         "GitHub Pages",
@@ -130,7 +130,7 @@
     "es": {
       "title": "¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos",
       "date": "2026-08-30",
-      "category": "Arquitectura & Sistemas. Tiempo de lectura: ~4 min",
+      "category": "Arquitectura & Sistemas",
       "tags": [
         "SQLite",
         "GitHub Pages",
