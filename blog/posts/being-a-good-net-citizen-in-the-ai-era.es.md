@@ -42,12 +42,15 @@ El estándar `llms.txt` es un archivo simple en Markdown ubicado en `/llms.txt`.
 > Herramientas de sistemas en C99, infraestructura cloud y algoritmos.
 
 ## Proyectos
-- [approx](https://riccivr.github.io/): Filtro de streams difuso POSIX en C99.
-- [unipaste](https://riccivr.github.io/): Formateador de HTML del portapapeles a Markdown.
+- [gitcrawl](https://github.com/riccivr/gitcrawl): Archivador web direccionable por contenido en C99.
+- [approx](https://github.com/riccivr/approx): Filtro de streams difuso POSIX en C99.
+- [unipaste](https://github.com/riccivr/unipaste): Formateador de HTML del portapapeles a Markdown.
+- [clipbridge](https://github.com/riccivr/clipbridge): Daemon universal de portapapeles.
 
 ## Artículos principales
-- [Archivar la web con Git](https://riccivr.github.io/blog/posts/preserving-the-web-with-git.es.md): Crawling web nativo en Git.
-- [¿Se puede usar GitHub como base de datos?](https://riccivr.github.io/blog/posts/using-github-as-a-database.es.md): SQLite VFS mediante peticiones HTTP Range.
+- [gitcrawl: crawler web direccionable por contenido](https://riccivr.github.io/blog/gitcrawl-content-addressable-web-archiver.html): Motor de snapshots en Git.
+- [Archivar la web con Git](https://riccivr.github.io/blog/preserving-the-web-with-git.html): Crawling web nativo en Git.
+- [¿Se puede usar GitHub como base de datos?](https://riccivr.github.io/blog/using-github-as-a-database.html): SQLite VFS mediante peticiones HTTP Range.
 ```
 
 ### Otros feeds útiles:

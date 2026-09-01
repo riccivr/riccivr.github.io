@@ -42,12 +42,15 @@ The `llms.txt` standard is a simple Markdown file hosted at `/llms.txt`. It give
 > Systems tools in C99, cloud infrastructure, and algorithms.
 
 ## Projects
-- [approx](https://riccivr.github.io/): POSIX fuzzy stream filter in C99.
-- [unipaste](https://riccivr.github.io/): Clipboard HTML to Markdown formatter.
+- [gitcrawl](https://github.com/riccivr/gitcrawl): Content-addressable web archiver in C99.
+- [approx](https://github.com/riccivr/approx): POSIX fuzzy stream filter in C99.
+- [unipaste](https://github.com/riccivr/unipaste): Clipboard HTML to Markdown formatter.
+- [clipbridge](https://github.com/riccivr/clipbridge): Universal clipboard listener daemon.
 
 ## Core articles
-- [Archiving the web with Git](https://riccivr.github.io/blog/posts/preserving-the-web-with-git.en.md): Git-native web crawling.
-- [Can you use GitHub as a database?](https://riccivr.github.io/blog/posts/using-github-as-a-database.en.md): SQLite VFS over HTTP range queries.
+- [gitcrawl: content-addressable web archiver](https://riccivr.github.io/blog/gitcrawl-content-addressable-web-archiver.html): Snapshot engine backed by Git.
+- [Archiving the web with Git](https://riccivr.github.io/blog/preserving-the-web-with-git.html): Git-native web crawling.
+- [Can you use GitHub as a database?](https://riccivr.github.io/blog/using-github-as-a-database.html): SQLite VFS over HTTP range queries.
 ```
 
 ### Other useful feeds:

@@ -5,7 +5,7 @@
     <link>https://riccivr.github.io/blog/</link>
     <description>Reflections on cloud architecture, systems engineering, C99, algorithms, and IoT.</description>
     <language>es-ve</language>
-    <lastBuildDate>Tue, 01 Sep 2026 10:06:19 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 01 Sep 2026 10:10:11 GMT</lastBuildDate>
     <atom:link href="https://riccivr.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>gitcrawl: crawler web direccionable por contenido y motor de snapshots en Git</title>
