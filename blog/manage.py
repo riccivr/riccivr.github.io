@@ -375,44 +375,86 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
 
         /* Build-Time Pygments Syntax Highlighting (0 KB JS, 0 ms cost) */
         /* CRT Dark Amber Phosphor Scheme */
-        .code-highlight .k, .code-highlight .kd, .code-highlight .kn, .code-highlight .kp, .code-highlight .kr, .code-highlight .kt {{
+        html:not([data-theme="light"]) .code-highlight .k,
+        html:not([data-theme="light"]) .code-highlight .kd,
+        html:not([data-theme="light"]) .code-highlight .kn,
+        html:not([data-theme="light"]) .code-highlight .kp,
+        html:not([data-theme="light"]) .code-highlight .kr,
+        html:not([data-theme="light"]) .code-highlight .kt,
+        html:not([data-theme="light"]) .code-highlight .nt {{
             color: #f59e0b;
             font-weight: bold;
         }}
-        .code-highlight .nf, .code-highlight .nc, .code-highlight .nd, .code-highlight .na, .code-highlight .ne, .code-highlight .fm {{
+        html:not([data-theme="light"]) .code-highlight .nf,
+        html:not([data-theme="light"]) .code-highlight .nc,
+        html:not([data-theme="light"]) .code-highlight .nd,
+        html:not([data-theme="light"]) .code-highlight .na,
+        html:not([data-theme="light"]) .code-highlight .ne,
+        html:not([data-theme="light"]) .code-highlight .fm {{
             color: #fef08a;
             font-weight: 600;
         }}
-        .code-highlight .s, .code-highlight .s1, .code-highlight .s2, .code-highlight .sa, .code-highlight .sb, .code-highlight .sc, .code-highlight .sd, .code-highlight .se, .code-highlight .sh, .code-highlight .si, .code-highlight .sx, .code-highlight .sr, .code-highlight .ss {{
+        html:not([data-theme="light"]) .code-highlight .s,
+        html:not([data-theme="light"]) .code-highlight .s1,
+        html:not([data-theme="light"]) .code-highlight .s2,
+        html:not([data-theme="light"]) .code-highlight .sa,
+        html:not([data-theme="light"]) .code-highlight .sb,
+        html:not([data-theme="light"]) .code-highlight .sc,
+        html:not([data-theme="light"]) .code-highlight .sd,
+        html:not([data-theme="light"]) .code-highlight .se,
+        html:not([data-theme="light"]) .code-highlight .sh,
+        html:not([data-theme="light"]) .code-highlight .si,
+        html:not([data-theme="light"]) .code-highlight .sx,
+        html:not([data-theme="light"]) .code-highlight .sr,
+        html:not([data-theme="light"]) .code-highlight .ss {{
             color: #a3e635;
         }}
-        .code-highlight .m, .code-highlight .mi, .code-highlight .mf, .code-highlight .mh, .code-highlight .mo, .code-highlight .mb, .code-highlight .kc {{
+        html:not([data-theme="light"]) .code-highlight .m,
+        html:not([data-theme="light"]) .code-highlight .mi,
+        html:not([data-theme="light"]) .code-highlight .mf,
+        html:not([data-theme="light"]) .code-highlight .mh,
+        html:not([data-theme="light"]) .code-highlight .mo,
+        html:not([data-theme="light"]) .code-highlight .mb,
+        html:not([data-theme="light"]) .code-highlight .kc {{
             color: #fb923c;
         }}
-        .code-highlight .c, .code-highlight .c1, .code-highlight .cm, .code-highlight .cp, .code-highlight .cs, .code-highlight .ch {{
+        html:not([data-theme="light"]) .code-highlight .c,
+        html:not([data-theme="light"]) .code-highlight .c1,
+        html:not([data-theme="light"]) .code-highlight .cm,
+        html:not([data-theme="light"]) .code-highlight .cp,
+        html:not([data-theme="light"]) .code-highlight .cs,
+        html:not([data-theme="light"]) .code-highlight .ch {{
             color: #d97706;
             font-style: italic;
         }}
-        .code-highlight .o, .code-highlight .ow {{
+        html:not([data-theme="light"]) .code-highlight .o,
+        html:not([data-theme="light"]) .code-highlight .ow {{
             color: #fde68a;
         }}
-        .code-highlight .p {{
+        html:not([data-theme="light"]) .code-highlight .p {{
             color: #fef08a;
         }}
-        .code-highlight .nb, .code-highlight .bp {{
+        html:not([data-theme="light"]) .code-highlight .nb,
+        html:not([data-theme="light"]) .code-highlight .bp {{
             color: #fbbf24;
         }}
-        .code-highlight .nv, .code-highlight .vc, .code-highlight .vg, .code-highlight .vi, .code-highlight .vm, .code-highlight .n {{
+        html:not([data-theme="light"]) .code-highlight .nv,
+        html:not([data-theme="light"]) .code-highlight .vc,
+        html:not([data-theme="light"]) .code-highlight .vg,
+        html:not([data-theme="light"]) .code-highlight .vi,
+        html:not([data-theme="light"]) .code-highlight .vm,
+        html:not([data-theme="light"]) .code-highlight .n {{
             color: #fde68a;
         }}
 
-        /* Light Paper Theme Syntax Highlighting */
+        /* Light Paper Theme Syntax Highlighting - 100% WCAG Compliant */
         [data-theme="light"] .code-highlight .k,
         [data-theme="light"] .code-highlight .kd,
         [data-theme="light"] .code-highlight .kn,
         [data-theme="light"] .code-highlight .kp,
         [data-theme="light"] .code-highlight .kr,
-        [data-theme="light"] .code-highlight .kt {{
+        [data-theme="light"] .code-highlight .kt,
+        [data-theme="light"] .code-highlight .nt {{
             color: #9a3412;
             font-weight: bold;
         }}
@@ -438,7 +480,7 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
         [data-theme="light"] .code-highlight .sx,
         [data-theme="light"] .code-highlight .sr,
         [data-theme="light"] .code-highlight .ss {{
-            color: #15803d;
+            color: #14532d;
         }}
         [data-theme="light"] .code-highlight .m,
         [data-theme="light"] .code-highlight .mi,
@@ -447,7 +489,7 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
         [data-theme="light"] .code-highlight .mo,
         [data-theme="light"] .code-highlight .mb,
         [data-theme="light"] .code-highlight .kc {{
-            color: #c2410c;
+            color: #9a3412;
         }}
         [data-theme="light"] .code-highlight .c,
         [data-theme="light"] .code-highlight .c1,
@@ -455,7 +497,7 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
         [data-theme="light"] .code-highlight .cp,
         [data-theme="light"] .code-highlight .cs,
         [data-theme="light"] .code-highlight .ch {{
-            color: #854d0e;
+            color: #713f12;
             font-style: italic;
         }}
         [data-theme="light"] .code-highlight .o,
