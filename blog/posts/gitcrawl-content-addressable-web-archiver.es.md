@@ -112,7 +112,7 @@ Si comiteas el HTML crudo tal cual, cada corrida te va a generar diffs falsos po
 
 ## 4. Benchmarks y eficiencia de almacenamiento
 
-Pusimos a prueba `gitcrawl` archivando 500 páginas de documentación técnica (incluyendo specs de RFCs, docs de Python y manuales POSIX) con revisiones diarias durante un mes entero:
+Puse a prueba `gitcrawl` archivando 500 páginas de documentación técnica (incluyendo specs de RFCs, docs de Python y manuales POSIX) con revisiones diarias durante un mes entero:
 
 | Estrategia de Archivo | Espacio en Disco (30 corridas) | Velocidad de Diff en Terminal | Requiere Base de Datos |
 |---|---|---|---|
@@ -124,11 +124,11 @@ Gracias a la compresión delta de Git (`git pack-objects`), las páginas donde s
 
 ---
 
-## 5. ¿Por qué no SQLite o almacenamiento plano? La ventaja distribuida y multi-agente
+## 5. ¿Por qué no SQLite o almacenamiento plano? Lo que estuve pensando sobre crawlers distribuidos
 
-Una de las dudas más comunes al armar esta arquitectura fue: *¿Por qué no meter los snapshots en una base de datos embebida como SQLite, o en un bucket S3 con archivos planos y ya?*
+Cuando estaba diseñando este motor, me puse a pensar si no era más fácil tirar los snapshots en una base de datos embebida como SQLite o en un bucket S3 con archivos planos y ya.
 
-Para un crawler solitario en una sola máquina, SQLite es tremenda nota. Pero en el momento en que escalas a un entorno con múltiples agentes de rastreo concurrentes y distribuidos en varias máquinas, contenedores o Lambdas, las bases de datos monolíticas y los archivos planos empiezan a mostrar las costuras y se arma un saperoco.
+Para un crawler solitario en mi propia laptop, SQLite es tremenda nota. Pero en el momento en que me puse a pensar en escalar esto con múltiples agentes de rastreo corriendo en paralelo en varias máquinas, contenedores o lambdas, las bases de datos monolíticas y los archivos planos empiezan a mostrar las costuras y se arma un saperoco:
 
 ### Los rollos de SQLite y archivos planos en entornos distribuidos
 

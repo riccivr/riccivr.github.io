@@ -5,11 +5,11 @@
 
 ---
 
-Una pregunta que siempre sale al armar side projects y sitios estáticos es si de pana se puede usar GitHub como una base de datos persistente.
+Siempre ando buscando formas de mantener mis proyectos personales con cero mantenimiento y cero costos de servidor, así que me puse a pensar: ¿se puede usar GitHub de pana como una base de datos persistente?
 
 La respuesta corta es que técnicamente sí, pero con sus buenos matices. Funciona fino para conjuntos de datos estáticos de solo lectura, y bastante chimbo si necesitas escrituras concurrentes en tiempo real.
 
-Aquí te muestro cómo se implementa la jugada, cómo funciona SQLite sobre peticiones HTTP Range y las limitaciones operativas que debes tener en cuenta.
+Aquí te muestro cómo implementé la jugada, cómo funciona SQLite sobre peticiones HTTP Range y las limitaciones operativas que aprendí en el camino.
 
 ---
 

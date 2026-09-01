@@ -112,7 +112,7 @@ Committing raw HTML produces dirty diffs on every crawl cycle due to session coo
 
 ## 4. Benchmarks and storage efficiency
 
-We tested `gitcrawl` by snapshotting 500 technical documentation pages (RFC specs, Python docs, and POSIX manuals) daily across 30 days:
+I tested `gitcrawl` by snapshotting 500 technical documentation pages (RFC specs, Python docs, and POSIX manuals) daily across 30 days:
 
 | Archival Strategy | Disk Usage (30 snapshot cycles) | Terminal Diff Speed | Requires Database |
 |---|---|---|---|
@@ -124,11 +124,11 @@ Thanks to Git delta compression (`git pack-objects`), pages with only minor text
 
 ---
 
-## 5. Why not SQLite or flat files? The distributed advantage
+## 5. Why not SQLite or flat files? My thoughts on distributed crawling
 
-A common question when designing this storage setup is: *Why not store snapshots in an embedded database like SQLite, or in an S3 bucket with flat files?*
+While designing this storage engine, I thought about just dumping snapshots into an embedded database like SQLite or an S3 bucket with flat files.
 
-For single-node local runs, SQLite works well. But once you scale to workflows with multiple crawler agents running concurrently across machines, containers, or serverless workers, traditional storage setups struggle.
+For single-node local runs on my laptop, SQLite works fine. But when I thought about scaling this to multiple crawler agents running concurrently across different machines, containers, or regions, traditional storage models fall apart:
 
 ### Limitations of SQLite and flat files
 

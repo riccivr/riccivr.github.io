@@ -620,7 +620,7 @@
 
 <hr />
 <h2>4. Benchmarks y eficiencia de almacenamiento</h2>
-<p>Pusimos a prueba <code>gitcrawl</code> archivando 500 páginas de documentación técnica (incluyendo specs de RFCs, docs de Python y manuales POSIX) con revisiones diarias durante un mes entero:</p>
+<p>Puse a prueba <code>gitcrawl</code> archivando 500 páginas de documentación técnica (incluyendo specs de RFCs, docs de Python y manuales POSIX) con revisiones diarias durante un mes entero:</p>
 <table>
 <thead>
 <tr>
@@ -653,9 +653,9 @@
 </table>
 <p>Gracias a la compresión delta de Git (<code>git pack-objects</code>), las páginas donde solo cambia una línea o un párrafo ocupan apenas unos cuantos bytes por snapshot histórico. Una mantequilla.</p>
 <hr />
-<h2>5. ¿Por qué no SQLite o almacenamiento plano? La ventaja distribuida y multi-agente</h2>
-<p>Una de las dudas más comunes al armar esta arquitectura fue: <em>¿Por qué no meter los snapshots en una base de datos embebida como SQLite, o en un bucket S3 con archivos planos y ya?</em></p>
-<p>Para un crawler solitario en una sola máquina, SQLite es tremenda nota. Pero en el momento en que escalas a un entorno con múltiples agentes de rastreo concurrentes y distribuidos en varias máquinas, contenedores o Lambdas, las bases de datos monolíticas y los archivos planos empiezan a mostrar las costuras y se arma un saperoco.</p>
+<h2>5. ¿Por qué no SQLite o almacenamiento plano? Lo que estuve pensando sobre crawlers distribuidos</h2>
+<p>Cuando estaba diseñando este motor, me puse a pensar si no era más fácil tirar los snapshots en una base de datos embebida como SQLite o en un bucket S3 con archivos planos y ya.</p>
+<p>Para un crawler solitario en mi propia laptop, SQLite es tremenda nota. Pero en el momento en que me puse a pensar en escalar esto con múltiples agentes de rastreo corriendo en paralelo en varias máquinas, contenedores o lambdas, las bases de datos monolíticas y los archivos planos empiezan a mostrar las costuras y se arma un saperoco:</p>
 <h3>Los rollos de SQLite y archivos planos en entornos distribuidos</h3>
 <ol>
 <li><strong>Bloqueos de concurrencia y replicación pesada.</strong> SQLite no aguanta múltiples escritores concurrentes en red sin trabarse (<code>SQLITE_BUSY</code> o bloqueos de WAL). Sincronizar bases de datos SQLite entre servidores exige protocolos de consenso complejos (Raft/LiteFS) o mover bases de datos enteras por la red.</li>
@@ -785,7 +785,7 @@
 
 <hr />
 <h2>4. Benchmarks and storage efficiency</h2>
-<p>We tested <code>gitcrawl</code> by snapshotting 500 technical documentation pages (RFC specs, Python docs, and POSIX manuals) daily across 30 days:</p>
+<p>I tested <code>gitcrawl</code> by snapshotting 500 technical documentation pages (RFC specs, Python docs, and POSIX manuals) daily across 30 days:</p>
 <table>
 <thead>
 <tr>
@@ -818,9 +818,9 @@
 </table>
 <p>Thanks to Git delta compression (<code>git pack-objects</code>), pages with only minor text modifications take just a few bytes per historic snapshot.</p>
 <hr />
-<h2>5. Why not SQLite or flat files? The distributed advantage</h2>
-<p>A common question when designing this storage setup is: <em>Why not store snapshots in an embedded database like SQLite, or in an S3 bucket with flat files?</em></p>
-<p>For single-node local runs, SQLite works well. But once you scale to workflows with multiple crawler agents running concurrently across machines, containers, or serverless workers, traditional storage setups struggle.</p>
+<h2>5. Why not SQLite or flat files? My thoughts on distributed crawling</h2>
+<p>While designing this storage engine, I thought about just dumping snapshots into an embedded database like SQLite or an S3 bucket with flat files.</p>
+<p>For single-node local runs on my laptop, SQLite works fine. But when I thought about scaling this to multiple crawler agents running concurrently across different machines, containers, or regions, traditional storage models fall apart:</p>
 <h3>Limitations of SQLite and flat files</h3>
 <ol>
 <li><strong>Lock contention and network sync.</strong> SQLite does not support multiple concurrent network writers without blocking (<code>SQLITE_BUSY</code> or write-ahead log lock queues). Synchronizing SQLite across nodes requires consensus layers (Raft/LiteFS) or copying whole databases.</li>

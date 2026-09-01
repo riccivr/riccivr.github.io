@@ -7,21 +7,21 @@
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
     <meta name="author" content="Ricardo Veronese">
     <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed" href="https://riccivr.github.io/feed.xml">
-    <meta name="description" id="meta-desc" content="Una pregunta que siempre sale al armar side projects y sitios estáticos es si de pana se puede usar GitHub como una base de datos persistente.">
+    <meta name="description" id="meta-desc" content="Siempre ando buscando formas de mantener mis proyectos personales con cero mantenimiento y cero costos de servidor, así que me puse a pensar: ¿se puede usar GitHub de pana como una base de datos persistente?">
     <link rel="canonical" href="https://riccivr.github.io/blog/using-github-as-a-database.html">
 
     <!-- Open Graph -->
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="Ricardo Veronese">
     <meta property="og:title" id="og-title" content="¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos - Ricardo Veronese">
-    <meta property="og:description" id="og-desc" content="Una pregunta que siempre sale al armar side projects y sitios estáticos es si de pana se puede usar GitHub como una base de datos persistente.">
+    <meta property="og:description" id="og-desc" content="Siempre ando buscando formas de mantener mis proyectos personales con cero mantenimiento y cero costos de servidor, así que me puse a pensar: ¿se puede usar GitHub de pana como una base de datos persistente?">
     <meta property="og:url" content="https://riccivr.github.io/blog/using-github-as-a-database.html">
     <meta property="og:image" content="https://riccivr.github.io/riccivr-retro-og.png">
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" id="tw-title" content="¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos - Ricardo Veronese">
-    <meta name="twitter:description" id="tw-desc" content="Una pregunta que siempre sale al armar side projects y sitios estáticos es si de pana se puede usar GitHub como una base de datos persistente.">
+    <meta name="twitter:description" id="tw-desc" content="Siempre ando buscando formas de mantener mis proyectos personales con cero mantenimiento y cero costos de servidor, así que me puse a pensar: ¿se puede usar GitHub de pana como una base de datos persistente?">
     <meta name="twitter:image" content="https://riccivr.github.io/riccivr-retro-og.png">
 
     <!-- Schema.org BlogPosting -->
@@ -30,7 +30,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "headline": "\u00bfSe puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos",
-        "description": "Una pregunta que siempre sale al armar side projects y sitios est\u00e1ticos es si de pana se puede usar GitHub como una base de datos persistente.",
+        "description": "Siempre ando buscando formas de mantener mis proyectos personales con cero mantenimiento y cero costos de servidor, as\u00ed que me puse a pensar: \u00bfse puede usar GitHub de pana como una base de datos persistente?",
         "author": {
             "@type": "Person",
             "name": "Ricardo Veronese",
@@ -534,9 +534,9 @@
 <p><em>Publicado: 30 de agosto de 2026. Categoría: Arquitectura &amp; Sistemas. Tiempo de lectura: ~4 min</em><br />
 <em>Etiquetas: SQLite, GitHub Pages, HTTP Range, Arquitectura, Cloud</em></p>
 <hr />
-<p>Una pregunta que siempre sale al armar side projects y sitios estáticos es si de pana se puede usar GitHub como una base de datos persistente.</p>
+<p>Siempre ando buscando formas de mantener mis proyectos personales con cero mantenimiento y cero costos de servidor, así que me puse a pensar: ¿se puede usar GitHub de pana como una base de datos persistente?</p>
 <p>La respuesta corta es que técnicamente sí, pero con sus buenos matices. Funciona fino para conjuntos de datos estáticos de solo lectura, y bastante chimbo si necesitas escrituras concurrentes en tiempo real.</p>
-<p>Aquí te muestro cómo se implementa la jugada, cómo funciona SQLite sobre peticiones HTTP Range y las limitaciones operativas que debes tener en cuenta.</p>
+<p>Aquí te muestro cómo implementé la jugada, cómo funciona SQLite sobre peticiones HTTP Range y las limitaciones operativas que aprendí en el camino.</p>
 <hr />
 <h2>1. SQLite de solo lectura con peticiones HTTP Range</h2>
 <p>Un patrón bien elegante consiste en subir un archivo <code>.sqlite</code> a GitHub Pages o Releases y consultarlo directamente desde el navegador sin tener que bajarte la base de datos completa.</p>
@@ -649,9 +649,9 @@ GitHub Pages o CDN (archivo database.sqlite)
 <p><em>Published: August 30, 2026. Category: Architecture &amp; Systems. Reading time: ~4 min</em><br />
 <em>Tags: SQLite, GitHub Pages, HTTP Range, Architecture, Cloud</em></p>
 <hr />
-<p>A common question for side projects and static sites is whether you can use GitHub as a persistent database.</p>
-<p>You can, but it depends on your read and write patterns. It works well for read-heavy static datasets, and poorly for real-time concurrent writes.</p>
-<p>Here is an architectural look at how people run databases on GitHub, how SQLite over HTTP range requests works, and the operational trade-offs.</p>
+<p>I often look for ways to keep side projects zero-maintenance and zero-cost, which made me wonder: can I just use GitHub as a persistent database?</p>
+<p>The short answer is yes, but it depends heavily on read and write patterns. It works surprisingly well for read-heavy static datasets, and terribly for real-time concurrent writes.</p>
+<p>Here is my architectural look at how SQLite over HTTP range requests works on GitHub Pages, how to handle flat-file writes, and where the operational trade-offs break down.</p>
 <hr />
 <h2>1. Read-only SQLite with HTTP range requests</h2>
 <p>A clean pattern is hosting a <code>.sqlite</code> file on GitHub Pages or Releases and querying it directly from the browser without downloading the full database.</p>
@@ -798,7 +798,7 @@ GitHub Pages or CDN storage (database.sqlite)
                 topBtn: "[^] Arriba",
                 footerText: "Static Pre-rendered · Zero-JS Engine",
                 title: "\u00bfSe puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos",
-                metaDesc: "Una pregunta que siempre sale al armar side projects y sitios est\u00e1ticos es si de pana se puede usar GitHub como una base de datos persistente."
+                metaDesc: "Siempre ando buscando formas de mantener mis proyectos personales con cero mantenimiento y cero costos de servidor, as\u00ed que me puse a pensar: \u00bfse puede usar GitHub de pana como una base de datos persistente?"
             },
             en: {
                 sysId: "SYS.ID: riccivr // using-github-as-a-database",
@@ -816,7 +816,7 @@ GitHub Pages or CDN storage (database.sqlite)
                 topBtn: "[^] Top",
                 footerText: "Static Pre-rendered · Zero-JS Engine",
                 title: "Can you use GitHub as a database? SQLite, HTTP range requests, and flat files",
-                metaDesc: "A common question for side projects and static sites is whether you can use GitHub as a persistent database."
+                metaDesc: "I often look for ways to keep side projects zero-maintenance and zero-cost, which made me wonder: can I just use GitHub as a persistent database?"
             }
         };
 

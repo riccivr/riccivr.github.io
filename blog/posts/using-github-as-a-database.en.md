@@ -5,11 +5,11 @@
 
 ---
 
-A common question for side projects and static sites is whether you can use GitHub as a persistent database.
+I often look for ways to keep side projects zero-maintenance and zero-cost, which made me wonder: can I just use GitHub as a persistent database?
 
-You can, but it depends on your read and write patterns. It works well for read-heavy static datasets, and poorly for real-time concurrent writes.
+The short answer is yes, but it depends heavily on read and write patterns. It works surprisingly well for read-heavy static datasets, and terribly for real-time concurrent writes.
 
-Here is an architectural look at how people run databases on GitHub, how SQLite over HTTP range requests works, and the operational trade-offs.
+Here is my architectural look at how SQLite over HTTP range requests works on GitHub Pages, how to handle flat-file writes, and where the operational trade-offs break down.
 
 ---
 

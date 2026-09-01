@@ -161,7 +161,7 @@
       "Arquitectura",
       "Cloud"
     ],
-    "summary": "Una pregunta que siempre sale al armar side projects y sitios estáticos es si de pana se puede usar GitHub como una base de datos persistente.",
+    "summary": "Siempre ando buscando formas de mantener mis proyectos personales con cero mantenimiento y cero costos de servidor, así que me puse a pensar: ¿se puede usar GitHub de pana como una base de datos persistente?",
     "readingTime": "4 min",
     "file": "posts/using-github-as-a-database.es.md",
     "en": {
@@ -175,7 +175,7 @@
         "Architecture",
         "Cloud"
       ],
-      "summary": "A common question for side projects and static sites is whether you can use GitHub as a persistent database.",
+      "summary": "I often look for ways to keep side projects zero-maintenance and zero-cost, which made me wonder: can I just use GitHub as a persistent database?",
       "readingTime": "3 min",
       "file": "posts/using-github-as-a-database.en.md"
     },
@@ -190,7 +190,7 @@
         "Arquitectura",
         "Cloud"
       ],
-      "summary": "Una pregunta que siempre sale al armar side projects y sitios estáticos es si de pana se puede usar GitHub como una base de datos persistente.",
+      "summary": "Siempre ando buscando formas de mantener mis proyectos personales con cero mantenimiento y cero costos de servidor, así que me puse a pensar: ¿se puede usar GitHub de pana como una base de datos persistente?",
       "readingTime": "4 min",
       "file": "posts/using-github-as-a-database.es.md"
     }
