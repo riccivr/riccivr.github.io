@@ -196,13 +196,13 @@
             </div>
             <div class="flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2">
                 <div class="flex items-center gap-1.5 sm:gap-2">
-                    <button id="lang-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-label="Alternar idioma / Toggle language [I]" title="Alternar idioma / Toggle language [I]">
+                    <button id="lang-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-label="Alternar idioma a inglés (actual: Español) [I]" title="Alternar idioma a inglés (actual: Español) [I]">
                         [LANG: ES]
                     </button>
-                    <button id="keys-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-pressed="true" aria-label="Alternar atajos de teclado / Toggle keyboard shortcuts" title="Alternar atajos de teclado / Toggle keyboard shortcuts">
+                    <button id="keys-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-pressed="true" aria-label="Alternar atajos de navegación por teclado" title="Alternar atajos de navegación por teclado">
                         [TECLAS: ACT]
                     </button>
-                    <button id="theme-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-label="Alternar tema / Toggle theme (CRT / Papel)" title="Alternar tema / Toggle theme (CRT / Papel)">
+                    <button id="theme-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-label="Alternar tema visual (actual: CRT)" title="Alternar tema visual (actual: CRT)">
                         [MODO: CRT]
                     </button>
                 </div>
@@ -804,16 +804,20 @@
             const langBtn = document.getElementById('lang-toggle');
             langBtn.textContent = t.langToggle;
             langBtn.setAttribute('aria-label', t.langAria);
+            langBtn.setAttribute('title', t.langAria);
 
             const isLight = document.documentElement.getAttribute('data-theme') === 'light';
             const themeBtn = document.getElementById('theme-toggle');
             themeBtn.textContent = isLight ? t.modePaper : t.modeCrt;
-            themeBtn.setAttribute('aria-label', isLight ? t.themeAriaPaper : t.themeAria);
+            const themeLabel = isLight ? t.themeAriaPaper : t.themeAria;
+            themeBtn.setAttribute('aria-label', themeLabel);
+            themeBtn.setAttribute('title', themeLabel);
 
             const keysEnabled = localStorage.getItem('riccivr-keys') !== 'off';
             const keysBtn = document.getElementById('keys-toggle');
             keysBtn.textContent = keysEnabled ? t.keysOn : t.keysOff;
             keysBtn.setAttribute('aria-label', t.keysAria);
+            keysBtn.setAttribute('title', t.keysAria);
             keysBtn.setAttribute('aria-pressed', keysEnabled ? 'true' : 'false');
 
             document.getElementById('bio-role').textContent = t.bioRole;
@@ -823,16 +827,24 @@
             const navBlog = document.getElementById('nav-btn-blog');
             navBlog.textContent = t.navBlog;
             navBlog.setAttribute('aria-label', t.navBlogAria);
+            navBlog.setAttribute('title', t.navBlogAria);
 
             const navEmail = document.getElementById('nav-btn-email');
             navEmail.textContent = t.navEmail;
             navEmail.setAttribute('aria-label', t.navEmailAria);
+            navEmail.setAttribute('title', t.navEmailAria);
 
             const navGh = document.getElementById('nav-btn-gh');
-            if (navGh) navGh.setAttribute('aria-label', t.navGhAria);
+            if (navGh) {
+                navGh.setAttribute('aria-label', t.navGhAria);
+                navGh.setAttribute('title', t.navGhAria);
+            }
 
             const navLi = document.getElementById('nav-btn-li');
-            if (navLi) navLi.setAttribute('aria-label', t.navLiAria);
+            if (navLi) {
+                navLi.setAttribute('aria-label', t.navLiAria);
+                navLi.setAttribute('title', t.navLiAria);
+            }
 
             const tablist = document.getElementById('portfolio-tablist');
             if (tablist) tablist.setAttribute('aria-label', t.tablistLabel);
@@ -847,28 +859,40 @@
             document.getElementById('gitcrawl-desc').textContent = t.gitcrawlDesc;
             document.getElementById('gitcrawl-tags').innerHTML = t.gitcrawlTags.map(tag => `<span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">${tag}</span>`).join('');
             const gitcrawlLink = document.getElementById('gitcrawl-link');
-            if (gitcrawlLink) gitcrawlLink.setAttribute('aria-label', t.gitcrawlGhAria || 'gitcrawl');
+            if (gitcrawlLink) {
+                gitcrawlLink.setAttribute('aria-label', t.gitcrawlGhAria || 'gitcrawl');
+                gitcrawlLink.setAttribute('title', t.gitcrawlGhAria || 'gitcrawl');
+            }
 
             document.getElementById('approx-sub').textContent = t.approxSub;
             document.getElementById('approx-badge').textContent = t.approxBadge;
             document.getElementById('approx-desc').textContent = t.approxDesc;
             document.getElementById('approx-tags').innerHTML = t.approxTags.map(tag => `<span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">${tag}</span>`).join('');
             const approxLink = document.getElementById('approx-link');
-            if (approxLink) approxLink.setAttribute('aria-label', t.approxGhAria || 'approx');
+            if (approxLink) {
+                approxLink.setAttribute('aria-label', t.approxGhAria || 'approx');
+                approxLink.setAttribute('title', t.approxGhAria || 'approx');
+            }
 
             document.getElementById('unipaste-sub').textContent = t.unipasteSub;
             document.getElementById('unipaste-badge').textContent = t.unipasteBadge;
             document.getElementById('unipaste-desc').textContent = t.unipasteDesc;
             document.getElementById('unipaste-tags').innerHTML = t.unipasteTags.map(tag => `<span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">${tag}</span>`).join('');
             const unipasteLink = document.getElementById('unipaste-link');
-            if (unipasteLink) unipasteLink.setAttribute('aria-label', t.unipasteGhAria || 'unipaste');
+            if (unipasteLink) {
+                unipasteLink.setAttribute('aria-label', t.unipasteGhAria || 'unipaste');
+                unipasteLink.setAttribute('title', t.unipasteGhAria || 'unipaste');
+            }
 
             document.getElementById('clipbridge-sub').textContent = t.clipbridgeSub;
             document.getElementById('clipbridge-badge').textContent = t.clipbridgeBadge;
             document.getElementById('clipbridge-desc').textContent = t.clipbridgeDesc;
             document.getElementById('clipbridge-tags').innerHTML = t.clipbridgeTags.map(tag => `<span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">${tag}</span>`).join('');
             const clipbridgeLink = document.getElementById('clipbridge-link');
-            if (clipbridgeLink) clipbridgeLink.setAttribute('aria-label', t.clipbridgeGhAria || 'clipbridge');
+            if (clipbridgeLink) {
+                clipbridgeLink.setAttribute('aria-label', t.clipbridgeGhAria || 'clipbridge');
+                clipbridgeLink.setAttribute('title', t.clipbridgeGhAria || 'clipbridge');
+            }
 
             document.getElementById('blog-section-intro').textContent = t.blogIntro;
             document.getElementById('featured-post-tag').textContent = t.featuredTag;
@@ -879,12 +903,18 @@
             
             const featuredBtn = document.getElementById('featured-post-btn');
             featuredBtn.textContent = t.featuredBtn;
-            if (t.featuredBtnAria) featuredBtn.setAttribute('aria-label', t.featuredBtnAria);
+            if (t.featuredBtnAria) {
+                featuredBtn.setAttribute('aria-label', t.featuredBtnAria);
+                featuredBtn.setAttribute('title', t.featuredBtnAria);
+            }
 
             document.getElementById('blog-banner-text').textContent = t.blogBannerText;
             const blogBannerBtn = document.getElementById('blog-banner-btn');
             blogBannerBtn.textContent = t.blogBannerBtn;
-            if (t.allPostsAria) blogBannerBtn.setAttribute('aria-label', t.allPostsAria);
+            if (t.allPostsAria) {
+                blogBannerBtn.setAttribute('aria-label', t.allPostsAria);
+                blogBannerBtn.setAttribute('title', t.allPostsAria);
+            }
 
             document.getElementById('skills-intro').textContent = t.skillsIntro;
             document.getElementById('skill-card-1-title').textContent = t.skillCard1Title;
@@ -907,11 +937,13 @@
             if (contactGh) {
                 contactGh.textContent = t.contactOpenBtn;
                 contactGh.setAttribute('aria-label', t.contactGhAria);
+                contactGh.setAttribute('title', t.contactGhAria);
             }
             const contactLi = document.getElementById('contact-li-btn');
             if (contactLi) {
                 contactLi.textContent = t.contactOpenBtn;
                 contactLi.setAttribute('aria-label', t.contactLiAria);
+                contactLi.setAttribute('title', t.contactLiAria);
             }
 
             document.getElementById('footer-text').textContent = t.footerText;
@@ -936,7 +968,9 @@
                 const isLight = document.documentElement.getAttribute('data-theme') === 'light';
                 const t = i18n[currentLang] || i18n.es;
                 themeBtn.textContent = isLight ? t.modePaper : t.modeCrt;
-                themeBtn.setAttribute('aria-label', isLight ? t.themeAriaPaper : t.themeAria);
+                const label = isLight ? t.themeAriaPaper : t.themeAria;
+                themeBtn.setAttribute('aria-label', label);
+                themeBtn.setAttribute('title', label);
             }
 
             themeBtn.addEventListener('click', () => {
@@ -967,6 +1001,7 @@
                 keysToggleBtn.textContent = enabled ? t.keysOn : t.keysOff;
                 keysToggleBtn.setAttribute('aria-pressed', enabled ? 'true' : 'false');
                 keysToggleBtn.setAttribute('aria-label', t.keysAria);
+                keysToggleBtn.setAttribute('title', t.keysAria);
                 keysToggleBtn.style.opacity = enabled ? '1' : '0.6';
             }
             keysToggleBtn.addEventListener('click', () => {

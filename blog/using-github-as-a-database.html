@@ -489,13 +489,13 @@
             </div>
             <div class="flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2">
                 <div class="flex items-center gap-1.5 sm:gap-2">
-                    <button id="lang-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-label="Alternar idioma / Toggle Language [I]" title="Alternar idioma / Toggle Language [I]">
+                    <button id="lang-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-label="Alternar idioma a inglés (actual: Español) [I]" title="Alternar idioma a inglés (actual: Español) [I]">
                         [LANG: ES]
                     </button>
                     <button id="keys-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-pressed="true" aria-label="Alternar atajos de navegación por teclado" title="Alternar atajos de navegación por teclado">
                         [TECLAS: ACT]
                     </button>
-                    <button id="theme-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-label="Alternar tema (CRT / Papel)" title="Alternar tema (CRT / Papel)">
+                    <button id="theme-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-label="Alternar tema visual (actual: CRT) [T]" title="Alternar tema visual (actual: CRT) [T]">
                         [MODO: CRT]
                     </button>
                 </div>
@@ -510,18 +510,18 @@
             <!-- Navigation Controls -->
             <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-5 border-b theme-border-subtle text-[11px] sm:text-xs">
                 <div class="flex gap-1.5 sm:gap-2">
-                    <a href="index.html" id="back-index-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Volver a la lista del blog">
+                    <a href="index.html" id="back-index-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Volver a la lista del blog [<]" title="Volver a la lista del blog [<]">
                         [<] Volver al Blog
                     </a>
-                    <a href="../" id="home-portal-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Ir al portal principal">
+                    <a href="../" id="home-portal-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Ir al portal principal [H]" title="Ir al portal principal [H]">
                         [H] Portal Principal
                     </a>
                 </div>
                 <div class="flex gap-1.5 sm:gap-2">
-                    <button id="copy-link-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Copiar enlace de este artículo">
+                    <button id="copy-link-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Copiar enlace de este artículo [S]" title="Copiar enlace de este artículo [S]">
                         [S] Copiar Enlace
                     </button>
-                    <a href="https://github.com/riccivr/riccivr.github.io" target="_blank" rel="noopener noreferrer" id="repo-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Ver repositorio en GitHub (se abre en nueva pestaña)">
+                    <a href="https://github.com/riccivr/riccivr.github.io" target="_blank" rel="noopener noreferrer" id="repo-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Ver repositorio en GitHub (se abre en nueva pestaña) [G]" title="Ver repositorio en GitHub (se abre en nueva pestaña) [G]">
                         [G] Repo
                     </a>
                 </div>
@@ -760,10 +760,10 @@ GitHub Pages or CDN storage (database.sqlite)
 
             <!-- Bottom Return Navigation -->
             <div class="mt-10 sm:mt-12 pt-6 sm:pt-8 pb-3 sm:pb-4 border-t theme-border-subtle flex justify-between items-center text-xs sm:text-sm">
-                <a href="index.html" id="bottom-back-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Volver a la lista de artículos">
+                <a href="index.html" id="bottom-back-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Volver a la lista de artículos [<]" title="Volver a la lista de artículos [<]">
                     [<] Volver al Blog
                 </a>
-                <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" id="bottom-top-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Ir arriba">
+                <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" id="bottom-top-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Ir arriba [K]" title="Ir arriba [K]">
                     [^] Arriba
                 </a>
             </div>
@@ -773,7 +773,7 @@ GitHub Pages or CDN storage (database.sqlite)
         <footer class="p-3 sm:p-4 border-t theme-border text-xs flex justify-between items-center theme-bg-header">
             <span class="theme-text-muted text-[11px] sm:text-xs font-bold">riccivr.github.io/blog</span>
             <span id="footer-text" class="text-right text-[11px] sm:text-xs theme-text-muted font-mono font-medium">
-                REV: 830bc8a // PUBLICADO: 2026.08.30
+                REV: 41b2248 // PUBLICADO: 2026.08.30
             </span>
         </footer>
 
@@ -786,17 +786,26 @@ GitHub Pages or CDN storage (database.sqlite)
                 sysId: "SYS.ID: riccivr // using-github-as-a-database",
                 status: "ESTADO: EN LÍNEA",
                 langToggle: "[LANG: ES]",
+                langAria: "Alternar idioma a inglés (actual: Español) [I]",
                 keysOn: "[TECLAS: ACT]",
                 keysOff: "[TECLAS: DES]",
+                keysAria: "Alternar atajos de navegación por teclado",
                 modeCrt: "[MODO: CRT]",
                 modePaper: "[MODO: PAPEL]",
+                themeAria: "Alternar tema visual a Papel (actual: CRT) [T]",
+                themeAriaPaper: "Alternar tema visual a CRT (actual: Papel) [T]",
                 backIndex: "[<] Volver al Blog",
+                backIndexAria: "Volver a la lista del blog [<]",
                 homePortal: "[H] Portal Principal",
+                homePortalAria: "Ir al portal principal [H]",
                 copyLink: "[S] Copiar Enlace",
+                copyLinkAria: "Copiar enlace de este artículo [S]",
                 copied: "[✓] ¡Copiado!",
                 repo: "[G] Repo",
+                repoAria: "Ver repositorio en GitHub (se abre en nueva pestaña) [G]",
                 topBtn: "[^] Arriba",
-                footerText: "REV: 830bc8a // PUBLICADO: 2026.08.30",
+                topBtnAria: "Ir arriba [K]",
+                footerText: "REV: 41b2248 // PUBLICADO: 2026.08.30",
                 title: "\u00bfSe puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos",
                 metaDesc: "Siempre ando buscando formas de mantener mis proyectos personales con cero mantenimiento y cero costos de servidor, as\u00ed que me puse a pensar: \u00bfse puede usar GitHub de pana como una base de datos persistente?"
             },
@@ -804,17 +813,26 @@ GitHub Pages or CDN storage (database.sqlite)
                 sysId: "SYS.ID: riccivr // using-github-as-a-database",
                 status: "STATUS: ONLINE",
                 langToggle: "[LANG: EN]",
+                langAria: "Toggle language to Spanish (current: English) [I]",
                 keysOn: "[KEYS: ON]",
                 keysOff: "[KEYS: OFF]",
+                keysAria: "Toggle keyboard navigation shortcuts",
                 modeCrt: "[MODE: CRT]",
                 modePaper: "[MODE: PAPER]",
+                themeAria: "Toggle visual theme to Paper (current: CRT) [T]",
+                themeAriaPaper: "Toggle visual theme to CRT (current: Paper) [T]",
                 backIndex: "[<] Return to Blog",
+                backIndexAria: "Return to blog list [<]",
                 homePortal: "[H] Home Portal",
+                homePortalAria: "Go to home portal [H]",
                 copyLink: "[S] Copy Link",
+                copyLinkAria: "Copy link to this article [S]",
                 copied: "[✓] Copied!",
                 repo: "[G] Repo",
+                repoAria: "View GitHub repository (opens in a new tab) [G]",
                 topBtn: "[^] Top",
-                footerText: "REV: 830bc8a // PUBLISHED: 2026.08.30",
+                topBtnAria: "Scroll to top [K]",
+                footerText: "REV: 41b2248 // PUBLISHED: 2026.08.30",
                 title: "Can you use GitHub as a database? SQLite, HTTP range requests, and flat files",
                 metaDesc: "I often look for ways to keep side projects zero-maintenance and zero-cost, which made me wonder: can I just use GitHub as a persistent database?"
             }
@@ -834,20 +852,56 @@ GitHub Pages or CDN storage (database.sqlite)
             document.documentElement.setAttribute('lang', currentLang);
 
             document.querySelectorAll('.status-label-text').forEach(el => el.textContent = t.status);
-            document.getElementById('lang-toggle').textContent = t.langToggle;
+            
+            const langBtn = document.getElementById('lang-toggle');
+            langBtn.textContent = t.langToggle;
+            langBtn.setAttribute('aria-label', t.langAria);
+            langBtn.setAttribute('title', t.langAria);
 
             const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-            document.getElementById('theme-toggle').textContent = isLight ? t.modePaper : t.modeCrt;
+            const themeBtn = document.getElementById('theme-toggle');
+            themeBtn.textContent = isLight ? t.modePaper : t.modeCrt;
+            const themeLabel = isLight ? t.themeAriaPaper : t.themeAria;
+            themeBtn.setAttribute('aria-label', themeLabel);
+            themeBtn.setAttribute('title', themeLabel);
 
             const keysEnabled = localStorage.getItem('riccivr-keys') !== 'off';
-            document.getElementById('keys-toggle').textContent = keysEnabled ? t.keysOn : t.keysOff;
+            const keysBtn = document.getElementById('keys-toggle');
+            keysBtn.textContent = keysEnabled ? t.keysOn : t.keysOff;
+            keysBtn.setAttribute('aria-label', t.keysAria);
+            keysBtn.setAttribute('title', t.keysAria);
+            keysBtn.setAttribute('aria-pressed', keysEnabled ? 'true' : 'false');
 
-            document.getElementById('back-index-btn').textContent = t.backIndex;
-            document.getElementById('home-portal-btn').textContent = t.homePortal;
-            document.getElementById('copy-link-btn').textContent = t.copyLink;
-            document.getElementById('repo-btn').textContent = t.repo;
-            document.getElementById('bottom-back-btn').textContent = t.backIndex;
-            document.getElementById('bottom-top-btn').textContent = t.topBtn;
+            const backBtn = document.getElementById('back-index-btn');
+            backBtn.textContent = t.backIndex;
+            backBtn.setAttribute('aria-label', t.backIndexAria);
+            backBtn.setAttribute('title', t.backIndexAria);
+
+            const homeBtn = document.getElementById('home-portal-btn');
+            homeBtn.textContent = t.homePortal;
+            homeBtn.setAttribute('aria-label', t.homePortalAria);
+            homeBtn.setAttribute('title', t.homePortalAria);
+
+            const copyBtn = document.getElementById('copy-link-btn');
+            copyBtn.textContent = t.copyLink;
+            copyBtn.setAttribute('aria-label', t.copyLinkAria);
+            copyBtn.setAttribute('title', t.copyLinkAria);
+
+            const repoBtn = document.getElementById('repo-btn');
+            repoBtn.textContent = t.repo;
+            repoBtn.setAttribute('aria-label', t.repoAria);
+            repoBtn.setAttribute('title', t.repoAria);
+
+            const bottomBackBtn = document.getElementById('bottom-back-btn');
+            bottomBackBtn.textContent = t.backIndex;
+            bottomBackBtn.setAttribute('aria-label', t.backIndexAria);
+            bottomBackBtn.setAttribute('title', t.backIndexAria);
+
+            const bottomTopBtn = document.getElementById('bottom-top-btn');
+            bottomTopBtn.textContent = t.topBtn;
+            bottomTopBtn.setAttribute('aria-label', t.topBtnAria);
+            bottomTopBtn.setAttribute('title', t.topBtnAria);
+
             document.getElementById('footer-text').textContent = t.footerText;
 
             // Toggle language articles
@@ -879,6 +933,9 @@ GitHub Pages or CDN storage (database.sqlite)
             const isLight = document.documentElement.getAttribute('data-theme') === 'light';
             const t = i18n[currentLang] || i18n.es;
             themeBtn.textContent = isLight ? t.modePaper : t.modeCrt;
+            const themeLabel = isLight ? t.themeAriaPaper : t.themeAria;
+            themeBtn.setAttribute('aria-label', themeLabel);
+            themeBtn.setAttribute('title', themeLabel);
         }
 
         themeBtn.addEventListener('click', () => {
@@ -907,6 +964,9 @@ GitHub Pages or CDN storage (database.sqlite)
         function updateKeysBtn() {
             const t = i18n[currentLang] || i18n.es;
             keysBtn.textContent = keyboardEnabled ? t.keysOn : t.keysOff;
+            keysBtn.setAttribute('aria-label', t.keysAria);
+            keysBtn.setAttribute('title', t.keysAria);
+            keysBtn.setAttribute('aria-pressed', keyboardEnabled ? 'true' : 'false');
         }
 
         keysBtn.addEventListener('click', () => {
