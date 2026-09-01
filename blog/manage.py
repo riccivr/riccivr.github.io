@@ -602,8 +602,8 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
 
         <footer class="p-3 sm:p-4 border-t theme-border text-xs flex justify-between items-center theme-bg-header">
             <span class="theme-text-muted text-[11px] sm:text-xs font-bold">riccivr.github.io/blog</span>
-            <span id="footer-text" class="text-right text-[11px] sm:text-xs theme-text-muted font-medium">
-                Static Pre-rendered · Zero-JS Engine
+            <span id="footer-text" class="text-right text-[11px] sm:text-xs theme-text-muted font-mono font-medium">
+                {footer_text_es}
             </span>
         </footer>
 
@@ -626,7 +626,7 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
                 copied: "[✓] ¡Copiado!",
                 repo: "[G] Repo",
                 topBtn: "[^] Arriba",
-                footerText: "Static Pre-rendered · Zero-JS Engine",
+                footerText: {footer_text_es_json},
                 title: {title_es_json},
                 metaDesc: {desc_es_json}
             }},
@@ -644,7 +644,7 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
                 copied: "[✓] Copied!",
                 repo: "[G] Repo",
                 topBtn: "[^] Top",
-                footerText: "Static Pre-rendered · Zero-JS Engine",
+                footerText: {footer_text_en_json},
                 title: {title_en_json},
                 metaDesc: {desc_en_json}
             }}
@@ -898,6 +898,14 @@ def get_post_slugs():
             slugs.add(base)
     return sorted(list(slugs))
 
+def get_git_commit_hash():
+    try:
+        import subprocess
+        res = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=BASE_DIR, capture_output=True, text=True, check=True)
+        return res.stdout.strip() or "master"
+    except Exception:
+        return "master"
+
 def generate_static_post_html(post_entry):
     slug = post_entry['slug']
     es = post_entry.get('es') or post_entry
@@ -907,6 +915,12 @@ def generate_static_post_html(post_entry):
     canonical_url = f"{SITE_URL}/blog/{slug}.html"
     meta_title = f"{primary['title']} - {AUTHOR_NAME}"
     meta_desc = primary['summary']
+
+    post_date_raw = post_entry.get('date', '2026-08-30')
+    post_date_dot = post_date_raw.replace('-', '.')
+    git_hash = get_git_commit_hash()
+    footer_text_es = f"REV: {git_hash} // PUBLICADO: {post_date_dot}"
+    footer_text_en = f"REV: {git_hash} // PUBLISHED: {post_date_dot}"
 
     html = STATIC_POST_TEMPLATE.format(
         slug=slug,
@@ -918,6 +932,9 @@ def generate_static_post_html(post_entry):
         date_published=post_entry['date'],
         post_html_es=es['html'],
         post_html_en=en['html'],
+        footer_text_es=escape(footer_text_es),
+        footer_text_es_json=json.dumps(footer_text_es),
+        footer_text_en_json=json.dumps(footer_text_en),
         title_es_json=json.dumps(es['title']),
         desc_es_json=json.dumps(es['summary']),
         title_en_json=json.dumps(en['title']),
@@ -927,7 +944,7 @@ def generate_static_post_html(post_entry):
     out_file = os.path.join(BASE_DIR, f"{slug}.html")
     with open(out_file, 'w', encoding='utf-8') as f:
         f.write(html)
-    print(f"[✓] Generated static post {slug}.html")
+    print(f"[✓] Generated static post {slug}.html ({footer_text_es})")
 
 def generate_sitemap(posts):
     xml_lines = [
