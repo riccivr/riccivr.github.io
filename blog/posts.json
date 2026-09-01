@@ -113,7 +113,7 @@
       "C99",
       "Arquitectura"
     ],
-    "summary": "> Actualización: El prototipo descrito en este artículo ya es una realidad y está disponible en código abierto como gitcrawl. Puedes leer el desglose técnico, benchmarks y especificaciones de arquitectura completas en: g...",
+    "summary": "Las páginas web mutan y desaparecen a cada rato. Las empresas borran documentación durante rediseños corporativos, los términos de servicio cambian sin avisar y los links se rompen de la nada.",
     "readingTime": "5 min",
     "file": "posts/preserving-the-web-with-git.es.md",
     "en": {
@@ -128,7 +128,7 @@
         "C99",
         "Architecture"
       ],
-      "summary": "> Update: The concepts explored in this post are now implemented and available as an open-source project: gitcrawl. Read the full technical writeup, benchmarks, and architecture specifications in: gitcrawl: Content-Addre...",
+      "summary": "Web pages disappear all the time. Companies delete docs during rebrands, terms of service change without changelogs, and links rot.",
       "readingTime": "4 min",
       "file": "posts/preserving-the-web-with-git.en.md"
     },
@@ -144,7 +144,7 @@
         "C99",
         "Arquitectura"
       ],
-      "summary": "> Actualización: El prototipo descrito en este artículo ya es una realidad y está disponible en código abierto como gitcrawl. Puedes leer el desglose técnico, benchmarks y especificaciones de arquitectura completas en: g...",
+      "summary": "Las páginas web mutan y desaparecen a cada rato. Las empresas borran documentación durante rediseños corporativos, los términos de servicio cambian sin avisar y los links se rompen de la nada.",
       "readingTime": "5 min",
       "file": "posts/preserving-the-web-with-git.es.md"
     }

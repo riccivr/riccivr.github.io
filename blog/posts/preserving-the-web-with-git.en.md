@@ -5,7 +5,7 @@
 
 ---
 
-> **Update**: The concepts explored in this post are now implemented and available as an open-source project: [**`gitcrawl`**](https://github.com/riccivr/gitcrawl). Read the full technical writeup, benchmarks, and architecture specifications in: [**`gitcrawl: Content-Addressable Web Archiver and Snapshot Engine Backed by Git`**](post.html?post=gitcrawl-content-addressable-web-archiver).
+> **Update**: The concepts explored in this post are now implemented and available as an open-source project: [**`gitcrawl`**](https://github.com/riccivr/gitcrawl). Read the full technical writeup, benchmarks, and architecture specifications in: [**`gitcrawl: Content-Addressable Web Archiver and Snapshot Engine Backed by Git`**](gitcrawl-content-addressable-web-archiver.html).
 
 ---
 
@@ -132,4 +132,4 @@ The standalone CLI tool based on this architecture is now live:
 2. A stream parser based on the Markdown conversion engine from [`unipaste`](https://github.com/riccivr/unipaste).
 3. Fast terminal history search using fuzzy matching with [`approx`](https://github.com/riccivr/approx).
 
-Check out the full technical writeup, compression benchmarks, and usage patterns in the launch post: [**`gitcrawl: Content-Addressable Web Archiver and Snapshot Engine Backed by Git`**](post.html?post=gitcrawl-content-addressable-web-archiver).
+Check out the full technical writeup, compression benchmarks, and usage patterns in the launch post: [**`gitcrawl: Content-Addressable Web Archiver and Snapshot Engine Backed by Git`**](gitcrawl-content-addressable-web-archiver.html).

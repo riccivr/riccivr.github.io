@@ -5,7 +5,7 @@
 
 ---
 
-In my [previous article on archiving the web with Git](post.html?post=preserving-the-web-with-git), I explored using Git's content-addressable object store as a historical database for web pages and documentation.
+In my [previous article on archiving the web with Git](preserving-the-web-with-git.html), I explored using Git's content-addressable object store as a historical database for web pages and documentation.
 
 The core idea was simple: instead of hoarding gigabytes of monolithic WARC archives or directories full of duplicate HTML, use Git's directed acyclic graph and delta compression to get instant terminal diffs with `git diff` and `git log`.
 

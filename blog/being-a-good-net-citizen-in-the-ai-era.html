@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="meta-title">Ser un buen ciudadano de la red en la era de la IA: guía moderna para el rastreo y descubrimiento web - Ricardo Veronese</title>
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <meta name="author" content="Ricardo Veronese">
+    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed" href="https://riccivr.github.io/feed.xml">
+    <meta name="description" id="meta-desc" content="Los buscadores cambiaron la web indexando enlaces. Hoy en día la vaina es otra: los agentes de IA, los pipelines RAG y motores como Perplexity o Claude recorren sitios web para responderle de una vez a la gente.">
+    <link rel="canonical" href="https://riccivr.github.io/blog/being-a-good-net-citizen-in-the-ai-era.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Ricardo Veronese">
+    <meta property="og:title" id="og-title" content="Ser un buen ciudadano de la red en la era de la IA: guía moderna para el rastreo y descubrimiento web - Ricardo Veronese">
+    <meta property="og:description" id="og-desc" content="Los buscadores cambiaron la web indexando enlaces. Hoy en día la vaina es otra: los agentes de IA, los pipelines RAG y motores como Perplexity o Claude recorren sitios web para responderle de una vez a la gente.">
+    <meta property="og:url" content="https://riccivr.github.io/blog/being-a-good-net-citizen-in-the-ai-era.html">
+    <meta property="og:image" content="https://riccivr.github.io/riccivr-retro-og.png">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" id="tw-title" content="Ser un buen ciudadano de la red en la era de la IA: guía moderna para el rastreo y descubrimiento web - Ricardo Veronese">
+    <meta name="twitter:description" id="tw-desc" content="Los buscadores cambiaron la web indexando enlaces. Hoy en día la vaina es otra: los agentes de IA, los pipelines RAG y motores como Perplexity o Claude recorren sitios web para responderle de una vez a la gente.">
+    <meta name="twitter:image" content="https://riccivr.github.io/riccivr-retro-og.png">
+
+    <!-- Schema.org BlogPosting -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Ser un buen ciudadano de la red en la era de la IA: gu\u00eda moderna para el rastreo y descubrimiento web",
+        "description": "Los buscadores cambiaron la web indexando enlaces. Hoy en d\u00eda la vaina es otra: los agentes de IA, los pipelines RAG y motores como Perplexity o Claude recorren sitios web para responderle de una vez a la gente.",
+        "author": {
+            "@type": "Person",
+            "name": "Ricardo Veronese",
+            "url": "https://riccivr.github.io/"
+        },
+        "datePublished": "2026-08-30",
+        "mainEntityOfPage": "https://riccivr.github.io/blog/being-a-good-net-citizen-in-the-ai-era.html"
+    }
+    </script>
+
+    <link rel="stylesheet" href="../style.css">
+    <script>
+        // Immediately apply saved or system theme and language to avoid FOUC
+        (function() {
+            try {
+                const savedTheme = localStorage.getItem('riccivr-theme');
+                const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+                if (savedTheme === 'light' || (!savedTheme && prefersLight)) {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                }
+
+                const savedLang = localStorage.getItem('riccivr-lang');
+                const browserLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
+                const activeLang = (savedLang === 'es' || savedLang === 'en') ? savedLang : (browserLang.startsWith('es') ? 'es' : 'en');
+                document.documentElement.setAttribute('lang', activeLang);
+            } catch(e) {}
+        })();
+    </script>
+    <style>
+        :root {
+            --bg-page: #0c0a07;
+            --bg-frame: #110e0a;
+            --bg-header: #1a140d;
+            --bg-card: #16120b;
+            --bg-card-alt: #1c160e;
+            --bg-badge: rgba(245, 158, 11, 0.12);
+            
+            --border-primary: #d97706;
+            --border-subtle: rgba(217, 119, 6, 0.45);
+            --border-dim: rgba(217, 119, 6, 0.2);
+            
+            --text-title: #fffbeb;
+            --text-heading: #fef08a;
+            --text-main: #fde68a;
+            --text-muted: #fbbf24;
+            --text-dim: #f59e0b;
+            --text-code: #fef08a;
+            --text-blockquote: #fde68a;
+            
+            --scanline-color: rgba(245, 158, 11, 0.035);
+            --frame-shadow: 0 0 16px rgba(245, 158, 11, 0.2), 0 0 1px rgba(245, 158, 11, 0.4) inset;
+            --btn-hover-bg: #f59e0b;
+            --btn-hover-text: #110e0a;
+            
+            --bg-code-block: #080705;
+            --bg-inline-code: rgba(245, 158, 11, 0.14);
+            --bg-blockquote: rgba(245, 158, 11, 0.08);
+            --bg-table-header: rgba(245, 158, 11, 0.18);
+        }
+
+        [data-theme="light"] {
+            --bg-page: #f5efe1;
+            --bg-frame: #fcf8f0;
+            --bg-header: #ebe0ca;
+            --bg-card: #f3ecdb;
+            --bg-card-alt: #eae0cb;
+            --bg-badge: rgba(146, 64, 14, 0.08);
+            
+            --border-primary: #92400e;
+            --border-subtle: rgba(146, 64, 14, 0.5);
+            --border-dim: rgba(146, 64, 14, 0.25);
+            
+            --text-title: #1a0a01;
+            --text-heading: #78350f;
+            --text-main: #2b1103;
+            --text-muted: #612809;
+            --text-dim: #78350f;
+            --text-code: #581c87;
+            --text-blockquote: #451a03;
+            
+            --scanline-color: rgba(146, 64, 14, 0.035);
+            --frame-shadow: 0 3px 14px rgba(146, 64, 14, 0.18), 0 0 0 1px rgba(146, 64, 14, 0.12) inset;
+            --btn-hover-bg: #92400e;
+            --btn-hover-text: #fcf8f0;
+            
+            --bg-code-block: #f7f1e4;
+            --bg-inline-code: #eeddc3;
+            --bg-blockquote: #f0e6d2;
+            --bg-table-header: #ebdcc0;
+        }
+
+        /* Custom retro scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-page);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-subtle);
+            border-radius: 2px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border-primary);
+        }
+
+        .post-content pre::-webkit-scrollbar-track {
+            background: var(--bg-code-block);
+        }
+
+        body {
+            background-color: var(--bg-page);
+            background-image: linear-gradient(var(--scanline-color) 1px, transparent 1px);
+            background-size: 100% 4px;
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--text-main);
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .terminal-frame {
+            box-shadow: var(--frame-shadow);
+            border: 2px solid var(--border-primary);
+            background-color: var(--bg-frame);
+        }
+
+        .interactive-link {
+            transition: color 0.1s ease, background-color 0.1s ease, border-color 0.1s ease;
+            border-color: var(--border-primary);
+            color: var(--text-main);
+        }
+        .interactive-link:hover {
+            color: var(--btn-hover-text) !important;
+            background-color: var(--btn-hover-bg) !important;
+        }
+
+        .theme-border { border-color: var(--border-primary); }
+        .theme-border-subtle { border-color: var(--border-subtle); }
+        .theme-border-dim { border-color: var(--border-dim); }
+
+        .theme-bg-header { background-color: var(--bg-header); }
+        .theme-bg-card { background-color: var(--bg-card); }
+        .theme-bg-card-alt { background-color: var(--bg-card-alt); }
+
+        .theme-text-title { color: var(--text-title); }
+        .theme-text-heading { color: var(--text-heading); }
+        .theme-text-main { color: var(--text-main); }
+        .theme-text-muted { color: var(--text-muted); }
+        .theme-text-dim { color: var(--text-dim); }
+
+        /* Typography & Markdown Styles */
+        .post-content h1 {
+            font-size: clamp(1.2rem, 4.5vw, 1.65rem);
+            font-weight: 800;
+            color: var(--text-title);
+            line-height: 1.35;
+            margin-top: 0.25rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--border-primary);
+            padding-bottom: 0.5rem;
+            text-transform: uppercase;
+            word-break: break-word;
+            letter-spacing: -0.01em;
+        }
+        .post-content h2 {
+            font-size: clamp(1.05rem, 3.8vw, 1.3rem);
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-top: 1.75rem;
+            margin-bottom: 0.65rem;
+            border-bottom: 1px dashed var(--border-subtle);
+            padding-bottom: 0.25rem;
+            line-height: 1.35;
+            word-break: break-word;
+        }
+        .post-content h3 {
+            font-size: clamp(0.95rem, 3.2vw, 1.1rem);
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-top: 1.35rem;
+            margin-bottom: 0.45rem;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+        .post-content p {
+            margin-bottom: 1.15rem;
+            line-height: 1.7;
+            font-size: clamp(0.88rem, 2.5vw, 0.95rem);
+            color: var(--text-main);
+        }
+        .post-content ul, .post-content ol {
+            margin-bottom: 1.2rem;
+            padding-left: 1.25rem;
+        }
+        .post-content li {
+            margin-bottom: 0.45rem;
+            line-height: 1.65;
+            font-size: clamp(0.88rem, 2.5vw, 0.95rem);
+        }
+        .post-content a {
+            color: var(--text-heading);
+            text-decoration: underline;
+            font-weight: bold;
+            transition: color 0.1s ease, background-color 0.1s ease;
+        }
+        .post-content a:hover {
+            color: var(--btn-hover-text);
+            background-color: var(--btn-hover-bg);
+            text-decoration: none;
+        }
+        .post-content a code {
+            color: inherit !important;
+            background-color: transparent !important;
+            border: none !important;
+            text-decoration: underline;
+            padding: 0 !important;
+        }
+        .post-content a:hover code {
+            color: var(--btn-hover-text) !important;
+            background-color: transparent !important;
+        }
+        .post-content code a {
+            color: var(--text-heading) !important;
+            text-decoration: underline;
+        }
+        .post-content code a:hover {
+            color: var(--btn-hover-text) !important;
+            background-color: var(--btn-hover-bg) !important;
+        }
+        .post-content blockquote {
+            border-left: 3px solid var(--border-primary);
+            background: var(--bg-blockquote);
+            padding: 0.75rem 1rem;
+            margin: 1.2rem 0;
+            font-style: italic;
+            color: var(--text-blockquote);
+        }
+        .post-content blockquote p {
+            margin-bottom: 0;
+            color: var(--text-blockquote);
+        }
+        .post-content hr {
+            border: 0;
+            border-top: 1px solid var(--border-subtle);
+            margin: 2rem 0;
+        }
+        .post-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.85rem;
+        }
+        .post-content th, .post-content td {
+            border: 1px solid var(--border-subtle);
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+        }
+        .post-content th {
+            background-color: var(--bg-table-header);
+            color: var(--text-heading);
+            font-weight: bold;
+        }
+        .post-content td {
+            color: var(--text-main);
+        }
+        .post-content pre, .code-highlight pre {
+            background-color: var(--bg-code-block) !important;
+            border: 1px solid var(--border-subtle);
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border-radius: 2px;
+            color: var(--text-main);
+        }
+        .post-content pre code a, .code-highlight pre code a {
+            color: var(--text-heading) !important;
+            text-decoration: underline;
+        }
+        .post-content code, .code-highlight code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+        .post-content p code, .post-content li code {
+            background-color: var(--bg-inline-code);
+            color: var(--text-code);
+            padding: 0.1rem 0.3rem;
+            border: 1px solid var(--border-dim);
+            border-radius: 2px;
+            font-weight: 600;
+        }
+
+        /* Build-Time Pygments Syntax Highlighting (0 KB JS, 0 ms cost) */
+        /* CRT Dark Amber Phosphor Scheme */
+        .code-highlight .k, .code-highlight .kd, .code-highlight .kn, .code-highlight .kp, .code-highlight .kr, .code-highlight .kt {
+            color: #f59e0b;
+            font-weight: bold;
+        }
+        .code-highlight .nf, .code-highlight .nc, .code-highlight .nd, .code-highlight .na, .code-highlight .ne, .code-highlight .fm {
+            color: #fef08a;
+            font-weight: 600;
+        }
+        .code-highlight .s, .code-highlight .s1, .code-highlight .s2, .code-highlight .sa, .code-highlight .sb, .code-highlight .sc, .code-highlight .sd, .code-highlight .se, .code-highlight .sh, .code-highlight .si, .code-highlight .sx, .code-highlight .sr, .code-highlight .ss {
+            color: #a3e635;
+        }
+        .code-highlight .m, .code-highlight .mi, .code-highlight .mf, .code-highlight .mh, .code-highlight .mo, .code-highlight .mb, .code-highlight .kc {
+            color: #fb923c;
+        }
+        .code-highlight .c, .code-highlight .c1, .code-highlight .cm, .code-highlight .cp, .code-highlight .cs, .code-highlight .ch {
+            color: #d97706;
+            font-style: italic;
+        }
+        .code-highlight .o, .code-highlight .ow {
+            color: #fde68a;
+        }
+        .code-highlight .p {
+            color: #fef08a;
+        }
+        .code-highlight .nb, .code-highlight .bp {
+            color: #fbbf24;
+        }
+        .code-highlight .nv, .code-highlight .vc, .code-highlight .vg, .code-highlight .vi, .code-highlight .vm, .code-highlight .n {
+            color: #fde68a;
+        }
+
+        /* Light Paper Theme Syntax Highlighting */
+        [data-theme="light"] .code-highlight .k,
+        [data-theme="light"] .code-highlight .kd,
+        [data-theme="light"] .code-highlight .kn,
+        [data-theme="light"] .code-highlight .kp,
+        [data-theme="light"] .code-highlight .kr,
+        [data-theme="light"] .code-highlight .kt {
+            color: #9a3412;
+            font-weight: bold;
+        }
+        [data-theme="light"] .code-highlight .nf,
+        [data-theme="light"] .code-highlight .nc,
+        [data-theme="light"] .code-highlight .nd,
+        [data-theme="light"] .code-highlight .na,
+        [data-theme="light"] .code-highlight .ne,
+        [data-theme="light"] .code-highlight .fm {
+            color: #78350f;
+            font-weight: 600;
+        }
+        [data-theme="light"] .code-highlight .s,
+        [data-theme="light"] .code-highlight .s1,
+        [data-theme="light"] .code-highlight .s2,
+        [data-theme="light"] .code-highlight .sa,
+        [data-theme="light"] .code-highlight .sb,
+        [data-theme="light"] .code-highlight .sc,
+        [data-theme="light"] .code-highlight .sd,
+        [data-theme="light"] .code-highlight .se,
+        [data-theme="light"] .code-highlight .sh,
+        [data-theme="light"] .code-highlight .si,
+        [data-theme="light"] .code-highlight .sx,
+        [data-theme="light"] .code-highlight .sr,
+        [data-theme="light"] .code-highlight .ss {
+            color: #15803d;
+        }
+        [data-theme="light"] .code-highlight .m,
+        [data-theme="light"] .code-highlight .mi,
+        [data-theme="light"] .code-highlight .mf,
+        [data-theme="light"] .code-highlight .mh,
+        [data-theme="light"] .code-highlight .mo,
+        [data-theme="light"] .code-highlight .mb,
+        [data-theme="light"] .code-highlight .kc {
+            color: #c2410c;
+        }
+        [data-theme="light"] .code-highlight .c,
+        [data-theme="light"] .code-highlight .c1,
+        [data-theme="light"] .code-highlight .cm,
+        [data-theme="light"] .code-highlight .cp,
+        [data-theme="light"] .code-highlight .cs,
+        [data-theme="light"] .code-highlight .ch {
+            color: #854d0e;
+            font-style: italic;
+        }
+        [data-theme="light"] .code-highlight .o,
+        [data-theme="light"] .code-highlight .ow {
+            color: #451a03;
+        }
+        [data-theme="light"] .code-highlight .p {
+            color: #451a03;
+        }
+        [data-theme="light"] .code-highlight .nb,
+        [data-theme="light"] .code-highlight .bp {
+            color: #78350f;
+        }
+        [data-theme="light"] .code-highlight .nv,
+        [data-theme="light"] .code-highlight .vc,
+        [data-theme="light"] .code-highlight .vg,
+        [data-theme="light"] .code-highlight .vi,
+        [data-theme="light"] .code-highlight .vm,
+        [data-theme="light"] .code-highlight .n {
+            color: #2b1103;
+        }
+    </style>
+</head>
+<body class="p-2 sm:p-6 md:p-12 min-h-screen">
+
+    <a href="#main-content" id="skip-link" class="skip-link">[SALTAR AL CONTENIDO]</a>
+    <div id="a11y-announcer" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <div class="terminal-frame max-w-4xl mx-auto mt-1 sm:mt-4 rounded-lg overflow-hidden">
+
+        <header class="p-2.5 sm:p-3 theme-bg-header border-b theme-border flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+            <div class="flex items-center justify-between sm:justify-start gap-2">
+                <span class="text-xs theme-text-muted tracking-wider font-bold truncate max-w-[220px] sm:max-w-none" id="header-sys-id">SYS.ID: riccivr // being-a-good-net-citizen-in-the-ai-era</span>
+                <span class="status-label-text theme-text-main text-[11px] font-bold uppercase tracking-wider sm:hidden">
+                    ESTADO: EN LÍNEA
+                </span>
+            </div>
+            <div class="flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2">
+                <div class="flex items-center gap-1.5 sm:gap-2">
+                    <button id="lang-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-label="Alternar idioma / Toggle Language [I]" title="Alternar idioma / Toggle Language [I]">
+                        [LANG: ES]
+                    </button>
+                    <button id="keys-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-pressed="true" aria-label="Alternar atajos de navegación por teclado" title="Alternar atajos de navegación por teclado">
+                        [TECLAS: ACT]
+                    </button>
+                    <button id="theme-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-label="Alternar tema (CRT / Papel)" title="Alternar tema (CRT / Papel)">
+                        [MODO: CRT]
+                    </button>
+                </div>
+                <span class="status-label-text theme-text-main text-xs sm:text-sm font-bold uppercase tracking-wider hidden sm:inline-block ml-2">
+                    ESTADO: EN LÍNEA
+                </span>
+            </div>
+        </header>
+
+        <main id="main-content" class="p-3.5 sm:p-6 md:p-8" tabindex="-1">
+
+            <!-- Navigation Controls -->
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-5 border-b theme-border-subtle text-[11px] sm:text-xs">
+                <div class="flex gap-1.5 sm:gap-2">
+                    <a href="index.html" id="back-index-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Volver a la lista del blog">
+                        [<] Volver al Blog
+                    </a>
+                    <a href="../" id="home-portal-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Ir al portal principal">
+                        [H] Portal Principal
+                    </a>
+                </div>
+                <div class="flex gap-1.5 sm:gap-2">
+                    <button id="copy-link-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Copiar enlace de este artículo">
+                        [S] Copiar Enlace
+                    </button>
+                    <a href="https://github.com/riccivr/riccivr.github.io" target="_blank" rel="noopener noreferrer" id="repo-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Ver repositorio en GitHub (se abre en nueva pestaña)">
+                        [G] Repo
+                    </a>
+                </div>
+            </div>
+
+            <!-- Post Container (Zero-JS Pre-rendered) -->
+            <article id="post-article-es" lang="es">
+                <div class="post-content">
+<h1>Ser un buen ciudadano de la red en la era de la IA: guía moderna para el rastreo y descubrimiento web</h1>
+<p><em>Publicado: 30 de agosto de 2026. Categoría: Web Standards &amp; Cloud. Tiempo de lectura: ~5 min</em><br />
+<em>Etiquetas: Web Standards, IA, SEO, Crawlers, Arquitectura, Semantic Web</em></p>
+<hr />
+<p>Los buscadores cambiaron la web indexando enlaces. Hoy en día la vaina es otra: los agentes de IA, los pipelines RAG y motores como Perplexity o Claude recorren sitios web para responderle de una vez a la gente.</p>
+<p>Si un crawler necesita ejecutar 15MB de JavaScript en el cliente para ver tu contenido, se cansa de esperar, te manda a la porra y cierra la conexión. Muchos agentes de IA tienen presupuestos súper estrictos de latencia y tokens, así que ni de vaina ejecutan JavaScript.</p>
+<p>Aquí te dejo varias recomendaciones prácticas para que tu sitio sea fácil de rastrear e indexar por máquinas sin tumbarte el servidor ni pasar malos ratos con los bots.</p>
+<hr />
+<h2>1. HTML estático y semántico (cero peos con la hidratación)</h2>
+<p>Googlebot se puede dar el lujo de levantar Chromium headless para renderizar SPAs pesadas. La mayoría de los bots de IA no hacen eso ni locos. Mandan una petición GET básica y esperan texto plano en la respuesta.</p>
+<div class="code-highlight"><pre><span></span><code>Petición GET del crawler (/articulo)
+         │
+         ├── SPA pesada de cliente ──&gt; Devuelve &lt;div id=&quot;root&quot;&gt;&lt;/div&gt; ──&gt; Descartado de una
+         │
+         └── HTML estático         ──&gt; Devuelve el DOM semántico       ──&gt; Parseado al pelo
+</code></pre></div>
+
+<h3>Qué conviene hacer:</h3>
+<ul>
+<li>Devuelve HTML pre-renderizado. Asegúrate de que tus artículos y documentación estén en el cuerpo del response inicial antes de que corra cualquier script.</li>
+<li>Usa etiquetas HTML5 estándar como <code>&lt;main&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;aside&gt;</code> y <code>&lt;time&gt;</code>. Los parsers usan estas etiquetas para separar el contenido principal de los menús y el pie de página sin enredos.</li>
+<li>Usa encabezados lógicos de <code>&lt;h1&gt;</code> a <code>&lt;h4&gt;</code>. Los algoritmos de chunking de los LLM usan los títulos para picar los documentos en fragmentos coherentes.</li>
+</ul>
+<hr />
+<h2>2. Publicar un archivo <code>llms.txt</code> y feeds de texto plano</h2>
+<p>El estándar <code>llms.txt</code> es un archivo simple en Markdown ubicado en <code>/llms.txt</code>. Le da a los modelos de lenguaje un índice limpiecito con tus páginas y proyectos más importantes sin obligarlos a scrapear basura.</p>
+<div class="code-highlight"><pre><span></span><code># Ricardo Veronese
+
+&gt; Herramientas de sistemas en C99, infraestructura cloud y algoritmos.
+
+## Proyectos
+- [approx](https://riccivr.github.io/): Filtro de streams difuso POSIX en C99.
+- [unipaste](https://riccivr.github.io/): Formateador de HTML del portapapeles a Markdown.
+
+## Artículos principales
+- [Archivar la web con Git](https://riccivr.github.io/blog/posts/preserving-the-web-with-git.es.md): Crawling web nativo en Git.
+- [¿Se puede usar GitHub como base de datos?](https://riccivr.github.io/blog/posts/using-github-as-a-database.es.md): SQLite VFS mediante peticiones HTTP Range.
+</code></pre></div>
+
+<h3>Otros feeds útiles:</h3>
+<ul>
+<li>Mantén un feed RSS o Atom en <code>/feed.xml</code>. Los agentes y lectores de feeds revisan este archivo para pescar nuevos posts sin tener que rastrear todo el sitio a cada rato.</li>
+<li>Cuando sea posible, sirve Markdown directamente o deja mirrors <code>.md</code> de tus artículos técnicos.</li>
+</ul>
+<hr />
+<h2>3. Datos estructurados con Schema.org JSON-LD</h2>
+<p>Para ayudar a los motores de búsqueda de IA a citar tu nombre, URL original y fecha de publicación correctamente, agrega un bloque JSON-LD en el <code>&lt;head&gt;</code> de cada post.</p>
+<div class="code-highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;application/ld+json&quot;</span><span class="p">&gt;</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="s2">&quot;@context&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;https://schema.org&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;@type&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;TechArticle&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;headline&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Archivar la web con Git: construyendo un crawler e indexador histórico&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;author&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;@type&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Ricardo Veronese&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;url&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;https://riccivr.github.io&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="s2">&quot;datePublished&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;2026-08-30&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;dateModified&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;2026-08-30&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;description&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Uso de packfiles y plomería de bajo nivel de Git para archivar páginas web.&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;dependencies&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;C99, POSIX, Git&quot;</span>
+<span class="p">}</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<p>Cuando un agente cita tu artículo en una respuesta, este esquema le permite referenciar el enlace canónico y la fecha real en lugar de inventar vainas o robarse el crédito.</p>
+<hr />
+<h2>4. Reglas claras en <code>robots.txt</code></h2>
+<p>Bloquear a todos los bots con <code>User-agent: * Disallow: /</code> a lo loco te borra del mapa de búsquedas de IA. Conviene separar los crawlers de búsqueda en tiempo real de los scrapers que bajan datasets gigantescos para entrenamiento.</p>
+<div class="code-highlight"><pre><span></span><code># Permitir bots de búsqueda y citación
+User-agent: Google-Extended
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# Bloquear scrapers masivos de entrenamiento si hace falta
+User-agent: CCBot
+Disallow: /telemetry/
+
+Crawl-delay: 1
+Sitemap: https://riccivr.github.io/sitemap.xml
+</code></pre></div>
+
+<p>Mantén siempre un archivo <code>sitemap.xml</code> al pelo con fechas <code>lastmod</code> correctas para que los bots no descarguen una y otra vez páginas sin cambios.</p>
+<hr />
+<h2>5. Caché HTTP y cortesía de servidor</h2>
+<p>Un buen sitio web cuida los recursos de su servidor y de los clientes:</p>
+<ol>
+<li>Soporta cabeceras <code>ETag</code> e <code>If-Modified-Since</code>. Responder con <code>HTTP 304 Not Modified</code> ahorra ancho de banda fino para ambos lados.</li>
+<li>Evita meterle retos de Cloudflare o CAPTCHAs a la documentación pública. Forzar verificaciones interactivas rompe herramientas de terminal como <code>curl</code>, scrapers de consola y lectores CLI.</li>
+<li>Configura etiquetas Open Graph claras como <code>og:title</code>, <code>og:description</code> y <code>rel="canonical"</code>.</li>
+</ol>
+<hr />
+<h2>Resumen</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Área</th>
+<th style="text-align: left;">Recomendación</th>
+<th style="text-align: left;">Razón</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Renderizado</td>
+<td style="text-align: left;">HTML estático o DOM del servidor</td>
+<td style="text-align: left;">Parseo rápido, cero peos de JS en cliente</td>
+</tr>
+<tr>
+<td style="text-align: left;">Semántica</td>
+<td style="text-align: left;">Etiquetas HTML5 estándar</td>
+<td style="text-align: left;">Chunking limpio para pipelines RAG</td>
+</tr>
+<tr>
+<td style="text-align: left;">Manifiestos</td>
+<td style="text-align: left;"><code>/llms.txt</code> y <code>/feed.xml</code></td>
+<td style="text-align: left;">Bajo consumo de tokens para agentes de IA</td>
+</tr>
+<tr>
+<td style="text-align: left;">Atribución</td>
+<td style="text-align: left;">Schema.org JSON-LD</td>
+<td style="text-align: left;">Citas confiables sin que el bot invente vainas</td>
+</tr>
+<tr>
+<td style="text-align: left;">Caché</td>
+<td style="text-align: left;"><code>ETag</code> y <code>304 Not Modified</code></td>
+<td style="text-align: left;">Ahorro de ancho de banda y electricidad</td>
+</tr>
+<tr>
+<td style="text-align: left;">Políticas</td>
+<td style="text-align: left;"><code>robots.txt</code> y <code>sitemap.xml</code> claros</td>
+<td style="text-align: left;">Control de bots de búsqueda vs scrapers masivos</td>
+</tr>
+</tbody>
+</table>
+<p>Crear para la web moderna implica que el contenido sea cómodo de leer para la gente en el navegador y sencillo de procesar para herramientas automáticas.</p>
+                </div>
+            </article>
+
+            <article id="post-article-en" lang="en" style="display: none;">
+                <div class="post-content">
+<h1>Being a good net citizen in the AI era: a guide to web discoverability</h1>
+<p><em>Published: August 30, 2026. Category: Web Standards &amp; Cloud. Reading time: ~5 min</em><br />
+<em>Tags: Web Standards, AI, SEO, Crawlers, Architecture, Semantic Web</em></p>
+<hr />
+<p>Search engines changed the web by indexing links. Now automated agents, RAG pipelines, and LLM search tools like Perplexity and Claude are crawling sites to answer user queries directly.</p>
+<p>If a crawler needs to run 15MB of client-side JavaScript just to see your content, it will drop the connection. Many AI agents run on strict token and latency budgets and do not execute JavaScript.</p>
+<p>Here are practical steps to make a site readable for machines without wasting server bandwidth or fighting crawlers.</p>
+<hr />
+<h2>1. Static-first HTML and real semantic tags</h2>
+<p>Googlebot can spin up headless Chromium instances to render complex single page apps. Most smaller crawlers and AI search bots do not do that. They make a basic GET request and expect raw text back.</p>
+<div class="code-highlight"><pre><span></span><code>Crawler GET request (/article)
+         │
+         ├── Heavy client SPA ──&gt; Returns &lt;div id=&quot;root&quot;&gt;&lt;/div&gt; ──&gt; Dropped
+         │
+         └── Static HTML      ──&gt; Returns complete semantic DOM ──&gt; Parsed
+</code></pre></div>
+
+<h3>What to do:</h3>
+<ul>
+<li>Return pre-rendered HTML. Make sure your articles and docs exist in the initial HTTP response before any client scripts run.</li>
+<li>Use real HTML5 tags like <code>&lt;main&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;aside&gt;</code>, and <code>&lt;time&gt;</code>. Parsers use these tags to separate article content from navigation bars and footers.</li>
+<li>Use logical heading levels from <code>&lt;h1&gt;</code> to <code>&lt;h4&gt;</code>. LLM chunking algorithms split documents by headings when building context windows.</li>
+</ul>
+<hr />
+<h2>2. Host an <code>llms.txt</code> file and plain text feeds</h2>
+<p>The <code>llms.txt</code> standard is a simple Markdown file hosted at <code>/llms.txt</code>. It gives LLMs a clean index of your most relevant pages and project docs without scraping junk.</p>
+<div class="code-highlight"><pre><span></span><code># Ricardo Veronese
+
+&gt; Systems tools in C99, cloud infrastructure, and algorithms.
+
+## Projects
+- [approx](https://riccivr.github.io/): POSIX fuzzy stream filter in C99.
+- [unipaste](https://riccivr.github.io/): Clipboard HTML to Markdown formatter.
+
+## Core articles
+- [Archiving the web with Git](https://riccivr.github.io/blog/posts/preserving-the-web-with-git.en.md): Git-native web crawling.
+- [Can you use GitHub as a database?](https://riccivr.github.io/blog/posts/using-github-as-a-database.en.md): SQLite VFS over HTTP range queries.
+</code></pre></div>
+
+<h3>Other useful feeds:</h3>
+<ul>
+<li>Keep an RSS or Atom feed at <code>/feed.xml</code>. AI agents and feed readers check this to find new articles without polling the entire site.</li>
+<li>When possible, serve raw Markdown directly or provide <code>.md</code> mirrors of your technical writeups.</li>
+</ul>
+<hr />
+<h2>3. Structured data with Schema.org JSON-LD</h2>
+<p>To help AI search engines cite your name, original URL, and publication date correctly, put a small JSON-LD block in the <code>&lt;head&gt;</code> of each article.</p>
+<div class="code-highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;application/ld+json&quot;</span><span class="p">&gt;</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="s2">&quot;@context&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;https://schema.org&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;@type&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;TechArticle&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;headline&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Archiving the web with Git: building a content-addressable web historian&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;author&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;@type&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Ricardo Veronese&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;url&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;https://riccivr.github.io&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="s2">&quot;datePublished&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;2026-08-30&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;dateModified&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;2026-08-30&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;description&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Using Git packfiles and low-level plumbing to archive web pages.&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;dependencies&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;C99, POSIX, Git&quot;</span>
+<span class="p">}</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<p>When an agent cites your post in a summary, this schema helps it reference your canonical link and publication date instead of hallucinating details.</p>
+<hr />
+<h2>4. Clear <code>robots.txt</code> rules</h2>
+<p>Blocking all bots with <code>User-agent: * Disallow: /</code> removes your site from AI search indexes. It helps to separate live search crawlers from bulk training scrapers.</p>
+<div class="code-highlight"><pre><span></span><code># Allow search and citation crawlers
+User-agent: Google-Extended
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# Block bulk training scrapers if desired
+User-agent: CCBot
+Disallow: /telemetry/
+
+Crawl-delay: 1
+Sitemap: https://riccivr.github.io/sitemap.xml
+</code></pre></div>
+
+<p>Always include a clean <code>sitemap.xml</code> with accurate <code>lastmod</code> dates so crawlers do not re-download unchanged pages.</p>
+<hr />
+<h2>5. HTTP caching and server politeness</h2>
+<p>Good sites respect both human visitors and automated tools.</p>
+<ol>
+<li>Support <code>ETag</code> and <code>If-Modified-Since</code> headers. Returning <code>HTTP 304 Not Modified</code> saves bandwidth for both you and the crawler.</li>
+<li>Avoid Cloudflare challenges or CAPTCHAs on public open-source documentation. Forcing interactive verification breaks tools like <code>curl</code>, CLI scrapers, and terminal readers.</li>
+<li>Set accurate Open Graph tags like <code>og:title</code>, <code>og:description</code>, and <code>rel="canonical"</code>.</li>
+</ol>
+<hr />
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Topic</th>
+<th style="text-align: left;">Recommendation</th>
+<th style="text-align: left;">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">HTML rendering</td>
+<td style="text-align: left;">Static HTML or server-rendered DOM</td>
+<td style="text-align: left;">Fast parsing, zero client JS requirement</td>
+</tr>
+<tr>
+<td style="text-align: left;">Semantics</td>
+<td style="text-align: left;">Standard HTML5 tags</td>
+<td style="text-align: left;">Clean chunking for RAG pipelines</td>
+</tr>
+<tr>
+<td style="text-align: left;">Machine indexes</td>
+<td style="text-align: left;"><code>/llms.txt</code> and <code>/feed.xml</code></td>
+<td style="text-align: left;">Low token consumption for AI agents</td>
+</tr>
+<tr>
+<td style="text-align: left;">Attribution</td>
+<td style="text-align: left;">Schema.org JSON-LD</td>
+<td style="text-align: left;">Accurate author and link citations</td>
+</tr>
+<tr>
+<td style="text-align: left;">Caching</td>
+<td style="text-align: left;"><code>ETag</code> and <code>304 Not Modified</code></td>
+<td style="text-align: left;">Saves server bandwidth and energy</td>
+</tr>
+<tr>
+<td style="text-align: left;">Crawl policy</td>
+<td style="text-align: left;">Clear <code>robots.txt</code> and <code>sitemap.xml</code></td>
+<td style="text-align: left;">Controls search bots vs bulk scrapers</td>
+</tr>
+</tbody>
+</table>
+<p>Building for the modern web means making content readable for people in browsers and easy to parse for automated tools.</p>
+                </div>
+            </article>
+
+            <!-- Bottom Return Navigation -->
+            <div class="mt-10 sm:mt-12 pt-6 sm:pt-8 pb-3 sm:pb-4 border-t theme-border-subtle flex justify-between items-center text-xs sm:text-sm">
+                <a href="index.html" id="bottom-back-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Volver a la lista de artículos">
+                    [<] Volver al Blog
+                </a>
+                <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" id="bottom-top-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Ir arriba">
+                    [^] Arriba
+                </a>
+            </div>
+
+        </main>
+
+        <footer class="p-3 sm:p-4 border-t theme-border text-xs flex justify-between items-center theme-bg-header">
+            <span class="theme-text-muted text-[11px] sm:text-xs font-bold">riccivr.github.io/blog</span>
+            <span id="footer-text" class="text-right text-[11px] sm:text-xs theme-text-muted font-medium">
+                Static Pre-rendered · Zero-JS Engine
+            </span>
+        </footer>
+
+    </div>
+
+    <!-- Progressive Enhancement Script -->
+    <script>
+        const i18n = {
+            es: {
+                sysId: "SYS.ID: riccivr // being-a-good-net-citizen-in-the-ai-era",
+                status: "ESTADO: EN LÍNEA",
+                langToggle: "[LANG: ES]",
+                keysOn: "[TECLAS: ACT]",
+                keysOff: "[TECLAS: DES]",
+                modeCrt: "[MODO: CRT]",
+                modePaper: "[MODO: PAPEL]",
+                backIndex: "[<] Volver al Blog",
+                homePortal: "[H] Portal Principal",
+                copyLink: "[S] Copiar Enlace",
+                copied: "[✓] ¡Copiado!",
+                repo: "[G] Repo",
+                topBtn: "[^] Arriba",
+                footerText: "Static Pre-rendered · Zero-JS Engine",
+                title: "Ser un buen ciudadano de la red en la era de la IA: gu\u00eda moderna para el rastreo y descubrimiento web",
+                metaDesc: "Los buscadores cambiaron la web indexando enlaces. Hoy en d\u00eda la vaina es otra: los agentes de IA, los pipelines RAG y motores como Perplexity o Claude recorren sitios web para responderle de una vez a la gente."
+            },
+            en: {
+                sysId: "SYS.ID: riccivr // being-a-good-net-citizen-in-the-ai-era",
+                status: "STATUS: ONLINE",
+                langToggle: "[LANG: EN]",
+                keysOn: "[KEYS: ON]",
+                keysOff: "[KEYS: OFF]",
+                modeCrt: "[MODE: CRT]",
+                modePaper: "[MODE: PAPER]",
+                backIndex: "[<] Return to Blog",
+                homePortal: "[H] Home Portal",
+                copyLink: "[S] Copy Link",
+                copied: "[✓] Copied!",
+                repo: "[G] Repo",
+                topBtn: "[^] Top",
+                footerText: "Static Pre-rendered · Zero-JS Engine",
+                title: "Being a good net citizen in the AI era: a guide to web discoverability",
+                metaDesc: "Search engines changed the web by indexing links. Now automated agents, RAG pipelines, and LLM search tools like Perplexity and Claude are crawling sites to answer user queries directly."
+            }
+        };
+
+        function getLanguage() {
+            const saved = localStorage.getItem('riccivr-lang');
+            if (saved === 'es' || saved === 'en') return saved;
+            const browserLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
+            return browserLang.startsWith('es') ? 'es' : 'en';
+        }
+
+        let currentLang = getLanguage();
+
+        function applyLanguageUI() {
+            const t = i18n[currentLang] || i18n.es;
+            document.documentElement.setAttribute('lang', currentLang);
+
+            document.querySelectorAll('.status-label-text').forEach(el => el.textContent = t.status);
+            document.getElementById('lang-toggle').textContent = t.langToggle;
+
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            document.getElementById('theme-toggle').textContent = isLight ? t.modePaper : t.modeCrt;
+
+            const keysEnabled = localStorage.getItem('riccivr-keys') !== 'off';
+            document.getElementById('keys-toggle').textContent = keysEnabled ? t.keysOn : t.keysOff;
+
+            document.getElementById('back-index-btn').textContent = t.backIndex;
+            document.getElementById('home-portal-btn').textContent = t.homePortal;
+            document.getElementById('copy-link-btn').textContent = t.copyLink;
+            document.getElementById('repo-btn').textContent = t.repo;
+            document.getElementById('bottom-back-btn').textContent = t.backIndex;
+            document.getElementById('bottom-top-btn').textContent = t.topBtn;
+            document.getElementById('footer-text').textContent = t.footerText;
+
+            // Toggle language articles
+            const artEs = document.getElementById('post-article-es');
+            const artEn = document.getElementById('post-article-en');
+            if (artEs && artEn) {
+                if (currentLang === 'en') {
+                    artEs.style.display = 'none';
+                    artEn.style.display = 'block';
+                } else {
+                    artEs.style.display = 'block';
+                    artEn.style.display = 'none';
+                }
+            }
+
+            // Update meta tags
+            document.title = `${t.title} - Ricardo Veronese`;
+            const metaDesc = document.getElementById('meta-desc');
+            if (metaDesc) metaDesc.setAttribute('content', t.metaDesc);
+            const ogTitle = document.getElementById('og-title');
+            if (ogTitle) ogTitle.setAttribute('content', t.title);
+            const ogDesc = document.getElementById('og-desc');
+            if (ogDesc) ogDesc.setAttribute('content', t.metaDesc);
+        }
+
+        // Theme toggle handling
+        const themeBtn = document.getElementById('theme-toggle');
+        function updateThemeBtn() {
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            const t = i18n[currentLang] || i18n.es;
+            themeBtn.textContent = isLight ? t.modePaper : t.modeCrt;
+        }
+
+        themeBtn.addEventListener('click', () => {
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            if (isLight) {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('riccivr-theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('riccivr-theme', 'light');
+            }
+            updateThemeBtn();
+        });
+
+        // Language toggle handling
+        document.getElementById('lang-toggle').addEventListener('click', () => {
+            currentLang = currentLang === 'es' ? 'en' : 'es';
+            localStorage.setItem('riccivr-lang', currentLang);
+            applyLanguageUI();
+        });
+
+        // Keyboard shortcuts
+        const keysBtn = document.getElementById('keys-toggle');
+        let keyboardEnabled = localStorage.getItem('riccivr-keys') !== 'off';
+
+        function updateKeysBtn() {
+            const t = i18n[currentLang] || i18n.es;
+            keysBtn.textContent = keyboardEnabled ? t.keysOn : t.keysOff;
+        }
+
+        keysBtn.addEventListener('click', () => {
+            keyboardEnabled = !keyboardEnabled;
+            localStorage.setItem('riccivr-keys', keyboardEnabled ? 'on' : 'off');
+            updateKeysBtn();
+        });
+
+        // Copy link handler
+        const copyBtn = document.getElementById('copy-link-btn');
+        copyBtn.addEventListener('click', () => {
+            const url = window.location.href;
+            const t = i18n[currentLang] || i18n.es;
+            navigator.clipboard.writeText(url).then(() => {
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = t.copied;
+                setTimeout(() => {
+                    copyBtn.textContent = originalText;
+                }, 2000);
+            }).catch(() => {
+                prompt("Copia este enlace / Copy this link:", url);
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!keyboardEnabled) return;
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+            const key = e.key.toLowerCase();
+            if (key === 'i') {
+                e.preventDefault();
+                document.getElementById('lang-toggle').click();
+            } else if (key === 't') {
+                e.preventDefault();
+                themeBtn.click();
+            } else if (key === 'b' || key === '[') {
+                e.preventDefault();
+                window.location.href = 'index.html';
+            } else if (key === 'h') {
+                e.preventDefault();
+                window.location.href = '../';
+            } else if (key === 's') {
+                e.preventDefault();
+                copyBtn.click();
+            } else if (key === 'g') {
+                e.preventDefault();
+                window.open('https://github.com/riccivr/riccivr.github.io', '_blank');
+            } else if (key === 'k' || key === '^') {
+                e.preventDefault();
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
+        });
+
+        // Apply initial UI
+        applyLanguageUI();
+        updateThemeBtn();
+        updateKeysBtn();
+    </script>
+</body>
+</html>

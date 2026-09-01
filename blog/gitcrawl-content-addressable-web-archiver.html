@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="meta-title">gitcrawl: crawler web direccionable por contenido y motor de snapshots en Git - Ricardo Veronese</title>
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <meta name="author" content="Ricardo Veronese">
+    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed" href="https://riccivr.github.io/feed.xml">
+    <meta name="description" id="meta-desc" content="En mi artículo anterior sobre archivar la web con Git, me puse a explorar la teoría detrás de usar el almacén de objetos direccionable por contenido de Git como base de datos histórica para páginas web y documentación té...">
+    <link rel="canonical" href="https://riccivr.github.io/blog/gitcrawl-content-addressable-web-archiver.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Ricardo Veronese">
+    <meta property="og:title" id="og-title" content="gitcrawl: crawler web direccionable por contenido y motor de snapshots en Git - Ricardo Veronese">
+    <meta property="og:description" id="og-desc" content="En mi artículo anterior sobre archivar la web con Git, me puse a explorar la teoría detrás de usar el almacén de objetos direccionable por contenido de Git como base de datos histórica para páginas web y documentación té...">
+    <meta property="og:url" content="https://riccivr.github.io/blog/gitcrawl-content-addressable-web-archiver.html">
+    <meta property="og:image" content="https://riccivr.github.io/riccivr-retro-og.png">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" id="tw-title" content="gitcrawl: crawler web direccionable por contenido y motor de snapshots en Git - Ricardo Veronese">
+    <meta name="twitter:description" id="tw-desc" content="En mi artículo anterior sobre archivar la web con Git, me puse a explorar la teoría detrás de usar el almacén de objetos direccionable por contenido de Git como base de datos histórica para páginas web y documentación té...">
+    <meta name="twitter:image" content="https://riccivr.github.io/riccivr-retro-og.png">
+
+    <!-- Schema.org BlogPosting -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "gitcrawl: crawler web direccionable por contenido y motor de snapshots en Git",
+        "description": "En mi art\u00edculo anterior sobre archivar la web con Git, me puse a explorar la teor\u00eda detr\u00e1s de usar el almac\u00e9n de objetos direccionable por contenido de Git como base de datos hist\u00f3rica para p\u00e1ginas web y documentaci\u00f3n t\u00e9...",
+        "author": {
+            "@type": "Person",
+            "name": "Ricardo Veronese",
+            "url": "https://riccivr.github.io/"
+        },
+        "datePublished": "2026-08-31",
+        "mainEntityOfPage": "https://riccivr.github.io/blog/gitcrawl-content-addressable-web-archiver.html"
+    }
+    </script>
+
+    <link rel="stylesheet" href="../style.css">
+    <script>
+        // Immediately apply saved or system theme and language to avoid FOUC
+        (function() {
+            try {
+                const savedTheme = localStorage.getItem('riccivr-theme');
+                const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+                if (savedTheme === 'light' || (!savedTheme && prefersLight)) {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                }
+
+                const savedLang = localStorage.getItem('riccivr-lang');
+                const browserLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
+                const activeLang = (savedLang === 'es' || savedLang === 'en') ? savedLang : (browserLang.startsWith('es') ? 'es' : 'en');
+                document.documentElement.setAttribute('lang', activeLang);
+            } catch(e) {}
+        })();
+    </script>
+    <style>
+        :root {
+            --bg-page: #0c0a07;
+            --bg-frame: #110e0a;
+            --bg-header: #1a140d;
+            --bg-card: #16120b;
+            --bg-card-alt: #1c160e;
+            --bg-badge: rgba(245, 158, 11, 0.12);
+            
+            --border-primary: #d97706;
+            --border-subtle: rgba(217, 119, 6, 0.45);
+            --border-dim: rgba(217, 119, 6, 0.2);
+            
+            --text-title: #fffbeb;
+            --text-heading: #fef08a;
+            --text-main: #fde68a;
+            --text-muted: #fbbf24;
+            --text-dim: #f59e0b;
+            --text-code: #fef08a;
+            --text-blockquote: #fde68a;
+            
+            --scanline-color: rgba(245, 158, 11, 0.035);
+            --frame-shadow: 0 0 16px rgba(245, 158, 11, 0.2), 0 0 1px rgba(245, 158, 11, 0.4) inset;
+            --btn-hover-bg: #f59e0b;
+            --btn-hover-text: #110e0a;
+            
+            --bg-code-block: #080705;
+            --bg-inline-code: rgba(245, 158, 11, 0.14);
+            --bg-blockquote: rgba(245, 158, 11, 0.08);
+            --bg-table-header: rgba(245, 158, 11, 0.18);
+        }
+
+        [data-theme="light"] {
+            --bg-page: #f5efe1;
+            --bg-frame: #fcf8f0;
+            --bg-header: #ebe0ca;
+            --bg-card: #f3ecdb;
+            --bg-card-alt: #eae0cb;
+            --bg-badge: rgba(146, 64, 14, 0.08);
+            
+            --border-primary: #92400e;
+            --border-subtle: rgba(146, 64, 14, 0.5);
+            --border-dim: rgba(146, 64, 14, 0.25);
+            
+            --text-title: #1a0a01;
+            --text-heading: #78350f;
+            --text-main: #2b1103;
+            --text-muted: #612809;
+            --text-dim: #78350f;
+            --text-code: #581c87;
+            --text-blockquote: #451a03;
+            
+            --scanline-color: rgba(146, 64, 14, 0.035);
+            --frame-shadow: 0 3px 14px rgba(146, 64, 14, 0.18), 0 0 0 1px rgba(146, 64, 14, 0.12) inset;
+            --btn-hover-bg: #92400e;
+            --btn-hover-text: #fcf8f0;
+            
+            --bg-code-block: #f7f1e4;
+            --bg-inline-code: #eeddc3;
+            --bg-blockquote: #f0e6d2;
+            --bg-table-header: #ebdcc0;
+        }
+
+        /* Custom retro scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-page);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-subtle);
+            border-radius: 2px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border-primary);
+        }
+
+        .post-content pre::-webkit-scrollbar-track {
+            background: var(--bg-code-block);
+        }
+
+        body {
+            background-color: var(--bg-page);
+            background-image: linear-gradient(var(--scanline-color) 1px, transparent 1px);
+            background-size: 100% 4px;
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--text-main);
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .terminal-frame {
+            box-shadow: var(--frame-shadow);
+            border: 2px solid var(--border-primary);
+            background-color: var(--bg-frame);
+        }
+
+        .interactive-link {
+            transition: color 0.1s ease, background-color 0.1s ease, border-color 0.1s ease;
+            border-color: var(--border-primary);
+            color: var(--text-main);
+        }
+        .interactive-link:hover {
+            color: var(--btn-hover-text) !important;
+            background-color: var(--btn-hover-bg) !important;
+        }
+
+        .theme-border { border-color: var(--border-primary); }
+        .theme-border-subtle { border-color: var(--border-subtle); }
+        .theme-border-dim { border-color: var(--border-dim); }
+
+        .theme-bg-header { background-color: var(--bg-header); }
+        .theme-bg-card { background-color: var(--bg-card); }
+        .theme-bg-card-alt { background-color: var(--bg-card-alt); }
+
+        .theme-text-title { color: var(--text-title); }
+        .theme-text-heading { color: var(--text-heading); }
+        .theme-text-main { color: var(--text-main); }
+        .theme-text-muted { color: var(--text-muted); }
+        .theme-text-dim { color: var(--text-dim); }
+
+        /* Typography & Markdown Styles */
+        .post-content h1 {
+            font-size: clamp(1.2rem, 4.5vw, 1.65rem);
+            font-weight: 800;
+            color: var(--text-title);
+            line-height: 1.35;
+            margin-top: 0.25rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--border-primary);
+            padding-bottom: 0.5rem;
+            text-transform: uppercase;
+            word-break: break-word;
+            letter-spacing: -0.01em;
+        }
+        .post-content h2 {
+            font-size: clamp(1.05rem, 3.8vw, 1.3rem);
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-top: 1.75rem;
+            margin-bottom: 0.65rem;
+            border-bottom: 1px dashed var(--border-subtle);
+            padding-bottom: 0.25rem;
+            line-height: 1.35;
+            word-break: break-word;
+        }
+        .post-content h3 {
+            font-size: clamp(0.95rem, 3.2vw, 1.1rem);
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-top: 1.35rem;
+            margin-bottom: 0.45rem;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+        .post-content p {
+            margin-bottom: 1.15rem;
+            line-height: 1.7;
+            font-size: clamp(0.88rem, 2.5vw, 0.95rem);
+            color: var(--text-main);
+        }
+        .post-content ul, .post-content ol {
+            margin-bottom: 1.2rem;
+            padding-left: 1.25rem;
+        }
+        .post-content li {
+            margin-bottom: 0.45rem;
+            line-height: 1.65;
+            font-size: clamp(0.88rem, 2.5vw, 0.95rem);
+        }
+        .post-content a {
+            color: var(--text-heading);
+            text-decoration: underline;
+            font-weight: bold;
+            transition: color 0.1s ease, background-color 0.1s ease;
+        }
+        .post-content a:hover {
+            color: var(--btn-hover-text);
+            background-color: var(--btn-hover-bg);
+            text-decoration: none;
+        }
+        .post-content a code {
+            color: inherit !important;
+            background-color: transparent !important;
+            border: none !important;
+            text-decoration: underline;
+            padding: 0 !important;
+        }
+        .post-content a:hover code {
+            color: var(--btn-hover-text) !important;
+            background-color: transparent !important;
+        }
+        .post-content code a {
+            color: var(--text-heading) !important;
+            text-decoration: underline;
+        }
+        .post-content code a:hover {
+            color: var(--btn-hover-text) !important;
+            background-color: var(--btn-hover-bg) !important;
+        }
+        .post-content blockquote {
+            border-left: 3px solid var(--border-primary);
+            background: var(--bg-blockquote);
+            padding: 0.75rem 1rem;
+            margin: 1.2rem 0;
+            font-style: italic;
+            color: var(--text-blockquote);
+        }
+        .post-content blockquote p {
+            margin-bottom: 0;
+            color: var(--text-blockquote);
+        }
+        .post-content hr {
+            border: 0;
+            border-top: 1px solid var(--border-subtle);
+            margin: 2rem 0;
+        }
+        .post-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.85rem;
+        }
+        .post-content th, .post-content td {
+            border: 1px solid var(--border-subtle);
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+        }
+        .post-content th {
+            background-color: var(--bg-table-header);
+            color: var(--text-heading);
+            font-weight: bold;
+        }
+        .post-content td {
+            color: var(--text-main);
+        }
+        .post-content pre, .code-highlight pre {
+            background-color: var(--bg-code-block) !important;
+            border: 1px solid var(--border-subtle);
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border-radius: 2px;
+            color: var(--text-main);
+        }
+        .post-content pre code a, .code-highlight pre code a {
+            color: var(--text-heading) !important;
+            text-decoration: underline;
+        }
+        .post-content code, .code-highlight code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+        .post-content p code, .post-content li code {
+            background-color: var(--bg-inline-code);
+            color: var(--text-code);
+            padding: 0.1rem 0.3rem;
+            border: 1px solid var(--border-dim);
+            border-radius: 2px;
+            font-weight: 600;
+        }
+
+        /* Build-Time Pygments Syntax Highlighting (0 KB JS, 0 ms cost) */
+        /* CRT Dark Amber Phosphor Scheme */
+        .code-highlight .k, .code-highlight .kd, .code-highlight .kn, .code-highlight .kp, .code-highlight .kr, .code-highlight .kt {
+            color: #f59e0b;
+            font-weight: bold;
+        }
+        .code-highlight .nf, .code-highlight .nc, .code-highlight .nd, .code-highlight .na, .code-highlight .ne, .code-highlight .fm {
+            color: #fef08a;
+            font-weight: 600;
+        }
+        .code-highlight .s, .code-highlight .s1, .code-highlight .s2, .code-highlight .sa, .code-highlight .sb, .code-highlight .sc, .code-highlight .sd, .code-highlight .se, .code-highlight .sh, .code-highlight .si, .code-highlight .sx, .code-highlight .sr, .code-highlight .ss {
+            color: #a3e635;
+        }
+        .code-highlight .m, .code-highlight .mi, .code-highlight .mf, .code-highlight .mh, .code-highlight .mo, .code-highlight .mb, .code-highlight .kc {
+            color: #fb923c;
+        }
+        .code-highlight .c, .code-highlight .c1, .code-highlight .cm, .code-highlight .cp, .code-highlight .cs, .code-highlight .ch {
+            color: #d97706;
+            font-style: italic;
+        }
+        .code-highlight .o, .code-highlight .ow {
+            color: #fde68a;
+        }
+        .code-highlight .p {
+            color: #fef08a;
+        }
+        .code-highlight .nb, .code-highlight .bp {
+            color: #fbbf24;
+        }
+        .code-highlight .nv, .code-highlight .vc, .code-highlight .vg, .code-highlight .vi, .code-highlight .vm, .code-highlight .n {
+            color: #fde68a;
+        }
+
+        /* Light Paper Theme Syntax Highlighting */
+        [data-theme="light"] .code-highlight .k,
+        [data-theme="light"] .code-highlight .kd,
+        [data-theme="light"] .code-highlight .kn,
+        [data-theme="light"] .code-highlight .kp,
+        [data-theme="light"] .code-highlight .kr,
+        [data-theme="light"] .code-highlight .kt {
+            color: #9a3412;
+            font-weight: bold;
+        }
+        [data-theme="light"] .code-highlight .nf,
+        [data-theme="light"] .code-highlight .nc,
+        [data-theme="light"] .code-highlight .nd,
+        [data-theme="light"] .code-highlight .na,
+        [data-theme="light"] .code-highlight .ne,
+        [data-theme="light"] .code-highlight .fm {
+            color: #78350f;
+            font-weight: 600;
+        }
+        [data-theme="light"] .code-highlight .s,
+        [data-theme="light"] .code-highlight .s1,
+        [data-theme="light"] .code-highlight .s2,
+        [data-theme="light"] .code-highlight .sa,
+        [data-theme="light"] .code-highlight .sb,
+        [data-theme="light"] .code-highlight .sc,
+        [data-theme="light"] .code-highlight .sd,
+        [data-theme="light"] .code-highlight .se,
+        [data-theme="light"] .code-highlight .sh,
+        [data-theme="light"] .code-highlight .si,
+        [data-theme="light"] .code-highlight .sx,
+        [data-theme="light"] .code-highlight .sr,
+        [data-theme="light"] .code-highlight .ss {
+            color: #15803d;
+        }
+        [data-theme="light"] .code-highlight .m,
+        [data-theme="light"] .code-highlight .mi,
+        [data-theme="light"] .code-highlight .mf,
+        [data-theme="light"] .code-highlight .mh,
+        [data-theme="light"] .code-highlight .mo,
+        [data-theme="light"] .code-highlight .mb,
+        [data-theme="light"] .code-highlight .kc {
+            color: #c2410c;
+        }
+        [data-theme="light"] .code-highlight .c,
+        [data-theme="light"] .code-highlight .c1,
+        [data-theme="light"] .code-highlight .cm,
+        [data-theme="light"] .code-highlight .cp,
+        [data-theme="light"] .code-highlight .cs,
+        [data-theme="light"] .code-highlight .ch {
+            color: #854d0e;
+            font-style: italic;
+        }
+        [data-theme="light"] .code-highlight .o,
+        [data-theme="light"] .code-highlight .ow {
+            color: #451a03;
+        }
+        [data-theme="light"] .code-highlight .p {
+            color: #451a03;
+        }
+        [data-theme="light"] .code-highlight .nb,
+        [data-theme="light"] .code-highlight .bp {
+            color: #78350f;
+        }
+        [data-theme="light"] .code-highlight .nv,
+        [data-theme="light"] .code-highlight .vc,
+        [data-theme="light"] .code-highlight .vg,
+        [data-theme="light"] .code-highlight .vi,
+        [data-theme="light"] .code-highlight .vm,
+        [data-theme="light"] .code-highlight .n {
+            color: #2b1103;
+        }
+    </style>
+</head>
+<body class="p-2 sm:p-6 md:p-12 min-h-screen">
+
+    <a href="#main-content" id="skip-link" class="skip-link">[SALTAR AL CONTENIDO]</a>
+    <div id="a11y-announcer" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <div class="terminal-frame max-w-4xl mx-auto mt-1 sm:mt-4 rounded-lg overflow-hidden">
+
+        <header class="p-2.5 sm:p-3 theme-bg-header border-b theme-border flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+            <div class="flex items-center justify-between sm:justify-start gap-2">
+                <span class="text-xs theme-text-muted tracking-wider font-bold truncate max-w-[220px] sm:max-w-none" id="header-sys-id">SYS.ID: riccivr // gitcrawl-content-addressable-web-archiver</span>
+                <span class="status-label-text theme-text-main text-[11px] font-bold uppercase tracking-wider sm:hidden">
+                    ESTADO: EN LÍNEA
+                </span>
+            </div>
+            <div class="flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2">
+                <div class="flex items-center gap-1.5 sm:gap-2">
+                    <button id="lang-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-label="Alternar idioma / Toggle Language [I]" title="Alternar idioma / Toggle Language [I]">
+                        [LANG: ES]
+                    </button>
+                    <button id="keys-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-pressed="true" aria-label="Alternar atajos de navegación por teclado" title="Alternar atajos de navegación por teclado">
+                        [TECLAS: ACT]
+                    </button>
+                    <button id="theme-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-label="Alternar tema (CRT / Papel)" title="Alternar tema (CRT / Papel)">
+                        [MODO: CRT]
+                    </button>
+                </div>
+                <span class="status-label-text theme-text-main text-xs sm:text-sm font-bold uppercase tracking-wider hidden sm:inline-block ml-2">
+                    ESTADO: EN LÍNEA
+                </span>
+            </div>
+        </header>
+
+        <main id="main-content" class="p-3.5 sm:p-6 md:p-8" tabindex="-1">
+
+            <!-- Navigation Controls -->
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-5 border-b theme-border-subtle text-[11px] sm:text-xs">
+                <div class="flex gap-1.5 sm:gap-2">
+                    <a href="index.html" id="back-index-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Volver a la lista del blog">
+                        [<] Volver al Blog
+                    </a>
+                    <a href="../" id="home-portal-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Ir al portal principal">
+                        [H] Portal Principal
+                    </a>
+                </div>
+                <div class="flex gap-1.5 sm:gap-2">
+                    <button id="copy-link-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Copiar enlace de este artículo">
+                        [S] Copiar Enlace
+                    </button>
+                    <a href="https://github.com/riccivr/riccivr.github.io" target="_blank" rel="noopener noreferrer" id="repo-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Ver repositorio en GitHub (se abre en nueva pestaña)">
+                        [G] Repo
+                    </a>
+                </div>
+            </div>
+
+            <!-- Post Container (Zero-JS Pre-rendered) -->
+            <article id="post-article-es" lang="es">
+                <div class="post-content">
+<h1>gitcrawl: crawler web direccionable por contenido y motor de snapshots en Git</h1>
+<p><em>Publicado: 31 de agosto de 2026. Categoría: Sistemas &amp; Arquitectura. Tiempo de lectura: ~6 min</em><br />
+<em>Etiquetas: C99, Git, Web Archiving, Crawlers, POSIX, Arquitectura, Sistemas</em></p>
+<hr />
+<p>En mi <a href="preserving-the-web-with-git.html">artículo anterior sobre archivar la web con Git</a>, me puse a explorar la teoría detrás de usar el almacén de objetos direccionable por contenido de Git como base de datos histórica para páginas web y documentación técnica.</p>
+<p>La jugada era sencilla: en vez de calarse gigabytes de archivos WARC pesadísimos o carpetas atiborradas de HTML repetido, aprovechar los grafos acíclicos y la compresión delta de Git para sacar diffs instantáneos en la terminal con <code>git diff</code> y <code>git log</code>.</p>
+<p>Hoy liberé la implementación completa en código abierto: <a href="https://github.com/riccivr/gitcrawl"><strong><code>gitcrawl</code></strong></a>.</p>
+<p>Aquí te echo el cuento de la arquitectura del motor en C99, cómo se conecta directo con la plomería interna de Git sin tocar el directorio de trabajo para ir volando, y los números de compresión.</p>
+<hr />
+<h2>1. Arquitectura del pipeline</h2>
+<p><code>gitcrawl</code> sigue la filosofía UNIX: una herramienta modular, escrita en C99 pulcro, sin dependencias raras ni runtimes pesados, lista para meterla en pipelines y cron jobs.</p>
+<div class="code-highlight"><pre><span></span><code>                  ┌────────────────────────────────────────┐
+                  │          URL / Stream de Entrada       │
+                  └───────────────────┬────────────────────┘
+                                      │
+                                      ▼
+                  ┌────────────────────────────────────────┐
+                  │      Motor HTTP &amp; Conexión POSIX       │
+                  │   - Headers, TLS info, Status Codes    │
+                  └───────────────────┬────────────────────┘
+                                      │
+                                      ▼
+                  ┌────────────────────────────────────────┐
+                  │          Sanitizador de DOM            │
+                  │ - Stripping de scripts, ads y CSRF     │
+                  │ - Preservación de tags semánticos      │
+                  └───────────────────┬────────────────────┘
+                                      │
+                                      ▼
+                  ┌────────────────────────────────────────┐
+                  │    Parser a Markdown (via unipaste)    │
+                  │ - Tablas ASCII / Markdown estructurado │
+                  └───────────────────┬────────────────────┘
+                                      │
+                                      ▼
+                  ┌────────────────────────────────────────┐
+                  │      Capa de Plomería Git (C99)        │
+                  │  1. Hash-object: Blob Markdown         │
+                  │  2. Hash-object: Blob Metadata JSON    │
+                  │  3. Mktree: Árbol de directorios       │
+                  │  4. Commit-tree: Commit histórico      │
+                  │  5. Update-ref: Actualización de rama  │
+                  └───────────────────┬────────────────────┘
+                                      │
+                                      ▼
+                  ┌────────────────────────────────────────┐
+                  │         .git/objects (Packfiles)       │
+                  └────────────────────────────────────────┘
+</code></pre></div>
+
+<hr />
+<h2>2. Ingesta a memoria: saltándonos el directorio de trabajo</h2>
+<p>Uno de los peores cuellos de botella al rastrear miles de URLs es el sistema de archivos. Si te pones a hacer un <code>checkout</code> en un repositorio con 50.000 páginas, el disco colapsa creando y borrando inodos a lo loco.</p>
+<p><code>gitcrawl</code> no toca el árbol de trabajo (<code>working tree</code>) para nada. Le escribe directo a la base de datos de objetos en <code>.git/objects</code>:</p>
+<div class="code-highlight"><pre><span></span><code><span class="cm">/* Estructura básica de inserción directa a la base de objetos */</span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">sha_hex</span><span class="p">[</span><span class="mi">41</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">;</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">path</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="n">git_blob_t</span><span class="p">;</span>
+
+<span class="cm">/* Inyecta un blob en memoria sin escribir archivo temporal en disco */</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">git_write_blob_stream</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">len</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">out_sha</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="cm">/* Ejecuta el equivalente de plomería interna: git hash-object -w --stdin */</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">git_plumbing_hash_object</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">len</span><span class="p">,</span><span class="w"> </span><span class="n">out_sha</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Al procesar cada URL:<br />
+1. El HTML crudo se limpia en un buffer de memoria de tamaño acotado.<br />
+2. El motor genera dos blobs: <code>index.md</code> (el contenido normalizado y al pelo) y <code>metadata.json</code> (encabezados HTTP, timestamp, IP, status code y saltos de redirección).<br />
+3. Se arma el árbol de directorios (<code>git mktree</code>) picando el host y la ruta (<code>docs.rs/tokio/index.md</code>).<br />
+4. Si el hash del árbol resultante es idéntico al commit anterior, <code>gitcrawl</code> detecta en <strong>0 ms</strong> que la página no cambió y se ahorra el commit de una vez.<br />
+5. Si hubo cambios, clava un commit atómico amarrado al padre (<code>git commit-tree</code>) y actualiza la rama (<code>git update-ref refs/heads/archive</code>).</p>
+<hr />
+<h2>3. Reducción de ruido y normalización</h2>
+<p>Si comiteas el HTML crudo tal cual, cada corrida te va a generar diffs falsos por culpa de tokens de sesión, nonces CSRF, banners publicitarios y tiempos de render dinámicos.</p>
+<p><code>gitcrawl</code> monta un parser de streams basado en el motor de <a href="https://github.com/riccivr/unipaste"><code>unipaste</code></a>. Agarra el contenido semántico de verdad (<code>&lt;main&gt;</code>, <code>&lt;article&gt;</code>, o el bloque con más texto), convirtiendo títulos, tablas, listas y bloques de código a Markdown limpiecito.</p>
+<div class="code-highlight"><pre><span></span><code>&lt;!-- Diff limpio generado por git diff en una actualización de API --&gt;
+--- a/api.stripe.com/v1/charges/index.md
++++ b/api.stripe.com/v1/charges/index.md
+@@ -14,3 +14,5 @@
+ | <span class="sb">`amount`</span> | integer | Monto en centavos |
+-| <span class="sb">`currency`</span> | string | Código ISO de 3 letras |
++| <span class="sb">`currency`</span> | string | Código ISO de 3 letras (ej. usd, eur) |
++| <span class="sb">`payment_method`</span> | string | ID del método de pago asociado |
+</code></pre></div>
+
+<hr />
+<h2>4. Benchmarks y eficiencia de almacenamiento</h2>
+<p>Pusimos a prueba <code>gitcrawl</code> archivando 500 páginas de documentación técnica (incluyendo specs de RFCs, docs de Python y manuales POSIX) con revisiones diarias durante un mes entero:</p>
+<table>
+<thead>
+<tr>
+<th>Estrategia de Archivo</th>
+<th>Espacio en Disco (30 corridas)</th>
+<th>Velocidad de Diff en Terminal</th>
+<th>Requiere Base de Datos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>HTML Crudo en Disco</strong></td>
+<td>4.8 GB</td>
+<td>Lento (<code>diff -r</code>)</td>
+<td>No</td>
+</tr>
+<tr>
+<td><strong>Archivos WARC</strong></td>
+<td>3.2 GB</td>
+<td>No nativo (requiere herramientas WARC)</td>
+<td>Sí / Índices</td>
+</tr>
+<tr>
+<td><strong><code>gitcrawl</code> (Git Packfiles)</strong></td>
+<td><strong>142 MB</strong></td>
+<td><strong>Instantáneo (<code>git diff</code>, <code>git log</code>)</strong></td>
+<td><strong>No (Git nativo)</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Gracias a la compresión delta de Git (<code>git pack-objects</code>), las páginas donde solo cambia una línea o un párrafo ocupan apenas unos cuantos bytes por snapshot histórico. Una mantequilla.</p>
+<hr />
+<h2>5. ¿Por qué no SQLite o almacenamiento plano? La ventaja distribuida y multi-agente</h2>
+<p>Una de las dudas más comunes al armar esta arquitectura fue: <em>¿Por qué no meter los snapshots en una base de datos embebida como SQLite, o en un bucket S3 con archivos planos y ya?</em></p>
+<p>Para un crawler solitario en una sola máquina, SQLite es tremenda nota. Pero en el momento en que escalas a un entorno con múltiples agentes de rastreo concurrentes y distribuidos en varias máquinas, contenedores o Lambdas, las bases de datos monolíticas y los archivos planos empiezan a mostrar las costuras y se arma un saperoco.</p>
+<h3>Los rollos de SQLite y archivos planos en entornos distribuidos</h3>
+<ol>
+<li><strong>Bloqueos de concurrencia y replicación pesada.</strong> SQLite no aguanta múltiples escritores concurrentes en red sin trabarse (<code>SQLITE_BUSY</code> o bloqueos de WAL). Sincronizar bases de datos SQLite entre servidores exige protocolos de consenso complejos (Raft/LiteFS) o mover bases de datos enteras por la red.</li>
+<li><strong>La pesadilla de fusionar capturas.</strong> Si tienes tres agentes crawleando en distintas regiones y luego quieres unir sus bases de datos SQLite, te toca resolver colisiones de IDs autoincrementales, marcas de tiempo chocando y reconciliación manual fila por fila.</li>
+<li><strong>Archivos planos en disco o S3.</strong> Guardar carpetas crudas produce condiciones de carrera (<em>Last Write Wins</em>), borrando versiones intermedias si dos agentes le caen a la misma URL casi al mismo tiempo. Además, te quedas sin compresión delta nativa.</li>
+</ol>
+<div class="code-highlight"><pre><span></span><code>                      Agente Alpha (us-east)   --&gt; Branch: agent/alpha
+                                                            |
+                      Agente Bravo (eu-west)   --&gt; Branch: agent/bravo --&gt; Git Merge (Sin Trancas)
+                                                            |             ├── Deduplicación SHA al tiro
+                      Agente Charlie (ap-tokyo)--&gt; Branch: agent/charlie  └── Compresión Delta en Packfiles
+</code></pre></div>
+
+<h3>Por qué el Merkle DAG de Git doma el caos multi-agente sin despeinarse</h3>
+<ol>
+<li><strong>Deduplicación criptográfica sin coordinar nada.</strong> Git es un almacén direccionable por contenido. Si 10 agentes en servidores distintos descargan la misma página al mismo segundo y el contenido está intacto, los 10 calculan exactamente el mismo hash SHA del blob. La deduplicación es matemática y al tiro, sin tener que preguntarle a un servidor central ni pedir bloqueos distribuidos.</li>
+<li><strong>Ramas independientes y convergencia relajada.</strong> Cada agente trabaja en su propia rama (<code>agent/crawler-eu</code>, <code>agent/crawler-us</code>, etc.) o en un fork local. Cuando terminan su tanda, hacen <code>git push</code> a un bare repo central o sincronizan peer-to-peer. Unir todo el historial es un simple <code>git merge</code> de árboles. Como los crawlers suelen tocar rutas distintas, los merges se resuelven en milisegundos sin trancas.</li>
+<li><strong>Procedencia e inmutabilidad.</strong> Cada snapshot queda amarrado a su commit padre con autor y timestamp. No hay forma de meter mano y alterar una captura vieja sin romper todo el grafo. Y si quieres auditar con lupa qué agente o modelo de IA capturó cada versión, le firmas los commits con <code>git commit -S</code>.</li>
+<li><strong>Transporte de red optimizado al máximo.</strong> El protocolo nativo de Git (<code>git-upload-pack</code> / <code>git-receive-pack</code>) calcula deltas al vuelo. Cuando un agente sube su trabajo, solo viajan los bytes que cambiaron de verdad, ahorrando un gentío de ancho de banda en la nube.</li>
+</ol>
+<hr />
+<h2>6. Integración con el ecosistema CLI</h2>
+<p>Al dejar los snapshots en un repositorio Git estándar, puedes combinar <code>gitcrawl</code> con tus herramientas de diario en la terminal:</p>
+<ul>
+<li><strong>Búsqueda difusa en el historial con <a href="https://github.com/riccivr/approx"><code>approx</code></a>:</strong><br />
+<code>bash
+  git log --name-only --format="" | sort -u | approx "stripe charges"</code></li>
+<li><strong>Rastreo de cambios en palabras clave:</strong><br />
+<code>bash
+  git log -p -S "deprecated" -- docs.github.com/</code></li>
+<li><strong>Exportación limpia a LLMs y pipelines RAG:</strong><br />
+  Como el repositorio almacena Markdown estructurado, puedes alimentar modelos de lenguaje locales directamente con <code>cat</code> o scripts en Bash.</li>
+</ul>
+<p>El código fuente, manual de instalación y opciones de configuración están disponibles en GitHub: <a href="https://github.com/riccivr/gitcrawl"><strong><code>github.com/riccivr/gitcrawl</code></strong></a>.</p>
+                </div>
+            </article>
+
+            <article id="post-article-en" lang="en" style="display: none;">
+                <div class="post-content">
+<h1>gitcrawl: content-addressable web archiver and snapshot engine backed by Git</h1>
+<p><em>Published: August 31, 2026. Category: Systems &amp; Architecture. Reading time: ~6 min</em><br />
+<em>Tags: C99, Git, Web Archiving, Crawlers, POSIX, Architecture, Systems</em></p>
+<hr />
+<p>In my <a href="preserving-the-web-with-git.html">previous article on archiving the web with Git</a>, I explored using Git's content-addressable object store as a historical database for web pages and documentation.</p>
+<p>The core idea was simple: instead of hoarding gigabytes of monolithic WARC archives or directories full of duplicate HTML, use Git's directed acyclic graph and delta compression to get instant terminal diffs with <code>git diff</code> and <code>git log</code>.</p>
+<p>Today I published the open-source implementation: <a href="https://github.com/riccivr/gitcrawl"><strong><code>gitcrawl</code></strong></a>.</p>
+<p>Here is the C99 engine architecture, how it talks directly to Git plumbing without touching the working directory, and the storage numbers.</p>
+<hr />
+<h2>1. Pipeline architecture</h2>
+<p><code>gitcrawl</code> follows the UNIX philosophy: a modular CLI tool written in clean C99, free of heavy runtimes, and built for automated pipelines and cron jobs.</p>
+<div class="code-highlight"><pre><span></span><code>                  ┌────────────────────────────────────────┐
+                  │             Target URL / Stream        │
+                  └───────────────────┬────────────────────┘
+                                      │
+                                      ▼
+                  ┌────────────────────────────────────────┐
+                  │       HTTP Engine &amp; POSIX Sockets      │
+                  │   - Headers, TLS info, Status Codes    │
+                  └───────────────────┬────────────────────┘
+                                      │
+                                      ▼
+                  ┌────────────────────────────────────────┐
+                  │             DOM Sanitizer              │
+                  │ - Strip scripts, trackers, CSRF nonces │
+                  │ - Preserve structural semantic tags    │
+                  └───────────────────┬────────────────────┘
+                                      │
+                                      ▼
+                  ┌────────────────────────────────────────┐
+                  │    Markdown Parser (via unipaste)      │
+                  │ - ASCII tables / Structured Markdown   │
+                  └───────────────────┬────────────────────┘
+                                      │
+                                      ▼
+                  ┌────────────────────────────────────────┐
+                  │        Git Plumbing Layer (C99)        │
+                  │  1. Hash-object: Markdown Blob         │
+                  │  2. Hash-object: Metadata JSON Blob    │
+                  │  3. Mktree: Hierarchical directory tree│
+                  │  4. Commit-tree: Historic commit node  │
+                  │  5. Update-ref: Atomic branch pointer  │
+                  └───────────────────┬────────────────────┘
+                                      │
+                                      ▼
+                  ┌────────────────────────────────────────┐
+                  │         .git/objects (Packfiles)       │
+                  └────────────────────────────────────────┘
+</code></pre></div>
+
+<hr />
+<h2>2. In-memory ingest: bypassing the working tree</h2>
+<p>A primary bottleneck when tracking thousands of URLs is filesystem I/O. If you checkout a repository containing 50,000 pages, the filesystem struggles creating and deleting inodes.</p>
+<p><code>gitcrawl</code> never touches the working tree. It writes directly to the <code>.git/objects</code> database:</p>
+<div class="code-highlight"><pre><span></span><code><span class="cm">/* Core structure for direct object store insertion */</span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">sha_hex</span><span class="p">[</span><span class="mi">41</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">;</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">path</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="n">git_blob_t</span><span class="p">;</span>
+
+<span class="cm">/* Injects a blob in memory without writing a temporary file to disk */</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">git_write_blob_stream</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">len</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">out_sha</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="cm">/* Executes internal plumbing equivalent: git hash-object -w --stdin */</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">git_plumbing_hash_object</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">len</span><span class="p">,</span><span class="w"> </span><span class="n">out_sha</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>When processing a URL:<br />
+1. Raw HTML is sanitized inside a memory-bounded buffer.<br />
+2. The engine generates two blobs: <code>index.md</code> (normalized readable content) and <code>metadata.json</code> (HTTP headers, timestamp, remote IP, status code, and redirect chain).<br />
+3. The hierarchical tree (<code>git mktree</code>) is constructed by sharding host and path (<code>docs.rs/tokio/index.md</code>).<br />
+4. If the computed tree hash matches the previous commit, <code>gitcrawl</code> detects in <strong>0 ms</strong> that the page is unchanged and skips commit creation.<br />
+5. If changes occurred, it generates an atomic commit (<code>git commit-tree</code>) and updates the branch ref (<code>git update-ref refs/heads/archive</code>).</p>
+<hr />
+<h2>3. Noise reduction and normalization</h2>
+<p>Committing raw HTML produces dirty diffs on every crawl cycle due to session cookies, CSRF nonces, and server render timestamps.</p>
+<p><code>gitcrawl</code> embeds a streaming parser inspired by <a href="https://github.com/riccivr/unipaste"><code>unipaste</code></a>. It extracts primary semantic content (<code>&lt;main&gt;</code>, <code>&lt;article&gt;</code>, or the densest text node), converting headings, tables, lists, and code blocks into clean Markdown.</p>
+<div class="code-highlight"><pre><span></span><code>&lt;!-- Clean diff produced by git diff on an API doc update --&gt;
+--- a/api.stripe.com/v1/charges/index.md
++++ b/api.stripe.com/v1/charges/index.md
+@@ -14,3 +14,5 @@
+ | <span class="sb">`amount`</span> | integer | Amount in cents |
+-| <span class="sb">`currency`</span> | string | 3-letter ISO code |
++| <span class="sb">`currency`</span> | string | 3-letter ISO code (e.g. usd, eur) |
++| <span class="sb">`payment_method`</span> | string | ID of the attached payment method |
+</code></pre></div>
+
+<hr />
+<h2>4. Benchmarks and storage efficiency</h2>
+<p>We tested <code>gitcrawl</code> by snapshotting 500 technical documentation pages (RFC specs, Python docs, and POSIX manuals) daily across 30 days:</p>
+<table>
+<thead>
+<tr>
+<th>Archival Strategy</th>
+<th>Disk Usage (30 snapshot cycles)</th>
+<th>Terminal Diff Speed</th>
+<th>Requires Database</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Raw HTML on Disk</strong></td>
+<td>4.8 GB</td>
+<td>Slow (<code>diff -r</code>)</td>
+<td>No</td>
+</tr>
+<tr>
+<td><strong>WARC Archives</strong></td>
+<td>3.2 GB</td>
+<td>Non-native (needs WARC tools)</td>
+<td>Yes / Indices</td>
+</tr>
+<tr>
+<td><strong><code>gitcrawl</code> (Git Packfiles)</strong></td>
+<td><strong>142 MB</strong></td>
+<td><strong>Instant (<code>git diff</code>, <code>git log</code>)</strong></td>
+<td><strong>No (Native Git)</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Thanks to Git delta compression (<code>git pack-objects</code>), pages with only minor text modifications take just a few bytes per historic snapshot.</p>
+<hr />
+<h2>5. Why not SQLite or flat files? The distributed advantage</h2>
+<p>A common question when designing this storage setup is: <em>Why not store snapshots in an embedded database like SQLite, or in an S3 bucket with flat files?</em></p>
+<p>For single-node local runs, SQLite works well. But once you scale to workflows with multiple crawler agents running concurrently across machines, containers, or serverless workers, traditional storage setups struggle.</p>
+<h3>Limitations of SQLite and flat files</h3>
+<ol>
+<li><strong>Lock contention and network sync.</strong> SQLite does not support multiple concurrent network writers without blocking (<code>SQLITE_BUSY</code> or write-ahead log lock queues). Synchronizing SQLite across nodes requires consensus layers (Raft/LiteFS) or copying whole databases.</li>
+<li><strong>Merging conflicts.</strong> If three autonomous crawler agents run across different regions and later try to combine their SQLite databases, reconciling auto-increment IDs, timestamp collisions, and row-level conflicts is messy.</li>
+<li><strong>Flat files on S3.</strong> Storing raw files leads to race conditions (<em>Last Write Wins</em>), wiping intermediate historical states when two workers hit the same URL around the same time. There is also no native cross-revision delta compression.</li>
+</ol>
+<div class="code-highlight"><pre><span></span><code>                      Agent Alpha (us-east)    --&gt; Branch: agent/alpha
+                                                            |
+                      Agent Bravo (eu-west)    --&gt; Branch: agent/bravo --&gt; Git Merge (Lock-Free)
+                                                            |             ├── Automatic SHA Deduplication
+                      Agent Charlie (ap-tokyo) --&gt; Branch: agent/charlie  └── Packfile Delta Compression
+</code></pre></div>
+
+<h3>Why Git's Merkle DAG handles multi-agent crawling</h3>
+<ol>
+<li><strong>Zero-coordination cryptographic deduplication.</strong> Git is a content-addressable store. If 10 distributed crawler agents scrape the exact same page at the exact same moment and the content is unchanged, all 10 compute the exact same SHA hash. Deduplication happens mathematically and instantly without a central coordinator or distributed locks.</li>
+<li><strong>Independent branching and conflict-free convergence.</strong> Each crawler agent works on its own branch (<code>agent/crawler-eu</code>, <code>agent/crawler-us</code>) or local clone. When a batch finishes, they push to a central bare repo or sync peer-to-peer. Reconciling the entire archive history is a standard non-blocking <code>git merge</code>. Because crawlers touch disjoint directory paths in the tree, merges resolve in milliseconds.</li>
+<li><strong>Cryptographic provenance and tamper evidence.</strong> Every snapshot links to its parent tree and author metadata. It is mathematically impossible to modify a historical snapshot without invalidating all downstream commit hashes. Commits can be signed (<code>git commit -S</code>) to trace exactly which agent or AI pipeline captured a given version.</li>
+<li><strong>Bandwidth-efficient delta syncing.</strong> Git's native wire protocol (<code>git-upload-pack</code> / <code>git-receive-pack</code>) computes deltas on the fly. Agents only transfer the bytes that actually changed over the network, cutting down cloud egress costs.</li>
+</ol>
+<hr />
+<h2>6. CLI toolchain integration</h2>
+<p>Because snapshots reside in standard Git repositories, <code>gitcrawl</code> works directly with standard terminal tools:</p>
+<ul>
+<li><strong>Fuzzy history inspection with <a href="https://github.com/riccivr/approx"><code>approx</code></a>:</strong><br />
+<code>bash
+  git log --name-only --format="" | sort -u | approx "stripe charges"</code></li>
+<li><strong>Tracking keyword changes:</strong><br />
+<code>bash
+  git log -p -S "deprecated" -- docs.github.com/</code></li>
+<li><strong>Direct input for LLMs and RAG pipelines:</strong><br />
+  Because the repository stores structured Markdown, you can feed local LLMs directly using <code>cat</code> or Bash pipes.</li>
+</ul>
+<p>Source code, build instructions, and configuration options are available on GitHub: <a href="https://github.com/riccivr/gitcrawl"><strong><code>github.com/riccivr/gitcrawl</code></strong></a>.</p>
+                </div>
+            </article>
+
+            <!-- Bottom Return Navigation -->
+            <div class="mt-10 sm:mt-12 pt-6 sm:pt-8 pb-3 sm:pb-4 border-t theme-border-subtle flex justify-between items-center text-xs sm:text-sm">
+                <a href="index.html" id="bottom-back-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Volver a la lista de artículos">
+                    [<] Volver al Blog
+                </a>
+                <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" id="bottom-top-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Ir arriba">
+                    [^] Arriba
+                </a>
+            </div>
+
+        </main>
+
+        <footer class="p-3 sm:p-4 border-t theme-border text-xs flex justify-between items-center theme-bg-header">
+            <span class="theme-text-muted text-[11px] sm:text-xs font-bold">riccivr.github.io/blog</span>
+            <span id="footer-text" class="text-right text-[11px] sm:text-xs theme-text-muted font-medium">
+                Static Pre-rendered · Zero-JS Engine
+            </span>
+        </footer>
+
+    </div>
+
+    <!-- Progressive Enhancement Script -->
+    <script>
+        const i18n = {
+            es: {
+                sysId: "SYS.ID: riccivr // gitcrawl-content-addressable-web-archiver",
+                status: "ESTADO: EN LÍNEA",
+                langToggle: "[LANG: ES]",
+                keysOn: "[TECLAS: ACT]",
+                keysOff: "[TECLAS: DES]",
+                modeCrt: "[MODO: CRT]",
+                modePaper: "[MODO: PAPEL]",
+                backIndex: "[<] Volver al Blog",
+                homePortal: "[H] Portal Principal",
+                copyLink: "[S] Copiar Enlace",
+                copied: "[✓] ¡Copiado!",
+                repo: "[G] Repo",
+                topBtn: "[^] Arriba",
+                footerText: "Static Pre-rendered · Zero-JS Engine",
+                title: "gitcrawl: crawler web direccionable por contenido y motor de snapshots en Git",
+                metaDesc: "En mi art\u00edculo anterior sobre archivar la web con Git, me puse a explorar la teor\u00eda detr\u00e1s de usar el almac\u00e9n de objetos direccionable por contenido de Git como base de datos hist\u00f3rica para p\u00e1ginas web y documentaci\u00f3n t\u00e9..."
+            },
+            en: {
+                sysId: "SYS.ID: riccivr // gitcrawl-content-addressable-web-archiver",
+                status: "STATUS: ONLINE",
+                langToggle: "[LANG: EN]",
+                keysOn: "[KEYS: ON]",
+                keysOff: "[KEYS: OFF]",
+                modeCrt: "[MODE: CRT]",
+                modePaper: "[MODE: PAPER]",
+                backIndex: "[<] Return to Blog",
+                homePortal: "[H] Home Portal",
+                copyLink: "[S] Copy Link",
+                copied: "[✓] Copied!",
+                repo: "[G] Repo",
+                topBtn: "[^] Top",
+                footerText: "Static Pre-rendered · Zero-JS Engine",
+                title: "gitcrawl: content-addressable web archiver and snapshot engine backed by Git",
+                metaDesc: "In my previous article on archiving the web with Git, I explored using Git's content-addressable object store as a historical database for web pages and documentation."
+            }
+        };
+
+        function getLanguage() {
+            const saved = localStorage.getItem('riccivr-lang');
+            if (saved === 'es' || saved === 'en') return saved;
+            const browserLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
+            return browserLang.startsWith('es') ? 'es' : 'en';
+        }
+
+        let currentLang = getLanguage();
+
+        function applyLanguageUI() {
+            const t = i18n[currentLang] || i18n.es;
+            document.documentElement.setAttribute('lang', currentLang);
+
+            document.querySelectorAll('.status-label-text').forEach(el => el.textContent = t.status);
+            document.getElementById('lang-toggle').textContent = t.langToggle;
+
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            document.getElementById('theme-toggle').textContent = isLight ? t.modePaper : t.modeCrt;
+
+            const keysEnabled = localStorage.getItem('riccivr-keys') !== 'off';
+            document.getElementById('keys-toggle').textContent = keysEnabled ? t.keysOn : t.keysOff;
+
+            document.getElementById('back-index-btn').textContent = t.backIndex;
+            document.getElementById('home-portal-btn').textContent = t.homePortal;
+            document.getElementById('copy-link-btn').textContent = t.copyLink;
+            document.getElementById('repo-btn').textContent = t.repo;
+            document.getElementById('bottom-back-btn').textContent = t.backIndex;
+            document.getElementById('bottom-top-btn').textContent = t.topBtn;
+            document.getElementById('footer-text').textContent = t.footerText;
+
+            // Toggle language articles
+            const artEs = document.getElementById('post-article-es');
+            const artEn = document.getElementById('post-article-en');
+            if (artEs && artEn) {
+                if (currentLang === 'en') {
+                    artEs.style.display = 'none';
+                    artEn.style.display = 'block';
+                } else {
+                    artEs.style.display = 'block';
+                    artEn.style.display = 'none';
+                }
+            }
+
+            // Update meta tags
+            document.title = `${t.title} - Ricardo Veronese`;
+            const metaDesc = document.getElementById('meta-desc');
+            if (metaDesc) metaDesc.setAttribute('content', t.metaDesc);
+            const ogTitle = document.getElementById('og-title');
+            if (ogTitle) ogTitle.setAttribute('content', t.title);
+            const ogDesc = document.getElementById('og-desc');
+            if (ogDesc) ogDesc.setAttribute('content', t.metaDesc);
+        }
+
+        // Theme toggle handling
+        const themeBtn = document.getElementById('theme-toggle');
+        function updateThemeBtn() {
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            const t = i18n[currentLang] || i18n.es;
+            themeBtn.textContent = isLight ? t.modePaper : t.modeCrt;
+        }
+
+        themeBtn.addEventListener('click', () => {
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            if (isLight) {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('riccivr-theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('riccivr-theme', 'light');
+            }
+            updateThemeBtn();
+        });
+
+        // Language toggle handling
+        document.getElementById('lang-toggle').addEventListener('click', () => {
+            currentLang = currentLang === 'es' ? 'en' : 'es';
+            localStorage.setItem('riccivr-lang', currentLang);
+            applyLanguageUI();
+        });
+
+        // Keyboard shortcuts
+        const keysBtn = document.getElementById('keys-toggle');
+        let keyboardEnabled = localStorage.getItem('riccivr-keys') !== 'off';
+
+        function updateKeysBtn() {
+            const t = i18n[currentLang] || i18n.es;
+            keysBtn.textContent = keyboardEnabled ? t.keysOn : t.keysOff;
+        }
+
+        keysBtn.addEventListener('click', () => {
+            keyboardEnabled = !keyboardEnabled;
+            localStorage.setItem('riccivr-keys', keyboardEnabled ? 'on' : 'off');
+            updateKeysBtn();
+        });
+
+        // Copy link handler
+        const copyBtn = document.getElementById('copy-link-btn');
+        copyBtn.addEventListener('click', () => {
+            const url = window.location.href;
+            const t = i18n[currentLang] || i18n.es;
+            navigator.clipboard.writeText(url).then(() => {
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = t.copied;
+                setTimeout(() => {
+                    copyBtn.textContent = originalText;
+                }, 2000);
+            }).catch(() => {
+                prompt("Copia este enlace / Copy this link:", url);
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!keyboardEnabled) return;
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+            const key = e.key.toLowerCase();
+            if (key === 'i') {
+                e.preventDefault();
+                document.getElementById('lang-toggle').click();
+            } else if (key === 't') {
+                e.preventDefault();
+                themeBtn.click();
+            } else if (key === 'b' || key === '[') {
+                e.preventDefault();
+                window.location.href = 'index.html';
+            } else if (key === 'h') {
+                e.preventDefault();
+                window.location.href = '../';
+            } else if (key === 's') {
+                e.preventDefault();
+                copyBtn.click();
+            } else if (key === 'g') {
+                e.preventDefault();
+                window.open('https://github.com/riccivr/riccivr.github.io', '_blank');
+            } else if (key === 'k' || key === '^') {
+                e.preventDefault();
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
+        });
+
+        // Apply initial UI
+        applyLanguageUI();
+        updateThemeBtn();
+        updateKeysBtn();
+    </script>
+</body>
+</html>

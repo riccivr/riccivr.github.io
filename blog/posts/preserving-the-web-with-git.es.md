@@ -5,7 +5,7 @@
 
 ---
 
-> **Actualización**: El prototipo descrito en este artículo ya es una realidad y está disponible en código abierto como [**`gitcrawl`**](https://github.com/riccivr/gitcrawl). Puedes leer el desglose técnico, benchmarks y especificaciones de arquitectura completas en: [**`gitcrawl: crawler web direccionable por contenido y motor de snapshots en Git`**](post.html?post=gitcrawl-content-addressable-web-archiver).
+> **Actualización**: El prototipo descrito en este artículo ya es una realidad y está disponible en código abierto como [**`gitcrawl`**](https://github.com/riccivr/gitcrawl). Puedes leer el desglose técnico, benchmarks y especificaciones de arquitectura completas en: [**`gitcrawl: crawler web direccionable por contenido y motor de snapshots en Git`**](gitcrawl-content-addressable-web-archiver.html).
 
 ---
 
@@ -132,4 +132,4 @@ La herramienta CLI standalone basada en esta estructura ya está publicada:
 2. Un parser de streams basado en la lógica de conversión a Markdown de [`unipaste`](https://github.com/riccivr/unipaste).
 3. Búsqueda rápida con [`approx`](https://github.com/riccivr/approx) para encontrar páginas en el historial usando coincidencia difusa directo desde la shell.
 
-Revisa el artículo completo con especificaciones, benchmarks de compresión y casos de uso en el post de lanzamiento: [**`gitcrawl: crawler web direccionable por contenido y motor de snapshots en Git`**](post.html?post=gitcrawl-content-addressable-web-archiver).
+Revisa el artículo completo con especificaciones, benchmarks de compresión y casos de uso en el post de lanzamiento: [**`gitcrawl: crawler web direccionable por contenido y motor de snapshots en Git`**](gitcrawl-content-addressable-web-archiver.html).

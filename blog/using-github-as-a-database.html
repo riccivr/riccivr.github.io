@@ -1,116 +1,68 @@
-#!/usr/bin/env python3
-"""
-Bilingual Blog & Site Management Script for riccivr.github.io
-Usage:
-    python3 manage.py build          # Rebuilds static post HTML files, posts.json, sitemap.xml, feed.xml, and llms.txt
-    python3 manage.py new "Title"    # Creates new markdown post templates (en & es)
-"""
-
-import os
-import re
-import json
-import datetime
-from xml.sax.saxutils import escape
-
-try:
-    import markdown
-except ImportError:
-    markdown = None
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-SITE_ROOT = os.path.dirname(BASE_DIR)
-POSTS_DIR = os.path.join(BASE_DIR, "posts")
-POSTS_JSON = os.path.join(BASE_DIR, "posts.json")
-POSTS_DATA_JS = os.path.join(BASE_DIR, "posts-data.js")
-SITEMAP_XML = os.path.join(SITE_ROOT, "sitemap.xml")
-FEED_XML = os.path.join(SITE_ROOT, "feed.xml")
-LLMS_TXT = os.path.join(SITE_ROOT, "llms.txt")
-
-SITE_URL = "https://riccivr.github.io"
-AUTHOR_NAME = "Ricardo Veronese"
-AUTHOR_EMAIL = "ricci.vr@gmail.com"
-
-SPANISH_MONTHS = {
-    'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4,
-    'mayo': 5, 'junio': 6, 'julio': 7, 'agosto': 8,
-    'septiembre': 9, 'octubre': 10, 'noviembre': 11, 'diciembre': 12,
-    'january': 1, 'february': 2, 'march': 3, 'april': 4,
-    'may': 5, 'june': 6, 'july': 7, 'august': 8,
-    'september': 9, 'october': 10, 'november': 11, 'december': 12
-}
-
-POST_CHRONO_ORDER = {
-    "gitcrawl-content-addressable-web-archiver": 4,
-    "being-a-good-net-citizen-in-the-ai-era": 3,
-    "preserving-the-web-with-git": 2,
-    "using-github-as-a-database": 1
-}
-
-STATIC_POST_TEMPLATE = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="meta-title">{meta_title}</title>
+    <title id="meta-title">¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos - Ricardo Veronese</title>
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
     <meta name="author" content="Ricardo Veronese">
     <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed" href="https://riccivr.github.io/feed.xml">
-    <meta name="description" id="meta-desc" content="{meta_desc}">
-    <link rel="canonical" href="{canonical_url}">
+    <meta name="description" id="meta-desc" content="Una pregunta que siempre sale al armar side projects y sitios estáticos es si de pana se puede usar GitHub como una base de datos persistente.">
+    <link rel="canonical" href="https://riccivr.github.io/blog/using-github-as-a-database.html">
 
     <!-- Open Graph -->
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="Ricardo Veronese">
-    <meta property="og:title" id="og-title" content="{meta_title}">
-    <meta property="og:description" id="og-desc" content="{meta_desc}">
-    <meta property="og:url" content="{canonical_url}">
+    <meta property="og:title" id="og-title" content="¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos - Ricardo Veronese">
+    <meta property="og:description" id="og-desc" content="Una pregunta que siempre sale al armar side projects y sitios estáticos es si de pana se puede usar GitHub como una base de datos persistente.">
+    <meta property="og:url" content="https://riccivr.github.io/blog/using-github-as-a-database.html">
     <meta property="og:image" content="https://riccivr.github.io/riccivr-retro-og.png">
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" id="tw-title" content="{meta_title}">
-    <meta name="twitter:description" id="tw-desc" content="{meta_desc}">
+    <meta name="twitter:title" id="tw-title" content="¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos - Ricardo Veronese">
+    <meta name="twitter:description" id="tw-desc" content="Una pregunta que siempre sale al armar side projects y sitios estáticos es si de pana se puede usar GitHub como una base de datos persistente.">
     <meta name="twitter:image" content="https://riccivr.github.io/riccivr-retro-og.png">
 
     <!-- Schema.org BlogPosting -->
     <script type="application/ld+json">
-    {{
+    {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
-        "headline": {schema_title_json},
-        "description": {schema_desc_json},
-        "author": {{
+        "headline": "\u00bfSe puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos",
+        "description": "Una pregunta que siempre sale al armar side projects y sitios est\u00e1ticos es si de pana se puede usar GitHub como una base de datos persistente.",
+        "author": {
             "@type": "Person",
             "name": "Ricardo Veronese",
             "url": "https://riccivr.github.io/"
-        }},
-        "datePublished": "{date_published}",
-        "mainEntityOfPage": "{canonical_url}"
-    }}
+        },
+        "datePublished": "2026-08-30",
+        "mainEntityOfPage": "https://riccivr.github.io/blog/using-github-as-a-database.html"
+    }
     </script>
 
     <link rel="stylesheet" href="../style.css">
     <script>
         // Immediately apply saved or system theme and language to avoid FOUC
-        (function() {{
-            try {{
+        (function() {
+            try {
                 const savedTheme = localStorage.getItem('riccivr-theme');
                 const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
-                if (savedTheme === 'light' || (!savedTheme && prefersLight)) {{
+                if (savedTheme === 'light' || (!savedTheme && prefersLight)) {
                     document.documentElement.setAttribute('data-theme', 'light');
-                }} else {{
+                } else {
                     document.documentElement.removeAttribute('data-theme');
-                }}
+                }
 
                 const savedLang = localStorage.getItem('riccivr-lang');
                 const browserLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
                 const activeLang = (savedLang === 'es' || savedLang === 'en') ? savedLang : (browserLang.startsWith('es') ? 'es' : 'en');
                 document.documentElement.setAttribute('lang', activeLang);
-            }} catch(e) {{}}
-        }})();
+            } catch(e) {}
+        })();
     </script>
     <style>
-        :root {{
+        :root {
             --bg-page: #0c0a07;
             --bg-frame: #110e0a;
             --bg-header: #1a140d;
@@ -139,9 +91,9 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
             --bg-inline-code: rgba(245, 158, 11, 0.14);
             --bg-blockquote: rgba(245, 158, 11, 0.08);
             --bg-table-header: rgba(245, 158, 11, 0.18);
-        }}
+        }
 
-        [data-theme="light"] {{
+        [data-theme="light"] {
             --bg-page: #f5efe1;
             --bg-frame: #fcf8f0;
             --bg-header: #ebe0ca;
@@ -170,69 +122,69 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
             --bg-inline-code: #eeddc3;
             --bg-blockquote: #f0e6d2;
             --bg-table-header: #ebdcc0;
-        }}
+        }
 
         /* Custom retro scrollbar */
-        ::-webkit-scrollbar {{
+        ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
-        }}
-        ::-webkit-scrollbar-track {{
+        }
+        ::-webkit-scrollbar-track {
             background: var(--bg-page);
-        }}
-        ::-webkit-scrollbar-thumb {{
+        }
+        ::-webkit-scrollbar-thumb {
             background: var(--border-subtle);
             border-radius: 2px;
-        }}
-        ::-webkit-scrollbar-thumb:hover {{
+        }
+        ::-webkit-scrollbar-thumb:hover {
             background: var(--border-primary);
-        }}
+        }
 
-        .post-content pre::-webkit-scrollbar-track {{
+        .post-content pre::-webkit-scrollbar-track {
             background: var(--bg-code-block);
-        }}
+        }
 
-        body {{
+        body {
             background-color: var(--bg-page);
             background-image: linear-gradient(var(--scanline-color) 1px, transparent 1px);
             background-size: 100% 4px;
             font-family: 'Courier New', Courier, monospace;
             color: var(--text-main);
             transition: background-color 0.15s ease, color 0.15s ease;
-        }}
+        }
 
-        .terminal-frame {{
+        .terminal-frame {
             box-shadow: var(--frame-shadow);
             border: 2px solid var(--border-primary);
             background-color: var(--bg-frame);
-        }}
+        }
 
-        .interactive-link {{
+        .interactive-link {
             transition: color 0.1s ease, background-color 0.1s ease, border-color 0.1s ease;
             border-color: var(--border-primary);
             color: var(--text-main);
-        }}
-        .interactive-link:hover {{
+        }
+        .interactive-link:hover {
             color: var(--btn-hover-text) !important;
             background-color: var(--btn-hover-bg) !important;
-        }}
+        }
 
-        .theme-border {{ border-color: var(--border-primary); }}
-        .theme-border-subtle {{ border-color: var(--border-subtle); }}
-        .theme-border-dim {{ border-color: var(--border-dim); }}
+        .theme-border { border-color: var(--border-primary); }
+        .theme-border-subtle { border-color: var(--border-subtle); }
+        .theme-border-dim { border-color: var(--border-dim); }
 
-        .theme-bg-header {{ background-color: var(--bg-header); }}
-        .theme-bg-card {{ background-color: var(--bg-card); }}
-        .theme-bg-card-alt {{ background-color: var(--bg-card-alt); }}
+        .theme-bg-header { background-color: var(--bg-header); }
+        .theme-bg-card { background-color: var(--bg-card); }
+        .theme-bg-card-alt { background-color: var(--bg-card-alt); }
 
-        .theme-text-title {{ color: var(--text-title); }}
-        .theme-text-heading {{ color: var(--text-heading); }}
-        .theme-text-main {{ color: var(--text-main); }}
-        .theme-text-muted {{ color: var(--text-muted); }}
-        .theme-text-dim {{ color: var(--text-dim); }}
+        .theme-text-title { color: var(--text-title); }
+        .theme-text-heading { color: var(--text-heading); }
+        .theme-text-main { color: var(--text-main); }
+        .theme-text-muted { color: var(--text-muted); }
+        .theme-text-dim { color: var(--text-dim); }
 
         /* Typography & Markdown Styles */
-        .post-content h1 {{
+        .post-content h1 {
             font-size: clamp(1.2rem, 4.5vw, 1.65rem);
             font-weight: 800;
             color: var(--text-title);
@@ -244,8 +196,8 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
             text-transform: uppercase;
             word-break: break-word;
             letter-spacing: -0.01em;
-        }}
-        .post-content h2 {{
+        }
+        .post-content h2 {
             font-size: clamp(1.05rem, 3.8vw, 1.3rem);
             font-weight: 700;
             color: var(--text-heading);
@@ -255,8 +207,8 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
             padding-bottom: 0.25rem;
             line-height: 1.35;
             word-break: break-word;
-        }}
-        .post-content h3 {{
+        }
+        .post-content h3 {
             font-size: clamp(0.95rem, 3.2vw, 1.1rem);
             font-weight: 700;
             color: var(--text-heading);
@@ -264,89 +216,89 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
             margin-bottom: 0.45rem;
             line-height: 1.4;
             word-break: break-word;
-        }}
-        .post-content p {{
+        }
+        .post-content p {
             margin-bottom: 1.15rem;
             line-height: 1.7;
             font-size: clamp(0.88rem, 2.5vw, 0.95rem);
             color: var(--text-main);
-        }}
-        .post-content ul, .post-content ol {{
+        }
+        .post-content ul, .post-content ol {
             margin-bottom: 1.2rem;
             padding-left: 1.25rem;
-        }}
-        .post-content li {{
+        }
+        .post-content li {
             margin-bottom: 0.45rem;
             line-height: 1.65;
             font-size: clamp(0.88rem, 2.5vw, 0.95rem);
-        }}
-        .post-content a {{
+        }
+        .post-content a {
             color: var(--text-heading);
             text-decoration: underline;
             font-weight: bold;
             transition: color 0.1s ease, background-color 0.1s ease;
-        }}
-        .post-content a:hover {{
+        }
+        .post-content a:hover {
             color: var(--btn-hover-text);
             background-color: var(--btn-hover-bg);
             text-decoration: none;
-        }}
-        .post-content a code {{
+        }
+        .post-content a code {
             color: inherit !important;
             background-color: transparent !important;
             border: none !important;
             text-decoration: underline;
             padding: 0 !important;
-        }}
-        .post-content a:hover code {{
+        }
+        .post-content a:hover code {
             color: var(--btn-hover-text) !important;
             background-color: transparent !important;
-        }}
-        .post-content code a {{
+        }
+        .post-content code a {
             color: var(--text-heading) !important;
             text-decoration: underline;
-        }}
-        .post-content code a:hover {{
+        }
+        .post-content code a:hover {
             color: var(--btn-hover-text) !important;
             background-color: var(--btn-hover-bg) !important;
-        }}
-        .post-content blockquote {{
+        }
+        .post-content blockquote {
             border-left: 3px solid var(--border-primary);
             background: var(--bg-blockquote);
             padding: 0.75rem 1rem;
             margin: 1.2rem 0;
             font-style: italic;
             color: var(--text-blockquote);
-        }}
-        .post-content blockquote p {{
+        }
+        .post-content blockquote p {
             margin-bottom: 0;
             color: var(--text-blockquote);
-        }}
-        .post-content hr {{
+        }
+        .post-content hr {
             border: 0;
             border-top: 1px solid var(--border-subtle);
             margin: 2rem 0;
-        }}
-        .post-content table {{
+        }
+        .post-content table {
             width: 100%;
             border-collapse: collapse;
             margin: 1.5rem 0;
             font-size: 0.85rem;
-        }}
-        .post-content th, .post-content td {{
+        }
+        .post-content th, .post-content td {
             border: 1px solid var(--border-subtle);
             padding: 0.5rem 0.75rem;
             text-align: left;
-        }}
-        .post-content th {{
+        }
+        .post-content th {
             background-color: var(--bg-table-header);
             color: var(--text-heading);
             font-weight: bold;
-        }}
-        .post-content td {{
+        }
+        .post-content td {
             color: var(--text-main);
-        }}
-        .post-content pre, .code-highlight pre {{
+        }
+        .post-content pre, .code-highlight pre {
             background-color: var(--bg-code-block) !important;
             border: 1px solid var(--border-subtle);
             padding: 1rem;
@@ -354,57 +306,57 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
             margin: 1.2rem 0;
             border-radius: 2px;
             color: var(--text-main);
-        }}
-        .post-content pre code a, .code-highlight pre code a {{
+        }
+        .post-content pre code a, .code-highlight pre code a {
             color: var(--text-heading) !important;
             text-decoration: underline;
-        }}
-        .post-content code, .code-highlight code {{
+        }
+        .post-content code, .code-highlight code {
             font-family: 'Courier New', Courier, monospace;
             font-size: 0.88rem;
             line-height: 1.5;
-        }}
-        .post-content p code, .post-content li code {{
+        }
+        .post-content p code, .post-content li code {
             background-color: var(--bg-inline-code);
             color: var(--text-code);
             padding: 0.1rem 0.3rem;
             border: 1px solid var(--border-dim);
             border-radius: 2px;
             font-weight: 600;
-        }}
+        }
 
         /* Build-Time Pygments Syntax Highlighting (0 KB JS, 0 ms cost) */
         /* CRT Dark Amber Phosphor Scheme */
-        .code-highlight .k, .code-highlight .kd, .code-highlight .kn, .code-highlight .kp, .code-highlight .kr, .code-highlight .kt {{
+        .code-highlight .k, .code-highlight .kd, .code-highlight .kn, .code-highlight .kp, .code-highlight .kr, .code-highlight .kt {
             color: #f59e0b;
             font-weight: bold;
-        }}
-        .code-highlight .nf, .code-highlight .nc, .code-highlight .nd, .code-highlight .na, .code-highlight .ne, .code-highlight .fm {{
+        }
+        .code-highlight .nf, .code-highlight .nc, .code-highlight .nd, .code-highlight .na, .code-highlight .ne, .code-highlight .fm {
             color: #fef08a;
             font-weight: 600;
-        }}
-        .code-highlight .s, .code-highlight .s1, .code-highlight .s2, .code-highlight .sa, .code-highlight .sb, .code-highlight .sc, .code-highlight .sd, .code-highlight .se, .code-highlight .sh, .code-highlight .si, .code-highlight .sx, .code-highlight .sr, .code-highlight .ss {{
+        }
+        .code-highlight .s, .code-highlight .s1, .code-highlight .s2, .code-highlight .sa, .code-highlight .sb, .code-highlight .sc, .code-highlight .sd, .code-highlight .se, .code-highlight .sh, .code-highlight .si, .code-highlight .sx, .code-highlight .sr, .code-highlight .ss {
             color: #a3e635;
-        }}
-        .code-highlight .m, .code-highlight .mi, .code-highlight .mf, .code-highlight .mh, .code-highlight .mo, .code-highlight .mb, .code-highlight .kc {{
+        }
+        .code-highlight .m, .code-highlight .mi, .code-highlight .mf, .code-highlight .mh, .code-highlight .mo, .code-highlight .mb, .code-highlight .kc {
             color: #fb923c;
-        }}
-        .code-highlight .c, .code-highlight .c1, .code-highlight .cm, .code-highlight .cp, .code-highlight .cs, .code-highlight .ch {{
+        }
+        .code-highlight .c, .code-highlight .c1, .code-highlight .cm, .code-highlight .cp, .code-highlight .cs, .code-highlight .ch {
             color: #d97706;
             font-style: italic;
-        }}
-        .code-highlight .o, .code-highlight .ow {{
+        }
+        .code-highlight .o, .code-highlight .ow {
             color: #fde68a;
-        }}
-        .code-highlight .p {{
+        }
+        .code-highlight .p {
             color: #fef08a;
-        }}
-        .code-highlight .nb, .code-highlight .bp {{
+        }
+        .code-highlight .nb, .code-highlight .bp {
             color: #fbbf24;
-        }}
-        .code-highlight .nv, .code-highlight .vc, .code-highlight .vg, .code-highlight .vi, .code-highlight .vm, .code-highlight .n {{
+        }
+        .code-highlight .nv, .code-highlight .vc, .code-highlight .vg, .code-highlight .vi, .code-highlight .vm, .code-highlight .n {
             color: #fde68a;
-        }}
+        }
 
         /* Light Paper Theme Syntax Highlighting */
         [data-theme="light"] .code-highlight .k,
@@ -412,19 +364,19 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
         [data-theme="light"] .code-highlight .kn,
         [data-theme="light"] .code-highlight .kp,
         [data-theme="light"] .code-highlight .kr,
-        [data-theme="light"] .code-highlight .kt {{
+        [data-theme="light"] .code-highlight .kt {
             color: #9a3412;
             font-weight: bold;
-        }}
+        }
         [data-theme="light"] .code-highlight .nf,
         [data-theme="light"] .code-highlight .nc,
         [data-theme="light"] .code-highlight .nd,
         [data-theme="light"] .code-highlight .na,
         [data-theme="light"] .code-highlight .ne,
-        [data-theme="light"] .code-highlight .fm {{
+        [data-theme="light"] .code-highlight .fm {
             color: #78350f;
             font-weight: 600;
-        }}
+        }
         [data-theme="light"] .code-highlight .s,
         [data-theme="light"] .code-highlight .s1,
         [data-theme="light"] .code-highlight .s2,
@@ -437,46 +389,46 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
         [data-theme="light"] .code-highlight .si,
         [data-theme="light"] .code-highlight .sx,
         [data-theme="light"] .code-highlight .sr,
-        [data-theme="light"] .code-highlight .ss {{
+        [data-theme="light"] .code-highlight .ss {
             color: #15803d;
-        }}
+        }
         [data-theme="light"] .code-highlight .m,
         [data-theme="light"] .code-highlight .mi,
         [data-theme="light"] .code-highlight .mf,
         [data-theme="light"] .code-highlight .mh,
         [data-theme="light"] .code-highlight .mo,
         [data-theme="light"] .code-highlight .mb,
-        [data-theme="light"] .code-highlight .kc {{
+        [data-theme="light"] .code-highlight .kc {
             color: #c2410c;
-        }}
+        }
         [data-theme="light"] .code-highlight .c,
         [data-theme="light"] .code-highlight .c1,
         [data-theme="light"] .code-highlight .cm,
         [data-theme="light"] .code-highlight .cp,
         [data-theme="light"] .code-highlight .cs,
-        [data-theme="light"] .code-highlight .ch {{
+        [data-theme="light"] .code-highlight .ch {
             color: #854d0e;
             font-style: italic;
-        }}
+        }
         [data-theme="light"] .code-highlight .o,
-        [data-theme="light"] .code-highlight .ow {{
+        [data-theme="light"] .code-highlight .ow {
             color: #451a03;
-        }}
-        [data-theme="light"] .code-highlight .p {{
+        }
+        [data-theme="light"] .code-highlight .p {
             color: #451a03;
-        }}
+        }
         [data-theme="light"] .code-highlight .nb,
-        [data-theme="light"] .code-highlight .bp {{
+        [data-theme="light"] .code-highlight .bp {
             color: #78350f;
-        }}
+        }
         [data-theme="light"] .code-highlight .nv,
         [data-theme="light"] .code-highlight .vc,
         [data-theme="light"] .code-highlight .vg,
         [data-theme="light"] .code-highlight .vi,
         [data-theme="light"] .code-highlight .vm,
-        [data-theme="light"] .code-highlight .n {{
+        [data-theme="light"] .code-highlight .n {
             color: #2b1103;
-        }}
+        }
     </style>
 </head>
 <body class="p-2 sm:p-6 md:p-12 min-h-screen">
@@ -488,7 +440,7 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
 
         <header class="p-2.5 sm:p-3 theme-bg-header border-b theme-border flex flex-col sm:flex-row justify-between sm:items-center gap-2">
             <div class="flex items-center justify-between sm:justify-start gap-2">
-                <span class="text-xs theme-text-muted tracking-wider font-bold truncate max-w-[220px] sm:max-w-none" id="header-sys-id">SYS.ID: riccivr // {slug}</span>
+                <span class="text-xs theme-text-muted tracking-wider font-bold truncate max-w-[220px] sm:max-w-none" id="header-sys-id">SYS.ID: riccivr // using-github-as-a-database</span>
                 <span class="status-label-text theme-text-main text-[11px] font-bold uppercase tracking-wider sm:hidden">
                     ESTADO: EN LÍNEA
                 </span>
@@ -536,13 +488,231 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
             <!-- Post Container (Zero-JS Pre-rendered) -->
             <article id="post-article-es" lang="es">
                 <div class="post-content">
-{post_html_es}
+<h1>¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos</h1>
+<p><em>Publicado: 30 de agosto de 2026. Categoría: Arquitectura &amp; Sistemas. Tiempo de lectura: ~4 min</em><br />
+<em>Etiquetas: SQLite, GitHub Pages, HTTP Range, Arquitectura, Cloud</em></p>
+<hr />
+<p>Una pregunta que siempre sale al armar side projects y sitios estáticos es si de pana se puede usar GitHub como una base de datos persistente.</p>
+<p>La respuesta corta es que técnicamente sí, pero con sus buenos matices. Funciona fino para conjuntos de datos estáticos de solo lectura, y bastante chimbo si necesitas escrituras concurrentes en tiempo real.</p>
+<p>Aquí te muestro cómo se implementa la jugada, cómo funciona SQLite sobre peticiones HTTP Range y las limitaciones operativas que debes tener en cuenta.</p>
+<hr />
+<h2>1. SQLite de solo lectura con peticiones HTTP Range</h2>
+<p>Un patrón bien elegante consiste en subir un archivo <code>.sqlite</code> a GitHub Pages o Releases y consultarlo directamente desde el navegador sin tener que bajarte la base de datos completa.</p>
+<div class="code-highlight"><pre><span></span><code>Cliente en el navegador (sql.js-httpvfs o SQLite WASM)
+Consulta: SELECT * FROM articulos WHERE id = 42;
+1. Lee los primeros 100 bytes del header de SQLite
+2. Pide la página raíz del B-Tree (Range: bytes=4096-8191)
+3. Pide la página hoja con la fila (Range: bytes=16384-...)
+                       │
+                       ▼ HTTP GET con cabecera Range
+GitHub Pages o CDN (archivo database.sqlite)
+</code></pre></div>
+
+<h3>Cómo funciona la cosa:</h3>
+<ol>
+<li>Sistema de archivos virtual (VFS). Librerías como <a href="https://github.com/phiresky/sql.js-httpvfs"><code>sql.js-httpvfs</code></a> o el build oficial de SQLite en WebAssembly reemplazan la interfaz de disco habitual del sistema operativo (<code>sqlite3_vfs</code>).</li>
+<li>Descargas selectivas por byte-ranges. En lugar de meterte 300MB a los trancazos en la memoria del navegador, el cliente envía peticiones HTTP con <code>Range: bytes=inicio-fin</code>.</li>
+<li>Navegación del árbol B (B-Tree). Como SQLite organiza las tablas e índices en páginas fijas de 4096 bytes, el motor pide únicamente las 2 a 4 páginas exactas para completar la búsqueda indexada.</li>
+</ol>
+<h3>Ventajas:</h3>
+<ul>
+<li>Cero costos de infraestructura en CDNs estáticos.</li>
+<li>Caché salvaje en el Edge sobre rangos de bytes.</li>
+<li>Consultas volando sobre datos estáticos pesados como catálogos, censos o índices de búsqueda.</li>
+</ul>
+<hr />
+<h2>2. Lectura y escritura con commits y la API de GitHub</h2>
+<p>GitHub no corre servicios como Postgres o MySQL escuchando conexiones TCP directas. Para modificar datos, interactúas mediante la API REST de GitHub o flujos de trabajo de Git.</p>
+<h3>Archivos planos estructurados (JSON / YAML / Markdown)</h3>
+<p>No te pongas a hacer commit de archivos binarios <code>.sqlite</code> en cada escritura porque los packfiles de Git van a inflar el repo a lo loco. Es mil veces mejor guardar las cosas en archivos de texto plano:</p>
+<div class="code-highlight"><pre><span></span><code>data/
+  ├── users/
+  │    ├── usr_01.json
+  │    └── usr_02.json
+  └── telemetry/
+       └── 2026-08-30.json
+</code></pre></div>
+
+<ul>
+<li>Tu aplicación envía una petición <code>PUT /repos/{owner}/{repo}/contents/{path}</code> con los datos en base64.</li>
+<li>Cada escritura te deja un commit inmutable con fecha y diffs legibles al tiro.</li>
+</ul>
+<h3>Issues y Discussions como base de datos estructurada</h3>
+<p>Sistemas de comentarios como <a href="https://giscus.app/"><code>Giscus</code></a> y <a href="https://utteranc.es/"><code>Utterances</code></a> guardan los comentarios en GitHub Discussions o Issues. Esto te da autenticación con GitHub, moderación, filtros de spam y notificaciones listas de fábrica sin tener que pagar un centavo de backend.</p>
+<h3>GitHub Actions para tareas batch programadas</h3>
+<p>Flujos automáticos con cron pueden correr scrapers, actualizar archivos JSON o SQLite y hacer commit del resultado de vuelta al repo sin que tengas que mover un dedo.</p>
+<hr />
+<h2>Comparativa</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Característica</th>
+<th style="text-align: left;">GitHub como DB</th>
+<th style="text-align: left;">SQLite Serverless (Turso / D1)</th>
+<th style="text-align: left;">Managed DB (Postgres / RDS)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Costo de hosting</td>
+<td style="text-align: left;">$0 (Gratis)</td>
+<td style="text-align: left;">Capa gratuita / Pago por lectura</td>
+<td style="text-align: left;">$15 a $100+/mes</td>
+</tr>
+<tr>
+<td style="text-align: left;">Latencia de lectura</td>
+<td style="text-align: left;">50ms a 300ms (en CDN)</td>
+<td style="text-align: left;">10ms a 30ms (Edge)</td>
+<td style="text-align: left;">5ms a 20ms</td>
+</tr>
+<tr>
+<td style="text-align: left;">Latencia de escritura</td>
+<td style="text-align: left;">1s a 5s (commit en Git)</td>
+<td style="text-align: left;">10ms a 50ms</td>
+<td style="text-align: left;">Menor a 5ms</td>
+</tr>
+<tr>
+<td style="text-align: left;">Concurrencia</td>
+<td style="text-align: left;">Peligro de merge conflicts</td>
+<td style="text-align: left;">Replicación multirregión</td>
+<td style="text-align: left;">Bloqueos ACID por fila</td>
+</tr>
+<tr>
+<td style="text-align: left;">Límites de API</td>
+<td style="text-align: left;">5,000 peticiones/hora</td>
+<td style="text-align: left;">Millones de ops/mes</td>
+<td style="text-align: left;">Límite del connection pool</td>
+</tr>
+<tr>
+<td style="text-align: left;">Diffs binarios</td>
+<td style="text-align: left;">Infla la carpeta <code>.git</code></td>
+<td style="text-align: left;">Almacenamiento limpio</td>
+<td style="text-align: left;">Archivos estándar WAL</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Conclusiones</h2>
+<ol>
+<li>Usa GitHub Pages con SQLite VFS si tienes un dataset estático de solo lectura que quieras alojar gratis sin tener que mantener servidores.</li>
+<li>Usa archivos planos con la API de GitHub para escrituras esporádicas donde quieras historial y trazabilidad, como comentarios de blogs o marcadores personales.</li>
+<li>No inventes usar GitHub como base de datos en aplicaciones que requieran escrituras en milisegundos, alto tráfico transaccional o datos privados de clientes.</li>
+</ol>
                 </div>
             </article>
 
             <article id="post-article-en" lang="en" style="display: none;">
                 <div class="post-content">
-{post_html_en}
+<h1>Can you use GitHub as a database? SQLite, HTTP range requests, and flat files</h1>
+<p><em>Published: August 30, 2026. Category: Architecture &amp; Systems. Reading time: ~4 min</em><br />
+<em>Tags: SQLite, GitHub Pages, HTTP Range, Architecture, Cloud</em></p>
+<hr />
+<p>A common question for side projects and static sites is whether you can use GitHub as a persistent database.</p>
+<p>You can, but it depends on your read and write patterns. It works well for read-heavy static datasets, and poorly for real-time concurrent writes.</p>
+<p>Here is an architectural look at how people run databases on GitHub, how SQLite over HTTP range requests works, and the operational trade-offs.</p>
+<hr />
+<h2>1. Read-only SQLite with HTTP range requests</h2>
+<p>A clean pattern is hosting a <code>.sqlite</code> file on GitHub Pages or Releases and querying it directly from the browser without downloading the full database.</p>
+<div class="code-highlight"><pre><span></span><code>Browser client (sql.js-httpvfs or SQLite WASM)
+Query: SELECT * FROM articles WHERE id = 42;
+1. Reads SQLite 100-byte header
+2. Fetches B-Tree root page (Range: bytes=4096-8191)
+3. Fetches target leaf page (Range: bytes=16384-...)
+                       │
+                       ▼ HTTP GET with Range headers
+GitHub Pages or CDN storage (database.sqlite)
+</code></pre></div>
+
+<h3>How it works:</h3>
+<ol>
+<li>Virtual File System. Libraries like <a href="https://github.com/phiresky/sql.js-httpvfs"><code>sql.js-httpvfs</code></a> or SQLite's official WebAssembly build replace SQLite's default OS disk interface (<code>sqlite3_vfs</code>).</li>
+<li>Partial byte downloads. Instead of loading a 300MB database into memory, the browser sends HTTP requests with <code>Range: bytes=start-end</code>.</li>
+<li>B-Tree navigation. SQLite organizes tables and indexes into fixed 4096-byte pages. The engine requests only the 2 to 4 pages required to complete an index lookup.</li>
+</ol>
+<h3>Advantages:</h3>
+<ul>
+<li>Zero hosting costs on static CDNs.</li>
+<li>Edge caching on static byte ranges.</li>
+<li>Fast lookups on large read-only datasets like public census records or search indexes.</li>
+</ul>
+<hr />
+<h2>2. Read-write patterns with Git commits and GitHub API</h2>
+<p>GitHub does not run database daemons like Postgres or MySQL listening on raw TCP sockets. To write data, you use the GitHub REST API or Git workflows.</p>
+<h3>Flat-file document storage (JSON / YAML / Markdown)</h3>
+<p>Do not commit binary <code>.sqlite</code> files on every write because Git packfiles will balloon in size. Instead, store entities as plain text files:</p>
+<div class="code-highlight"><pre><span></span><code>data/
+  ├── users/
+  │    ├── usr_01.json
+  │    └── usr_02.json
+  └── telemetry/
+       └── 2026-08-30.json
+</code></pre></div>
+
+<ul>
+<li>Your app sends a <code>PUT /repos/{owner}/{repo}/contents/{path}</code> request with base64 data.</li>
+<li>Every write creates a Git commit with a timestamp and clean text diffs.</li>
+</ul>
+<h3>Issues and discussions as structured storage</h3>
+<p>Comment engines like <a href="https://giscus.app/"><code>Giscus</code></a> and <a href="https://utteranc.es/"><code>Utterances</code></a> map comments directly to GitHub Discussions or Issues. You get GitHub authentication, spam filtering, and notifications without building a backend.</p>
+<h3>GitHub Actions for scheduled batch jobs</h3>
+<p>Workflows triggered on a cron schedule can run scrapers, update JSON or SQLite files, and commit the updated data back to the repo.</p>
+<hr />
+<h2>Comparison</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">GitHub as a DB</th>
+<th style="text-align: left;">Serverless SQLite (Turso / D1)</th>
+<th style="text-align: left;">Managed DB (Postgres / RDS)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Hosting cost</td>
+<td style="text-align: left;">$0</td>
+<td style="text-align: left;">Free tier / Pay per read</td>
+<td style="text-align: left;">$15 to $100+/month</td>
+</tr>
+<tr>
+<td style="text-align: left;">Read latency</td>
+<td style="text-align: left;">50ms to 300ms (CDN)</td>
+<td style="text-align: left;">10ms to 30ms (Edge)</td>
+<td style="text-align: left;">5ms to 20ms</td>
+</tr>
+<tr>
+<td style="text-align: left;">Write latency</td>
+<td style="text-align: left;">1s to 5s (Git commit)</td>
+<td style="text-align: left;">10ms to 50ms</td>
+<td style="text-align: left;">Under 5ms</td>
+</tr>
+<tr>
+<td style="text-align: left;">Concurrency</td>
+<td style="text-align: left;">Risk of merge conflicts</td>
+<td style="text-align: left;">Multi-region replication</td>
+<td style="text-align: left;">ACID row locks</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rate limits</td>
+<td style="text-align: left;">5,000 requests/hour</td>
+<td style="text-align: left;">Millions ops/month</td>
+<td style="text-align: left;">Connection pool bound</td>
+</tr>
+<tr>
+<td style="text-align: left;">Binary diffs</td>
+<td style="text-align: left;">Large <code>.git</code> bloat</td>
+<td style="text-align: left;">Clean storage engine</td>
+<td style="text-align: left;">Standard WAL storage</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Conclusion</h2>
+<ol>
+<li>Use GitHub Pages with SQLite VFS if you have a static, read-only dataset that you want to host for free with zero maintenance.</li>
+<li>Use flat files with the GitHub API for low-frequency writes where you want an audit trail, like static blog comments or personal bookmarks.</li>
+<li>Avoid GitHub as a database for applications that need fast write latencies, high concurrency, or private customer records.</li>
+</ol>
                 </div>
             </article>
 
@@ -551,7 +721,7 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
                 <a href="index.html" id="bottom-back-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Volver a la lista de artículos">
                     [<] Volver al Blog
                 </a>
-                <a href="#" onclick="window.scrollTo({{top: 0, behavior: 'smooth'}}); return false;" id="bottom-top-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Ir arriba">
+                <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" id="bottom-top-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Ir arriba">
                     [^] Arriba
                 </a>
             </div>
@@ -569,9 +739,9 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
 
     <!-- Progressive Enhancement Script -->
     <script>
-        const i18n = {{
-            es: {{
-                sysId: "SYS.ID: riccivr // {slug}",
+        const i18n = {
+            es: {
+                sysId: "SYS.ID: riccivr // using-github-as-a-database",
                 status: "ESTADO: EN LÍNEA",
                 langToggle: "[LANG: ES]",
                 keysOn: "[TECLAS: ACT]",
@@ -585,11 +755,11 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
                 repo: "[G] Repo",
                 topBtn: "[^] Arriba",
                 footerText: "Static Pre-rendered · Zero-JS Engine",
-                title: {title_es_json},
-                metaDesc: {desc_es_json}
-            }},
-            en: {{
-                sysId: "SYS.ID: riccivr // {slug}",
+                title: "\u00bfSe puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos",
+                metaDesc: "Una pregunta que siempre sale al armar side projects y sitios est\u00e1ticos es si de pana se puede usar GitHub como una base de datos persistente."
+            },
+            en: {
+                sysId: "SYS.ID: riccivr // using-github-as-a-database",
                 status: "STATUS: ONLINE",
                 langToggle: "[LANG: EN]",
                 keysOn: "[KEYS: ON]",
@@ -603,21 +773,21 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
                 repo: "[G] Repo",
                 topBtn: "[^] Top",
                 footerText: "Static Pre-rendered · Zero-JS Engine",
-                title: {title_en_json},
-                metaDesc: {desc_en_json}
-            }}
-        }};
+                title: "Can you use GitHub as a database? SQLite, HTTP range requests, and flat files",
+                metaDesc: "A common question for side projects and static sites is whether you can use GitHub as a persistent database."
+            }
+        };
 
-        function getLanguage() {{
+        function getLanguage() {
             const saved = localStorage.getItem('riccivr-lang');
             if (saved === 'es' || saved === 'en') return saved;
             const browserLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
             return browserLang.startsWith('es') ? 'es' : 'en';
-        }}
+        }
 
         let currentLang = getLanguage();
 
-        function applyLanguageUI() {{
+        function applyLanguageUI() {
             const t = i18n[currentLang] || i18n.es;
             document.documentElement.setAttribute('lang', currentLang);
 
@@ -641,112 +811,112 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
             // Toggle language articles
             const artEs = document.getElementById('post-article-es');
             const artEn = document.getElementById('post-article-en');
-            if (artEs && artEn) {{
-                if (currentLang === 'en') {{
+            if (artEs && artEn) {
+                if (currentLang === 'en') {
                     artEs.style.display = 'none';
                     artEn.style.display = 'block';
-                }} else {{
+                } else {
                     artEs.style.display = 'block';
                     artEn.style.display = 'none';
-                }}
-            }}
+                }
+            }
 
             // Update meta tags
-            document.title = `${{t.title}} - Ricardo Veronese`;
+            document.title = `${t.title} - Ricardo Veronese`;
             const metaDesc = document.getElementById('meta-desc');
             if (metaDesc) metaDesc.setAttribute('content', t.metaDesc);
             const ogTitle = document.getElementById('og-title');
             if (ogTitle) ogTitle.setAttribute('content', t.title);
             const ogDesc = document.getElementById('og-desc');
             if (ogDesc) ogDesc.setAttribute('content', t.metaDesc);
-        }}
+        }
 
         // Theme toggle handling
         const themeBtn = document.getElementById('theme-toggle');
-        function updateThemeBtn() {{
+        function updateThemeBtn() {
             const isLight = document.documentElement.getAttribute('data-theme') === 'light';
             const t = i18n[currentLang] || i18n.es;
             themeBtn.textContent = isLight ? t.modePaper : t.modeCrt;
-        }}
+        }
 
-        themeBtn.addEventListener('click', () => {{
+        themeBtn.addEventListener('click', () => {
             const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-            if (isLight) {{
+            if (isLight) {
                 document.documentElement.removeAttribute('data-theme');
                 localStorage.setItem('riccivr-theme', 'dark');
-            }} else {{
+            } else {
                 document.documentElement.setAttribute('data-theme', 'light');
                 localStorage.setItem('riccivr-theme', 'light');
-            }}
+            }
             updateThemeBtn();
-        }});
+        });
 
         // Language toggle handling
-        document.getElementById('lang-toggle').addEventListener('click', () => {{
+        document.getElementById('lang-toggle').addEventListener('click', () => {
             currentLang = currentLang === 'es' ? 'en' : 'es';
             localStorage.setItem('riccivr-lang', currentLang);
             applyLanguageUI();
-        }});
+        });
 
         // Keyboard shortcuts
         const keysBtn = document.getElementById('keys-toggle');
         let keyboardEnabled = localStorage.getItem('riccivr-keys') !== 'off';
 
-        function updateKeysBtn() {{
+        function updateKeysBtn() {
             const t = i18n[currentLang] || i18n.es;
             keysBtn.textContent = keyboardEnabled ? t.keysOn : t.keysOff;
-        }}
+        }
 
-        keysBtn.addEventListener('click', () => {{
+        keysBtn.addEventListener('click', () => {
             keyboardEnabled = !keyboardEnabled;
             localStorage.setItem('riccivr-keys', keyboardEnabled ? 'on' : 'off');
             updateKeysBtn();
-        }});
+        });
 
         // Copy link handler
         const copyBtn = document.getElementById('copy-link-btn');
-        copyBtn.addEventListener('click', () => {{
+        copyBtn.addEventListener('click', () => {
             const url = window.location.href;
             const t = i18n[currentLang] || i18n.es;
-            navigator.clipboard.writeText(url).then(() => {{
+            navigator.clipboard.writeText(url).then(() => {
                 const originalText = copyBtn.textContent;
                 copyBtn.textContent = t.copied;
-                setTimeout(() => {{
+                setTimeout(() => {
                     copyBtn.textContent = originalText;
-                }}, 2000);
-            }}).catch(() => {{
+                }, 2000);
+            }).catch(() => {
                 prompt("Copia este enlace / Copy this link:", url);
-            }});
-        }});
+            });
+        });
 
-        document.addEventListener('keydown', (e) => {{
+        document.addEventListener('keydown', (e) => {
             if (!keyboardEnabled) return;
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
             const key = e.key.toLowerCase();
-            if (key === 'i') {{
+            if (key === 'i') {
                 e.preventDefault();
                 document.getElementById('lang-toggle').click();
-            }} else if (key === 't') {{
+            } else if (key === 't') {
                 e.preventDefault();
                 themeBtn.click();
-            }} else if (key === 'b' || key === '[') {{
+            } else if (key === 'b' || key === '[') {
                 e.preventDefault();
                 window.location.href = 'index.html';
-            }} else if (key === 'h') {{
+            } else if (key === 'h') {
                 e.preventDefault();
                 window.location.href = '../';
-            }} else if (key === 's') {{
+            } else if (key === 's') {
                 e.preventDefault();
                 copyBtn.click();
-            }} else if (key === 'g') {{
+            } else if (key === 'g') {
                 e.preventDefault();
                 window.open('https://github.com/riccivr/riccivr.github.io', '_blank');
-            }} else if (key === 'k' || key === '^') {{
+            } else if (key === 'k' || key === '^') {
                 e.preventDefault();
-                window.scrollTo({{top: 0, behavior: 'smooth'}});
-            }}
-        }});
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
+        });
 
         // Apply initial UI
         applyLanguageUI();
@@ -754,324 +924,4 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
         updateKeysBtn();
     </script>
 </body>
-</html>"""
-
-def slugify(text):
-    text = text.lower()
-    text = re.sub(r'[^a-z0-9]+', '-', text)
-    return text.strip('-')
-
-def estimate_reading_time(content):
-    words = len(re.findall(r'\w+', content))
-    minutes = max(1, round(words / 200))
-    return f"{minutes} min"
-
-def parse_date(content):
-    m_iso = re.search(r'(\d{4}-\d{2}-\d{2})', content)
-    if m_iso:
-        return m_iso.group(1)
-
-    m_es = re.search(r'(\d{1,2})\s+de\s+([a-zA-Z]+)\s+(?:de\s+)?(\d{4})', content, re.IGNORECASE)
-    if m_es:
-        day = int(m_es.group(1))
-        month_name = m_es.group(2).lower()
-        year = int(m_es.group(3))
-        month = SPANISH_MONTHS.get(month_name, 8)
-        return f"{year:04d}-{month:02d}-{day:02d}"
-
-    m_en = re.search(r'([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})', content)
-    if m_en:
-        month_name = m_en.group(1).lower()
-        day = int(m_en.group(2))
-        year = int(m_en.group(3))
-        month = SPANISH_MONTHS.get(month_name, 8)
-        return f"{year:04d}-{month:02d}-{day:02d}"
-
-    return datetime.date.today().isoformat()
-
-def markdown_to_html(content):
-    if markdown:
-        md = markdown.Markdown(
-            extensions=['fenced_code', 'tables', 'nl2br', 'sane_lists', 'codehilite'],
-            extension_configs={
-                'codehilite': {
-                    'css_class': 'code-highlight',
-                    'guess_lang': False,
-                    'use_pygments': True,
-                    'noclasses': False
-                }
-            }
-        )
-        return md.convert(content)
-    return "<p>" + content.replace("\n\n", "</p><p>") + "</p>"
-
-def parse_markdown_file(filepath):
-    with open(filepath, 'r', encoding='utf-8') as f:
-        content = f.read()
-
-    title_match = re.search(r'^#\s+(.+)$', content, re.MULTILINE)
-    title = title_match.group(1) if title_match else "Untitled"
-
-    date = parse_date(content)
-
-    cat_match = re.search(r'(?:Categor[íi]a|Category):\s*([^.·\n*]+)', content, re.IGNORECASE)
-    category = cat_match.group(1).strip() if cat_match else "Systems & Architecture"
-
-    paragraphs = [p.strip() for p in re.split(r'\n\s*\n', content) if p.strip()]
-    summary = ""
-    for p in paragraphs:
-        if p.startswith('#') or p.startswith('*') or p.startswith('---') or p.startswith('```') or p.startswith('>'):
-            continue
-        clean_p = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', p)
-        clean_p = re.sub(r'[*_`]', '', clean_p)
-        summary = clean_p[:220] + ('...' if len(clean_p) > 220 else '')
-        break
-
-    tags_match = re.search(r'(?:Etiquetas|Tags):\s*([^\n*]+)', content, re.IGNORECASE)
-    if tags_match:
-        tags = [t.strip() for t in tags_match.group(1).split(',')]
-    else:
-        tags = ["Systems", "Architecture"]
-
-    reading_time = estimate_reading_time(content)
-    html_content = markdown_to_html(content)
-
-    return {
-        "title": title,
-        "date": date,
-        "category": category,
-        "tags": tags,
-        "summary": summary,
-        "readingTime": reading_time,
-        "html": html_content,
-        "file": f"posts/{os.path.basename(filepath)}"
-    }
-
-def get_post_slugs():
-    slugs = set()
-    for fname in os.listdir(POSTS_DIR):
-        if fname.endswith('.md'):
-            base = re.sub(r'\.(?:en|es)\.md$', '', fname)
-            base = re.sub(r'\.md$', '', base)
-            slugs.add(base)
-    return sorted(list(slugs))
-
-def generate_static_post_html(post_entry):
-    slug = post_entry['slug']
-    es = post_entry.get('es') or post_entry
-    en = post_entry.get('en') or post_entry
-    primary = es
-
-    canonical_url = f"{SITE_URL}/blog/{slug}.html"
-    meta_title = f"{primary['title']} - {AUTHOR_NAME}"
-    meta_desc = primary['summary']
-
-    html = STATIC_POST_TEMPLATE.format(
-        slug=slug,
-        meta_title=escape(meta_title),
-        meta_desc=escape(meta_desc),
-        canonical_url=canonical_url,
-        schema_title_json=json.dumps(primary['title']),
-        schema_desc_json=json.dumps(primary['summary']),
-        date_published=post_entry['date'],
-        post_html_es=es['html'],
-        post_html_en=en['html'],
-        title_es_json=json.dumps(es['title']),
-        desc_es_json=json.dumps(es['summary']),
-        title_en_json=json.dumps(en['title']),
-        desc_en_json=json.dumps(en['summary'])
-    )
-
-    out_file = os.path.join(BASE_DIR, f"{slug}.html")
-    with open(out_file, 'w', encoding='utf-8') as f:
-        f.write(html)
-    print(f"[✓] Generated static post {slug}.html")
-
-def generate_sitemap(posts):
-    xml_lines = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-        '  <url>',
-        f'    <loc>{SITE_URL}/</loc>',
-        '    <changefreq>weekly</changefreq>',
-        '    <priority>1.0</priority>',
-        '  </url>',
-        '  <url>',
-        f'    <loc>{SITE_URL}/blog/</loc>',
-        '    <changefreq>weekly</changefreq>',
-        '    <priority>0.9</priority>',
-        '  </url>'
-    ]
-
-    for post in posts:
-        post_url = f"{SITE_URL}/blog/{post['slug']}.html"
-        xml_lines.append('  <url>')
-        xml_lines.append(f'    <loc>{post_url}</loc>')
-        xml_lines.append(f'    <lastmod>{post["date"]}</lastmod>')
-        xml_lines.append('    <changefreq>monthly</changefreq>')
-        xml_lines.append('    <priority>0.8</priority>')
-        xml_lines.append('  </url>')
-
-    xml_lines.append('</urlset>')
-
-    with open(SITEMAP_XML, 'w', encoding='utf-8') as f:
-        f.write('\n'.join(xml_lines) + '\n')
-    print(f"[✓] Generated {SITEMAP_XML}")
-
-def generate_rss(posts):
-    now_rfc822 = datetime.datetime.now(datetime.timezone.utc).strftime("%a, %d %b %Y %H:%M:%S GMT")
-    xml_lines = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
-        '  <channel>',
-        f'    <title>{AUTHOR_NAME} - Technical Logs & Systems</title>',
-        f'    <link>{SITE_URL}/blog/</link>',
-        '    <description>Reflections on cloud architecture, systems engineering, C99, algorithms, and IoT.</description>',
-        '    <language>es-ve</language>',
-        f'    <lastBuildDate>{now_rfc822}</lastBuildDate>',
-        f'    <atom:link href="{SITE_URL}/feed.xml" rel="self" type="application/rss+xml"/>'
-    ]
-
-    for post in posts:
-        post_url = f"{SITE_URL}/blog/{post['slug']}.html"
-        meta = post.get('es') or post.get('en') or post
-        try:
-            dt = datetime.datetime.strptime(post["date"], "%Y-%m-%d")
-            pub_date = dt.strftime("%a, %d %b %Y 12:00:00 GMT")
-        except Exception:
-            pub_date = now_rfc822
-
-        xml_lines.append('    <item>')
-        xml_lines.append(f'      <title>{escape(meta["title"])}</title>')
-        xml_lines.append(f'      <link>{post_url}</link>')
-        xml_lines.append(f'      <guid isPermaLink="true">{post_url}</guid>')
-        xml_lines.append(f'      <pubDate>{pub_date}</pubDate>')
-        xml_lines.append(f'      <description>{escape(meta["summary"])}</description>')
-        for tag in meta.get("tags", []):
-            xml_lines.append(f'      <category>{escape(tag)}</category>')
-        xml_lines.append('    </item>')
-
-    xml_lines.append('  </channel>')
-    xml_lines.append('</rss>')
-
-    with open(FEED_XML, 'w', encoding='utf-8') as f:
-        f.write('\n'.join(xml_lines) + '\n')
-    print(f"[✓] Generated {FEED_XML}")
-
-def generate_llms_txt(posts):
-    lines = [
-        f"# {AUTHOR_NAME}",
-        "",
-        "> Systems & Cloud Engineer specializing in AWS, Cloud Architecture, C99/POSIX low-level systems, parsers, and memory-bounded algorithms.",
-        "",
-        "## Active Projects",
-        "- [gitcrawl](https://github.com/riccivr/gitcrawl): Content-addressable web archiver and crawler CLI storing structured Markdown snapshots directly into native Git repositories.",
-        "- [approx](https://github.com/riccivr/approx): Non-interactive POSIX fuzzy stream filter and ranker in clean Suckless C with zero dependencies.",
-        "- [unipaste](https://github.com/riccivr/unipaste): Zero-dependency POSIX universal rich text & clipboard converter producing structured Markdown and ASCII tables.",
-        "- [clipbridge](https://github.com/riccivr/clipbridge): Cross-platform universal clipboard listener daemon powered by unipaste.",
-        "",
-        "## Engineering Logs & Articles (Bilingual: EN / ES)"
-    ]
-
-    for post in posts:
-        en_meta = post.get('en') or post
-        es_meta = post.get('es') or post
-        lines.append(f"- [{en_meta['title']}]({SITE_URL}/blog/{post['slug']}.html) / [{es_meta['title']}]({SITE_URL}/blog/{post['slug']}.html): {en_meta['summary']}")
-
-    lines.extend([
-        "",
-        "## Machine Feeds & Meta",
-        f"- RSS Feed: {SITE_URL}/feed.xml",
-        f"- Sitemap: {SITE_URL}/sitemap.xml",
-        f"- Website: {SITE_URL}/",
-        f"- Blog: {SITE_URL}/blog/",
-        "- GitHub: https://github.com/riccivr",
-        "- LinkedIn: https://www.linkedin.com/in/riccivr/",
-        f"- Email: {AUTHOR_EMAIL}"
-    ])
-
-    with open(LLMS_TXT, 'w', encoding='utf-8') as f:
-        f.write('\n'.join(lines) + '\n')
-    print(f"[✓] Generated {LLMS_TXT}")
-
-def cmd_build():
-    os.makedirs(POSTS_DIR, exist_ok=True)
-    slugs = get_post_slugs()
-    posts = []
-
-    for slug in slugs:
-        en_file = os.path.join(POSTS_DIR, f"{slug}.en.md")
-        es_file = os.path.join(POSTS_DIR, f"{slug}.es.md")
-        fallback_file = os.path.join(POSTS_DIR, f"{slug}.md")
-
-        en_meta = parse_markdown_file(en_file) if os.path.exists(en_file) else (parse_markdown_file(fallback_file) if os.path.exists(fallback_file) else None)
-        es_meta = parse_markdown_file(es_file) if os.path.exists(es_file) else (parse_markdown_file(fallback_file) if os.path.exists(fallback_file) else None)
-
-        if not en_meta and not es_meta:
-            continue
-
-        primary = es_meta or en_meta
-        date = primary["date"]
-        mtime = os.path.getmtime(es_file if os.path.exists(es_file) else (en_file if os.path.exists(en_file) else fallback_file))
-
-        post_entry = {
-            "slug": slug,
-            "date": date,
-            "title": primary["title"],
-            "category": primary["category"],
-            "tags": primary["tags"],
-            "summary": primary["summary"],
-            "readingTime": primary["readingTime"],
-            "file": primary["file"],
-            "en": en_meta,
-            "es": es_meta,
-            "_mtime": mtime
-        }
-        posts.append(post_entry)
-
-    # Sort newest first
-    posts.sort(key=lambda x: (x['date'], POST_CHRONO_ORDER.get(x['slug'], x['_mtime'])), reverse=True)
-
-    clean_posts = []
-    posts_data_dict = {}
-
-    for p in posts:
-        # Generate standalone static HTML file for each post
-        generate_static_post_html(p)
-
-        item = dict(p)
-        item.pop('_mtime', None)
-        
-        # Clean JSON without large html strings in posts.json
-        clean_item = dict(item)
-        if clean_item.get('en') and 'html' in clean_item['en']:
-            clean_item_en = dict(clean_item['en'])
-            clean_item_en.pop('html', None)
-            clean_item['en'] = clean_item_en
-        if clean_item.get('es') and 'html' in clean_item['es']:
-            clean_item_es = dict(clean_item['es'])
-            clean_item_es.pop('html', None)
-            clean_item['es'] = clean_item_es
-        clean_posts.append(clean_item)
-
-        # Full precompiled dictionary in posts-data.js
-        posts_data_dict[p['slug']] = item
-
-    with open(POSTS_JSON, 'w', encoding='utf-8') as f:
-        json.dump(clean_posts, f, indent=2, ensure_ascii=False)
-    print(f"[✓] Indexed {len(clean_posts)} bilingual posts into {POSTS_JSON}")
-
-    with open(POSTS_DATA_JS, 'w', encoding='utf-8') as f:
-        f.write("window.__POSTS_DATA__ = " + json.dumps(posts_data_dict, ensure_ascii=False) + ";\n")
-    print(f"[✓] Generated pre-rendered post bundle {POSTS_DATA_JS}")
-
-    generate_sitemap(clean_posts)
-    generate_rss(clean_posts)
-    generate_llms_txt(clean_posts)
-
-if __name__ == '__main__':
-    import sys
-    if len(sys.argv) < 2 or sys.argv[1] == 'build':
-        cmd_build()
-    else:
-        print("Usage:\n  python3 manage.py build")
+</html>

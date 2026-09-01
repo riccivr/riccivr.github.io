@@ -5,7 +5,7 @@
 
 ---
 
-En mi [artículo anterior sobre archivar la web con Git](post.html?post=preserving-the-web-with-git), me puse a explorar la teoría detrás de usar el almacén de objetos direccionable por contenido de Git como base de datos histórica para páginas web y documentación técnica.
+En mi [artículo anterior sobre archivar la web con Git](preserving-the-web-with-git.html), me puse a explorar la teoría detrás de usar el almacén de objetos direccionable por contenido de Git como base de datos histórica para páginas web y documentación técnica.
 
 La jugada era sencilla: en vez de calarse gigabytes de archivos WARC pesadísimos o carpetas atiborradas de HTML repetido, aprovechar los grafos acíclicos y la compresión delta de Git para sacar diffs instantáneos en la terminal con `git diff` y `git log`.
 
