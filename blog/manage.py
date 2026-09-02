@@ -58,6 +58,10 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
     <meta name="description" id="meta-desc" content="{meta_desc}">
     <link rel="canonical" href="{canonical_url}">
 
+    <!-- Privacy-first analytics by GoatCounter -->
+    <script data-goatcounter="https://riccivr.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+
     <!-- Open Graph -->
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="Ricardo Veronese">
