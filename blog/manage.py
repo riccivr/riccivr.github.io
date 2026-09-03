@@ -1048,13 +1048,15 @@ def generate_sitemap(posts):
 
 def generate_rss(posts):
     now_rfc822 = datetime.datetime.now(datetime.timezone.utc).strftime("%a, %d %b %Y %H:%M:%S GMT")
+    channel_title = escape(f"{AUTHOR_NAME} - Technical Logs & Systems")
+    channel_desc = escape("Reflections on cloud architecture, systems engineering, C99, algorithms, and IoT.")
     xml_lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
         '  <channel>',
-        f'    <title>{AUTHOR_NAME} - Technical Logs & Systems</title>',
+        f'    <title>{channel_title}</title>',
         f'    <link>{SITE_URL}/blog/</link>',
-        '    <description>Reflections on cloud architecture, systems engineering, C99, algorithms, and IoT.</description>',
+        f'    <description>{channel_desc}</description>',
         '    <language>es-ve</language>',
         f'    <lastBuildDate>{now_rfc822}</lastBuildDate>',
         f'    <atom:link href="{SITE_URL}/feed.xml" rel="self" type="application/rss+xml"/>'
