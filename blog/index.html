@@ -232,9 +232,12 @@
                             Reflexiones sobre arquitectura de sistemas, infraestructura cloud, programación en bajo nivel y algoritmos.
                         </p>
                     </div>
-                    <div class="mt-4 sm:mt-0 flex space-x-2">
+                    <div class="mt-4 sm:mt-0 flex flex-wrap gap-2">
                         <a href="../" id="home-portal-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
                             [<] Portal Principal
+                        </a>
+                        <a href="../feed/" id="rss-feed-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold" aria-label="Ver canal RSS y opciones de sindicación [R]" title="Ver canal RSS y opciones de sindicación [R]">
+                            [R] RSS Feed
                         </a>
                         <a href="https://github.com/riccivr" target="_blank" rel="noopener noreferrer" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold" aria-label="GitHub de Ricardo Veronese (se abre en nueva pestaña)">
                             [G] GitHub
@@ -396,7 +399,11 @@
         </main>
 
         <footer class="p-4 border-t theme-border text-sm flex justify-between items-center theme-bg-header">
-            <span class="theme-text-muted text-xs font-bold">riccivr.github.io/blog</span>
+            <div class="flex items-center gap-3 text-xs font-bold">
+                <span class="theme-text-muted">riccivr.github.io/blog</span>
+                <span class="opacity-50">·</span>
+                <a href="../feed/" class="theme-text-muted hover:underline">[RSS]</a>
+            </div>
             <span id="footer-text" class="text-right text-xs theme-text-muted font-medium">
                 Markdown Engine · Archivo Estático
             </span>
@@ -424,6 +431,8 @@
                 bannerDesc: "Reflexiones sobre arquitectura de sistemas, infraestructura cloud, programación de bajo nivel y algoritmos.",
                 homePortal: "[<] Portal Principal",
                 homePortalAria: "Ir al portal principal [<]",
+                rssBtn: "[R] RSS Feed",
+                rssAria: "Ver canal RSS y opciones de sindicación [R]",
                 searchPlaceholder: "Buscar posts o filtrar por tags (ej. SQLite, Cloud, Git)...",
                 searchAria: "Buscar artículos o filtrar por etiquetas",
                 clearBtn: "[x] Limpiar",
@@ -454,6 +463,8 @@
                 bannerDesc: "Thoughts on systems architecture, cloud infrastructure, low-level programming & algorithms.",
                 homePortal: "[<] Home Portal",
                 homePortalAria: "Go to home portal [<]",
+                rssBtn: "[R] RSS Feed",
+                rssAria: "View RSS feed and syndication options [R]",
                 searchPlaceholder: "Search entries or filter by tags (e.g. SQLite, Cloud, Git)...",
                 searchAria: "Search blog posts or filter by tags",
                 clearBtn: "[x] Clear",
@@ -532,6 +543,13 @@
             homeBtn.textContent = t.homePortal;
             homeBtn.setAttribute('aria-label', t.homePortalAria);
             homeBtn.setAttribute('title', t.homePortalAria);
+
+            const rssBtn = document.getElementById('rss-feed-btn');
+            if (rssBtn) {
+                rssBtn.textContent = t.rssBtn;
+                rssBtn.setAttribute('aria-label', t.rssAria);
+                rssBtn.setAttribute('title', t.rssAria);
+            }
             
             const searchInput = document.getElementById('search-input');
             searchInput.setAttribute('placeholder', t.searchPlaceholder);
@@ -733,6 +751,10 @@
                     const ghBtn = document.querySelector('a[href="https://github.com/riccivr"]');
                     flashElement(ghBtn);
                     window.open('https://github.com/riccivr', '_blank');
+                } else if (key === 'R') {
+                    const rssBtn = document.getElementById('rss-feed-btn');
+                    flashElement(rssBtn);
+                    setTimeout(() => { window.location.href = '../feed/'; }, 150);
                 } else if (key === 'T') {
                     flashElement(themeBtn);
                     themeBtn.click();

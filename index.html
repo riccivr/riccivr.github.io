@@ -514,7 +514,11 @@
         </main>
 
         <footer class="p-4 border-t theme-border text-sm flex justify-between items-center theme-bg-header">
-            <span class="theme-text-muted text-xs font-bold">riccivr.github.io</span>
+            <div class="flex items-center gap-3 text-xs font-bold">
+                <span class="theme-text-muted">riccivr.github.io</span>
+                <span class="opacity-50">·</span>
+                <a href="./feed/" class="theme-text-muted hover:underline">[RSS Feed]</a>
+            </div>
             <span id="footer-text" class="text-right text-xs theme-text-muted font-medium">
                 Cloud Architecture · Embedded & Systems
             </span>
@@ -1147,6 +1151,8 @@
                     const liBtn = document.getElementById('nav-btn-li') || document.querySelector('a[href*="linkedin.com"]');
                     flashElement(liBtn);
                     window.open('https://www.linkedin.com/in/riccivr/', '_blank');
+                } else if (key === 'R') {
+                    setTimeout(() => { window.location.href = './feed/'; }, 150);
                 } else if (key === 'T') {
                     flashElement(themeBtn);
                     themeBtn.click();

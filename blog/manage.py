@@ -1023,6 +1023,11 @@ def generate_sitemap(posts):
         f'    <loc>{SITE_URL}/blog/</loc>',
         '    <changefreq>weekly</changefreq>',
         '    <priority>0.9</priority>',
+        '  </url>',
+        '  <url>',
+        f'    <loc>{SITE_URL}/feed/</loc>',
+        '    <changefreq>weekly</changefreq>',
+        '    <priority>0.8</priority>',
         '  </url>'
     ]
 

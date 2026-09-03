@@ -11,6 +11,11 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://riccivr.github.io/feed/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://riccivr.github.io/blog/gitcrawl-content-addressable-web-archiver.html</loc>
     <lastmod>2026-08-31</lastmod>
     <changefreq>monthly</changefreq>
