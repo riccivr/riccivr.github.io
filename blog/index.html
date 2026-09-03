@@ -8,7 +8,8 @@
     <meta id="meta-desc" name="description" content="Blog técnico y registros de arquitectura de sistemas por Ricardo Veronese. Cloud infrastructure, utilidades C99/POSIX, parsers y web standards.">
     <meta name="author" content="Ricardo Veronese">
     <link rel="canonical" href="https://riccivr.github.io/blog/">
-    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed" href="https://riccivr.github.io/feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed (English)" href="https://riccivr.github.io/feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Feed RSS del Blog (Español)" href="https://riccivr.github.io/feed-es.xml">
     <link rel="help" type="text/markdown" title="Documentación para LLMs" href="https://riccivr.github.io/llms.txt">
 
     <!-- Privacy-first analytics by GoatCounter -->
@@ -236,7 +237,7 @@
                         <a href="../" id="home-portal-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold">
                             [<] Portal Principal
                         </a>
-                        <a href="../feed/" id="rss-feed-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold" aria-label="Ver canal RSS y opciones de sindicación [R]" title="Ver canal RSS y opciones de sindicación [R]">
+                        <a href="../feed.xml" id="rss-feed-btn" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold" aria-label="Ver canal RSS en XML [R]" title="Ver canal RSS en XML [R]">
                             [R] RSS Feed
                         </a>
                         <a href="https://github.com/riccivr" target="_blank" rel="noopener noreferrer" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold" aria-label="GitHub de Ricardo Veronese (se abre en nueva pestaña)">
@@ -549,6 +550,7 @@
                 rssBtn.textContent = t.rssBtn;
                 rssBtn.setAttribute('aria-label', t.rssAria);
                 rssBtn.setAttribute('title', t.rssAria);
+                rssBtn.setAttribute('href', currentLang === 'es' ? '../feed-es.xml' : '../feed.xml');
             }
             
             const searchInput = document.getElementById('search-input');
@@ -754,7 +756,8 @@
                 } else if (key === 'R') {
                     const rssBtn = document.getElementById('rss-feed-btn');
                     flashElement(rssBtn);
-                    setTimeout(() => { window.location.href = '../feed/'; }, 150);
+                    const targetFeed = currentLang === 'es' ? '../feed-es.xml' : '../feed.xml';
+                    setTimeout(() => { window.location.href = targetFeed; }, 150);
                 } else if (key === 'T') {
                     flashElement(themeBtn);
                     themeBtn.click();

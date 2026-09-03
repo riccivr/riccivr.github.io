@@ -24,6 +24,7 @@ POSTS_JSON = os.path.join(BASE_DIR, "posts.json")
 POSTS_DATA_JS = os.path.join(BASE_DIR, "posts-data.js")
 SITEMAP_XML = os.path.join(SITE_ROOT, "sitemap.xml")
 FEED_XML = os.path.join(SITE_ROOT, "feed.xml")
+FEED_ES_XML = os.path.join(SITE_ROOT, "feed-es.xml")
 LLMS_TXT = os.path.join(SITE_ROOT, "llms.txt")
 
 SITE_URL = "https://riccivr.github.io"
@@ -54,7 +55,8 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
     <title id="meta-title">{meta_title}</title>
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
     <meta name="author" content="Ricardo Veronese">
-    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed" href="https://riccivr.github.io/feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed (English)" href="https://riccivr.github.io/feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Feed RSS del Blog (Español)" href="https://riccivr.github.io/feed-es.xml">
     <meta name="description" id="meta-desc" content="{meta_desc}">
     <link rel="canonical" href="{canonical_url}">
 
@@ -1048,18 +1050,61 @@ def generate_sitemap(posts):
 
 def generate_rss(posts):
     now_rfc822 = datetime.datetime.now(datetime.timezone.utc).strftime("%a, %d %b %Y %H:%M:%S GMT")
-    channel_title = escape(f"{AUTHOR_NAME} - Technical Logs & Systems")
-    channel_desc = escape("Reflections on cloud architecture, systems engineering, C99, algorithms, and IoT.")
-    xml_lines = [
+
+    # 1. English Feed (Default feed.xml)
+    en_title = escape(f"{AUTHOR_NAME} - Engineering Logs & Systems")
+    en_desc = escape("Thoughts on systems architecture, cloud infrastructure, low-level programming & algorithms.")
+    xml_lines_en = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
         '  <channel>',
-        f'    <title>{channel_title}</title>',
+        f'    <title>{en_title}</title>',
         f'    <link>{SITE_URL}/blog/</link>',
-        f'    <description>{channel_desc}</description>',
-        '    <language>es-ve</language>',
+        f'    <description>{en_desc}</description>',
+        '    <language>en-us</language>',
         f'    <lastBuildDate>{now_rfc822}</lastBuildDate>',
         f'    <atom:link href="{SITE_URL}/feed.xml" rel="self" type="application/rss+xml"/>'
+    ]
+
+    for post in posts:
+        post_url = f"{SITE_URL}/blog/{post['slug']}.html"
+        meta = post.get('en') or post.get('es') or post
+        try:
+            dt = datetime.datetime.strptime(post["date"], "%Y-%m-%d")
+            pub_date = dt.strftime("%a, %d %b %Y 12:00:00 GMT")
+        except Exception:
+            pub_date = now_rfc822
+
+        xml_lines_en.append('    <item>')
+        xml_lines_en.append(f'      <title>{escape(meta["title"])}</title>')
+        xml_lines_en.append(f'      <link>{post_url}</link>')
+        xml_lines_en.append(f'      <guid isPermaLink="true">{post_url}</guid>')
+        xml_lines_en.append(f'      <pubDate>{pub_date}</pubDate>')
+        xml_lines_en.append(f'      <description>{escape(meta["summary"])}</description>')
+        for tag in meta.get("tags", []):
+            xml_lines_en.append(f'      <category>{escape(tag)}</category>')
+        xml_lines_en.append('    </item>')
+
+    xml_lines_en.append('  </channel>')
+    xml_lines_en.append('</rss>')
+
+    with open(FEED_XML, 'w', encoding='utf-8') as f:
+        f.write('\n'.join(xml_lines_en) + '\n')
+    print(f"[✓] Generated {FEED_XML} (English Default)")
+
+    # 2. Spanish Feed (feed-es.xml)
+    es_title = escape(f"{AUTHOR_NAME} - Blog Técnico & Sistemas")
+    es_desc = escape("Reflexiones sobre arquitectura de sistemas, infraestructura cloud, programación de bajo nivel y algoritmos.")
+    xml_lines_es = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
+        '  <channel>',
+        f'    <title>{es_title}</title>',
+        f'    <link>{SITE_URL}/blog/</link>',
+        f'    <description>{es_desc}</description>',
+        '    <language>es-ve</language>',
+        f'    <lastBuildDate>{now_rfc822}</lastBuildDate>',
+        f'    <atom:link href="{SITE_URL}/feed-es.xml" rel="self" type="application/rss+xml"/>'
     ]
 
     for post in posts:
@@ -1071,22 +1116,22 @@ def generate_rss(posts):
         except Exception:
             pub_date = now_rfc822
 
-        xml_lines.append('    <item>')
-        xml_lines.append(f'      <title>{escape(meta["title"])}</title>')
-        xml_lines.append(f'      <link>{post_url}</link>')
-        xml_lines.append(f'      <guid isPermaLink="true">{post_url}</guid>')
-        xml_lines.append(f'      <pubDate>{pub_date}</pubDate>')
-        xml_lines.append(f'      <description>{escape(meta["summary"])}</description>')
+        xml_lines_es.append('    <item>')
+        xml_lines_es.append(f'      <title>{escape(meta["title"])}</title>')
+        xml_lines_es.append(f'      <link>{post_url}</link>')
+        xml_lines_es.append(f'      <guid isPermaLink="true">{post_url}</guid>')
+        xml_lines_es.append(f'      <pubDate>{pub_date}</pubDate>')
+        xml_lines_es.append(f'      <description>{escape(meta["summary"])}</description>')
         for tag in meta.get("tags", []):
-            xml_lines.append(f'      <category>{escape(tag)}</category>')
-        xml_lines.append('    </item>')
+            xml_lines_es.append(f'      <category>{escape(tag)}</category>')
+        xml_lines_es.append('    </item>')
 
-    xml_lines.append('  </channel>')
-    xml_lines.append('</rss>')
+    xml_lines_es.append('  </channel>')
+    xml_lines_es.append('</rss>')
 
-    with open(FEED_XML, 'w', encoding='utf-8') as f:
-        f.write('\n'.join(xml_lines) + '\n')
-    print(f"[✓] Generated {FEED_XML}")
+    with open(FEED_ES_XML, 'w', encoding='utf-8') as f:
+        f.write('\n'.join(xml_lines_es) + '\n')
+    print(f"[✓] Generated {FEED_ES_XML} (Spanish)")
 
 def generate_llms_txt(posts):
     lines = [

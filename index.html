@@ -8,7 +8,8 @@
     <meta id="meta-desc" name="description" content="Ricardo Veronese. Ingeniero de cloud y sistemas. AWS CDK, TypeScript, Python, Rust, C99, sistemas de bajo nivel POSIX e IoT embebido.">
     <meta name="author" content="Ricardo Veronese">
     <link rel="canonical" href="https://riccivr.github.io/">
-    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed" href="https://riccivr.github.io/feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed (English)" href="https://riccivr.github.io/feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Feed RSS del Blog (Español)" href="https://riccivr.github.io/feed-es.xml">
     <link rel="help" type="text/markdown" title="Documentación para LLMs" href="https://riccivr.github.io/llms.txt">
 
     <!-- Privacy-first analytics by GoatCounter -->
@@ -517,7 +518,7 @@
             <div class="flex items-center gap-3 text-xs font-bold">
                 <span class="theme-text-muted">riccivr.github.io</span>
                 <span class="opacity-50">·</span>
-                <a href="./feed/" class="theme-text-muted hover:underline">[RSS Feed]</a>
+                <a href="./feed.xml" id="footer-rss-btn" class="theme-text-muted hover:underline">[RSS Feed]</a>
             </div>
             <span id="footer-text" class="text-right text-xs theme-text-muted font-medium">
                 Cloud Architecture · Embedded & Systems
@@ -954,6 +955,12 @@
                 contactLi.setAttribute('title', t.contactLiAria);
             }
 
+            const footerRss = document.getElementById('footer-rss-btn');
+            if (footerRss) {
+                footerRss.setAttribute('href', lang === 'es' ? './feed-es.xml' : './feed.xml');
+                footerRss.setAttribute('title', lang === 'es' ? 'Canal RSS en XML (Español) [R]' : 'RSS Feed in XML (English) [R]');
+            }
+
             document.getElementById('footer-text').textContent = t.footerText;
         }
 
@@ -1152,7 +1159,9 @@
                     flashElement(liBtn);
                     window.open('https://www.linkedin.com/in/riccivr/', '_blank');
                 } else if (key === 'R') {
-                    setTimeout(() => { window.location.href = './feed/'; }, 150);
+                    const currentLang = getLanguage();
+                    const targetFeed = currentLang === 'es' ? './feed-es.xml' : './feed.xml';
+                    setTimeout(() => { window.location.href = targetFeed; }, 150);
                 } else if (key === 'T') {
                     flashElement(themeBtn);
                     themeBtn.click();

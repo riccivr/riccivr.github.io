@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Ricardo Veronese - Technical Logs &amp; Systems</title>
+    <title>Ricardo Veronese - Engineering Logs &amp; Systems</title>
     <link>https://riccivr.github.io/blog/</link>
-    <description>Reflections on cloud architecture, systems engineering, C99, algorithms, and IoT.</description>
-    <language>es-ve</language>
-    <lastBuildDate>Thu, 03 Sep 2026 11:36:54 GMT</lastBuildDate>
+    <description>Thoughts on systems architecture, cloud infrastructure, low-level programming &amp; algorithms.</description>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 03 Sep 2026 11:47:42 GMT</lastBuildDate>
     <atom:link href="https://riccivr.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
-      <title>gitcrawl: crawler web direccionable por contenido y motor de snapshots en Git</title>
+      <title>gitcrawl: content-addressable web archiver and snapshot engine backed by Git</title>
       <link>https://riccivr.github.io/blog/gitcrawl-content-addressable-web-archiver.html</link>
       <guid isPermaLink="true">https://riccivr.github.io/blog/gitcrawl-content-addressable-web-archiver.html</guid>
       <pubDate>Mon, 31 Aug 2026 12:00:00 GMT</pubDate>
-      <description>En mi artículo anterior sobre archivar la web con Git, me puse a explorar la teoría detrás de usar el almacén de objetos direccionable por contenido de Git como base de datos histórica para páginas web y documentación té...</description>
+      <description>In my previous article on archiving the web with Git, I explored using Git's content-addressable object store as a historical database for web pages and documentation.</description>
       <category>C99</category>
       <category>Git</category>
       <category>Web Archiving</category>
       <category>Crawlers</category>
       <category>POSIX</category>
-      <category>Arquitectura</category>
-      <category>Sistemas</category>
+      <category>Architecture</category>
+      <category>Systems</category>
     </item>
     <item>
-      <title>Ser un buen ciudadano de la red en la era de la IA: guía moderna para el rastreo y descubrimiento web</title>
+      <title>Being a good net citizen in the AI era: a guide to web discoverability</title>
       <link>https://riccivr.github.io/blog/being-a-good-net-citizen-in-the-ai-era.html</link>
       <guid isPermaLink="true">https://riccivr.github.io/blog/being-a-good-net-citizen-in-the-ai-era.html</guid>
       <pubDate>Sun, 30 Aug 2026 12:00:00 GMT</pubDate>
-      <description>Los buscadores cambiaron la web indexando enlaces. Hoy en día la vaina es otra: los agentes de IA, los pipelines RAG y motores como Perplexity o Claude recorren sitios web para responderle de una vez a la gente.</description>
+      <description>Search engines changed the web by indexing links. Now automated agents, RAG pipelines, and LLM search tools like Perplexity and Claude are crawling sites to answer user queries directly.</description>
       <category>Web Standards</category>
-      <category>IA</category>
+      <category>AI</category>
       <category>SEO</category>
       <category>Crawlers</category>
-      <category>Arquitectura</category>
+      <category>Architecture</category>
       <category>Semantic Web</category>
     </item>
     <item>
-      <title>Archivar la web con Git: construyendo un crawler e indexador histórico</title>
+      <title>Archiving the web with Git: building a content-addressable crawler</title>
       <link>https://riccivr.github.io/blog/preserving-the-web-with-git.html</link>
       <guid isPermaLink="true">https://riccivr.github.io/blog/preserving-the-web-with-git.html</guid>
       <pubDate>Sun, 30 Aug 2026 12:00:00 GMT</pubDate>
-      <description>Las páginas web mutan y desaparecen a cada rato. Las empresas borran documentación durante rediseños corporativos, los términos de servicio cambian sin avisar y los links se rompen de la nada.</description>
+      <description>Web pages disappear all the time. Companies delete docs during rebrands, terms of service change without changelogs, and links rot.</description>
       <category>Git</category>
       <category>Web Archiving</category>
       <category>Crawlers</category>
-      <category>Sistemas</category>
+      <category>Systems</category>
       <category>C99</category>
-      <category>Arquitectura</category>
+      <category>Architecture</category>
     </item>
     <item>
-      <title>¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos</title>
+      <title>Can you use GitHub as a database? SQLite, HTTP range requests, and flat files</title>
       <link>https://riccivr.github.io/blog/using-github-as-a-database.html</link>
       <guid isPermaLink="true">https://riccivr.github.io/blog/using-github-as-a-database.html</guid>
       <pubDate>Sun, 30 Aug 2026 12:00:00 GMT</pubDate>
-      <description>Siempre ando buscando formas de mantener mis proyectos personales con cero mantenimiento y cero costos de servidor, así que me puse a pensar: ¿se puede usar GitHub de pana como una base de datos persistente?</description>
+      <description>I often look for ways to keep side projects zero-maintenance and zero-cost, which made me wonder: can I just use GitHub as a persistent database?</description>
       <category>SQLite</category>
       <category>GitHub Pages</category>
       <category>HTTP Range</category>
-      <category>Arquitectura</category>
+      <category>Architecture</category>
       <category>Cloud</category>
     </item>
   </channel>
