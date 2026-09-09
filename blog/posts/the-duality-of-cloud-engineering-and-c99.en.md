@@ -7,7 +7,7 @@
 
 For over twelve years, my professional career has lived in the world of high-level web engineering, distributed systems, and cloud infrastructure.
 
-I started back in 2012 in Venezuela, writing PHP, managing LAMP servers, tuning SQL queries, and automating intranet scrapers. Over the years, that path took me from vanilla OOP and Laravel/Symfony into building microservices at BBVA in Madrid, processing massive product feeds with AMQP and Lambdas at Billionhands, and leading engineering teams with TypeScript, AWS CDK, and serverless architectures at Enroly.
+I started back in 2012 in Venezuela, writing PHP, managing LAMP servers, tuning SQL queries, and automating intranet scrapers. Over the years, that path took me from vanilla OOP and Laravel/Symfony into building microservices at BBVA in Madrid, processing massive product feeds with AMQP and Lambdas at Billionhands, and building core cloud architectures and product features with TypeScript, AWS CDK, and serverless backends at Enroly.
 
 That is the day job. It pays the bills, solves business problems, and scales to thousands of users.
 
@@ -38,7 +38,7 @@ When you switch between these two modes daily, you see systems from both ends.
 
 For years, I kept these two sides of my engineering life completely separate.
 
-My resume, LinkedIn, and public professional footprint showed the pragmatic cloud engineer and team lead. I highlighted my experience with TypeScript, React, Node, AWS CDK, Lambda@Edge, and scalable cloud architectures.
+My resume, LinkedIn, and public professional footprint showed the pragmatic senior cloud engineer. I highlighted my experience with TypeScript, React, Node, AWS CDK, Lambda@Edge, and scalable cloud architectures.
 
 My C99 projects, custom terminal filters like [`approx`](https://github.com/riccivr/approx), clipboard parsers like [`unipaste`](https://github.com/riccivr/unipaste), and Git object store engines like [`gitcrawl`](https://github.com/riccivr/gitcrawl) stayed mostly in private folders or quiet GitHub repositories.
 
@@ -50,7 +50,7 @@ A few weeks ago, I rebuilt this personal website. Instead of putting up a generi
 
 Putting all of this out in the open made me pause.
 
-When a recruiter or hiring manager looks for a Senior Full-Stack Engineer, Team Lead, or Cloud Architect, they expect to see familiar buzzwords: React, Node, TypeScript, AWS, Docker, Kubernetes, or serverless architectures.
+When a recruiter or hiring manager looks for a Senior Full-Stack Engineer, Staff Developer, or Cloud Architect, they expect to see familiar buzzwords: React, Node, TypeScript, AWS, Docker, Kubernetes, or serverless architectures.
 
 If they land on this site instead, they see C99 structs, manual memory management, and articles about Git internals. It raises practical questions:
 

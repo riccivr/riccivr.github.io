@@ -7,7 +7,7 @@
 
 Llevo más de doce años metido de lleno en el mundo del desarrollo de software, la arquitectura distribuida y la infraestructura cloud.
 
-Empecé allá por 2012 en Venezuela, administrando servidores LAMP, optimizando consultas SQL pesadas, automatizando scrapers en la intranet y echando código en PHP y Laravel. Con los años, ese camino me llevó a mudarme a Madrid, diseñar microservicios en BBVA, procesar catálogos gigantes con colas AMQP y Lambdas en Billionhands, y liderar equipos técnicos con TypeScript, AWS CDK y arquitecturas serverless en Enroly.
+Empecé allá por 2012 en Venezuela, administrando servidores LAMP, optimizando consultas SQL pesadas, automatizando scrapers en la intranet y echando código en PHP y Laravel. Con los años, ese camino me llevó a mudarme a Madrid, diseñar microservicios en BBVA, procesar catálogos gigantes con colas AMQP y Lambdas en Billionhands, y diseñar arquitecturas cloud y funcionalidades de producto con TypeScript, AWS CDK y backends serverless en Enroly.
 
 Esa es la chamba del día a día. Paga las cuentas, resuelve problemas de negocio reales y aguanta miles de usuarios en producción.
 
@@ -38,7 +38,7 @@ Cambiar de un chip a otro todos los días te hace ver la computación desde los 
 
 Por años mantuve estos dos mundos completamente separados, como si fueran dos personas distintas.
 
-Mi currículum, mi perfil de LinkedIn y mi presencia profesional mostraban al ingeniero y team lead pragmático que resuelve en la nube. Resaltaba mi experiencia con TypeScript, React, Node, AWS CDK, Lambda@Edge y arquitecturas escalables.
+Mi currículum, mi perfil de LinkedIn y mi presencia profesional mostraban al desarrollador senior pragmático que resuelve en la nube. Resaltaba mi experiencia con TypeScript, React, Node, AWS CDK, Lambda@Edge y arquitecturas escalables.
 
 Mis proyectos en C99, mis filtros difusos como [`approx`](https://github.com/riccivr/approx), formateadores como [`unipaste`](https://github.com/riccivr/unipaste) o motores de archivo como [`gitcrawl`](https://github.com/riccivr/gitcrawl) se quedaban en carpetas locales o repositorios escondidos en GitHub.
 
@@ -50,7 +50,7 @@ Hace poco decidí rediseñar esta web personal. En vez de montar la típica pág
 
 Al ver todo esto publicado, me entró una duda honesta: ¿será que esto confunde a los reclutadores o me hace perder oportunidades de trabajo?
 
-Cuando una empresa o un reclutador busca un Senior Full-Stack, Team Lead o Ingeniero Cloud, esperan ver lo de siempre: React, Node, TypeScript, AWS, Docker, serverless o microservicios.
+Cuando una empresa o un reclutador busca un Senior Full-Stack, Staff Engineer o Arquitecto Cloud, esperan ver lo de siempre: React, Node, TypeScript, AWS, Docker, serverless o microservicios.
 
 Si caen en esta web, se topan de frente con structs en C99, punteros, manejo manual de memoria y artículos sobre los objetos internos de Git. Eso abre varias preguntas:
 
