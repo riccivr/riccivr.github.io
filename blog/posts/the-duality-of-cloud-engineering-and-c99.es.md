@@ -1,6 +1,6 @@
 # La dualidad de chambear en la nube y tirar código en C99
 
-*Publicado: 9 de septiembre de 2026. Categoría: Carrera & Sistemas. Tiempo de lectura: ~5 min*
+*Publicado: 9 de septiembre de 2026. Categoría: Carrera & Sistemas. Tiempo de lectura: ~4 min*
 *Etiquetas: Carrera, C99, Cloud, TypeScript, PHP, Arquitectura, Reflexiones*
 
 ---
@@ -40,7 +40,7 @@ Por años mantuve estos dos mundos completamente separados, como si fueran dos p
 
 Mi currículum, mi perfil de LinkedIn y mi presencia profesional mostraban al desarrollador senior pragmático que resuelve en la nube. Resaltaba mi experiencia con TypeScript, React, Node, AWS CDK, Lambda@Edge y arquitecturas escalables.
 
-Mis proyectos en C99, mis filtros difusos como [`approx`](https://github.com/riccivr/approx), formateadores como [`unipaste`](https://github.com/riccivr/unipaste) o motores de archivo como [`gitcrawl`](https://github.com/riccivr/gitcrawl) se quedaban en carpetas locales o repositorios escondidos en GitHub.
+Mis utilidades en C99, parsers de streams y experimentos con microcontroladores se quedaban en carpetas locales o repositorios escondidos.
 
 Hace poco decidí rediseñar esta web personal. En vez de montar la típica página corporativa aburrida con cuatro logos genéricos, me provocó documentar los experimentos y las herramientas de sistemas que de verdad me apasiona construir. El resultado es que la página principal y el blog quedaron repletos de código en C99, estilos CRT y plomería POSIX.
 
@@ -52,28 +52,10 @@ Al ver todo esto publicado, me entró una duda honesta: ¿será que esto confund
 
 Cuando una empresa o un reclutador busca un Senior Full-Stack, Staff Engineer o Arquitecto Cloud, esperan ver lo de siempre: React, Node, TypeScript, AWS, Docker, serverless o microservicios.
 
-Si caen en esta web, se topan de frente con structs en C99, punteros, manejo manual de memoria y artículos sobre los objetos internos de Git. Eso abre varias preguntas:
+Si caen en esta web, se topan de frente con structs en C99, punteros, manejo manual de memoria y utilidades de terminal. Eso abre varias preguntas:
 
 - ¿Pensará un reclutador que solo me interesa trabajar en sistemas embebidos o drivers?
 - ¿Se confundirán los filtros automáticos de recursos humanos al no ver el perfil estándar empaquetado?
-- ¿Tener una web llena de proyectos de bajo nivel me quitará oportunidades en el mundo web y cloud?
+- ¿Tener una web llena de proyectos personales de bajo nivel me quitará oportunidades en el mundo web y cloud?
 
-En una industria donde la gente suele encasillarse en etiquetas súper cuadradas, mostrar dos facetas tan distintas puede parecer raro desde afuera.
-
----
-
-## 4. Por qué el bajo nivel te hace mejor ingeniero en la nube
-
-A pesar de ese riesgo, estoy convencido de que entender cómo funcionan las tripas del sistema te convierte en un ingeniero cloud mil veces más sólido.
-
-Los runtimes de alto nivel no eliminan la complejidad de la máquina, solo la esconden debajo de la alfombra hasta que algo explota en producción.
-
-Cuando un proceso de Node se queda sin memoria en un contenedor, o una función Lambda se traba por agotamiento de sockets bajo mucho tráfico, no resuelves nada metiendo más librerías. Toca entender cómo el sistema operativo gestiona las páginas de memoria, los buffers de red y los eventos de I/O.
-
-Tirar código en C99 y trastear con microcontroladores te mantiene esa intuición afilada:
-
-1. **Cero magia.** Sabes exactamente qué está haciendo el runtime por debajo porque ya has tenido que implementar esas estructuras de datos a mano.
-2. **Consciencia de recursos.** Cuando te acostumbras a hacer que un programa quepa en kilobytes de RAM, escribes servicios cloud mucho más ligeros y eficientes por instinto.
-3. **Depuración sin pánico.** Si una librería de alto nivel falla con un error críptico, no te asusta leer el código en C de los bindings o tirarle un `strace` al proceso para ver qué llamadas al sistema están fallando.
-
-Hubiese sido más seguro dejar mi web con un perfil estándar y corporativo. Pero este blog es un registro honesto de cómo pienso, cómo programo y lo que me gusta construir.
+En una industria donde la gente suele encasillarse en etiquetas súper cuadradas, mostrar dos facetas tan distintas puede parecer raro desde afuera. Hubiese sido más seguro dejar mi web con un perfil estándar y corporativo, pero esta página es un reflejo honesto de lo que realmente me gusta programar cuando nadie me está pagando.

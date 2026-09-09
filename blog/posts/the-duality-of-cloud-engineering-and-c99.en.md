@@ -1,6 +1,6 @@
 # The duality of working in the cloud and hacking in C99
 
-*Published: September 9, 2026. Category: Career & Systems. Reading time: ~5 min*
+*Published: September 9, 2026. Category: Career & Systems. Reading time: ~4 min*
 *Tags: Career, C99, Cloud, TypeScript, PHP, Architecture, Reflections*
 
 ---
@@ -40,9 +40,9 @@ For years, I kept these two sides of my engineering life completely separate.
 
 My resume, LinkedIn, and public professional footprint showed the pragmatic senior cloud engineer. I highlighted my experience with TypeScript, React, Node, AWS CDK, Lambda@Edge, and scalable cloud architectures.
 
-My C99 projects, custom terminal filters like [`approx`](https://github.com/riccivr/approx), clipboard parsers like [`unipaste`](https://github.com/riccivr/unipaste), and Git object store engines like [`gitcrawl`](https://github.com/riccivr/gitcrawl) stayed mostly in private folders or quiet GitHub repositories.
+My C99 utilities, stream parsers, and embedded experiments stayed mostly in private folders or quiet local repositories.
 
-A few weeks ago, I rebuilt this personal website. Instead of putting up a generic portfolio page, I decided to document the exact low-level systems and tools I actually enjoy building. Now, the homepage and blog are packed with C99 code snippets, terminal scanlines, and POSIX plumbing.
+A few weeks ago, I rebuilt this personal website. Instead of putting up a generic, sanitized portfolio page, I decided to document the exact low-level systems and tools I actually enjoy building. Now, the homepage and blog are packed with C99 code snippets, terminal scanlines, and POSIX plumbing.
 
 ---
 
@@ -52,28 +52,10 @@ Putting all of this out in the open made me pause.
 
 When a recruiter or hiring manager looks for a Senior Full-Stack Engineer, Staff Developer, or Cloud Architect, they expect to see familiar buzzwords: React, Node, TypeScript, AWS, Docker, Kubernetes, or serverless architectures.
 
-If they land on this site instead, they see C99 structs, manual memory management, and articles about Git internals. It raises practical questions:
+If they land on this site instead, they see C99 structs, manual memory management, and terminal tools. It raises practical questions:
 
 - Will a recruiter look at this and think I only want embedded or systems programming jobs?
 - Will automated screening tools or non-technical screeners get confused about my primary stack?
-- Could having a site full of low-level projects actually cost me web and cloud opportunities?
+- Could having a site full of low-level personal projects actually cost me web and cloud opportunities?
 
-In an industry where developers are often expected to fit into neat, standardized job titles, showing two distinct skill sets can look messy to an outside observer.
-
----
-
-## 4. Why low-level hacking makes you a better cloud engineer
-
-Even if it confuses a few hiring pipelines, I think understanding low-level systems is one of the most useful skills a cloud developer can have.
-
-High-level runtimes do not eliminate system complexity. They just hide it until something breaks.
-
-When a Node process runs out of memory in a container, or a Lambda worker suffers from socket exhaustion under high concurrency, you cannot solve the issue by adding more abstractions. You need to understand how the operating system handles memory pages, network buffers, and I/O polling.
-
-Writing C99 and working with embedded hardware keeps those fundamentals sharp:
-
-1. **No magic.** You understand what the runtime is doing under the hood because you have implemented those data structures yourself.
-2. **Resource awareness.** After spending hours fitting code into microcontrollers with kilobytes of RAM, you naturally write leaner, more efficient cloud services.
-3. **Calm debugging.** When a high-level library fails with an obscure error, you can read the underlying C bindings or inspect system calls with strace without panic.
-
-I could have kept my personal site sanitized and focused purely on enterprise web stacks. But this blog is an honest reflection of how I work and what I build.
+In an industry where developers are often expected to fit into neat, standardized job titles, showing two distinct skill sets can look messy to an outside observer. I could have kept my personal site sanitized and focused purely on enterprise web stacks, but this page is an honest reflection of what I actually build when nobody is paying me.
