@@ -1,5 +1,57 @@
 [
   {
+    "slug": "the-duality-of-cloud-engineering-and-c99",
+    "date": "2026-09-09",
+    "title": "La dualidad de chambear en la nube y tirar código en C99",
+    "category": "Carrera & Sistemas",
+    "tags": [
+      "Carrera",
+      "C99",
+      "Cloud",
+      "TypeScript",
+      "PHP",
+      "Arquitectura",
+      "Reflexiones"
+    ],
+    "summary": "Casi toda mi vida profesional en la industria del software ha estado metida de lleno en el mundo del desarrollo web y la infraestructura cloud.",
+    "readingTime": "5 min",
+    "file": "posts/the-duality-of-cloud-engineering-and-c99.es.md",
+    "en": {
+      "title": "The duality of working in the cloud and hacking in C99",
+      "date": "2026-09-09",
+      "category": "Career & Systems",
+      "tags": [
+        "Career",
+        "C99",
+        "Cloud",
+        "TypeScript",
+        "PHP",
+        "Architecture",
+        "Reflections"
+      ],
+      "summary": "For most of my professional career, my day job has lived in the world of high-level web engineering and cloud infrastructure.",
+      "readingTime": "4 min",
+      "file": "posts/the-duality-of-cloud-engineering-and-c99.en.md"
+    },
+    "es": {
+      "title": "La dualidad de chambear en la nube y tirar código en C99",
+      "date": "2026-09-09",
+      "category": "Carrera & Sistemas",
+      "tags": [
+        "Carrera",
+        "C99",
+        "Cloud",
+        "TypeScript",
+        "PHP",
+        "Arquitectura",
+        "Reflexiones"
+      ],
+      "summary": "Casi toda mi vida profesional en la industria del software ha estado metida de lleno en el mundo del desarrollo web y la infraestructura cloud.",
+      "readingTime": "5 min",
+      "file": "posts/the-duality-of-cloud-engineering-and-c99.es.md"
+    }
+  },
+  {
     "slug": "gitcrawl-content-addressable-web-archiver",
     "date": "2026-08-31",
     "title": "gitcrawl: crawler web direccionable por contenido y motor de snapshots en Git",

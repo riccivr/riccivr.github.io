@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="meta-title">¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos - Ricardo Veronese</title>
+    <title id="meta-title">La dualidad de chambear en la nube y tirar código en C99 - Ricardo Veronese</title>
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
     <meta name="author" content="Ricardo Veronese">
     <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed (English)" href="https://riccivr.github.io/feed.xml">
     <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Feed RSS del Blog (Español)" href="https://riccivr.github.io/feed-es.xml">
-    <meta name="description" id="meta-desc" content="Siempre ando buscando formas de mantener mis proyectos personales con cero mantenimiento y cero costos de servidor, así que me puse a pensar: ¿se puede usar GitHub de pana como una base de datos persistente?">
-    <link rel="canonical" href="https://riccivr.github.io/blog/using-github-as-a-database.html">
+    <meta name="description" id="meta-desc" content="Casi toda mi vida profesional en la industria del software ha estado metida de lleno en el mundo del desarrollo web y la infraestructura cloud.">
+    <link rel="canonical" href="https://riccivr.github.io/blog/the-duality-of-cloud-engineering-and-c99.html">
 
     <!-- Privacy-first analytics by GoatCounter -->
     <script data-goatcounter="https://riccivr.goatcounter.com/count"
@@ -18,15 +18,15 @@
     <!-- Open Graph -->
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="Ricardo Veronese">
-    <meta property="og:title" id="og-title" content="¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos - Ricardo Veronese">
-    <meta property="og:description" id="og-desc" content="Siempre ando buscando formas de mantener mis proyectos personales con cero mantenimiento y cero costos de servidor, así que me puse a pensar: ¿se puede usar GitHub de pana como una base de datos persistente?">
-    <meta property="og:url" content="https://riccivr.github.io/blog/using-github-as-a-database.html">
+    <meta property="og:title" id="og-title" content="La dualidad de chambear en la nube y tirar código en C99 - Ricardo Veronese">
+    <meta property="og:description" id="og-desc" content="Casi toda mi vida profesional en la industria del software ha estado metida de lleno en el mundo del desarrollo web y la infraestructura cloud.">
+    <meta property="og:url" content="https://riccivr.github.io/blog/the-duality-of-cloud-engineering-and-c99.html">
     <meta property="og:image" content="https://riccivr.github.io/riccivr-retro-og.png">
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" id="tw-title" content="¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos - Ricardo Veronese">
-    <meta name="twitter:description" id="tw-desc" content="Siempre ando buscando formas de mantener mis proyectos personales con cero mantenimiento y cero costos de servidor, así que me puse a pensar: ¿se puede usar GitHub de pana como una base de datos persistente?">
+    <meta name="twitter:title" id="tw-title" content="La dualidad de chambear en la nube y tirar código en C99 - Ricardo Veronese">
+    <meta name="twitter:description" id="tw-desc" content="Casi toda mi vida profesional en la industria del software ha estado metida de lleno en el mundo del desarrollo web y la infraestructura cloud.">
     <meta name="twitter:image" content="https://riccivr.github.io/riccivr-retro-og.png">
 
     <!-- Schema.org BlogPosting -->
@@ -34,15 +34,15 @@
     {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
-        "headline": "\u00bfSe puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos",
-        "description": "Siempre ando buscando formas de mantener mis proyectos personales con cero mantenimiento y cero costos de servidor, as\u00ed que me puse a pensar: \u00bfse puede usar GitHub de pana como una base de datos persistente?",
+        "headline": "La dualidad de chambear en la nube y tirar c\u00f3digo en C99",
+        "description": "Casi toda mi vida profesional en la industria del software ha estado metida de lleno en el mundo del desarrollo web y la infraestructura cloud.",
         "author": {
             "@type": "Person",
             "name": "Ricardo Veronese",
             "url": "https://riccivr.github.io/"
         },
-        "datePublished": "2026-08-30",
-        "mainEntityOfPage": "https://riccivr.github.io/blog/using-github-as-a-database.html"
+        "datePublished": "2026-09-09",
+        "mainEntityOfPage": "https://riccivr.github.io/blog/the-duality-of-cloud-engineering-and-c99.html"
     }
     </script>
 
@@ -487,7 +487,7 @@
 
         <header class="p-2.5 sm:p-3 theme-bg-header border-b theme-border flex flex-col sm:flex-row justify-between sm:items-center gap-2">
             <div class="flex items-center justify-between sm:justify-start gap-2">
-                <span class="text-xs theme-text-muted tracking-wider font-bold truncate max-w-[220px] sm:max-w-none" id="header-sys-id">SYS.ID: riccivr // using-github-as-a-database</span>
+                <span class="text-xs theme-text-muted tracking-wider font-bold truncate max-w-[220px] sm:max-w-none" id="header-sys-id">SYS.ID: riccivr // the-duality-of-cloud-engineering-and-c99</span>
                 <span class="status-label-text theme-text-main text-[11px] font-bold uppercase tracking-wider sm:hidden">
                     ESTADO: EN LÍNEA
                 </span>
@@ -535,231 +535,109 @@
             <!-- Post Container (Zero-JS Pre-rendered) -->
             <article id="post-article-es" lang="es">
                 <div class="post-content">
-<h1>¿Se puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos</h1>
-<p><em>Publicado: 30 de agosto de 2026. Categoría: Arquitectura &amp; Sistemas. Tiempo de lectura: ~4 min</em><br />
-<em>Etiquetas: SQLite, GitHub Pages, HTTP Range, Arquitectura, Cloud</em></p>
+<h1>La dualidad de chambear en la nube y tirar código en C99</h1>
+<p><em>Publicado: 9 de septiembre de 2026. Categoría: Carrera &amp; Sistemas. Tiempo de lectura: ~5 min</em><br />
+<em>Etiquetas: Carrera, C99, Cloud, TypeScript, PHP, Arquitectura, Reflexiones</em></p>
 <hr />
-<p>Siempre ando buscando formas de mantener mis proyectos personales con cero mantenimiento y cero costos de servidor, así que me puse a pensar: ¿se puede usar GitHub de pana como una base de datos persistente?</p>
-<p>La respuesta corta es que técnicamente sí, pero con sus buenos matices. Funciona fino para conjuntos de datos estáticos de solo lectura, y bastante chimbo si necesitas escrituras concurrentes en tiempo real.</p>
-<p>Aquí te muestro cómo implementé la jugada, cómo funciona SQLite sobre peticiones HTTP Range y las limitaciones operativas que aprendí en el camino.</p>
+<p>Casi toda mi vida profesional en la industria del software ha estado metida de lleno en el mundo del desarrollo web y la infraestructura cloud.</p>
+<p>Empecé echando código en PHP y armando aplicaciones con Laravel, lidiando con bases de datos relacionales y sacando lógica de negocio para producción. Con el tiempo, mi día a día fue migrando hacia TypeScript, Node, AWS, arquitecturas serverless y microservicios orientados a eventos.</p>
+<p>Pero cuando termino la jornada de trabajo, apago la máquina de la oficina y abro una terminal para programar por puro gusto, mi cerebro me pide algo totalmente distinto. Me pongo a escribir herramientas en C99, armar filtros de streams en POSIX, inventar con hardware embebido y destripar formatos binarios.</p>
+<p>Durante mucho tiempo mantuve esa parte bien calladita y guardada para mí. Ahora que este blog y mi página están atiborrados de mis proyectos personales de bajo nivel, me puse a reflexionar sobre lo que eso significa.</p>
 <hr />
-<h2>1. SQLite de solo lectura con peticiones HTTP Range</h2>
-<p>Un patrón bien elegante consiste en subir un archivo <code>.sqlite</code> a GitHub Pages o Releases y consultarlo directamente desde el navegador sin tener que bajarte la base de datos completa.</p>
-<div class="code-highlight"><pre><span></span><code>Cliente en el navegador (sql.js-httpvfs o SQLite WASM)
-Consulta: SELECT * FROM articulos WHERE id = 42;
-1. Lee los primeros 100 bytes del header de SQLite
-2. Pide la página raíz del B-Tree (Range: bytes=4096-8191)
-3. Pide la página hoja con la fila (Range: bytes=16384-...)
-                       │
-                       ▼ HTTP GET con cabecera Range
-GitHub Pages o CDN (archivo database.sqlite)
-</code></pre></div>
-
-<h3>Cómo funciona la cosa:</h3>
-<ol>
-<li>Sistema de archivos virtual (VFS). Librerías como <a href="https://github.com/phiresky/sql.js-httpvfs"><code>sql.js-httpvfs</code></a> o el build oficial de SQLite en WebAssembly reemplazan la interfaz de disco habitual del sistema operativo (<code>sqlite3_vfs</code>).</li>
-<li>Descargas selectivas por byte-ranges. En lugar de meterte 300MB a los trancazos en la memoria del navegador, el cliente envía peticiones HTTP con <code>Range: bytes=inicio-fin</code>.</li>
-<li>Navegación del árbol B (B-Tree). Como SQLite organiza las tablas e índices en páginas fijas de 4096 bytes, el motor pide únicamente las 2 a 4 páginas exactas para completar la búsqueda indexada.</li>
-</ol>
-<h3>Ventajas:</h3>
+<h2>1. Dos formas opuestas de pensar</h2>
+<p>Trabajar en ingeniería cloud y programar en C a bajo nivel te exigen modelos mentales completamente contrarios.</p>
+<p>En la nube, tu trabajo es orquestar abstracciones. Te pasas el día pegando servicios de AWS, definiendo tipos e interfaces en TypeScript, cuadrando rutas de APIs y resolviendo árboles de dependencias. La meta es sacar funcionalidad rápido y que no se caiga. Si una petición HTTP tarda 80 milisegundos en responder, todo el mundo celebra que va volando.</p>
+<p>En C99 y en sistemas embebidos, no hay colchón que te salve. No tienes garbage collector, no tienes runtime ni frameworks que te resuelvan la vida. Te toca estar pendiente de:</p>
 <ul>
-<li>Cero costos de infraestructura en CDNs estáticos.</li>
-<li>Caché salvaje en el Edge sobre rangos de bytes.</li>
-<li>Consultas volando sobre datos estáticos pesados como catálogos, censos o índices de búsqueda.</li>
+<li>El layout exacto de la memoria y los límites de cada buffer.</li>
+<li>Las llamadas al sistema en POSIX y el ciclo de vida de los descriptores de archivo.</li>
+<li>Las líneas de caché y el costo real de cada ciclo de CPU.</li>
+<li>Dejar los binarios diminutos y con cero dependencias externas.</li>
 </ul>
+<p>Cambiar de un chip a otro todos los días te hace ver la computación desde los dos extremos de la cuerda.</p>
 <hr />
-<h2>2. Lectura y escritura con commits y la API de GitHub</h2>
-<p>GitHub no corre servicios como Postgres o MySQL escuchando conexiones TCP directas. Para modificar datos, interactúas mediante la API REST de GitHub o flujos de trabajo de Git.</p>
-<h3>Archivos planos estructurados (JSON / YAML / Markdown)</h3>
-<p>No te pongas a hacer commit de archivos binarios <code>.sqlite</code> en cada escritura porque los packfiles de Git van a inflar el repo a lo loco. Es mil veces mejor guardar las cosas en archivos de texto plano:</p>
-<div class="code-highlight"><pre><span></span><code>data/
-  ├── users/
-  │    ├── usr_01.json
-  │    └── usr_02.json
-  └── telemetry/
-       └── 2026-08-30.json
-</code></pre></div>
-
+<h2>2. El hobby que siempre mantuve guardado</h2>
+<p>Por años mantuve estos dos mundos completamente separados, como si fueran dos personas distintas.</p>
+<p>Mi currículum, mi perfil de LinkedIn y mi presencia profesional mostraban al ingeniero pragmático que resuelve en la nube. Resaltaba mi experiencia con PHP, Laravel, TypeScript, bases de datos SQL y pipelines en AWS.</p>
+<p>Mis proyectos en C99, mis filtros difusos como <a href="https://github.com/riccivr/approx"><code>approx</code></a>, formateadores como <a href="https://github.com/riccivr/unipaste"><code>unipaste</code></a> o motores de archivo como <a href="https://github.com/riccivr/gitcrawl"><code>gitcrawl</code></a> se quedaban en carpetas locales o repositorios escondidos en GitHub.</p>
+<p>Hace poco decidí rediseñar esta web personal. En vez de montar la típica página corporativa aburrida con cuatro logos genéricos, me provocó documentar los experimentos y las herramientas de sistemas que de verdad me apasiona construir. El resultado es que la página principal y el blog quedaron repletos de código en C99, estilos CRT y plomería POSIX.</p>
+<hr />
+<h2>3. ¿Esto va a confundir a los reclutadores?</h2>
+<p>Al ver todo esto publicado, me entró una duda honesta: ¿será que esto confunde a los reclutadores o me hace perder oportunidades de trabajo?</p>
+<p>Cuando una empresa o un reclutador busca un Senior Full-Stack o un Ingeniero Cloud, esperan ver lo de siempre: React, Node, Laravel, Docker, microservicios o certificaciones de AWS.</p>
+<p>Si caen en esta web, se topan de frente con structs en C99, punteros, manejo manual de memoria y artículos sobre los objetos internos de Git. Eso abre varias preguntas:</p>
 <ul>
-<li>Tu aplicación envía una petición <code>PUT /repos/{owner}/{repo}/contents/{path}</code> con los datos en base64.</li>
-<li>Cada escritura te deja un commit inmutable con fecha y diffs legibles al tiro.</li>
+<li>¿Pensará un reclutador que solo me interesa trabajar en sistemas embebidos o drivers?</li>
+<li>¿Se confundirán los filtros automáticos de recursos humanos al no ver el perfil estándar empaquetado?</li>
+<li>¿Tener una web llena de proyectos de bajo nivel me quitará oportunidades en el mundo web y cloud?</li>
 </ul>
-<h3>Issues y Discussions como base de datos estructurada</h3>
-<p>Sistemas de comentarios como <a href="https://giscus.app/"><code>Giscus</code></a> y <a href="https://utteranc.es/"><code>Utterances</code></a> guardan los comentarios en GitHub Discussions o Issues. Esto te da autenticación con GitHub, moderación, filtros de spam y notificaciones listas de fábrica sin tener que pagar un centavo de backend.</p>
-<h3>GitHub Actions para tareas batch programadas</h3>
-<p>Flujos automáticos con cron pueden correr scrapers, actualizar archivos JSON o SQLite y hacer commit del resultado de vuelta al repo sin que tengas que mover un dedo.</p>
+<p>En una industria donde la gente suele encasillarse en etiquetas súper cuadradas, mostrar dos facetas tan distintas puede parecer raro desde afuera.</p>
 <hr />
-<h2>Comparativa</h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Característica</th>
-<th style="text-align: left;">GitHub como DB</th>
-<th style="text-align: left;">SQLite Serverless (Turso / D1)</th>
-<th style="text-align: left;">Managed DB (Postgres / RDS)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">Costo de hosting</td>
-<td style="text-align: left;">$0 (Gratis)</td>
-<td style="text-align: left;">Capa gratuita / Pago por lectura</td>
-<td style="text-align: left;">$15 a $100+/mes</td>
-</tr>
-<tr>
-<td style="text-align: left;">Latencia de lectura</td>
-<td style="text-align: left;">50ms a 300ms (en CDN)</td>
-<td style="text-align: left;">10ms a 30ms (Edge)</td>
-<td style="text-align: left;">5ms a 20ms</td>
-</tr>
-<tr>
-<td style="text-align: left;">Latencia de escritura</td>
-<td style="text-align: left;">1s a 5s (commit en Git)</td>
-<td style="text-align: left;">10ms a 50ms</td>
-<td style="text-align: left;">Menor a 5ms</td>
-</tr>
-<tr>
-<td style="text-align: left;">Concurrencia</td>
-<td style="text-align: left;">Peligro de merge conflicts</td>
-<td style="text-align: left;">Replicación multirregión</td>
-<td style="text-align: left;">Bloqueos ACID por fila</td>
-</tr>
-<tr>
-<td style="text-align: left;">Límites de API</td>
-<td style="text-align: left;">5,000 peticiones/hora</td>
-<td style="text-align: left;">Millones de ops/mes</td>
-<td style="text-align: left;">Límite del connection pool</td>
-</tr>
-<tr>
-<td style="text-align: left;">Diffs binarios</td>
-<td style="text-align: left;">Infla la carpeta <code>.git</code></td>
-<td style="text-align: left;">Almacenamiento limpio</td>
-<td style="text-align: left;">Archivos estándar WAL</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2>Conclusiones</h2>
+<h2>4. Por qué el bajo nivel te hace mejor ingeniero en la nube</h2>
+<p>A pesar de ese riesgo, estoy convencido de que entender cómo funcionan las tripas del sistema te convierte en un ingeniero cloud mil veces más sólido.</p>
+<p>Los runtimes de alto nivel no eliminan la complejidad de la máquina, solo la esconden debajo de la alfombra hasta que algo explota en producción.</p>
+<p>Cuando un proceso de Node se queda sin memoria en un contenedor, o una función serverless se traba por agotamiento de sockets bajo mucho tráfico, no resuelves nada metiendo más librerías. Toca entender cómo el sistema operativo gestiona las páginas de memoria, los buffers de red y los eventos de I/O.</p>
+<p>Tirar código en C99 y trastear con microcontroladores te mantiene esa intuición afilada:</p>
 <ol>
-<li>Usa GitHub Pages con SQLite VFS si tienes un dataset estático de solo lectura que quieras alojar gratis sin tener que mantener servidores.</li>
-<li>Usa archivos planos con la API de GitHub para escrituras esporádicas donde quieras historial y trazabilidad, como comentarios de blogs o marcadores personales.</li>
-<li>No inventes usar GitHub como base de datos en aplicaciones que requieran escrituras en milisegundos, alto tráfico transaccional o datos privados de clientes.</li>
+<li><strong>Cero magia.</strong> Sabes exactamente qué está haciendo el runtime por debajo porque ya has tenido que implementar esas estructuras de datos a mano.</li>
+<li><strong>Consciencia de recursos.</strong> Cuando te acostumbras a hacer que un programa quepa en kilobytes de RAM, escribes servicios cloud mucho más ligeros y eficientes por instinto.</li>
+<li><strong>Depuración sin pánico.</strong> Si una librería de alto nivel falla con un error críptico, no te asusta leer el código en C de los bindings o tirarle un <code>strace</code> al proceso para ver qué está pasando.</li>
 </ol>
+<p>Hubiese sido más seguro dejar mi web con un perfil estándar y corporativo. Pero este blog es un registro honesto de cómo pienso, cómo programo y lo que me gusta construir.</p>
                 </div>
             </article>
 
             <article id="post-article-en" lang="en" style="display: none;">
                 <div class="post-content">
-<h1>Can you use GitHub as a database? SQLite, HTTP range requests, and flat files</h1>
-<p><em>Published: August 30, 2026. Category: Architecture &amp; Systems. Reading time: ~4 min</em><br />
-<em>Tags: SQLite, GitHub Pages, HTTP Range, Architecture, Cloud</em></p>
+<h1>The duality of working in the cloud and hacking in C99</h1>
+<p><em>Published: September 9, 2026. Category: Career &amp; Systems. Reading time: ~5 min</em><br />
+<em>Tags: Career, C99, Cloud, TypeScript, PHP, Architecture, Reflections</em></p>
 <hr />
-<p>I often look for ways to keep side projects zero-maintenance and zero-cost, which made me wonder: can I just use GitHub as a persistent database?</p>
-<p>The short answer is yes, but it depends heavily on read and write patterns. It works surprisingly well for read-heavy static datasets, and terribly for real-time concurrent writes.</p>
-<p>Here is my architectural look at how SQLite over HTTP range requests works on GitHub Pages, how to handle flat-file writes, and where the operational trade-offs break down.</p>
+<p>For most of my professional career, my day job has lived in the world of high-level web engineering and cloud infrastructure.</p>
+<p>I started out writing PHP and building web applications with Laravel, handling relational databases, and shipping business logic. Over time, my work shifted into TypeScript, Node, AWS, serverless architectures, and event-driven microservices.</p>
+<p>When I finish work and open a terminal to write code for myself, my brain wants something completely different. I build tools in C99, write POSIX stream filters, experiment with embedded hardware, and dig into binary formats.</p>
+<p>For a long time, I kept that side of my work to myself. Now that this entire website is filled with low-level projects, I find myself thinking about what that means.</p>
 <hr />
-<h2>1. Read-only SQLite with HTTP range requests</h2>
-<p>A clean pattern is hosting a <code>.sqlite</code> file on GitHub Pages or Releases and querying it directly from the browser without downloading the full database.</p>
-<div class="code-highlight"><pre><span></span><code>Browser client (sql.js-httpvfs or SQLite WASM)
-Query: SELECT * FROM articles WHERE id = 42;
-1. Reads SQLite 100-byte header
-2. Fetches B-Tree root page (Range: bytes=4096-8191)
-3. Fetches target leaf page (Range: bytes=16384-...)
-                       │
-                       ▼ HTTP GET with Range headers
-GitHub Pages or CDN storage (database.sqlite)
-</code></pre></div>
-
-<h3>How it works:</h3>
-<ol>
-<li>Virtual File System. Libraries like <a href="https://github.com/phiresky/sql.js-httpvfs"><code>sql.js-httpvfs</code></a> or SQLite's official WebAssembly build replace SQLite's default OS disk interface (<code>sqlite3_vfs</code>).</li>
-<li>Partial byte downloads. Instead of loading a 300MB database into memory, the browser sends HTTP requests with <code>Range: bytes=start-end</code>.</li>
-<li>B-Tree navigation. SQLite organizes tables and indexes into fixed 4096-byte pages. The engine requests only the 2 to 4 pages required to complete an index lookup.</li>
-</ol>
-<h3>Advantages:</h3>
+<h2>1. Two different ways of thinking</h2>
+<p>Working in cloud engineering and writing low-level C require opposite mental models.</p>
+<p>In the cloud world, you orchestrate abstractions. You spend your day wiring AWS services, defining TypeScript interfaces, tuning API routes, and managing dependency trees. The goal is shipping reliable features quickly. If an API request responds in 80 milliseconds, that is considered good performance.</p>
+<p>In C99 and embedded systems, you strip away every abstraction. There is no garbage collector, no runtime, and no framework handling edge cases for you. You care about:</p>
 <ul>
-<li>Zero hosting costs on static CDNs.</li>
-<li>Edge caching on static byte ranges.</li>
-<li>Fast lookups on large read-only datasets like public census records or search indexes.</li>
+<li>Memory layout and buffer boundaries.</li>
+<li>POSIX system calls and file descriptor lifecycles.</li>
+<li>Cache lines and algorithmic overhead.</li>
+<li>Keeping binaries small and dependencies at zero.</li>
 </ul>
+<p>When you switch between these two modes daily, you see systems from both ends.</p>
 <hr />
-<h2>2. Read-write patterns with Git commits and GitHub API</h2>
-<p>GitHub does not run database daemons like Postgres or MySQL listening on raw TCP sockets. To write data, you use the GitHub REST API or Git workflows.</p>
-<h3>Flat-file document storage (JSON / YAML / Markdown)</h3>
-<p>Do not commit binary <code>.sqlite</code> files on every write because Git packfiles will balloon in size. Instead, store entities as plain text files:</p>
-<div class="code-highlight"><pre><span></span><code>data/
-  ├── users/
-  │    ├── usr_01.json
-  │    └── usr_02.json
-  └── telemetry/
-       └── 2026-08-30.json
-</code></pre></div>
-
+<h2>2. The quiet hobby I used to hide</h2>
+<p>For years, I kept these two sides of my engineering life completely separate.</p>
+<p>My resume, LinkedIn, and public professional footprint showed the pragmatic cloud engineer. I highlighted my experience with PHP, Laravel, TypeScript, SQL databases, and AWS pipelines.</p>
+<p>My C99 projects, custom terminal filters like <a href="https://github.com/riccivr/approx"><code>approx</code></a>, clipboard parsers like <a href="https://github.com/riccivr/unipaste"><code>unipaste</code></a>, and Git object store engines like <a href="https://github.com/riccivr/gitcrawl"><code>gitcrawl</code></a> stayed mostly in private folders or quiet GitHub repositories.</p>
+<p>A few weeks ago, I rebuilt this personal website. Instead of putting up a generic portfolio page, I decided to document the exact low-level systems and tools I actually enjoy building. Now, the homepage and blog are packed with C99 code snippets, terminal scanlines, and POSIX plumbing.</p>
+<hr />
+<h2>3. Will this confuse recruiters?</h2>
+<p>Putting all of this out in the open made me pause.</p>
+<p>When a recruiter or hiring manager looks for a Senior Full-Stack Engineer or Cloud Architect, they expect to see familiar buzzwords: React, Node, Laravel, Docker, Kubernetes, or AWS certifications.</p>
+<p>If they land on this site instead, they see C99 structs, manual memory management, and articles about Git internals. It raises practical questions:</p>
 <ul>
-<li>Your app sends a <code>PUT /repos/{owner}/{repo}/contents/{path}</code> request with base64 data.</li>
-<li>Every write creates a Git commit with a timestamp and clean text diffs.</li>
+<li>Will a recruiter look at this and think I only want embedded or systems programming jobs?</li>
+<li>Will automated screening tools or non-technical recruiters get confused about my primary stack?</li>
+<li>Could having a site full of low-level projects actually cost me web and cloud opportunities?</li>
 </ul>
-<h3>Issues and discussions as structured storage</h3>
-<p>Comment engines like <a href="https://giscus.app/"><code>Giscus</code></a> and <a href="https://utteranc.es/"><code>Utterances</code></a> map comments directly to GitHub Discussions or Issues. You get GitHub authentication, spam filtering, and notifications without building a backend.</p>
-<h3>GitHub Actions for scheduled batch jobs</h3>
-<p>Workflows triggered on a cron schedule can run scrapers, update JSON or SQLite files, and commit the updated data back to the repo.</p>
+<p>In an industry where developers are often expected to fit into neat, standardized job titles, showing two distinct skill sets can look messy to an outside observer.</p>
 <hr />
-<h2>Comparison</h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Feature</th>
-<th style="text-align: left;">GitHub as a DB</th>
-<th style="text-align: left;">Serverless SQLite (Turso / D1)</th>
-<th style="text-align: left;">Managed DB (Postgres / RDS)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">Hosting cost</td>
-<td style="text-align: left;">$0</td>
-<td style="text-align: left;">Free tier / Pay per read</td>
-<td style="text-align: left;">$15 to $100+/month</td>
-</tr>
-<tr>
-<td style="text-align: left;">Read latency</td>
-<td style="text-align: left;">50ms to 300ms (CDN)</td>
-<td style="text-align: left;">10ms to 30ms (Edge)</td>
-<td style="text-align: left;">5ms to 20ms</td>
-</tr>
-<tr>
-<td style="text-align: left;">Write latency</td>
-<td style="text-align: left;">1s to 5s (Git commit)</td>
-<td style="text-align: left;">10ms to 50ms</td>
-<td style="text-align: left;">Under 5ms</td>
-</tr>
-<tr>
-<td style="text-align: left;">Concurrency</td>
-<td style="text-align: left;">Risk of merge conflicts</td>
-<td style="text-align: left;">Multi-region replication</td>
-<td style="text-align: left;">ACID row locks</td>
-</tr>
-<tr>
-<td style="text-align: left;">Rate limits</td>
-<td style="text-align: left;">5,000 requests/hour</td>
-<td style="text-align: left;">Millions ops/month</td>
-<td style="text-align: left;">Connection pool bound</td>
-</tr>
-<tr>
-<td style="text-align: left;">Binary diffs</td>
-<td style="text-align: left;">Large <code>.git</code> bloat</td>
-<td style="text-align: left;">Clean storage engine</td>
-<td style="text-align: left;">Standard WAL storage</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2>Conclusion</h2>
+<h2>4. Why low-level hacking makes you a better cloud engineer</h2>
+<p>Even if it confuses a few hiring pipelines, I think understanding low-level systems is one of the most useful skills a cloud developer can have.</p>
+<p>High-level runtimes do not eliminate system complexity. They just hide it until something breaks.</p>
+<p>When a Node process runs out of memory in production, or a serverless worker suffers from socket exhaustion under high load, you cannot solve the issue by adding more abstractions. You need to understand how the operating system handles memory pages, network buffers, and I/O polling.</p>
+<p>Writing C99 and working with embedded hardware keeps those fundamentals sharp:</p>
 <ol>
-<li>Use GitHub Pages with SQLite VFS if you have a static, read-only dataset that you want to host for free with zero maintenance.</li>
-<li>Use flat files with the GitHub API for low-frequency writes where you want an audit trail, like static blog comments or personal bookmarks.</li>
-<li>Avoid GitHub as a database for applications that need fast write latencies, high concurrency, or private customer records.</li>
+<li><strong>No magic.</strong> You understand what the runtime is doing under the hood because you have implemented those data structures yourself.</li>
+<li><strong>Resource awareness.</strong> After spending hours fitting code into microcontrollers with kilobytes of RAM, you naturally write leaner, more efficient cloud services.</li>
+<li><strong>Calm debugging.</strong> When a high-level library fails with an obscure error, you can read the underlying C bindings or strace output without panic.</li>
 </ol>
+<p>I could have kept my personal site sanitized and focused purely on enterprise web stacks. But this blog is an honest reflection of how I work and what I build.</p>
                 </div>
             </article>
 
@@ -778,7 +656,7 @@ GitHub Pages or CDN storage (database.sqlite)
         <footer class="p-3 sm:p-4 border-t theme-border text-xs flex justify-between items-center theme-bg-header">
             <span class="theme-text-muted text-[11px] sm:text-xs font-bold">riccivr.github.io/blog</span>
             <span id="footer-text" class="text-right text-[11px] sm:text-xs theme-text-muted font-mono font-medium">
-                REV: 04af2cd // PUBLICADO: 2026.08.30
+                REV: 04af2cd // PUBLICADO: 2026.09.09
             </span>
         </footer>
 
@@ -788,7 +666,7 @@ GitHub Pages or CDN storage (database.sqlite)
     <script>
         const i18n = {
             es: {
-                sysId: "SYS.ID: riccivr // using-github-as-a-database",
+                sysId: "SYS.ID: riccivr // the-duality-of-cloud-engineering-and-c99",
                 status: "ESTADO: EN LÍNEA",
                 langToggle: "[LANG: ES]",
                 langAria: "Alternar idioma a inglés (actual: Español) [I]",
@@ -810,12 +688,12 @@ GitHub Pages or CDN storage (database.sqlite)
                 repoAria: "Ver repositorio en GitHub (se abre en nueva pestaña) [G]",
                 topBtn: "[^] Arriba",
                 topBtnAria: "Ir arriba [K]",
-                footerText: "REV: 04af2cd // PUBLICADO: 2026.08.30",
-                title: "\u00bfSe puede usar GitHub como base de datos? SQLite, peticiones HTTP Range y archivos planos",
-                metaDesc: "Siempre ando buscando formas de mantener mis proyectos personales con cero mantenimiento y cero costos de servidor, as\u00ed que me puse a pensar: \u00bfse puede usar GitHub de pana como una base de datos persistente?"
+                footerText: "REV: 04af2cd // PUBLICADO: 2026.09.09",
+                title: "La dualidad de chambear en la nube y tirar c\u00f3digo en C99",
+                metaDesc: "Casi toda mi vida profesional en la industria del software ha estado metida de lleno en el mundo del desarrollo web y la infraestructura cloud."
             },
             en: {
-                sysId: "SYS.ID: riccivr // using-github-as-a-database",
+                sysId: "SYS.ID: riccivr // the-duality-of-cloud-engineering-and-c99",
                 status: "STATUS: ONLINE",
                 langToggle: "[LANG: EN]",
                 langAria: "Toggle language to Spanish (current: English) [I]",
@@ -837,9 +715,9 @@ GitHub Pages or CDN storage (database.sqlite)
                 repoAria: "View GitHub repository (opens in a new tab) [G]",
                 topBtn: "[^] Top",
                 topBtnAria: "Scroll to top [K]",
-                footerText: "REV: 04af2cd // PUBLISHED: 2026.08.30",
-                title: "Can you use GitHub as a database? SQLite, HTTP range requests, and flat files",
-                metaDesc: "I often look for ways to keep side projects zero-maintenance and zero-cost, which made me wonder: can I just use GitHub as a persistent database?"
+                footerText: "REV: 04af2cd // PUBLISHED: 2026.09.09",
+                title: "The duality of working in the cloud and hacking in C99",
+                metaDesc: "For most of my professional career, my day job has lived in the world of high-level web engineering and cloud infrastructure."
             }
         };
 

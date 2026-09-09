@@ -5,8 +5,22 @@
     <link>https://riccivr.github.io/blog/</link>
     <description>Thoughts on systems architecture, cloud infrastructure, low-level programming &amp; algorithms.</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 03 Sep 2026 11:47:42 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 09 Sep 2026 18:16:56 GMT</lastBuildDate>
     <atom:link href="https://riccivr.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The duality of working in the cloud and hacking in C99</title>
+      <link>https://riccivr.github.io/blog/the-duality-of-cloud-engineering-and-c99.html</link>
+      <guid isPermaLink="true">https://riccivr.github.io/blog/the-duality-of-cloud-engineering-and-c99.html</guid>
+      <pubDate>Wed, 09 Sep 2026 12:00:00 GMT</pubDate>
+      <description>For most of my professional career, my day job has lived in the world of high-level web engineering and cloud infrastructure.</description>
+      <category>Career</category>
+      <category>C99</category>
+      <category>Cloud</category>
+      <category>TypeScript</category>
+      <category>PHP</category>
+      <category>Architecture</category>
+      <category>Reflections</category>
+    </item>
     <item>
       <title>gitcrawl: content-addressable web archiver and snapshot engine backed by Git</title>
       <link>https://riccivr.github.io/blog/gitcrawl-content-addressable-web-archiver.html</link>
