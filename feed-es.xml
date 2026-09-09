@@ -5,14 +5,14 @@
     <link>https://riccivr.github.io/blog/</link>
     <description>Reflexiones sobre arquitectura de sistemas, infraestructura cloud, programación de bajo nivel y algoritmos.</description>
     <language>es-ve</language>
-    <lastBuildDate>Wed, 09 Sep 2026 18:16:56 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 09 Sep 2026 18:17:53 GMT</lastBuildDate>
     <atom:link href="https://riccivr.github.io/feed-es.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>La dualidad de chambear en la nube y tirar código en C99</title>
       <link>https://riccivr.github.io/blog/the-duality-of-cloud-engineering-and-c99.html</link>
       <guid isPermaLink="true">https://riccivr.github.io/blog/the-duality-of-cloud-engineering-and-c99.html</guid>
       <pubDate>Wed, 09 Sep 2026 12:00:00 GMT</pubDate>
-      <description>Casi toda mi vida profesional en la industria del software ha estado metida de lleno en el mundo del desarrollo web y la infraestructura cloud.</description>
+      <description>Llevo más de doce años metido de lleno en el mundo del desarrollo de software, la arquitectura distribuida y la infraestructura cloud.</description>
       <category>Carrera</category>
       <category>C99</category>
       <category>Cloud</category>
