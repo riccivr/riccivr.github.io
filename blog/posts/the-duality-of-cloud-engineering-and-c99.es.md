@@ -1,4 +1,4 @@
-# La dualidad de chambear en la nube y tirar código en C99
+# La dualidad de trabajar en la nube y tirar código en C99
 
 *Publicado: 9 de septiembre de 2026. Categoría: Carrera & Sistemas. Tiempo de lectura: ~4 min*
 *Etiquetas: Carrera, C99, Cloud, TypeScript, PHP, Arquitectura, Reflexiones*
@@ -9,7 +9,7 @@ Llevo más de doce años metido de lleno en el mundo del desarrollo de software,
 
 Empecé allá por 2012 en Venezuela, administrando servidores LAMP, optimizando consultas SQL pesadas, automatizando scrapers en la intranet y echando código en PHP y Laravel. Con los años, ese camino me llevó a mudarme a Madrid, diseñar microservicios en BBVA, procesar catálogos gigantes con colas AMQP y Lambdas en Billionhands, y diseñar arquitecturas cloud y funcionalidades de producto con TypeScript, AWS CDK y backends serverless en Enroly.
 
-Esa es la chamba del día a día. Paga las cuentas, resuelve problemas de negocio reales y aguanta miles de usuarios en producción.
+Ese es el trabajo del día a día. Paga las cuentas, resuelve problemas de negocio reales y aguanta miles de usuarios en producción.
 
 Pero cuando termino la jornada, apago la máquina de la oficina y abro una terminal para programar por puro gusto, mi cerebro me pide algo totalmente distinto. Me pongo a escribir herramientas en C99, armar filtros de streams en POSIX, inventar con hardware embebido y destripar formatos binarios.
 
