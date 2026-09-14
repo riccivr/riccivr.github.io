@@ -56,6 +56,8 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="meta-title">{meta_title}</title>
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../riccivr-retro-avatar.png">
+    <meta name="theme-color" content="#0c0a07">
     <meta name="author" content="Ricardo Veronese">
     <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed (English)" href="https://riccivr.github.io/feed.xml">
     <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Feed RSS del Blog (Español)" href="https://riccivr.github.io/feed-es.xml">
@@ -64,7 +66,8 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
 
     <!-- Privacy-first analytics by GoatCounter -->
     <script data-goatcounter="https://riccivr.goatcounter.com/count"
-            async src="//gc.zgo.at/count.js"></script>
+            async src="https://gc.zgo.at/count.js"
+            onerror="this.remove()"></script>
 
     <!-- Open Graph -->
     <meta property="og:type" content="article">
