@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="meta-title">Archivar la web con Git: construyendo un crawler e indexador histórico - Ricardo Veronese</title>
+    <title id="meta-title">beam: streaming de videos efímeros en C99 con peticiones Range y túneles SSH - Ricardo Veronese</title>
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
     <meta name="author" content="Ricardo Veronese">
     <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed (English)" href="https://riccivr.github.io/feed.xml">
     <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Feed RSS del Blog (Español)" href="https://riccivr.github.io/feed-es.xml">
-    <meta name="description" id="meta-desc" content="Las páginas web mutan y desaparecen a cada rato. Las empresas borran documentación durante rediseños corporativos, los términos de servicio cambian sin avisar y los links se rompen de la nada.">
-    <link rel="canonical" href="https://riccivr.github.io/blog/preserving-the-web-with-git.html">
+    <meta name="description" id="meta-desc" content="En mi artículo anterior expliqué cómo construí autodub para transcribir, traducir y doblar videos en inglés al español y mandárselos a mi novia, ahorrándole el cansancio de leer subtítulos después de trabajar todo el día...">
+    <link rel="canonical" href="https://riccivr.github.io/blog/beam-ephemeral-video-streaming-in-c99.html">
 
     <!-- Privacy-first analytics by GoatCounter -->
     <script data-goatcounter="https://riccivr.goatcounter.com/count"
@@ -18,15 +18,15 @@
     <!-- Open Graph -->
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="Ricardo Veronese">
-    <meta property="og:title" id="og-title" content="Archivar la web con Git: construyendo un crawler e indexador histórico - Ricardo Veronese">
-    <meta property="og:description" id="og-desc" content="Las páginas web mutan y desaparecen a cada rato. Las empresas borran documentación durante rediseños corporativos, los términos de servicio cambian sin avisar y los links se rompen de la nada.">
-    <meta property="og:url" content="https://riccivr.github.io/blog/preserving-the-web-with-git.html">
+    <meta property="og:title" id="og-title" content="beam: streaming de videos efímeros en C99 con peticiones Range y túneles SSH - Ricardo Veronese">
+    <meta property="og:description" id="og-desc" content="En mi artículo anterior expliqué cómo construí autodub para transcribir, traducir y doblar videos en inglés al español y mandárselos a mi novia, ahorrándole el cansancio de leer subtítulos después de trabajar todo el día...">
+    <meta property="og:url" content="https://riccivr.github.io/blog/beam-ephemeral-video-streaming-in-c99.html">
     <meta property="og:image" content="https://riccivr.github.io/riccivr-retro-og.png">
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" id="tw-title" content="Archivar la web con Git: construyendo un crawler e indexador histórico - Ricardo Veronese">
-    <meta name="twitter:description" id="tw-desc" content="Las páginas web mutan y desaparecen a cada rato. Las empresas borran documentación durante rediseños corporativos, los términos de servicio cambian sin avisar y los links se rompen de la nada.">
+    <meta name="twitter:title" id="tw-title" content="beam: streaming de videos efímeros en C99 con peticiones Range y túneles SSH - Ricardo Veronese">
+    <meta name="twitter:description" id="tw-desc" content="En mi artículo anterior expliqué cómo construí autodub para transcribir, traducir y doblar videos en inglés al español y mandárselos a mi novia, ahorrándole el cansancio de leer subtítulos después de trabajar todo el día...">
     <meta name="twitter:image" content="https://riccivr.github.io/riccivr-retro-og.png">
 
     <!-- Schema.org BlogPosting -->
@@ -34,15 +34,15 @@
     {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
-        "headline": "Archivar la web con Git: construyendo un crawler e indexador hist\u00f3rico",
-        "description": "Las p\u00e1ginas web mutan y desaparecen a cada rato. Las empresas borran documentaci\u00f3n durante redise\u00f1os corporativos, los t\u00e9rminos de servicio cambian sin avisar y los links se rompen de la nada.",
+        "headline": "beam: streaming de videos ef\u00edmeros en C99 con peticiones Range y t\u00faneles SSH",
+        "description": "En mi art\u00edculo anterior expliqu\u00e9 c\u00f3mo constru\u00ed autodub para transcribir, traducir y doblar videos en ingl\u00e9s al espa\u00f1ol y mand\u00e1rselos a mi novia, ahorr\u00e1ndole el cansancio de leer subt\u00edtulos despu\u00e9s de trabajar todo el d\u00eda...",
         "author": {
             "@type": "Person",
             "name": "Ricardo Veronese",
             "url": "https://riccivr.github.io/"
         },
-        "datePublished": "2026-08-30",
-        "mainEntityOfPage": "https://riccivr.github.io/blog/preserving-the-web-with-git.html"
+        "datePublished": "2026-09-14",
+        "mainEntityOfPage": "https://riccivr.github.io/blog/beam-ephemeral-video-streaming-in-c99.html"
     }
     </script>
 
@@ -487,7 +487,7 @@
 
         <header class="p-2.5 sm:p-3 theme-bg-header border-b theme-border flex flex-col sm:flex-row justify-between sm:items-center gap-2">
             <div class="flex items-center justify-between sm:justify-start gap-2">
-                <span class="text-xs theme-text-muted tracking-wider font-bold truncate max-w-[220px] sm:max-w-none" id="header-sys-id">SYS.ID: riccivr // preserving-the-web-with-git</span>
+                <span class="text-xs theme-text-muted tracking-wider font-bold truncate max-w-[220px] sm:max-w-none" id="header-sys-id">SYS.ID: riccivr // beam-ephemeral-video-streaming-in-c99</span>
                 <span class="status-label-text theme-text-main text-[11px] font-bold uppercase tracking-wider sm:hidden">
                     ESTADO: EN LÍNEA
                 </span>
@@ -535,217 +535,275 @@
             <!-- Post Container (Zero-JS Pre-rendered) -->
             <article id="post-article-es" lang="es">
                 <div class="post-content">
-<h1>Archivar la web con Git: construyendo un crawler e indexador histórico</h1>
-<p><em>Publicado: 30 de agosto de 2026. Categoría: Sistemas &amp; Arquitectura. Tiempo de lectura: ~5 min</em><br />
-<em>Etiquetas: Git, Web Archiving, Crawlers, Sistemas, C99, Arquitectura</em></p>
+<h1>beam: streaming de videos efímeros en C99 con peticiones Range y túneles SSH</h1>
+<p><em>Publicado: 14 de septiembre de 2026. Categoría: Sistemas &amp; Redes. Tiempo de lectura: ~6 min</em><br />
+<em>Etiquetas: C99, beam, HTTP, Redes, POSIX, Video</em></p>
 <hr />
-<blockquote>
-<p><strong>Actualización</strong>: El prototipo descrito en este artículo ya es una realidad y está disponible en código abierto como <a href="https://github.com/riccivr/gitcrawl"><strong><code>gitcrawl</code></strong></a>. Puedes leer el desglose técnico, benchmarks y especificaciones de arquitectura completas en: <a href="gitcrawl-content-addressable-web-archiver.html"><strong><code>gitcrawl: crawler web direccionable por contenido y motor de snapshots en Git</code></strong></a>.</p>
-</blockquote>
+<p>En mi artículo anterior expliqué cómo construí <a href="https://riccivr.github.io/blog/autodub-automating-video-dubbing-to-spanish.html"><code>autodub</code></a> para transcribir, traducir y doblar videos en inglés al español y mandárselos a mi novia, ahorrándole el cansancio de leer subtítulos después de trabajar todo el día frente a una pantalla.</p>
+<p>Pero apenas empecé a usar la herramienta en la vida real, me di cuenta de que tenía resuelta solo la mitad del problema.</p>
+<p>El pipeline de <code>autodub</code> me dejaba un archivo <code>.mp4</code> de 300 o 500 MB impecable en mi disco duro. La pregunta inmediata era: ¿cómo se lo hago llegar a ella de una vez y sin fricción?</p>
+<p>Las opciones convencionales son todas un fastidio:</p>
+<ul>
+<li><strong>WhatsApp o Telegram:</strong> comprimen el video hasta volverlo una sopa de píxeles, tardan un siglo subiendo archivos pesados o imponen límites de tamaño arbitrarios.</li>
+<li><strong>Google Drive, Dropbox o WeTransfer:</strong> implican abrir el navegador, esperar que suba el archivo completo, copiar un enlace y lidiar con almacenamiento en la nube. Peor todavía: Google Drive se queda "procesando el video" durante diez o quince minutos antes de permitir streaming web, obligando a la otra persona a descargar el archivo entero antes de poder reproducir el primer segundo.</li>
+<li><strong>Nginx, S3 o CloudFront:</strong> levantar un servidor web público o configurar buckets para compartir videos personales de 20 minutos es matar moscas a cañonazos, cuesta dinero y requiere mantenimiento innecesario.</li>
+</ul>
+<p>Yo no quería subir nada a la nube. El video ya estaba en mi computadora. Lo único que quería era exponer ese archivo local mediante un enlace web efímero para que ella lo abriera en Safari o Chrome desde su teléfono o laptop, le diera play y comenzara a sonar de inmediato en el reproductor nativo del navegador, con capacidad de adelantar o atrasar la reproducción (seek), y que cuando terminara o pasaran unas horas, el servidor se apagara solo.</p>
+<p>Para resolver esto escribí <a href="https://github.com/riccivr/beam"><strong><code>beam</code></strong></a>: un servidor HTTP mínimo en C99 puro diseñado para compartir archivos locales mediante enlaces temporales, streaming con peticiones Range y túneles HTTPS automáticos.</p>
 <hr />
-<p>Las páginas web mutan y desaparecen a cada rato. Las empresas borran documentación durante rediseños corporativos, los términos de servicio cambian sin avisar y los links se rompen de la nada.</p>
-<p>La Wayback Machine de Internet Archive es una nota para ver páginas en el navegador, pero no está hecha para correr diffs rápidos en local, meterle grep o armar scripts en la terminal.</p>
-<p>He estado probando una jugada distinta: crawlear páginas web y guardar todo el historial directamente dentro de repositorios Git.</p>
-<p>Aquí te muestro cómo funciona Git como motor de almacenamiento para archivar la web y lo que aprendí armando un prototipo.</p>
-<hr />
-<h2>1. Por qué Git funciona brutal como backend de almacenamiento</h2>
-<p>En el fondo, Git es un almacén de objetos direccionable por contenido estructurado como un grafo acíclico dirigido. Está pensado para rastrear cambios en archivos de texto ocupando el menor espacio posible en disco.</p>
-<div class="code-highlight"><pre><span></span><code>Pipeline del crawler
-Descarga URL -&gt; Sanitización DOM -&gt; Normalización a Markdown
-                       │
-                       ▼ Commit atómico
-Almacén de objetos Git (.git/objects)
-Commit (Autor, Timestamp, Hash del árbol)
-  └── Tree (ejemplo.com/docs/)
-        ├── Blob (index.md) -&gt; Compresión delta
-        ├── Blob (metadata.json)
-        └── Blob (assets/hero.webp) -&gt; Deduplicado por SHA
+<h2>1. El reproductor nativo y las peticiones HTTP Range (206)</h2>
+<p>Cuando abres un video en un navegador móvil como Safari en iOS o Chrome en Android, el navegador no hace una petición <code>GET</code> normal para bajarse el archivo completo de un solo golpe.</p>
+<p>Los reproductores modernos dependen del estándar <strong>HTTP Range Requests (RFC 7233)</strong>:</p>
+<div class="code-highlight"><pre><span></span><code>Navegador (Cliente)                              beam (Servidor C99)
+       │                                                 │
+       │─── GET /token (Range: bytes=0-1048575) ────────&gt;│
+       │                                                 │ [Lee primeros bytes]
+       │&lt;── 206 Partial Content (Content-Range: 0-...) ──│
+       │                                                 │
+  [Play inmediato]                                       │
+       │                                                 │
+  [Usuario adelanta al min 15:30]                        │
+       │─── GET /token (Range: bytes=35684000-) ────────&gt;│
+       │                                                 │ [sendfile() en offset]
+       │&lt;── 206 Partial Content (Content-Range: ...) ────│
 </code></pre></div>
 
-<h3>Ventajas clave:</h3>
 <ol>
-<li>Deduplicación por contenido. Git indexa cada archivo por su hash criptográfico. Si 500 páginas crawleadas usan el mismo CSS o la misma foto, Git guarda ese blob una sola vez y listo.</li>
-<li>Compresión delta en packfiles. Cuando una página de documentación cambia una sola línea, los packfiles de Git (<code>git pack-objects</code>) guardan solo la diferencia en bytes. Crawlear un sitio cientos de veces no te va a reventar el disco duplicando el HTML entero.</li>
-<li>Herramientas estándar de Git. Tienes acceso inmediato a comandos nativos:<br />
-   - <code>git diff v1..v2 -- ruta/a/pagina.md</code> te muestra los cambios exactos en la terminal.<br />
-   - <code>git log -p -S "parametro_deprecado"</code> encuentra el commit exacto donde se agregó o borró una palabra en todo el historial.<br />
-   - <code>git bisect</code> corre pruebas automáticas sobre los snapshots para encontrar cuándo un sitio externo rompió una API.</li>
+<li>El navegador solicita primero unos pocos kilobytes o megabytes para inspeccionar los metadatos del contenedor (<code>Range: bytes=0-1048575</code>).</li>
+<li>Comprueba si el servidor soporta rangos verificando la cabecera <code>Accept-Ranges: bytes</code>.</li>
+<li>Si el usuario arrastra la barra de reproducción hasta la mitad del video, el cliente cancela la descarga actual e inmediatamente dispara una nueva petición con el offset exacto: <code>Range: bytes=35684000-</code>.</li>
+</ol>
+<p>Si el servidor responde con un simple <code>200 OK</code> y empieza a transmitir el archivo desde el byte 0, el reproductor entra en pánico: o bloquea la barra de desplazamiento obligando al usuario a esperar que baje todo el video, o sencillamente se queda en negro.</p>
+<p>En <code>beam</code> implementé un parser estricto de peticiones Range en C99. Soporta:</p>
+<ul>
+<li><strong>Rangos abiertos:</strong> <code>Range: bytes=1024-</code> (desde el byte 1024 hasta el final del archivo).</li>
+<li><strong>Rangos cerrados:</strong> <code>Range: bytes=0-499</code> (los primeros 500 bytes exactos).</li>
+<li><strong>Rangos de sufijo:</strong> <code>Range: bytes=-1000</code> (los últimos 1000 bytes del archivo).</li>
+<li><strong>Validación de límites:</strong> si el offset solicitado supera el tamaño real del archivo, responde de inmediato con <code>416 Range Not Satisfiable</code> y la cabecera <code>Content-Range: bytes */TOTAL</code>.</li>
+</ul>
+<p>Al responder con <code>206 Partial Content</code> y la cabecera <code>Content-Disposition: inline</code>, los navegadores abren el archivo directo en sus controles nativos de video y permiten adelantar o retroceder con latencia casi nula.</p>
+<hr />
+<h2>2. El problema del átomo moov en archivos MP4</h2>
+<p>Hay una trampa muy común al hacer streaming de video en la web con archivos MP4.</p>
+<p>En el formato contenedor ISO base media (MP4/MOV), los metadatos del video (duración, resolución, códecs y la tabla de muestras temporales) se almacenan en un bloque llamado átomo <strong><code>moov</code></strong>. Los datos crudos de video y audio se almacenan en el átomo <strong><code>mdat</code></strong>.</p>
+<p>Por defecto, muchos codificadores colocan el átomo <code>moov</code> al <strong>final</strong> del archivo, después de todo el bloque <code>mdat</code>:</p>
+<div class="code-highlight"><pre><span></span><code>MP4 sin optimizar:
+[ ftyp ][                     mdat (500 MB)                     ][ moov (1 MB) ]
+  ▲                                                                 ▲
+  Inicio                                                            Metadatos al final
+
+MP4 con Faststart (+faststart):
+[ ftyp ][ moov (1 MB) ][                     mdat (500 MB)                     ]
+  ▲        ▲
+  Inicio   Metadatos disponibles en el byte 32 -&gt; Play instantáneo
+</code></pre></div>
+
+<p>Si el átomo <code>moov</code> está al final, el navegador no puede calcular la duración del video ni decodificar los fotogramas iniciales sin haber leído primero esos metadatos. En conexiones móviles o a través de túneles, esto causa demoras enormes antes de que comience el video.</p>
+<p><code>beam</code> inspecciona automáticamente el encabezado del archivo. Si detecta que se trata de un archivo MP4 y <code>ffmpeg</code> está disponible en el sistema, ejecuta un remux ultra rápido en segundo plano utilizando <code>-movflags +faststart</code>. Esto reubica el átomo <code>moov</code> al inicio del archivo sin reencodear nada. El proceso toma apenas un par de segundos y garantiza que el video comience a reproducirse en menos de 100 milisegundos.</p>
+<hr />
+<h2>3. Túnel HTTPS público efímero sin cuentas ni registros</h2>
+<p>Compartir un servidor web que corre en <code>localhost:8080</code> con alguien que está en otra casa suele requerir abrir puertos en el router (imposible bajo CGNAT residencial), configurar DNS dinámico, o registrarse en servicios como ngrok o Cloudflare Tunnels instalando agentes propietarios.</p>
+<p>Para <code>beam</code> quería una experiencia con cero fricción: un solo flag <code>-p</code> que me diera una URL pública segura con HTTPS listo.</p>
+<p>Lo resolví aprovechando el reenvío de puertos remoto de OpenSSH contra <code>localhost.run</code>:</p>
+<div class="code-highlight"><pre><span></span><code><span class="n">execlp</span><span class="p">(</span><span class="s">&quot;ssh&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ssh&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="s">&quot;-T&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;StrictHostKeyChecking=no&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;UserKnownHostsFile=/dev/null&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ExitOnForwardFailure=yes&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Compression=no&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;IPQoS=throughput&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;TCPKeepAlive=yes&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ServerAliveInterval=15&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="s">&quot;-R&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">port_spec</span><span class="p">,</span>
+<span class="w">       </span><span class="s">&quot;nokey@localhost.run&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="nb">NULL</span><span class="p">);</span>
+</code></pre></div>
+
+<p>Detalles técnicos clave de esta implementación:</p>
+<ol>
+<li><strong><code>Compression=no</code>:</strong> los archivos multimedia ya están comprimidos (H.264, AAC). Activar compresión en el túnel SSH no ahorra ancho de banda y solo quema ciclos de CPU en vano.</li>
+<li><strong><code>IPQoS=throughput</code>:</strong> le indica al kernel de red que priorice el rendimiento de transferencia continua sobre la baja latencia de paquetes interactivos pequeños.</li>
+<li><strong>Manejo de caídas:</strong> <code>beam</code> vigila el PID del proceso SSH con <code>waitpid()</code>. Si la conexión se cae por fluctuaciones de red, reabre el túnel automáticamente y refresca la URL sin interrumpir el servidor HTTP local.</li>
+<li><strong>Seguridad mediante tokens:</strong> cada enlace utiliza un identificador hexadecimal aleatorio de 128 bits (32 caracteres) extraído de <code>/dev/urandom</code>. Sin el token exacto, nadie en internet puede listar ni adivinar el archivo servido.</li>
 </ol>
 <hr />
-<h2>2. Ingesta y reducción de ruido</h2>
-<p>El reto más bravo al meter HTML en Git es el ruido dinámico.</p>
-<p>Si haces commit del HTML crudo que devuelve el servidor, cada corrida te va a generar diffs falsos por tokens CSRF, cookies de sesión, banners con fechas y bloques de publicidad aleatorios.</p>
-<div class="code-highlight"><pre><span></span><code>Respuesta HTTP en crudo
-       │
-       ▼
-[ Stream de descarga ]
-       │
-       ▼
-[ Sanitizador de DOM ] ──&gt; Quita scripts, pixeles de rastreo y atributos locos
-       │
-       ▼
-[ Parser de streams ]  ──&gt; Convierte el DOM limpio en Markdown normalizado
-       │
-       ▼
-[ Plomería de Git ]    ──&gt; Escribe el commit directo en .git/objects
-</code></pre></div>
-
-<h3>Esquema de almacenamiento en dos archivos:</h3>
-<p>Para tener diffs limpios sin perder la respuesta original, cada captura guarda dos archivos:</p>
-<div class="code-highlight"><pre><span></span><code>archive/
-  └── example.com/
-        └── api/
-              └── v1/
-                    ├── index.md        &lt;-- Markdown limpio para git diff
-                    ├── index.html.gz   &lt;-- HTML original comprimido intacto
-                    └── metadata.json   &lt;-- Cabeceras HTTP, status code, IP, fecha
-</code></pre></div>
-
+<h2>4. Rendimiento con sendfile() y conexiones persistentes</h2>
+<p>Dado que <code>beam</code> fue escrito desde cero en C99 sin frameworks ni dependencias externas, optimicé la ruta crítica de transferencia:</p>
 <ul>
-<li><code>index.md</code> genera diffs limpiecitos en la terminal con tablas, code fences y listas.</li>
-<li><code>metadata.json</code> guarda cabeceras HTTP, cadenas de redirección y hashes de certificados TLS.</li>
+<li><strong>Zero-copy con <code>sendfile()</code>:</strong> en sistemas Linux, <code>beam</code> transfiere los datos directamente desde el descriptor del archivo en disco hacia el socket TCP en el kernel mediante <code>sendfile()</code>. Los datos nunca se copian al espacio de usuario en memoria RAM, lo que reduce el consumo de memoria a casi cero y maximiza la velocidad de transferencia.</li>
+<li><strong>HTTP/1.1 Keep-Alive:</strong> los reproductores de video realizan decenas de peticiones Range consecutivas para cargar segmentos sucesivos de audio y video. <code>beam</code> mantiene el socket abierto mediante <code>Connection: keep-alive</code> (con un timeout de inactividad de 15 segundos), evitando el costo de múltiples apretones de manos TCP.</li>
+<li><strong>Código QR en terminal:</strong> incluye un generador de códigos QR integrado en C (<code>qr.c</code>) que dibuja la matriz directamente en la consola usando medios bloques Unicode (<code>▀</code>, <code>█</code>). Si quiero abrir el enlace en mi propio teléfono mientras estoy en la misma red Wi-Fi, solo apunto la cámara a la pantalla.</li>
 </ul>
 <hr />
-<h2>3. Fragmentación de carpetas</h2>
-<p>Guardar miles de URLs en una sola carpeta colapsa el rendimiento del sistema de archivos.</p>
-<p>Dividir la URL en subcarpetas mantiene los directorios ordenados y volando:</p>
-<div class="code-highlight"><pre><span></span><code>https://docs.kernel.org/process/submitting-patches.html
-  └── docs.kernel.org/
-        └── process/
-              └── submitting-patches/
-                    ├── index.md
-                    └── metadata.json
+<h2>5. La tubería UNIX perfecta con autodub</h2>
+<p>El motivo principal por el que construí <code>beam</code> fue integrarlo de forma natural con <code>autodub</code> siguiendo la filosofía UNIX: herramientas pequeñas, enfocadas y conectables mediante pipes.</p>
+<div class="code-highlight"><pre><span></span><code><span class="c1"># Doblar un video de YouTube y compartirlo públicamente de inmediato</span>
+autodub<span class="w"> </span><span class="s2">&quot;https://www.youtube.com/watch?v=EXAMPLE_ID&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>beam<span class="w"> </span>-p<span class="w"> </span>-c
 </code></pre></div>
 
-<p>Los query parameters se ordenan alfabéticamente y se guardan en carpetas dedicadas. Los caracteres prohibidos en POSIX y Windows (<code>:</code>, <code>*</code>, <code>?</code>, <code>"</code>, <code>&lt;</code>, <code>&gt;</code>, <code>|</code>) se escapan con hashes seguros.</p>
-<hr />
-<h2>4. Escribir directo a objetos para meterle chola</h2>
-<p>Comandos como <code>git add</code> y <code>git checkout</code> tocan el disco para cada archivo en el directorio de trabajo. En repositorios gigantes con miles de páginas, el disco se vuelve un dolor de cabeza.</p>
-<p>Para una ingesta rápida, te saltas el directorio de trabajo por completo y escribes los objetos directo a <code>.git/objects</code> usando comandos de plomería de Git o bindings en C:</p>
-<div class="code-highlight"><pre><span></span><code>1. Escribir Blob:    git hash-object -w &lt;contenido&gt;     -&gt; Hash del Blob
-2. Armar Árbol:      git mktree &lt;definicion_arbol&gt;      -&gt; Hash del Árbol
-3. Crear Commit:     git commit-tree &lt;hash_arbol&gt; -p HEAD -&gt; Hash del Commit
-4. Actualizar Rama:  git update-ref refs/heads/main &lt;hash_commit&gt;
+<p>¿Qué ocurre internamente cuando ejecuto ese comando?</p>
+<div class="code-highlight"><pre><span></span><code>┌──────────────────────────────────────────────────────────────┐
+│ autodub (Python)                                             │
+│ 1. Descarga video con yt-dlp                                 │
+│ 2. Transcribe con faster-whisper en CPU                      │
+│ 3. Traduce texto y sintetiza con Piper TTS                   │
+│ 4. Alinea audio en memoria y aplica ducking con FFmpeg       │
+│ 5. Imprime en stdout: &quot;Dubbed: /tmp/autodub/video_es.mp4&quot;    │
+└──────────────────────────────┬───────────────────────────────┘
+                               │ (pipe en tiempo real)
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ beam (C99)                                                   │
+│ 1. Muestra el progreso de autodub en la terminal             │
+│ 2. Detecta la ruta del video final cuando el proceso termina │
+│ 3. Ejecuta faststart con FFmpeg si es necesario              │
+│ 4. Abre el túnel reverso SSH (-p)                            │
+│ 5. Copia el enlace HTTPS al portapapeles (-c)                │
+│ 6. Dibuja el código QR en la consola                         │
+│ 7. Sirve el video con peticiones Range hasta que expire      │
+└──────────────────────────────────────────────────────────────┘
 </code></pre></div>
 
-<p>Esto procesa los commits en memoria a millón. Ejecutar <code>git gc --prune=now</code> cada cierto tiempo mantiene los packfiles comprimidos al máximo.</p>
-<hr />
-<h2>5. Del prototipo a <code>gitcrawl</code></h2>
-<p>La herramienta CLI standalone basada en esta estructura ya está publicada:</p>
-<ol>
-<li>Un motor central en C99 para descargas HTTP en streaming y sanitización sin dependencias externas: <a href="https://github.com/riccivr/gitcrawl"><strong><code>gitcrawl</code></strong></a>.</li>
-<li>Un parser de streams basado en la lógica de conversión a Markdown de <a href="https://github.com/riccivr/unipaste"><code>unipaste</code></a>.</li>
-<li>Búsqueda rápida con <a href="https://github.com/riccivr/approx"><code>approx</code></a> para encontrar páginas en el historial usando coincidencia difusa directo desde la shell.</li>
-</ol>
-<p>Revisa el artículo completo con especificaciones, benchmarks de compresión y casos de uso en el post de lanzamiento: <a href="gitcrawl-content-addressable-web-archiver.html"><strong><code>gitcrawl: crawler web direccionable por contenido y motor de snapshots en Git</code></strong></a>.</p>
+<p>Cuando <code>autodub</code> termina su trabajo, <code>beam</code> captura la ruta del archivo generado, levanta el servidor, abre el túnel público, copia el enlace al portapapeles del sistema (usando <code>clipbridge</code> o <code>wl-copy</code>) y me avisa.</p>
+<p>Yo solo tengo que pegar el enlace en el chat con mi novia. Ella hace clic en el enlace desde su teléfono, el video comienza a sonar de inmediato en su navegador sin logins ni publicidad, y yo me desentiendo por completo porque a las 5 horas el servidor expira y se apaga solo.</p>
+<p>El código fuente en C99, manual de uso y pruebas unitarias están disponibles en GitHub: <a href="https://github.com/riccivr/beam"><strong><code>github.com/riccivr/beam</code></strong></a>.</p>
                 </div>
             </article>
 
             <article id="post-article-en" lang="en" style="display: none;">
                 <div class="post-content">
-<h1>Archiving the web with Git: building a content-addressable crawler</h1>
-<p><em>Published: August 30, 2026. Category: Systems &amp; Architecture. Reading time: ~5 min</em><br />
-<em>Tags: Git, Web Archiving, Crawlers, Systems, C99, Architecture</em></p>
+<h1>beam: streaming dubbed videos with ephemeral HTTP tunnels and Range requests in C99</h1>
+<p><em>Published: September 14, 2026. Category: Systems &amp; Networking. Reading time: ~6 min</em><br />
+<em>Tags: C99, beam, HTTP, Networking, POSIX, Video</em></p>
 <hr />
-<blockquote>
-<p><strong>Update</strong>: The concepts explored in this post are now implemented and available as an open-source project: <a href="https://github.com/riccivr/gitcrawl"><strong><code>gitcrawl</code></strong></a>. Read the full technical writeup, benchmarks, and architecture specifications in: <a href="gitcrawl-content-addressable-web-archiver.html"><strong><code>gitcrawl: Content-Addressable Web Archiver and Snapshot Engine Backed by Git</code></strong></a>.</p>
-</blockquote>
+<p>In my previous post, I wrote about building <a href="https://riccivr.github.io/blog/autodub-automating-video-dubbing-to-spanish.html"><code>autodub</code></a> to transcribe, translate, and dub English videos into Spanish so I could send them to my girlfriend, sparing her the eye fatigue of reading tiny subtitles after working in front of a screen all day.</p>
+<p>As soon as I started using it regularly, I ran straight into the second half of the problem.</p>
+<p>The <code>autodub</code> pipeline produced a clean 300 MB or 500 MB <code>.mp4</code> file sitting on my local drive. But how was I supposed to get that video to her immediately, with zero friction?</p>
+<p>The standard options were all frustrating:</p>
+<ul>
+<li><strong>WhatsApp or Telegram:</strong> messaging apps either recompress the video into pixelated mush, take ages to upload, or enforce arbitrary file size caps.</li>
+<li><strong>Google Drive, Dropbox, or WeTransfer:</strong> you have to open a browser tab, wait for the full upload to complete, copy a link, and deal with cloud storage limits. Worse, Google Drive frequently spends 10 to 15 minutes "processing" the video before letting you stream it, forcing the other person to download the entire 400 MB file before playing a single frame.</li>
+<li><strong>Nginx, S3, or CloudFront:</strong> spinning up a public web server or provisioning cloud storage buckets just to share a 20-minute video with someone is complete overkill, costs money, and requires maintenance.</li>
+</ul>
+<p>I had no interest in uploading files to cloud services. The video already lived on my hard drive. All I wanted was a temporary, self-expiring link that allowed her to open Safari or Chrome on her phone or laptop, press play, and have the video stream instantly in the native media player with full seeking support, shutting down automatically once the timer expired.</p>
+<p>To solve this, I built <a href="https://github.com/riccivr/beam"><strong><code>beam</code></strong></a>: a zero-dependency, minimal HTTP file-sharing server written in C99, designed specifically for ephemeral media streaming via single-range byte seeking and automated HTTPS reverse tunnels.</p>
 <hr />
-<p>Web pages disappear all the time. Companies delete docs during rebrands, terms of service change without changelogs, and links rot.</p>
-<p>The Wayback Machine is great for visual browsing, but it is not built for running fast local diffs, grep queries, or UNIX shell scripts.</p>
-<p>I have been testing a different approach: crawling web pages and committing their history straight into Git repositories.</p>
-<p>Here is how Git works as a storage backend for web archival and what I found while building a prototype.</p>
-<hr />
-<h2>1. Why Git works as a storage backend</h2>
-<p>Git is a content-addressable object store structured as a directed acyclic graph. It is built to track text changes over time with minimal disk space.</p>
-<div class="code-highlight"><pre><span></span><code>Crawler pipeline
-URL fetch -&gt; DOM sanitization -&gt; Markdown normalization
-                       │
-                       ▼ Atomic commit
-Git object store (.git/objects)
-Commit (Author, Timestamp, Tree SHA)
-  └── Tree (example.com/docs/)
-        ├── Blob (index.md) -&gt; Delta compressed
-        ├── Blob (metadata.json)
-        └── Blob (assets/hero.webp) -&gt; SHA deduplicated
+<h2>1. Native browser playback and HTTP Range requests (206)</h2>
+<p>When you tap a video link in iOS Safari or Android Chrome, the mobile browser does not issue a single monolithic <code>GET</code> request to pull down the entire file.</p>
+<p>Modern web media players rely heavily on the <strong>HTTP Range Requests specification (RFC 7233)</strong>:</p>
+<div class="code-highlight"><pre><span></span><code>Browser (Client)                                 beam (C99 Server)
+       │                                                 │
+       │─── GET /token (Range: bytes=0-1048575) ────────&gt;│
+       │                                                 │ [Reads initial metadata]
+       │&lt;── 206 Partial Content (Content-Range: 0-...) ──│
+       │                                                 │
+  [Instant Playback]                                     │
+       │                                                 │
+  [User seeks forward to 15:30]                          │
+       │─── GET /token (Range: bytes=35684000-) ────────&gt;│
+       │                                                 │ [sendfile() at offset]
+       │&lt;── 206 Partial Content (Content-Range: ...) ────│
 </code></pre></div>
 
-<h3>Useful properties:</h3>
 <ol>
-<li>Content deduplication. Git indexes every file by its cryptographic hash. If 500 crawled pages use the same CSS file or logo, Git stores that blob once.</li>
-<li>Delta compression in packfiles. When a documentation page changes by a single line, Git packfiles (<code>git pack-objects</code>) store only the byte delta. Crawling a site hundreds of times does not duplicate the entire HTML body every run.</li>
-<li>Standard CLI tools. You get immediate access to built-in Git commands:<br />
-   - <code>git diff v1..v2 -- path/to/page.md</code> shows exact text changes in your terminal.<br />
-   - <code>git log -p -S "deprecated_param"</code> finds the exact commit where a phrase was added or removed.<br />
-   - <code>git bisect</code> runs automated tests across snapshots to find when an external site introduced a breaking change.</li>
+<li>The browser requests an initial small slice of bytes (e.g. <code>Range: bytes=0-1048575</code>) to inspect container headers.</li>
+<li>It verifies that the server advertises <code>Accept-Ranges: bytes</code>.</li>
+<li>When the viewer drags the scrubber forward, the player cancels the in-flight transfer and immediately sends a new request with the exact target offset: <code>Range: bytes=35684000-</code>.</li>
+</ol>
+<p>If your HTTP server responds with a naive <code>200 OK</code> and attempts to stream from byte 0, mobile players choke: scrubbers lock up, playback freezes, or the interface errors out.</p>
+<p>In <code>beam</code>, I wrote a strict byte-range parser in C99. It handles:</p>
+<ul>
+<li><strong>Open-ended ranges:</strong> <code>Range: bytes=1024-</code> (from offset 1024 through EOF).</li>
+<li><strong>Closed ranges:</strong> <code>Range: bytes=0-499</code> (exactly the first 500 bytes).</li>
+<li><strong>Suffix ranges:</strong> <code>Range: bytes=-1000</code> (the final 1000 bytes of the file).</li>
+<li><strong>Boundary checks:</strong> if the requested offset exceeds the file length, <code>beam</code> replies immediately with <code>416 Range Not Satisfiable</code> and <code>Content-Range: bytes */TOTAL</code>.</li>
+</ul>
+<p>By returning <code>206 Partial Content</code> along with <code>Content-Disposition: inline</code>, browsers trigger their built-in system player, delivering native hardware-accelerated playback with near-zero initial buffering.</p>
+<hr />
+<h2>2. The MP4 moov atom problem</h2>
+<p>Serving MP4 files over HTTP has an infamous architectural catch.</p>
+<p>In the ISO Base Media File Format (MP4/MOV), critical video metadata (duration, frame rate, resolution, codec configurations, and the sample index table) is stored inside the <strong><code>moov</code> atom</strong>. Raw audio and video frames live inside the <strong><code>mdat</code> atom</strong>.</p>
+<p>By default, most encoders write the <code>moov</code> atom at the very <strong>end</strong> of the file, after all media samples:</p>
+<div class="code-highlight"><pre><span></span><code>Default MP4:
+[ ftyp ][                     mdat (500 MB)                     ][ moov (1 MB) ]
+  ▲                                                                 ▲
+  File start                                                        Metadata at the end
+
+Faststart MP4 (+faststart):
+[ ftyp ][ moov (1 MB) ][                     mdat (500 MB)                     ]
+  ▲        ▲
+  Start    Metadata at byte 32 -&gt; Instant streaming playback
+</code></pre></div>
+
+<p>When the <code>moov</code> atom sits at the end of a 500 MB file, a web browser cannot begin playing or calculate total runtime until it has fetched the end of the file. Over high-latency tunnels or mobile data, this causes noticeable playback lag.</p>
+<p><code>beam</code> inspects the container header at startup. If it is serving an MP4 and <code>ffmpeg</code> is available on the machine, it runs a background remux with <code>-movflags +faststart</code>. This relocates the <code>moov</code> atom to the very beginning of the container without re-encoding any audio or video tracks. It takes two seconds and ensures that playback starts within 100 milliseconds.</p>
+<hr />
+<h2>3. Zero-config ephemeral HTTPS tunnels</h2>
+<p>Sharing a local server running on <code>localhost:8080</code> with someone on a different network usually means configuring port forwarding, setting up Dynamic DNS, or signing up for third-party tunnel SaaS products with account keys and custom daemon binaries.</p>
+<p>With <code>beam</code>, I wanted a completely frictionless, zero-account workflow: pass a single <code>-p</code> flag, get an ephemeral HTTPS link, and you are done.</p>
+<p>I implemented this by spawning an OpenSSH child process that establishes a reverse port-forwarding tunnel via <code>localhost.run</code>:</p>
+<div class="code-highlight"><pre><span></span><code><span class="n">execlp</span><span class="p">(</span><span class="s">&quot;ssh&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ssh&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="s">&quot;-T&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;StrictHostKeyChecking=no&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;UserKnownHostsFile=/dev/null&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ExitOnForwardFailure=yes&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Compression=no&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;IPQoS=throughput&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;TCPKeepAlive=yes&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ServerAliveInterval=15&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="s">&quot;-R&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">port_spec</span><span class="p">,</span>
+<span class="w">       </span><span class="s">&quot;nokey@localhost.run&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="nb">NULL</span><span class="p">);</span>
+</code></pre></div>
+
+<p>Key engineering decisions in the tunnel architecture:</p>
+<ol>
+<li><strong><code>Compression=no</code>:</strong> video files are already compressed with modern codecs like H.264 and AAC. Enabling SSH compression burns CPU cycles without saving a single byte of bandwidth.</li>
+<li><strong><code>IPQoS=throughput</code>:</strong> tells the networking stack to optimize for sustained transfer speed rather than interactive packet responsiveness.</li>
+<li><strong>Auto-reconnect:</strong> <code>beam</code> monitors the child SSH process using non-blocking <code>waitpid()</code>. If network turbulence drops the tunnel, <code>beam</code> automatically re-establishes the connection and prints the refreshed URL without killing the active HTTP server.</li>
+<li><strong>Token protection:</strong> each link is assigned a 128-bit random hexadecimal token read directly from <code>/dev/urandom</code>. Without the exact token, the endpoint cannot be discovered or enumerated.</li>
 </ol>
 <hr />
-<h2>2. Ingestion and noise reduction</h2>
-<p>The main problem with archiving raw HTML into Git is non-deterministic noise.</p>
-<p>If you commit raw HTML from a browser request, every run creates fake diffs from CSRF tokens, session cookies, timestamp banners, and randomized ad containers.</p>
-<div class="code-highlight"><pre><span></span><code>Raw HTTP response
-       │
-       ▼
-[ Fetch stream ]
-       │
-       ▼
-[ DOM sanitizer ] ──&gt; Strip scripts, tracking pixels, volatile attributes
-       │
-       ▼
-[ Stream parser ] ──&gt; Convert clean DOM into normalized Markdown
-       │
-       ▼
-[ Git plumbing ]  ──&gt; Write tree and commit directly to .git/objects
-</code></pre></div>
-
-<h3>Two-tier file layout:</h3>
-<p>To keep diffs clean while preserving original payloads, each snapshot writes two files:</p>
-<div class="code-highlight"><pre><span></span><code>archive/
-  └── example.com/
-        └── api/
-              └── v1/
-                    ├── index.md        &lt;-- Clean Markdown for git diff
-                    ├── index.html.gz   &lt;-- Compressed original HTML payload
-                    └── metadata.json   &lt;-- HTTP headers, status code, IP, timestamp
-</code></pre></div>
-
+<h2>4. Systems performance: sendfile() and persistent connections</h2>
+<p>Because <code>beam</code> is written from scratch in POSIX C99 with zero external library bloat, I optimized the file transmission hot path:</p>
 <ul>
-<li><code>index.md</code> produces readable terminal diffs for prose, tables, and code fences.</li>
-<li><code>metadata.json</code> stores headers, redirect chains, and TLS cert hashes.</li>
+<li><strong>Kernel zero-copy with <code>sendfile()</code>:</strong> on Linux systems, <code>beam</code> streams requested byte ranges directly from the file descriptor to the network socket within kernel space using <code>sendfile()</code>. Bytes are never copied into user-space RAM buffers, keeping CPU and memory usage negligible even when serving multiple gigabytes.</li>
+<li><strong>HTTP/1.1 Keep-Alive:</strong> browser media players fire dozens of rapid Range requests in quick succession. <code>beam</code> maintains open TCP sockets with <code>Connection: keep-alive</code> (with a 15-second idle timeout), eliminating the latency of repeated handshakes.</li>
+<li><strong>Terminal QR generation:</strong> <code>beam</code> includes an integrated C QR generator (<code>qr.c</code>) that outputs the share link directly to the terminal using Unicode half-block characters (<code>▀</code>, <code>█</code>). If I want to test playback on my own phone over local Wi-Fi, I simply point my camera at the terminal.</li>
 </ul>
 <hr />
-<h2>3. Directory sharding</h2>
-<p>Storing tens of thousands of URLs in a single flat folder hurts filesystem inode performance.</p>
-<p>Decomposing the URL into directory shards keeps directories manageable:</p>
-<div class="code-highlight"><pre><span></span><code>https://docs.kernel.org/process/submitting-patches.html
-  └── docs.kernel.org/
-        └── process/
-              └── submitting-patches/
-                    ├── index.md
-                    └── metadata.json
+<h2>5. UNIX composition with autodub</h2>
+<p>The primary reason I built <code>beam</code> was to close the loop with <code>autodub</code> using classic UNIX piping principles: small, focused utilities composed together.</p>
+<div class="code-highlight"><pre><span></span><code><span class="c1"># Dub a YouTube video and immediately share it publicly</span>
+autodub<span class="w"> </span><span class="s2">&quot;https://www.youtube.com/watch?v=EXAMPLE_ID&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>beam<span class="w"> </span>-p<span class="w"> </span>-c
 </code></pre></div>
 
-<p>Query parameters are sorted alphabetically and saved under dedicated subfolders. Reserved characters on POSIX and Windows (<code>:</code>, <code>*</code>, <code>?</code>, <code>"</code>, <code>&lt;</code>, <code>&gt;</code>, <code>|</code>) are escaped with hex hashes.</p>
-<hr />
-<h2>4. Bypassing the working tree for speed</h2>
-<p>Standard commands like <code>git add</code> and <code>git checkout</code> write every file to disk. On large crawls with thousands of pages, disk I/O becomes the bottleneck.</p>
-<p>For fast ingestion, you can skip the working directory and write objects straight into <code>.git/objects</code> using Git plumbing commands or C bindings:</p>
-<div class="code-highlight"><pre><span></span><code>1. Write Blob:   git hash-object -w &lt;payload&gt;       -&gt; Blob SHA
-2. Make Tree:    git mktree &lt;tree_definition&gt;       -&gt; Tree SHA
-3. Make Commit:  git commit-tree &lt;tree_sha&gt; -p HEAD -&gt; Commit SHA
-4. Update Ref:   git update-ref refs/heads/main &lt;commit_sha&gt;
+<p>Here is what happens during that pipeline:</p>
+<div class="code-highlight"><pre><span></span><code>┌──────────────────────────────────────────────────────────────┐
+│ autodub (Python)                                             │
+│ 1. Downloads media with yt-dlp                               │
+│ 2. Transcribes on CPU using faster-whisper                   │
+│ 3. Translates text and synthesizes speech via Piper TTS      │
+│ 4. Performs PCM alignment and FFmpeg audio ducking           │
+│ 5. Writes to stdout: &quot;Dubbed: /tmp/autodub/video_es.mp4&quot;     │
+└──────────────────────────────┬───────────────────────────────┘
+                               │ (real-time pipe stream)
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ beam (C99)                                                   │
+│ 1. Echoes autodub&#39;s progress bars to the terminal            │
+│ 2. Extracts the final dubbed video path when completed       │
+│ 3. Executes faststart remuxing if necessary                  │
+│ 4. Opens the public HTTPS reverse tunnel (-p)                │
+│ 5. Copies the secure URL to the system clipboard (-c)        │
+│ 6. Renders the ANSI QR code in the terminal                  │
+│ 7. Streams Range chunks until the TTL expires                │
+└──────────────────────────────────────────────────────────────┘
 </code></pre></div>
 
-<p>This keeps commits in memory and takes milliseconds instead of seconds per batch. Running <code>git gc --prune=now</code> periodically compresses the packfiles.</p>
-<hr />
-<h2>5. From prototype to <code>gitcrawl</code></h2>
-<p>The standalone CLI tool based on this architecture is now live:</p>
-<ol>
-<li>A core C99 engine for streaming HTTP fetches and DOM sanitization with zero dependencies: <a href="https://github.com/riccivr/gitcrawl"><strong><code>gitcrawl</code></strong></a>.</li>
-<li>A stream parser based on the Markdown conversion engine from <a href="https://github.com/riccivr/unipaste"><code>unipaste</code></a>.</li>
-<li>Fast terminal history search using fuzzy matching with <a href="https://github.com/riccivr/approx"><code>approx</code></a>.</li>
-</ol>
-<p>Check out the full technical writeup, compression benchmarks, and usage patterns in the launch post: <a href="gitcrawl-content-addressable-web-archiver.html"><strong><code>gitcrawl: Content-Addressable Web Archiver and Snapshot Engine Backed by Git</code></strong></a>.</p>
+<p>Once <code>autodub</code> finishes processing, <code>beam</code> detects the output file path, launches the HTTP daemon, establishes the HTTPS tunnel, and places the ready-to-share URL straight onto my clipboard via <code>clipbridge</code> or <code>wl-copy</code>.</p>
+<p>All I have to do is paste the link into a chat with my girlfriend. She taps it from her phone, the video streams immediately in Safari without logins, ads, or file downloads, and the server automatically shuts down five hours later.</p>
+<p>The complete C99 source code, man page, and test suite are available on GitHub: <a href="https://github.com/riccivr/beam"><strong><code>github.com/riccivr/beam</code></strong></a>.</p>
                 </div>
             </article>
 
@@ -764,7 +822,7 @@ Commit (Author, Timestamp, Tree SHA)
         <footer class="p-3 sm:p-4 border-t theme-border text-xs flex justify-between items-center theme-bg-header">
             <span class="theme-text-muted text-[11px] sm:text-xs font-bold">riccivr.github.io/blog</span>
             <span id="footer-text" class="text-right text-[11px] sm:text-xs theme-text-muted font-mono font-medium">
-                REV: ce82799 // PUBLICADO: 2026.08.30
+                REV: ce82799 // PUBLICADO: 2026.09.14
             </span>
         </footer>
 
@@ -774,7 +832,7 @@ Commit (Author, Timestamp, Tree SHA)
     <script>
         const i18n = {
             es: {
-                sysId: "SYS.ID: riccivr // preserving-the-web-with-git",
+                sysId: "SYS.ID: riccivr // beam-ephemeral-video-streaming-in-c99",
                 status: "ESTADO: EN LÍNEA",
                 langToggle: "[LANG: ES]",
                 langAria: "Alternar idioma a inglés (actual: Español) [I]",
@@ -796,12 +854,12 @@ Commit (Author, Timestamp, Tree SHA)
                 repoAria: "Ver repositorio en GitHub (se abre en nueva pestaña) [G]",
                 topBtn: "[^] Arriba",
                 topBtnAria: "Ir arriba [K]",
-                footerText: "REV: ce82799 // PUBLICADO: 2026.08.30",
-                title: "Archivar la web con Git: construyendo un crawler e indexador hist\u00f3rico",
-                metaDesc: "Las p\u00e1ginas web mutan y desaparecen a cada rato. Las empresas borran documentaci\u00f3n durante redise\u00f1os corporativos, los t\u00e9rminos de servicio cambian sin avisar y los links se rompen de la nada."
+                footerText: "REV: ce82799 // PUBLICADO: 2026.09.14",
+                title: "beam: streaming de videos ef\u00edmeros en C99 con peticiones Range y t\u00faneles SSH",
+                metaDesc: "En mi art\u00edculo anterior expliqu\u00e9 c\u00f3mo constru\u00ed autodub para transcribir, traducir y doblar videos en ingl\u00e9s al espa\u00f1ol y mand\u00e1rselos a mi novia, ahorr\u00e1ndole el cansancio de leer subt\u00edtulos despu\u00e9s de trabajar todo el d\u00eda..."
             },
             en: {
-                sysId: "SYS.ID: riccivr // preserving-the-web-with-git",
+                sysId: "SYS.ID: riccivr // beam-ephemeral-video-streaming-in-c99",
                 status: "STATUS: ONLINE",
                 langToggle: "[LANG: EN]",
                 langAria: "Toggle language to Spanish (current: English) [I]",
@@ -823,9 +881,9 @@ Commit (Author, Timestamp, Tree SHA)
                 repoAria: "View GitHub repository (opens in a new tab) [G]",
                 topBtn: "[^] Top",
                 topBtnAria: "Scroll to top [K]",
-                footerText: "REV: ce82799 // PUBLISHED: 2026.08.30",
-                title: "Archiving the web with Git: building a content-addressable crawler",
-                metaDesc: "Web pages disappear all the time. Companies delete docs during rebrands, terms of service change without changelogs, and links rot."
+                footerText: "REV: ce82799 // PUBLISHED: 2026.09.14",
+                title: "beam: streaming dubbed videos with ephemeral HTTP tunnels and Range requests in C99",
+                metaDesc: "In my previous post, I wrote about building autodub to transcribe, translate, and dub English videos into Spanish so I could send them to my girlfriend, sparing her the eye fatigue of reading tiny subtitles after working..."
             }
         };
 

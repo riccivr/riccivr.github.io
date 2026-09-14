@@ -5,8 +5,21 @@
     <link>https://riccivr.github.io/blog/</link>
     <description>Thoughts on systems architecture, cloud infrastructure, low-level programming &amp; algorithms.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 14 Sep 2026 11:24:24 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 14 Sep 2026 15:18:34 GMT</lastBuildDate>
     <atom:link href="https://riccivr.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>beam: streaming dubbed videos with ephemeral HTTP tunnels and Range requests in C99</title>
+      <link>https://riccivr.github.io/blog/beam-ephemeral-video-streaming-in-c99.html</link>
+      <guid isPermaLink="true">https://riccivr.github.io/blog/beam-ephemeral-video-streaming-in-c99.html</guid>
+      <pubDate>Mon, 14 Sep 2026 12:00:00 GMT</pubDate>
+      <description>In my previous post, I wrote about building autodub to transcribe, translate, and dub English videos into Spanish so I could send them to my girlfriend, sparing her the eye fatigue of reading tiny subtitles after working...</description>
+      <category>C99</category>
+      <category>beam</category>
+      <category>HTTP</category>
+      <category>Networking</category>
+      <category>POSIX</category>
+      <category>Video</category>
+    </item>
     <item>
       <title>autodub: automating video dubbing to Spanish for my girlfriend</title>
       <link>https://riccivr.github.io/blog/autodub-automating-video-dubbing-to-spanish.html</link>

@@ -268,7 +268,40 @@
 
             <!-- Posts List Container -->
             <div id="posts-container" class="space-y-6">
-                <!-- Post 1: autodub -->
+                <!-- Post 1: beam -->
+                <article class="border theme-border-subtle theme-bg-card p-5 transition duration-150">
+                    <header class="flex flex-col sm:flex-row justify-between sm:items-center gap-1 mb-2 border-b theme-border-dim pb-2">
+                        <div class="text-xs theme-text-muted font-bold font-mono">
+                            POST_2026.09.14 // SISTEMAS & REDES
+                        </div>
+                        <div class="text-xs theme-text-dim font-medium">
+                            Lectura: ~6 min
+                        </div>
+                    </header>
+                    <h2 class="text-lg sm:text-xl font-bold theme-text-heading mb-2">
+                        <a href="beam-ephemeral-video-streaming-in-c99.html" class="hover:underline">
+                            beam: streaming de videos efímeros en C99 con peticiones Range y túneles SSH
+                        </a>
+                    </h2>
+                    <p class="text-sm leading-relaxed theme-text-main mb-4">
+                        Servidor HTTP mínimo en C99 para transmitir archivos locales a reproductores nativos mediante peticiones Range (206 Partial Content), remux Faststart de MP4 y túneles HTTPS reversos efímeros.
+                    </p>
+                    <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t theme-border-dim">
+                        <div class="flex flex-wrap gap-1.5">
+                            <button onclick="setFilterTag('C99')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#C99</button>
+                            <button onclick="setFilterTag('beam')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#beam</button>
+                            <button onclick="setFilterTag('HTTP')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#HTTP</button>
+                            <button onclick="setFilterTag('Redes')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#Redes</button>
+                            <button onclick="setFilterTag('POSIX')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#POSIX</button>
+                            <button onclick="setFilterTag('Video')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#Video</button>
+                        </div>
+                        <a href="beam-ephemeral-video-streaming-in-c99.html" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold" aria-label="Leer artículo: beam: streaming de videos efímeros en C99 con peticiones Range y túneles SSH">
+                            [LEER ARTÍCULO ->]
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Post 2: autodub -->
                 <article class="border theme-border-subtle theme-bg-card p-5 transition duration-150">
                     <header class="flex flex-col sm:flex-row justify-between sm:items-center gap-1 mb-2 border-b theme-border-dim pb-2">
                         <div class="text-xs theme-text-muted font-bold font-mono">
