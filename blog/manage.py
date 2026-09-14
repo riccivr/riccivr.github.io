@@ -1140,6 +1140,8 @@ def generate_llms_txt(posts):
         "> Systems & Cloud Engineer specializing in AWS, Cloud Architecture, C99/POSIX low-level systems, parsers, and memory-bounded algorithms.",
         "",
         "## Active Projects",
+        "- [autodub](https://github.com/riccivr/autodub): Local CPU-based video dubbing CLI and neural speech synthesis pipeline powered by faster-whisper, Piper TTS, and sample-accurate FFmpeg audio alignment.",
+        "- [dshuf](https://github.com/riccivr/dshuf): Suckless multi-key low-discrepancy shuffler and single-header C99/POSIX library with strictly bounded O(W) memory for infinite streams.",
         "- [gitcrawl](https://github.com/riccivr/gitcrawl): Content-addressable web archiver and crawler CLI storing structured Markdown snapshots directly into native Git repositories.",
         "- [approx](https://github.com/riccivr/approx): Non-interactive POSIX fuzzy stream filter and ranker in clean Suckless C with zero dependencies.",
         "- [unipaste](https://github.com/riccivr/unipaste): Zero-dependency POSIX universal rich text & clipboard converter producing structured Markdown and ASCII tables.",

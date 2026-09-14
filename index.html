@@ -282,6 +282,66 @@
 
                 <section id="projects-content" role="tabpanel" aria-labelledby="tab-projects" tabindex="0" class="content-section space-y-6">
 
+                    <!-- autodub -->
+                    <article class="border theme-border-subtle theme-bg-card p-4 transition duration-150">
+                        <header class="flex justify-between items-start mb-2">
+                            <div>
+                                <h2 class="font-bold text-lg theme-text-heading">
+                                    <a href="https://github.com/riccivr/autodub" target="_blank" rel="noopener noreferrer" id="autodub-link" aria-label="Repositorio autodub en GitHub (se abre en una nueva pestaña)" class="hover:underline inline-flex items-center gap-1.5">
+                                        autodub <span class="text-xs opacity-75" aria-hidden="true">↗</span>
+                                    </a>
+                                </h2>
+                                <span id="autodub-sub" class="text-xs theme-text-muted font-bold">Pipeline CLI de doblaje de video local y síntesis de voz en CPU</span>
+                            </div>
+                            <div id="autodub-badge" class="text-xs theme-text-muted text-right whitespace-nowrap font-semibold">
+                                Activo
+                            </div>
+                        </header>
+                        <div class="text-sm leading-relaxed theme-text-main mt-2">
+                            <p id="autodub-desc" class="mb-3">
+                                Herramienta de línea de comandos que descarga videos con yt-dlp, transcribe el audio en CPU con faster-whisper (cuantización int8), traduce los segmentos y sintetiza la voz doblada con Piper TTS o Edge-TTS. Ajusta la velocidad por segmento con atempo para cuadrar con el video original sin desfase temporal y atenúa el audio de fondo para no perder la música ni los efectos.
+                            </p>
+                            <div id="autodub-tags" class="flex flex-wrap gap-1.5 pt-1">
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">PYTHON</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">WHISPER</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">TTS</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">FFMPEG</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">AUDIO PIPELINE</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">CLI</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- dshuf -->
+                    <article class="border theme-border-subtle theme-bg-card p-4 transition duration-150">
+                        <header class="flex justify-between items-start mb-2">
+                            <div>
+                                <h2 class="font-bold text-lg theme-text-heading">
+                                    <a href="https://github.com/riccivr/dshuf" target="_blank" rel="noopener noreferrer" id="dshuf-link" aria-label="Repositorio dshuf en GitHub (se abre en una nueva pestaña)" class="hover:underline inline-flex items-center gap-1.5">
+                                        dshuf <span class="text-xs opacity-75" aria-hidden="true">↗</span>
+                                    </a>
+                                </h2>
+                                <span id="dshuf-sub" class="text-xs theme-text-muted font-bold">Shuffler balanceado multiclave en C99/POSIX con soporte para streaming</span>
+                            </div>
+                            <div id="dshuf-badge" class="text-xs theme-text-muted text-right whitespace-nowrap font-semibold">
+                                Activo
+                            </div>
+                        </header>
+                        <div class="text-sm leading-relaxed theme-text-main mt-2">
+                            <p id="dshuf-desc" class="mb-3">
+                                Herramienta CLI y librería de cabecera única en C99/POSIX suckless que espacia elementos con atributos compartidos (artista, álbum, género) usando una heurística voraz de penalización en ventana para evitar repeticiones seguidas en playlists y pipelines UNIX. Soporta streaming infinito con memoria estrictamente acotada O(W) y bindings sin dependencias para C++, Python y TypeScript/WASM.
+                            </p>
+                            <div id="dshuf-tags" class="flex flex-wrap gap-1.5 pt-1">
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">C99</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">POSIX</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">SUCKLESS</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">ALGORITMOS</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">PIPELINES UNIX</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">ZERO-DEP</span>
+                            </div>
+                        </div>
+                    </article>
+
                     <!-- gitcrawl -->
                     <article class="border theme-border-subtle theme-bg-card p-4 transition duration-150">
                         <header class="flex justify-between items-start mb-2">
@@ -566,6 +626,16 @@
                 tabAnnounceBlog: "Sección Blog y Artículos mostrada",
                 tabAnnounceSkills: "Sección Stack y Habilidades mostrada",
                 tabAnnounceContact: "Sección Contacto mostrada",
+                autodubSub: "Pipeline CLI de doblaje de video local y síntesis de voz en CPU",
+                autodubBadge: "Activo",
+                autodubDesc: "Herramienta de línea de comandos que descarga videos con yt-dlp, transcribe el audio en CPU con faster-whisper (cuantización int8), traduce los segmentos y sintetiza la voz doblada con Piper TTS o Edge-TTS. Ajusta la velocidad por segmento con atempo para cuadrar con el video original sin desfase temporal y atenúa el audio de fondo para no perder la música ni los efectos.",
+                autodubTags: ["PYTHON", "WHISPER", "TTS", "FFMPEG", "AUDIO PIPELINE", "CLI"],
+                autodubGhAria: "Repositorio autodub en GitHub (se abre en una nueva pestaña)",
+                dshufSub: "Shuffler balanceado multiclave en C99/POSIX con soporte para streaming",
+                dshufBadge: "Activo",
+                dshufDesc: "Herramienta CLI y librería de cabecera única en C99/POSIX suckless que espacia elementos con atributos compartidos (artista, álbum, género) usando una heurística voraz de penalización en ventana para evitar repeticiones seguidas en playlists y pipelines UNIX. Soporta streaming infinito con memoria estrictamente acotada O(W) y bindings sin dependencias para C++, Python y TypeScript/WASM.",
+                dshufTags: ["C99", "POSIX", "SUCKLESS", "ALGORITMOS", "PIPELINES UNIX", "ZERO-DEP"],
+                dshufGhAria: "Repositorio dshuf en GitHub (se abre en una nueva pestaña)",
                 gitcrawlSub: "Crawler y archivador web direccionable por contenido sobre repositorios Git",
                 gitcrawlBadge: "Activo",
                 gitcrawlDesc: "CLI en C99 que rastrea sitios web y guarda snapshots históricos en Markdown directo en repositorios Git (.git/objects). Se salta el working tree escribiendo objetos en memoria a millón, usa compresión delta nativa para ahorrar gigas y te deja auditar cualquier cambio con git diff y git log sin meter bases de datos.",
@@ -682,6 +752,16 @@
                 tabAnnounceBlog: "Blog and Articles section displayed",
                 tabAnnounceSkills: "Stack and Skills section displayed",
                 tabAnnounceContact: "Contact section displayed",
+                autodubSub: "Local CPU-based video dubbing CLI and neural speech synthesis pipeline",
+                autodubBadge: "Active",
+                autodubDesc: "A local CLI tool that downloads videos with yt-dlp, transcribes speech on CPU with int8 faster-whisper, translates segments, and generates synchronized dubbed audio using Piper TTS or Edge-TTS. It performs dynamic sample-accurate time-stretching with FFmpeg to eliminate timeline drift while ducking the original background audio and music.",
+                autodubTags: ["PYTHON", "WHISPER", "TTS", "FFMPEG", "AUDIO PIPELINE", "CLI"],
+                autodubGhAria: "autodub repository on GitHub (opens in a new tab)",
+                dshufSub: "Suckless multi-key low-discrepancy shuffler with streaming support",
+                dshufBadge: "Active",
+                dshufDesc: "A suckless POSIX C99 multi-key balanced shuffler and single-header library. It spaces out items sharing attributes (artist, album, genre, tags) using a greedy windowed penalty heuristic to prevent clustering in playlists and Unix pipelines. Features strictly bounded O(W) memory for infinite streams, unbiased SplitMix64/Lemire PRNG, and zero-dependency bindings for C++, Python, and TypeScript/WASM.",
+                dshufTags: ["C99", "POSIX", "SUCKLESS", "ALGORITHMS", "UNIX PIPELINES", "ZERO-DEP"],
+                dshufGhAria: "dshuf repository on GitHub (opens in a new tab)",
                 gitcrawlSub: "Content-addressable web archiver & snapshot engine backed by Git",
                 gitcrawlBadge: "Active",
                 gitcrawlDesc: "A C99 CLI tool that crawls web pages and commits historical Markdown snapshots directly into Git repositories (.git/objects). It bypasses the working tree by writing in-memory objects, leverages native delta compression to save gigabytes, and lets you audit changes with git diff and git log with zero databases.",
@@ -862,6 +942,26 @@
             document.getElementById('tab-blog').textContent = t.tabBlog;
             document.getElementById('tab-skills').textContent = t.tabSkills;
             document.getElementById('tab-contact').textContent = t.tabContact;
+
+            document.getElementById('autodub-sub').textContent = t.autodubSub;
+            document.getElementById('autodub-badge').textContent = t.autodubBadge;
+            document.getElementById('autodub-desc').textContent = t.autodubDesc;
+            document.getElementById('autodub-tags').innerHTML = t.autodubTags.map(tag => `<span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">${tag}</span>`).join('');
+            const autodubLink = document.getElementById('autodub-link');
+            if (autodubLink) {
+                autodubLink.setAttribute('aria-label', t.autodubGhAria || 'autodub');
+                autodubLink.setAttribute('title', t.autodubGhAria || 'autodub');
+            }
+
+            document.getElementById('dshuf-sub').textContent = t.dshufSub;
+            document.getElementById('dshuf-badge').textContent = t.dshufBadge;
+            document.getElementById('dshuf-desc').textContent = t.dshufDesc;
+            document.getElementById('dshuf-tags').innerHTML = t.dshufTags.map(tag => `<span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">${tag}</span>`).join('');
+            const dshufLink = document.getElementById('dshuf-link');
+            if (dshufLink) {
+                dshufLink.setAttribute('aria-label', t.dshufGhAria || 'dshuf');
+                dshufLink.setAttribute('title', t.dshufGhAria || 'dshuf');
+            }
 
             document.getElementById('gitcrawl-sub').textContent = t.gitcrawlSub;
             document.getElementById('gitcrawl-badge').textContent = t.gitcrawlBadge;
