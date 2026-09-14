@@ -282,6 +282,37 @@
 
                 <section id="projects-content" role="tabpanel" aria-labelledby="tab-projects" tabindex="0" class="content-section space-y-6">
 
+                    <!-- beam -->
+                    <article class="border theme-border-subtle theme-bg-card p-4 transition duration-150">
+                        <header class="flex justify-between items-start mb-2">
+                            <div>
+                                <h2 class="font-bold text-lg theme-text-heading">
+                                    <a href="https://github.com/riccivr/beam" target="_blank" rel="noopener noreferrer" id="beam-link" aria-label="Repositorio beam en GitHub (se abre en una nueva pestaña)" class="hover:underline inline-flex items-center gap-1.5">
+                                        beam <span class="text-xs opacity-75" aria-hidden="true">↗</span>
+                                    </a>
+                                </h2>
+                                <span id="beam-sub" class="text-xs theme-text-muted font-bold">CLI de intercambio efímero de archivos y streaming de video local-first en C99</span>
+                            </div>
+                            <div id="beam-badge" class="text-xs theme-text-muted text-right whitespace-nowrap font-semibold">
+                                Activo
+                            </div>
+                        </header>
+                        <div class="text-sm leading-relaxed theme-text-main mt-2">
+                            <p id="beam-desc" class="mb-3">
+                                CLI en C99 que comparte archivos locales mediante enlaces HTTP efímeros con expiración automática. Soporta peticiones HTTP Range (206 Partial Content) para scrubbing instantáneo en reproductores de video nativos (Chrome, Safari, iOS), sendfile() sin bloqueo, túneles públicos reversos vía SSH (-p) con auto-reconexión, códigos QR en consola Unicode y piping directo desde autodub.
+                            </p>
+                            <div id="beam-tags" class="flex flex-wrap gap-1.5 pt-1">
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">C99</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">POSIX</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">HTTP / STREAMING</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">VIDEO</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">TUNNELING</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">CLI</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">ZERO-DEP</span>
+                            </div>
+                        </div>
+                    </article>
+
                     <!-- autodub -->
                     <article class="border theme-border-subtle theme-bg-card p-4 transition duration-150">
                         <header class="flex justify-between items-start mb-2">
@@ -627,6 +658,11 @@
                 tabAnnounceBlog: "Sección Blog y Artículos mostrada",
                 tabAnnounceSkills: "Sección Stack y Habilidades mostrada",
                 tabAnnounceContact: "Sección Contacto mostrada",
+                beamSub: "CLI de intercambio efímero de archivos y streaming de video local-first en C99",
+                beamBadge: "Activo",
+                beamDesc: "CLI en C99 que comparte archivos locales mediante enlaces HTTP efímeros con expiración automática. Soporta peticiones HTTP Range (206 Partial Content) para scrubbing instantáneo en reproductores de video nativos (Chrome, Safari, iOS), sendfile() sin bloqueo, túneles públicos reversos vía SSH (-p) con auto-reconexión, códigos QR en consola Unicode y piping directo desde autodub.",
+                beamTags: ["C99", "POSIX", "HTTP / STREAMING", "VIDEO", "TUNNELING", "CLI", "ZERO-DEP"],
+                beamGhAria: "Repositorio beam en GitHub (se abre en una nueva pestaña)",
                 autodubSub: "Pipeline CLI de doblaje de video local y síntesis de voz en CPU",
                 autodubBadge: "Activo",
                 autodubDesc: "Herramienta de línea de comandos que descarga videos con yt-dlp, transcribe el audio en CPU con faster-whisper (cuantización int8), traduce los segmentos y sintetiza la voz doblada con Piper TTS o Edge-TTS. Ajusta la velocidad por segmento con atempo para cuadrar con el video original sin desfase temporal y atenúa el audio de fondo para no perder la música ni los efectos.",
@@ -753,6 +789,11 @@
                 tabAnnounceBlog: "Blog and Articles section displayed",
                 tabAnnounceSkills: "Stack and Skills section displayed",
                 tabAnnounceContact: "Contact section displayed",
+                beamSub: "Ephemeral local-first file and video streaming CLI in C99",
+                beamBadge: "Active",
+                beamDesc: "A C99 CLI tool for local-first ephemeral file and video sharing over short-lived HTTP links. Features full HTTP Range request support (206 Partial Content) for instant native browser video scrubbing (Chrome, Safari, iOS), non-blocking sendfile() I/O, zero-account public HTTPS reverse tunneling via SSH (-p) with auto-reconnect, terminal Unicode QR codes, and direct stdin piping from autodub.",
+                beamTags: ["C99", "POSIX", "HTTP / STREAMING", "VIDEO", "TUNNELING", "CLI", "ZERO-DEP"],
+                beamGhAria: "beam repository on GitHub (opens in a new tab)",
                 autodubSub: "Local CPU-based video dubbing CLI and neural speech synthesis pipeline",
                 autodubBadge: "Active",
                 autodubDesc: "A local CLI tool that downloads videos with yt-dlp, transcribes speech on CPU with int8 faster-whisper, translates segments, and generates synchronized dubbed audio using Piper TTS or Edge-TTS. It performs dynamic sample-accurate time-stretching with FFmpeg to eliminate timeline drift while ducking the original background audio and music.",
@@ -943,6 +984,16 @@
             document.getElementById('tab-blog').textContent = t.tabBlog;
             document.getElementById('tab-skills').textContent = t.tabSkills;
             document.getElementById('tab-contact').textContent = t.tabContact;
+
+            document.getElementById('beam-sub').textContent = t.beamSub;
+            document.getElementById('beam-badge').textContent = t.beamBadge;
+            document.getElementById('beam-desc').textContent = t.beamDesc;
+            document.getElementById('beam-tags').innerHTML = t.beamTags.map(tag => `<span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">${tag}</span>`).join('');
+            const beamLink = document.getElementById('beam-link');
+            if (beamLink) {
+                beamLink.setAttribute('aria-label', t.beamGhAria || 'beam');
+                beamLink.setAttribute('title', t.beamGhAria || 'beam');
+            }
 
             document.getElementById('autodub-sub').textContent = t.autodubSub;
             document.getElementById('autodub-badge').textContent = t.autodubBadge;
