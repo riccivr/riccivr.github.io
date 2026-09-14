@@ -1,7 +1,7 @@
 # autodub: automating video dubbing to Spanish for my girlfriend
 
 *Published: September 14, 2026. Category: Projects & Multimedia. Reading time: ~5 min*
-*Tags: Python, autodub, FFmpeg, Whisper, Audio, Open Source*
+*Tags: Python, autodub, FFmpeg, Whisper, Audio*
 
 ---
 

@@ -5,7 +5,7 @@
     <link>https://riccivr.github.io/blog/</link>
     <description>Reflexiones sobre arquitectura de sistemas, infraestructura cloud, programación de bajo nivel y algoritmos.</description>
     <language>es-ve</language>
-    <lastBuildDate>Mon, 14 Sep 2026 11:17:38 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 14 Sep 2026 11:24:24 GMT</lastBuildDate>
     <atom:link href="https://riccivr.github.io/feed-es.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>autodub: doblando videos al español para mandárselos a mi novia</title>
@@ -18,7 +18,6 @@
       <category>FFmpeg</category>
       <category>Whisper</category>
       <category>Audio</category>
-      <category>Open Source</category>
     </item>
     <item>
       <title>La dualidad de trabajar en la nube y tirar código en C99</title>

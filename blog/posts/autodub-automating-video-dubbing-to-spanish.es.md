@@ -1,7 +1,7 @@
 # autodub: doblando videos al español para mandárselos a mi novia
 
 *Publicado: 14 de septiembre de 2026. Categoría: Proyectos & Multimedia. Tiempo de lectura: ~5 min*
-*Etiquetas: Python, autodub, FFmpeg, Whisper, Audio, Open Source*
+*Etiquetas: Python, autodub, FFmpeg, Whisper, Audio*
 
 ---
 
