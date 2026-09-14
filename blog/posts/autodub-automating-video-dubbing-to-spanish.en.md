@@ -7,11 +7,11 @@
 
 I consume an unhealthy amount of videos every day: technical deep dives, documentary essays, historical breakdowns, and random curiosities on YouTube.
 
-Whenever I find something genuinely interesting, my first instinct is wanting to share it with my girlfriend so we can watch it and talk about it. But there is always a barrier: almost everything I watch is in English.
+Whenever I find something genuinely interesting, my first instinct is wanting to share it with my girlfriend. The thing is, we do not live together yet, and during our workdays we both spend long hours staring at computer screens.
 
-She understands English and can read subtitles, but watching a 25-minute video with subtitles completely changes the experience. Subtitles demand constant visual attention. You cannot look down for five seconds, you cannot cook while listening, and reading text while animations or charts play on screen feels like homework.
+Almost everything I watch and want to send her is in English. She understands English and can read subtitles without an issue, but after spending all day working in front of a monitor, the last thing anyone wants is to sit through another 25-minute video squinting at subtitles on a phone or laptop. Subtitles trap your eyes on the screen: you cannot look away while cooking, you cannot give your eyes a break, and reading rapid text while animations or charts play on screen feels like work.
 
-I wanted us to just sit down and enjoy the videos together. That frustration turned into my newest project: [**`autodub`**](https://github.com/riccivr/autodub), a command-line tool that takes any video and produces a synchronized Spanish-dubbed version locally.
+I simply wanted to send her the dubbed video so she could enjoy it comfortably on her own time, like a podcast or a relaxed show without visual fatigue. That frustration turned into my newest project: [**`autodub`**](https://github.com/riccivr/autodub), a command-line tool that takes any video and produces a synchronized Spanish-dubbed version locally.
 
 ---
 
@@ -137,6 +137,6 @@ Running `autodub` is a single terminal command:
 ./autodub.sh --dual-audio /path/to/downloaded_video.mp4
 ```
 
-Now, when I find a great video during the day, I run a quick command and have a dubbed video ready for us to watch on the couch in the evening.
+Now, when I find a great video while working, I fire off a command in the background. In minutes, I have a dubbed video ready to send her way so she can listen comfortably without having to squint at subtitles after a long day of screen time.
 
 The complete code, benchmarks, and setup instructions are open-source on GitHub: [**`github.com/riccivr/autodub`**](https://github.com/riccivr/autodub).

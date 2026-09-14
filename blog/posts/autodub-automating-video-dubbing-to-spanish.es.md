@@ -1,17 +1,17 @@
-# autodub: doblando videos al español para verlos con mi novia
+# autodub: doblando videos al español para mandárselos a mi novia
 
 *Publicado: 14 de septiembre de 2026. Categoría: Proyectos & Multimedia. Tiempo de lectura: ~5 min*
 *Etiquetas: Python, autodub, FFmpeg, Whisper, Audio, Open Source*
 
 ---
 
-Yo consumo una cantidad exagerada de videos todos los días: análisis técnicos, ensayos documentales, historias de computación y cosas raras que me voy encontrando en YouTube.
+Yo consumo una cantidad absurda de videos todos los días: análisis técnicos, ensayos documentales, historias de computación y cosas raras que me voy encontrando en YouTube.
 
-Cada vez que veo algo que de verdad vale la pena, mi primer impulso es querer compartírselo a mi novia para verlo juntos y comentar la jugada. Pero casi siempre nos topamos con la misma traba: casi todo lo que consumo está en inglés.
+Cada vez que pillo algo que de verdad vale la pena, mi primer impulso es querer compartírselo a mi novia. El detalle está en que nosotros todavía no vivimos juntos y en el día a día ambos nos la pasamos horas y horas trabajando pegaos frente a una pantalla.
 
-Ella entiende inglés y puede leer subtítulos sin problema, pero calarse un documental de media hora leyendo subtítulos cambia toda la dinámica. Los subtítulos te amarran los ojos a la pantalla todo el tiempo. No puedes desviar la mirada ni cinco segundos, no puedes poner el video de fondo mientras cocinas, y tener que leer texto mientras pasan diagramas o animaciones termina siendo un fastidio.
+Casi todo lo que consumo y le quiero mandar está en inglés. Ella entiende inglés y puede leer subtítulos sin rollo, pero después de clavarte todo el día trabajando con los ojos pegados al monitor, lo último que quieres al final de la jornada es calarte otro video de 25 minutos leyendo letritas diminutas. Los subtítulos te amarran la vista: no puedes voltear a picar algo en la cocina, no puedes descansar los ojos y tener que leer texto rápido mientras pasan animaciones o diagramas termina siendo un fastidio.
 
-Yo quería que pudiéramos sentarnos a ver los videos relajados, sin fricción. De esa necesidad nació mi proyecto más reciente: [**`autodub`**](https://github.com/riccivr/autodub), una herramienta de terminal que agarra cualquier video y te genera una pista de audio doblada al español y sincronizada de forma local.
+Yo quería simplemente poder mandarle el video doblado para que lo pudiera disfrutar relajada, como quien escucha un podcast o ve una serie tranquila sin fricción visual. De esa necesidad nació mi proyecto más reciente: [**`autodub`**](https://github.com/riccivr/autodub), una herramienta de terminal que agarra cualquier video y te genera una pista de audio doblada al español y sincronizada de forma local.
 
 ---
 
@@ -137,6 +137,6 @@ El flujo de trabajo es un solo comando:
 ./autodub.sh --dual-audio /ruta/al/video.mp4
 ```
 
-Ahora, cuando pillo un video interesante durante el día, le tiro un comando rápido y en unos minutos lo tenemos listo para verlo juntos en el sofá sin tener que clavarnos a leer subtítulos.
+Ahora, cuando pillo un video interesante durante el día mientras trabajo, le tiro un comando a la terminal en segundo plano. En unos minutos tengo el archivo doblado listo para mandárselo a ella por mensajería y que lo pueda escuchar tranquila, sin tener que quemarse las pestañas leyendo subtítulos después de un día entero de trabajo.
 
 El código fuente, manual de instalación y pruebas están disponibles en GitHub: [**`github.com/riccivr/autodub`**](https://github.com/riccivr/autodub).

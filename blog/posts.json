@@ -2,7 +2,7 @@
   {
     "slug": "autodub-automating-video-dubbing-to-spanish",
     "date": "2026-09-14",
-    "title": "autodub: doblando videos al español para verlos con mi novia",
+    "title": "autodub: doblando videos al español para mandárselos a mi novia",
     "category": "Proyectos & Multimedia",
     "tags": [
       "Python",
@@ -12,8 +12,8 @@
       "Audio",
       "Open Source"
     ],
-    "summary": "Yo consumo una cantidad exagerada de videos todos los días: análisis técnicos, ensayos documentales, historias de computación y cosas raras que me voy encontrando en YouTube.",
-    "readingTime": "5 min",
+    "summary": "Yo consumo una cantidad absurda de videos todos los días: análisis técnicos, ensayos documentales, historias de computación y cosas raras que me voy encontrando en YouTube.",
+    "readingTime": "6 min",
     "file": "posts/autodub-automating-video-dubbing-to-spanish.es.md",
     "en": {
       "title": "autodub: automating video dubbing to Spanish for my girlfriend",
@@ -32,7 +32,7 @@
       "file": "posts/autodub-automating-video-dubbing-to-spanish.en.md"
     },
     "es": {
-      "title": "autodub: doblando videos al español para verlos con mi novia",
+      "title": "autodub: doblando videos al español para mandárselos a mi novia",
       "date": "2026-09-14",
       "category": "Proyectos & Multimedia",
       "tags": [
@@ -43,8 +43,8 @@
         "Audio",
         "Open Source"
       ],
-      "summary": "Yo consumo una cantidad exagerada de videos todos los días: análisis técnicos, ensayos documentales, historias de computación y cosas raras que me voy encontrando en YouTube.",
-      "readingTime": "5 min",
+      "summary": "Yo consumo una cantidad absurda de videos todos los días: análisis técnicos, ensayos documentales, historias de computación y cosas raras que me voy encontrando en YouTube.",
+      "readingTime": "6 min",
       "file": "posts/autodub-automating-video-dubbing-to-spanish.es.md"
     }
   },
