@@ -1,5 +1,54 @@
 [
   {
+    "slug": "autodub-automating-video-dubbing-to-spanish",
+    "date": "2026-09-14",
+    "title": "autodub: doblando videos al español para verlos con mi novia",
+    "category": "Proyectos & Multimedia",
+    "tags": [
+      "Python",
+      "autodub",
+      "FFmpeg",
+      "Whisper",
+      "Audio",
+      "Open Source"
+    ],
+    "summary": "Yo consumo una cantidad exagerada de videos todos los días: análisis técnicos, ensayos documentales, historias de computación y cosas raras que me voy encontrando en YouTube.",
+    "readingTime": "5 min",
+    "file": "posts/autodub-automating-video-dubbing-to-spanish.es.md",
+    "en": {
+      "title": "autodub: automating video dubbing to Spanish for my girlfriend",
+      "date": "2026-09-14",
+      "category": "Projects & Multimedia",
+      "tags": [
+        "Python",
+        "autodub",
+        "FFmpeg",
+        "Whisper",
+        "Audio",
+        "Open Source"
+      ],
+      "summary": "I consume an unhealthy amount of videos every day: technical deep dives, documentary essays, historical breakdowns, and random curiosities on YouTube.",
+      "readingTime": "5 min",
+      "file": "posts/autodub-automating-video-dubbing-to-spanish.en.md"
+    },
+    "es": {
+      "title": "autodub: doblando videos al español para verlos con mi novia",
+      "date": "2026-09-14",
+      "category": "Proyectos & Multimedia",
+      "tags": [
+        "Python",
+        "autodub",
+        "FFmpeg",
+        "Whisper",
+        "Audio",
+        "Open Source"
+      ],
+      "summary": "Yo consumo una cantidad exagerada de videos todos los días: análisis técnicos, ensayos documentales, historias de computación y cosas raras que me voy encontrando en YouTube.",
+      "readingTime": "5 min",
+      "file": "posts/autodub-automating-video-dubbing-to-spanish.es.md"
+    }
+  },
+  {
     "slug": "the-duality-of-cloud-engineering-and-c99",
     "date": "2026-09-09",
     "title": "La dualidad de trabajar en la nube y tirar código en C99",
