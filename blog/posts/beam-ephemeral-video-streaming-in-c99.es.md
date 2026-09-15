@@ -1,4 +1,4 @@
-# beam: streaming de videos efímeros en C99 con peticiones Range y túneles SSH
+# beam: streaming de videos efímeros en C99 con peticiones Range y túneles HTTPS
 
 *Publicado: 14 de septiembre de 2026. Categoría: Sistemas & Redes. Tiempo de lectura: ~6 min*
 *Etiquetas: C99, beam, HTTP, Redes, POSIX, Video*
@@ -87,15 +87,14 @@ Si el átomo `moov` está al final, el navegador no puede calcular la duración 
 
 ---
 
-## 3. Túnel HTTPS público efímero sin cuentas ni registros
+## 3. De túneles SSH inversos a Cloudflare Quick Tunnels
 
-Compartir un servidor web que corre en `localhost:8080` con alguien que está en otra casa suele requerir abrir puertos en el router (imposible bajo CGNAT residencial), configurar DNS dinámico, o registrarse en servicios como ngrok o Cloudflare Tunnels instalando agentes propietarios.
+Compartir un servidor local que corre en `localhost:8080` con alguien fuera de tu red local suele ser un rollo: abrir puertos en el router es imposible bajo CGNAT residencial, el DNS dinámico es tedioso, y configurar daemons persistentes exige registrarse y manejar API keys.
 
-Para `beam` quería una experiencia con cero fricción: un solo flag `-p` que me diera una URL pública segura con HTTPS listo.
-
-Lo resolví aprovechando el reenvío de puertos remoto de OpenSSH contra `localhost.run`:
+En el primer prototipo de `beam`, resolví esto abriendo un túnel SSH inverso contra `localhost.run`:
 
 ```c
+/* Prototipo inicial: reenvío de puertos remoto con OpenSSH */
 execlp("ssh", "ssh",
        "-T",
        "-o", "StrictHostKeyChecking=no",
@@ -103,29 +102,57 @@ execlp("ssh", "ssh",
        "-o", "ExitOnForwardFailure=yes",
        "-o", "Compression=no",
        "-o", "IPQoS=throughput",
-       "-o", "TCPKeepAlive=yes",
-       "-o", "ServerAliveInterval=15",
        "-R", port_spec,
        "nokey@localhost.run",
        (char *)NULL);
 ```
 
-Detalles técnicos clave de esta implementación:
+Aunque funcionaba como prueba de concepto, las pruebas en redes celulares revelaron dos problemas serios de arquitectura:
 
-1. **`Compression=no`:** los archivos multimedia ya están comprimidos (H.264, AAC). Activar compresión en el túnel SSH no ahorra ancho de banda y solo quema ciclos de CPU en vano.
-2. **`IPQoS=throughput`:** le indica al kernel de red que priorice el rendimiento de transferencia continua sobre la baja latencia de paquetes interactivos pequeños.
-3. **Manejo de caídas:** `beam` vigila el PID del proceso SSH con `waitpid()`. Si la conexión se cae por fluctuaciones de red, reabre el túnel automáticamente y refresca la URL sin interrumpir el servidor HTTP local.
-4. **Seguridad mediante tokens:** cada enlace utiliza un identificador hexadecimal aleatorio de 128 bits (32 caracteres) extraído de `/dev/urandom`. Sin el token exacto, nadie en internet puede listar ni adivinar el archivo servido.
+1. **TCP-over-TCP y Head-of-Line Blocking:** Encapsular tráfico HTTP sobre una conexión TCP de SSH provocaba caídas brutales de rendimiento ante la menor pérdida de paquetes.
+2. **Cabeceras fragmentadas por latencia:** En conexiones móviles con alta latencia, SSH dividía la petición HTTP en múltiples paquetes. Si el servidor llamaba a `recv()` y recibía únicamente `GET /token HTTP/1.1` antes de que la cabecera `Range:` llegara en el siguiente segmento TCP, `beam` asumía que era una petición sin rango y devolvía un `200 OK` completo desde el byte 0, congelando el reproductor.
+
+Para solucionar esto de raíz, reemplacé el reenvío por SSH por **Cloudflare Quick Tunnels** (`cloudflared`):
+
+```c
+/* Implementación actual: Cloudflare Quick Tunnel sin cuentas */
+snprintf(origin, sizeof(origin), "http://127.0.0.1:%d", local_port);
+bin = getenv("BEAM_TUNNEL_BIN");
+if (!bin || !bin[0])
+    bin = "cloudflared";
+execlp(bin, bin, "tunnel", "--url", origin, "--no-autoupdate", (char *)NULL);
+```
+
+Ventajas clave de este cambio:
+
+- **Sin encapsulación SSH:** El tráfico viaja directo desde la red Anycast de Cloudflare hacia el daemon HTTP local. Sin handshakes SSH, sin advertencias de known_hosts y sin bloqueos de TCP sobre TCP.
+- **Extracción dinámica de la URL:** `beam` vigila el proceso hijo `cloudflared` mediante una tubería no bloqueante, extrae la URL `https://*.trycloudflare.com` y mantiene el pipe de logs abierto para evitar que `cloudflared` muera por Broken Pipe (SIGPIPE).
+- **Propagación en el Edge:** Espera un segundo antes de mostrar el enlace para que las tablas de enrutamiento de Cloudflare se propaguen en el edge antes de que el usuario lo abra.
+- **Resiliencia ante caídas:** Si el túnel se cae, `beam` lo levanta de nuevo automáticamente y refresca la URL sin interrumpir las descargas locales.
 
 ---
 
-## 4. Rendimiento con sendfile() y conexiones persistentes
+## 4. Rendimiento del sistema: sendfile(), keep-alive y tracking de sesiones Range
 
-Dado que `beam` fue escrito desde cero en C99 sin frameworks ni dependencias externas, optimicé la ruta crítica de transferencia:
+Dado que `beam` fue escrito en C99 puro sobre POSIX, optimicé la transmisión para lidiar con las mañas de los reproductores móviles:
 
-- **Zero-copy con `sendfile()`:** en sistemas Linux, `beam` transfiere los datos directamente desde el descriptor del archivo en disco hacia el socket TCP en el kernel mediante `sendfile()`. Los datos nunca se copian al espacio de usuario en memoria RAM, lo que reduce el consumo de memoria a casi cero y maximiza la velocidad de transferencia.
-- **HTTP/1.1 Keep-Alive:** los reproductores de video realizan decenas de peticiones Range consecutivas para cargar segmentos sucesivos de audio y video. `beam` mantiene el socket abierto mediante `Connection: keep-alive` (con un timeout de inactividad de 15 segundos), evitando el costo de múltiples apretones de manos TCP.
-- **Código QR en terminal:** incluye un generador de códigos QR integrado en C (`qr.c`) que dibuja la matriz directamente en la consola usando medios bloques Unicode (`▀`, `█`). Si quiero abrir el enlace en mi propio teléfono mientras estoy en la misma red Wi-Fi, solo apunto la cámara a la pantalla.
+### Streaming zero-copy y ajustes de socket
+- **Zero-copy con `sendfile(2)`:** En Linux, `beam` transfiere los rangos solicitados directamente desde el descriptor del archivo hacia el socket TCP en el kernel. Los bytes nunca tocan la memoria RAM en espacio de usuario, manteniendo el uso de memoria en unos pocos kilobytes aunque se sirvan videos 4K de varios gigabytes.
+- **Ajustes de socket:** Se configuran sockets con `TCP_NODELAY` (desactivando el algoritmo de Nagle para enviar los rangos sin retraso), `TCP_QUICKACK` en Linux para reducir los round-trips de confirmación, y `posix_fadvise(fd, offset, len, POSIX_FADV_SEQUENTIAL)` para forzar lectura anticipada en el page cache del kernel.
+- **Conexiones persistentes (`Connection: keep-alive`):** Los reproductores móviles disparan decenas de peticiones Range seguidas. Usar HTTP/1.1 persistente en el mismo socket ahorra el costo de múltiples apretones de manos TCP.
+- **Buffer de cabeceras robusto:** Se acumulan bytes hasta encontrar el terminador `\r\n\r\n` con control de tiempo mediante `gettimeofday`. Los bytes sobrantes tras el terminador se conservan para procesar peticiones encoladas (pipelining).
+
+### Manejo de sesiones Range en modo de un solo uso (`-1`)
+Un servidor efímero clásico se apaga apenas entrega un archivo completo. Pero los reproductores de video nunca piden el archivo completo de un tirón: hacen decenas de peticiones `206 Partial Content` mientras cargan buffers o el usuario adelanta.
+
+Si `-1` se apagara en la primera petición, el video moriría a los 100 milisegundos.
+
+En `beam`, el flag `-1` cuenta una respuesta Range completada como una sesión de espectador activa. Mientras el reproductor siga pidiendo fragmentos, el servidor sigue vivo. Una vez que todos los workers hijos terminan y expira la ventana de gracia de 2 segundos de keep-alive para clientes inactivos, `beam` se apaga limpiamente.
+
+### Reanudación y controles en vivo
+Si cierras `beam` y más tarde quieres volver a compartir el mismo archivo, basta con ejecutar `beam -p -c` (o `beam -r`). Reabre el archivo anterior manteniendo el mismo token, por lo que el enlace ya compartido sigue funcionando.
+
+Además, mientras corre en la consola puedes presionar `[p]` para abrir o reabrir el túnel bajo demanda, `[c]` para copiar el enlace al portapapeles, o `[q]` para salir.
 
 ---
 

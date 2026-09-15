@@ -87,15 +87,14 @@ When the `moov` atom sits at the end of a 500 MB file, a web browser cannot begi
 
 ---
 
-## 3. Zero-config ephemeral HTTPS tunnels
+## 3. From SSH reverse tunnels to Cloudflare Quick Tunnels
 
-Sharing a local server running on `localhost:8080` with someone on a different network usually means configuring port forwarding, setting up Dynamic DNS, or signing up for third-party tunnel SaaS products with account keys and custom daemon binaries.
+Sharing a local server running on `localhost:8080` with someone outside your local network usually means setting up port forwarding (often impossible behind residential CGNAT), managing Dynamic DNS, or configuring persistent tunnel daemons with accounts and API keys.
 
-With `beam`, I wanted a completely frictionless, zero-account workflow: pass a single `-p` flag, get an ephemeral HTTPS link, and you are done.
-
-I implemented this by spawning an OpenSSH child process that establishes a reverse port-forwarding tunnel via `localhost.run`:
+In the initial prototype of `beam`, I implemented public tunneling via OpenSSH reverse port-forwarding to `localhost.run`:
 
 ```c
+/* Initial prototype: OpenSSH reverse port-forwarding */
 execlp("ssh", "ssh",
        "-T",
        "-o", "StrictHostKeyChecking=no",
@@ -103,29 +102,57 @@ execlp("ssh", "ssh",
        "-o", "ExitOnForwardFailure=yes",
        "-o", "Compression=no",
        "-o", "IPQoS=throughput",
-       "-o", "TCPKeepAlive=yes",
-       "-o", "ServerAliveInterval=15",
        "-R", port_spec,
        "nokey@localhost.run",
        (char *)NULL);
 ```
 
-Key engineering decisions in the tunnel architecture:
+While that worked for a quick proof of concept, real-world testing over cellular networks uncovered two painful architectural flaws:
 
-1. **`Compression=no`:** video files are already compressed with modern codecs like H.264 and AAC. Enabling SSH compression burns CPU cycles without saving a single byte of bandwidth.
-2. **`IPQoS=throughput`:** tells the networking stack to optimize for sustained transfer speed rather than interactive packet responsiveness.
-3. **Auto-reconnect:** `beam` monitors the child SSH process using non-blocking `waitpid()`. If network turbulence drops the tunnel, `beam` automatically re-establishes the connection and prints the refreshed URL without killing the active HTTP server.
-4. **Token protection:** each link is assigned a 128-bit random hexadecimal token read directly from `/dev/urandom`. Without the exact token, the endpoint cannot be discovered or enumerated.
+1. **TCP-over-TCP and Head-of-Line Blocking:** Encapsulating HTTP over an SSH TCP tunnel caused throughput collapse whenever minor packet loss occurred.
+2. **Split Packet Headers:** High-latency SSH links frequently split the HTTP request across multiple packets. If the server called `recv()` once and only got the `GET /token HTTP/1.1` line before the `Range:` header arrived in the next TCP segment, `beam` fell back to serving a full `200 OK` from byte 0, crashing the mobile video scrubber.
+
+To permanently fix this, I replaced SSH port-forwarding with **Cloudflare Quick Tunnels** (`cloudflared`):
+
+```c
+/* Modern beam: Zero-account Cloudflare Quick Tunnel */
+snprintf(origin, sizeof(origin), "http://127.0.0.1:%d", local_port);
+bin = getenv("BEAM_TUNNEL_BIN");
+if (!bin || !bin[0])
+    bin = "cloudflared";
+execlp(bin, bin, "tunnel", "--url", origin, "--no-autoupdate", (char *)NULL);
+```
+
+Why Cloudflare Quick Tunnels make a massive difference:
+
+- **No SSH encapsulation overhead:** Traffic routes directly from Cloudflare's global Anycast edge down to the local HTTP daemon. No SSH handshakes, no host key prompts, and zero TCP-over-TCP meltdown.
+- **Dynamic URL extraction:** `beam` monitors the child `cloudflared` process using a non-blocking pipe, extracts the generated `https://*.trycloudflare.com` URL, and keeps the log pipe open so `cloudflared` never hits a broken pipe (SIGPIPE).
+- **Edge route propagation delay:** A short one-second wait ensures Cloudflare's edge routing tables propagate before the URL is printed to the terminal or copied to the clipboard.
+- **Tunnel resilience:** If the connection drops or the process exits, `beam` automatically re-establishes the tunnel and prints the new URL without interrupting the underlying HTTP server.
 
 ---
 
-## 4. Systems performance: sendfile() and persistent connections
+## 4. Systems performance: sendfile(), keep-alive, and Range session tracking
 
-Because `beam` is written from scratch in POSIX C99 with zero external library bloat, I optimized the file transmission hot path:
+Because `beam` is written from scratch in POSIX C99, I tuned the network transmission pipeline specifically for the quirky behavior of mobile video players:
 
-- **Kernel zero-copy with `sendfile()`:** on Linux systems, `beam` streams requested byte ranges directly from the file descriptor to the network socket within kernel space using `sendfile()`. Bytes are never copied into user-space RAM buffers, keeping CPU and memory usage negligible even when serving multiple gigabytes.
-- **HTTP/1.1 Keep-Alive:** browser media players fire dozens of rapid Range requests in quick succession. `beam` maintains open TCP sockets with `Connection: keep-alive` (with a 15-second idle timeout), eliminating the latency of repeated handshakes.
-- **Terminal QR generation:** `beam` includes an integrated C QR generator (`qr.c`) that outputs the share link directly to the terminal using Unicode half-block characters (`▀`, `█`). If I want to test playback on my own phone over local Wi-Fi, I simply point my camera at the terminal.
+### Zero-copy streaming and socket tuning
+- **Kernel zero-copy with `sendfile(2)`:** On Linux systems, `beam` streams requested byte ranges directly from the file descriptor into the TCP socket within the kernel. Bytes never travel through user-space RAM, keeping memory consumption down to a few kilobytes even when streaming multi-gigabyte 4K media.
+- **Socket flags:** Sockets are tuned with `TCP_NODELAY` (disabling Nagle's algorithm for immediate range delivery), `TCP_QUICKACK` on Linux to minimize ACK round-trips, and `posix_fadvise(fd, offset, len, POSIX_FADV_SEQUENTIAL)` to trigger aggressive kernel page cache readahead.
+- **Persistent connections (`Connection: keep-alive`):** Native players fire dozens of Range requests in rapid succession. Speaking HTTP/1.1 persistent connections on the same socket eliminates the latency of repeated three-way TCP handshakes.
+- **Robust header buffering:** Incoming requests are buffered until the `\r\n\r\n` boundary is reached, with `gettimeofday` timeout bounds. Any leftover bytes after the terminator are preserved for the next pipelined request on the socket.
+
+### Range session tracking in one-shot mode (`-1`)
+A classic burn-after-reading file server simply terminates after serving one complete file. But video players never download the entire file in one request. They fire dozens of `206 Partial Content` requests as the user buffers and seeks.
+
+If `-1` had terminated on the first request, the video would freeze after 0.1 seconds. 
+
+In `beam`, the `-1` flag treats a finished Range response as part of an active viewer session. As long as the viewer continues requesting chunks, the worker stays alive. Once all sibling worker processes finish and the two-second keep-alive grace window closes, `beam` safely terminates.
+
+### Resume and interactive controls
+If you close `beam` and want to re-share the same video later, running `beam -p -c` (or `beam -r`) reopens the previous file while preserving the original token hash, keeping existing shared links alive. 
+
+While `beam` runs, you can also press `[p]` to reopen or refresh the tunnel on demand, `[c]` to re-copy the URL, and `[q]` to quit cleanly.
 
 ---
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="meta-title">beam: streaming de videos efímeros en C99 con peticiones Range y túneles SSH - Ricardo Veronese</title>
+    <title id="meta-title">beam: streaming de videos efímeros en C99 con peticiones Range y túneles HTTPS - Ricardo Veronese</title>
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="../riccivr-retro-avatar.png">
     <meta name="theme-color" content="#0c0a07">
@@ -21,14 +21,14 @@
     <!-- Open Graph -->
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="Ricardo Veronese">
-    <meta property="og:title" id="og-title" content="beam: streaming de videos efímeros en C99 con peticiones Range y túneles SSH - Ricardo Veronese">
+    <meta property="og:title" id="og-title" content="beam: streaming de videos efímeros en C99 con peticiones Range y túneles HTTPS - Ricardo Veronese">
     <meta property="og:description" id="og-desc" content="En mi artículo anterior expliqué cómo construí autodub para transcribir, traducir y doblar videos en inglés al español y mandárselos a mi novia, ahorrándole el cansancio de leer subtítulos después de trabajar todo el día...">
     <meta property="og:url" content="https://riccivr.github.io/blog/beam-ephemeral-video-streaming-in-c99.html">
     <meta property="og:image" content="https://riccivr.github.io/riccivr-retro-og.png">
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" id="tw-title" content="beam: streaming de videos efímeros en C99 con peticiones Range y túneles SSH - Ricardo Veronese">
+    <meta name="twitter:title" id="tw-title" content="beam: streaming de videos efímeros en C99 con peticiones Range y túneles HTTPS - Ricardo Veronese">
     <meta name="twitter:description" id="tw-desc" content="En mi artículo anterior expliqué cómo construí autodub para transcribir, traducir y doblar videos en inglés al español y mandárselos a mi novia, ahorrándole el cansancio de leer subtítulos después de trabajar todo el día...">
     <meta name="twitter:image" content="https://riccivr.github.io/riccivr-retro-og.png">
 
@@ -37,7 +37,7 @@
     {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
-        "headline": "beam: streaming de videos ef\u00edmeros en C99 con peticiones Range y t\u00faneles SSH",
+        "headline": "beam: streaming de videos ef\u00edmeros en C99 con peticiones Range y t\u00faneles HTTPS",
         "description": "En mi art\u00edculo anterior expliqu\u00e9 c\u00f3mo constru\u00ed autodub para transcribir, traducir y doblar videos en ingl\u00e9s al espa\u00f1ol y mand\u00e1rselos a mi novia, ahorr\u00e1ndole el cansancio de leer subt\u00edtulos despu\u00e9s de trabajar todo el d\u00eda...",
         "author": {
             "@type": "Person",
@@ -538,7 +538,7 @@
             <!-- Post Container (Zero-JS Pre-rendered) -->
             <article id="post-article-es" lang="es">
                 <div class="post-content">
-<h1>beam: streaming de videos efímeros en C99 con peticiones Range y túneles SSH</h1>
+<h1>beam: streaming de videos efímeros en C99 con peticiones Range y túneles HTTPS</h1>
 <p><em>Publicado: 14 de septiembre de 2026. Categoría: Sistemas &amp; Redes. Tiempo de lectura: ~6 min</em><br />
 <em>Etiquetas: C99, beam, HTTP, Redes, POSIX, Video</em></p>
 <hr />
@@ -604,39 +604,60 @@ MP4 con Faststart (+faststart):
 <p>Si el átomo <code>moov</code> está al final, el navegador no puede calcular la duración del video ni decodificar los fotogramas iniciales sin haber leído primero esos metadatos. En conexiones móviles o a través de túneles, esto causa demoras enormes antes de que comience el video.</p>
 <p><code>beam</code> inspecciona automáticamente el encabezado del archivo. Si detecta que se trata de un archivo MP4 y <code>ffmpeg</code> está disponible en el sistema, ejecuta un remux ultra rápido en segundo plano utilizando <code>-movflags +faststart</code>. Esto reubica el átomo <code>moov</code> al inicio del archivo sin reencodear nada. El proceso toma apenas un par de segundos y garantiza que el video comience a reproducirse en menos de 100 milisegundos.</p>
 <hr />
-<h2>3. Túnel HTTPS público efímero sin cuentas ni registros</h2>
-<p>Compartir un servidor web que corre en <code>localhost:8080</code> con alguien que está en otra casa suele requerir abrir puertos en el router (imposible bajo CGNAT residencial), configurar DNS dinámico, o registrarse en servicios como ngrok o Cloudflare Tunnels instalando agentes propietarios.</p>
-<p>Para <code>beam</code> quería una experiencia con cero fricción: un solo flag <code>-p</code> que me diera una URL pública segura con HTTPS listo.</p>
-<p>Lo resolví aprovechando el reenvío de puertos remoto de OpenSSH contra <code>localhost.run</code>:</p>
-<div class="code-highlight"><pre><span></span><code><span class="n">execlp</span><span class="p">(</span><span class="s">&quot;ssh&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ssh&quot;</span><span class="p">,</span>
+<h2>3. De túneles SSH inversos a Cloudflare Quick Tunnels</h2>
+<p>Compartir un servidor local que corre en <code>localhost:8080</code> con alguien fuera de tu red local suele ser un rollo: abrir puertos en el router es imposible bajo CGNAT residencial, el DNS dinámico es tedioso, y configurar daemons persistentes exige registrarse y manejar API keys.</p>
+<p>En el primer prototipo de <code>beam</code>, resolví esto abriendo un túnel SSH inverso contra <code>localhost.run</code>:</p>
+<div class="code-highlight"><pre><span></span><code><span class="cm">/* Prototipo inicial: reenvío de puertos remoto con OpenSSH */</span>
+<span class="n">execlp</span><span class="p">(</span><span class="s">&quot;ssh&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ssh&quot;</span><span class="p">,</span>
 <span class="w">       </span><span class="s">&quot;-T&quot;</span><span class="p">,</span>
 <span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;StrictHostKeyChecking=no&quot;</span><span class="p">,</span>
 <span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;UserKnownHostsFile=/dev/null&quot;</span><span class="p">,</span>
 <span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ExitOnForwardFailure=yes&quot;</span><span class="p">,</span>
 <span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Compression=no&quot;</span><span class="p">,</span>
 <span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;IPQoS=throughput&quot;</span><span class="p">,</span>
-<span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;TCPKeepAlive=yes&quot;</span><span class="p">,</span>
-<span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ServerAliveInterval=15&quot;</span><span class="p">,</span>
 <span class="w">       </span><span class="s">&quot;-R&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">port_spec</span><span class="p">,</span>
 <span class="w">       </span><span class="s">&quot;nokey@localhost.run&quot;</span><span class="p">,</span>
 <span class="w">       </span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="nb">NULL</span><span class="p">);</span>
 </code></pre></div>
 
-<p>Detalles técnicos clave de esta implementación:</p>
+<p>Aunque funcionaba como prueba de concepto, las pruebas en redes celulares revelaron dos problemas serios de arquitectura:</p>
 <ol>
-<li><strong><code>Compression=no</code>:</strong> los archivos multimedia ya están comprimidos (H.264, AAC). Activar compresión en el túnel SSH no ahorra ancho de banda y solo quema ciclos de CPU en vano.</li>
-<li><strong><code>IPQoS=throughput</code>:</strong> le indica al kernel de red que priorice el rendimiento de transferencia continua sobre la baja latencia de paquetes interactivos pequeños.</li>
-<li><strong>Manejo de caídas:</strong> <code>beam</code> vigila el PID del proceso SSH con <code>waitpid()</code>. Si la conexión se cae por fluctuaciones de red, reabre el túnel automáticamente y refresca la URL sin interrumpir el servidor HTTP local.</li>
-<li><strong>Seguridad mediante tokens:</strong> cada enlace utiliza un identificador hexadecimal aleatorio de 128 bits (32 caracteres) extraído de <code>/dev/urandom</code>. Sin el token exacto, nadie en internet puede listar ni adivinar el archivo servido.</li>
+<li><strong>TCP-over-TCP y Head-of-Line Blocking:</strong> Encapsular tráfico HTTP sobre una conexión TCP de SSH provocaba caídas brutales de rendimiento ante la menor pérdida de paquetes.</li>
+<li><strong>Cabeceras fragmentadas por latencia:</strong> En conexiones móviles con alta latencia, SSH dividía la petición HTTP en múltiples paquetes. Si el servidor llamaba a <code>recv()</code> y recibía únicamente <code>GET /token HTTP/1.1</code> antes de que la cabecera <code>Range:</code> llegara en el siguiente segmento TCP, <code>beam</code> asumía que era una petición sin rango y devolvía un <code>200 OK</code> completo desde el byte 0, congelando el reproductor.</li>
 </ol>
-<hr />
-<h2>4. Rendimiento con sendfile() y conexiones persistentes</h2>
-<p>Dado que <code>beam</code> fue escrito desde cero en C99 sin frameworks ni dependencias externas, optimicé la ruta crítica de transferencia:</p>
+<p>Para solucionar esto de raíz, reemplacé el reenvío por SSH por <strong>Cloudflare Quick Tunnels</strong> (<code>cloudflared</code>):</p>
+<div class="code-highlight"><pre><span></span><code><span class="cm">/* Implementación actual: Cloudflare Quick Tunnel sin cuentas */</span>
+<span class="n">snprintf</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">origin</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;http://127.0.0.1:%d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">local_port</span><span class="p">);</span>
+<span class="n">bin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getenv</span><span class="p">(</span><span class="s">&quot;BEAM_TUNNEL_BIN&quot;</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">bin</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">bin</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="w">    </span><span class="n">bin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;cloudflared&quot;</span><span class="p">;</span>
+<span class="n">execlp</span><span class="p">(</span><span class="n">bin</span><span class="p">,</span><span class="w"> </span><span class="n">bin</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tunnel&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;--url&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">origin</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;--no-autoupdate&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="nb">NULL</span><span class="p">);</span>
+</code></pre></div>
+
+<p>Ventajas clave de este cambio:</p>
 <ul>
-<li><strong>Zero-copy con <code>sendfile()</code>:</strong> en sistemas Linux, <code>beam</code> transfiere los datos directamente desde el descriptor del archivo en disco hacia el socket TCP en el kernel mediante <code>sendfile()</code>. Los datos nunca se copian al espacio de usuario en memoria RAM, lo que reduce el consumo de memoria a casi cero y maximiza la velocidad de transferencia.</li>
-<li><strong>HTTP/1.1 Keep-Alive:</strong> los reproductores de video realizan decenas de peticiones Range consecutivas para cargar segmentos sucesivos de audio y video. <code>beam</code> mantiene el socket abierto mediante <code>Connection: keep-alive</code> (con un timeout de inactividad de 15 segundos), evitando el costo de múltiples apretones de manos TCP.</li>
-<li><strong>Código QR en terminal:</strong> incluye un generador de códigos QR integrado en C (<code>qr.c</code>) que dibuja la matriz directamente en la consola usando medios bloques Unicode (<code>▀</code>, <code>█</code>). Si quiero abrir el enlace en mi propio teléfono mientras estoy en la misma red Wi-Fi, solo apunto la cámara a la pantalla.</li>
+<li><strong>Sin encapsulación SSH:</strong> El tráfico viaja directo desde la red Anycast de Cloudflare hacia el daemon HTTP local. Sin handshakes SSH, sin advertencias de known_hosts y sin bloqueos de TCP sobre TCP.</li>
+<li><strong>Extracción dinámica de la URL:</strong> <code>beam</code> vigila el proceso hijo <code>cloudflared</code> mediante una tubería no bloqueante, extrae la URL <code>https://*.trycloudflare.com</code> y mantiene el pipe de logs abierto para evitar que <code>cloudflared</code> muera por Broken Pipe (SIGPIPE).</li>
+<li><strong>Propagación en el Edge:</strong> Espera un segundo antes de mostrar el enlace para que las tablas de enrutamiento de Cloudflare se propaguen en el edge antes de que el usuario lo abra.</li>
+<li><strong>Resiliencia ante caídas:</strong> Si el túnel se cae, <code>beam</code> lo levanta de nuevo automáticamente y refresca la URL sin interrumpir las descargas locales.</li>
 </ul>
+<hr />
+<h2>4. Rendimiento del sistema: sendfile(), keep-alive y tracking de sesiones Range</h2>
+<p>Dado que <code>beam</code> fue escrito en C99 puro sobre POSIX, optimicé la transmisión para lidiar con las mañas de los reproductores móviles:</p>
+<h3>Streaming zero-copy y ajustes de socket</h3>
+<ul>
+<li><strong>Zero-copy con <code>sendfile(2)</code>:</strong> En Linux, <code>beam</code> transfiere los rangos solicitados directamente desde el descriptor del archivo hacia el socket TCP en el kernel. Los bytes nunca tocan la memoria RAM en espacio de usuario, manteniendo el uso de memoria en unos pocos kilobytes aunque se sirvan videos 4K de varios gigabytes.</li>
+<li><strong>Ajustes de socket:</strong> Se configuran sockets con <code>TCP_NODELAY</code> (desactivando el algoritmo de Nagle para enviar los rangos sin retraso), <code>TCP_QUICKACK</code> en Linux para reducir los round-trips de confirmación, y <code>posix_fadvise(fd, offset, len, POSIX_FADV_SEQUENTIAL)</code> para forzar lectura anticipada en el page cache del kernel.</li>
+<li><strong>Conexiones persistentes (<code>Connection: keep-alive</code>):</strong> Los reproductores móviles disparan decenas de peticiones Range seguidas. Usar HTTP/1.1 persistente en el mismo socket ahorra el costo de múltiples apretones de manos TCP.</li>
+<li><strong>Buffer de cabeceras robusto:</strong> Se acumulan bytes hasta encontrar el terminador <code>\r\n\r\n</code> con control de tiempo mediante <code>gettimeofday</code>. Los bytes sobrantes tras el terminador se conservan para procesar peticiones encoladas (pipelining).</li>
+</ul>
+<h3>Manejo de sesiones Range en modo de un solo uso (<code>-1</code>)</h3>
+<p>Un servidor efímero clásico se apaga apenas entrega un archivo completo. Pero los reproductores de video nunca piden el archivo completo de un tirón: hacen decenas de peticiones <code>206 Partial Content</code> mientras cargan buffers o el usuario adelanta.</p>
+<p>Si <code>-1</code> se apagara en la primera petición, el video moriría a los 100 milisegundos.</p>
+<p>En <code>beam</code>, el flag <code>-1</code> cuenta una respuesta Range completada como una sesión de espectador activa. Mientras el reproductor siga pidiendo fragmentos, el servidor sigue vivo. Una vez que todos los workers hijos terminan y expira la ventana de gracia de 2 segundos de keep-alive para clientes inactivos, <code>beam</code> se apaga limpiamente.</p>
+<h3>Reanudación y controles en vivo</h3>
+<p>Si cierras <code>beam</code> y más tarde quieres volver a compartir el mismo archivo, basta con ejecutar <code>beam -p -c</code> (o <code>beam -r</code>). Reabre el archivo anterior manteniendo el mismo token, por lo que el enlace ya compartido sigue funcionando.</p>
+<p>Además, mientras corre en la consola puedes presionar <code>[p]</code> para abrir o reabrir el túnel bajo demanda, <code>[c]</code> para copiar el enlace al portapapeles, o <code>[q]</code> para salir.</p>
 <hr />
 <h2>5. La tubería UNIX perfecta con autodub</h2>
 <p>El motivo principal por el que construí <code>beam</code> fue integrarlo de forma natural con <code>autodub</code> siguiendo la filosofía UNIX: herramientas pequeñas, enfocadas y conectables mediante pipes.</p>
@@ -741,39 +762,60 @@ Faststart MP4 (+faststart):
 <p>When the <code>moov</code> atom sits at the end of a 500 MB file, a web browser cannot begin playing or calculate total runtime until it has fetched the end of the file. Over high-latency tunnels or mobile data, this causes noticeable playback lag.</p>
 <p><code>beam</code> inspects the container header at startup. If it is serving an MP4 and <code>ffmpeg</code> is available on the machine, it runs a background remux with <code>-movflags +faststart</code>. This relocates the <code>moov</code> atom to the very beginning of the container without re-encoding any audio or video tracks. It takes two seconds and ensures that playback starts within 100 milliseconds.</p>
 <hr />
-<h2>3. Zero-config ephemeral HTTPS tunnels</h2>
-<p>Sharing a local server running on <code>localhost:8080</code> with someone on a different network usually means configuring port forwarding, setting up Dynamic DNS, or signing up for third-party tunnel SaaS products with account keys and custom daemon binaries.</p>
-<p>With <code>beam</code>, I wanted a completely frictionless, zero-account workflow: pass a single <code>-p</code> flag, get an ephemeral HTTPS link, and you are done.</p>
-<p>I implemented this by spawning an OpenSSH child process that establishes a reverse port-forwarding tunnel via <code>localhost.run</code>:</p>
-<div class="code-highlight"><pre><span></span><code><span class="n">execlp</span><span class="p">(</span><span class="s">&quot;ssh&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ssh&quot;</span><span class="p">,</span>
+<h2>3. From SSH reverse tunnels to Cloudflare Quick Tunnels</h2>
+<p>Sharing a local server running on <code>localhost:8080</code> with someone outside your local network usually means setting up port forwarding (often impossible behind residential CGNAT), managing Dynamic DNS, or configuring persistent tunnel daemons with accounts and API keys.</p>
+<p>In the initial prototype of <code>beam</code>, I implemented public tunneling via OpenSSH reverse port-forwarding to <code>localhost.run</code>:</p>
+<div class="code-highlight"><pre><span></span><code><span class="cm">/* Initial prototype: OpenSSH reverse port-forwarding */</span>
+<span class="n">execlp</span><span class="p">(</span><span class="s">&quot;ssh&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ssh&quot;</span><span class="p">,</span>
 <span class="w">       </span><span class="s">&quot;-T&quot;</span><span class="p">,</span>
 <span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;StrictHostKeyChecking=no&quot;</span><span class="p">,</span>
 <span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;UserKnownHostsFile=/dev/null&quot;</span><span class="p">,</span>
 <span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ExitOnForwardFailure=yes&quot;</span><span class="p">,</span>
 <span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Compression=no&quot;</span><span class="p">,</span>
 <span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;IPQoS=throughput&quot;</span><span class="p">,</span>
-<span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;TCPKeepAlive=yes&quot;</span><span class="p">,</span>
-<span class="w">       </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ServerAliveInterval=15&quot;</span><span class="p">,</span>
 <span class="w">       </span><span class="s">&quot;-R&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">port_spec</span><span class="p">,</span>
 <span class="w">       </span><span class="s">&quot;nokey@localhost.run&quot;</span><span class="p">,</span>
 <span class="w">       </span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="nb">NULL</span><span class="p">);</span>
 </code></pre></div>
 
-<p>Key engineering decisions in the tunnel architecture:</p>
+<p>While that worked for a quick proof of concept, real-world testing over cellular networks uncovered two painful architectural flaws:</p>
 <ol>
-<li><strong><code>Compression=no</code>:</strong> video files are already compressed with modern codecs like H.264 and AAC. Enabling SSH compression burns CPU cycles without saving a single byte of bandwidth.</li>
-<li><strong><code>IPQoS=throughput</code>:</strong> tells the networking stack to optimize for sustained transfer speed rather than interactive packet responsiveness.</li>
-<li><strong>Auto-reconnect:</strong> <code>beam</code> monitors the child SSH process using non-blocking <code>waitpid()</code>. If network turbulence drops the tunnel, <code>beam</code> automatically re-establishes the connection and prints the refreshed URL without killing the active HTTP server.</li>
-<li><strong>Token protection:</strong> each link is assigned a 128-bit random hexadecimal token read directly from <code>/dev/urandom</code>. Without the exact token, the endpoint cannot be discovered or enumerated.</li>
+<li><strong>TCP-over-TCP and Head-of-Line Blocking:</strong> Encapsulating HTTP over an SSH TCP tunnel caused throughput collapse whenever minor packet loss occurred.</li>
+<li><strong>Split Packet Headers:</strong> High-latency SSH links frequently split the HTTP request across multiple packets. If the server called <code>recv()</code> once and only got the <code>GET /token HTTP/1.1</code> line before the <code>Range:</code> header arrived in the next TCP segment, <code>beam</code> fell back to serving a full <code>200 OK</code> from byte 0, crashing the mobile video scrubber.</li>
 </ol>
-<hr />
-<h2>4. Systems performance: sendfile() and persistent connections</h2>
-<p>Because <code>beam</code> is written from scratch in POSIX C99 with zero external library bloat, I optimized the file transmission hot path:</p>
+<p>To permanently fix this, I replaced SSH port-forwarding with <strong>Cloudflare Quick Tunnels</strong> (<code>cloudflared</code>):</p>
+<div class="code-highlight"><pre><span></span><code><span class="cm">/* Modern beam: Zero-account Cloudflare Quick Tunnel */</span>
+<span class="n">snprintf</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">origin</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;http://127.0.0.1:%d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">local_port</span><span class="p">);</span>
+<span class="n">bin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getenv</span><span class="p">(</span><span class="s">&quot;BEAM_TUNNEL_BIN&quot;</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">bin</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">bin</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="w">    </span><span class="n">bin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;cloudflared&quot;</span><span class="p">;</span>
+<span class="n">execlp</span><span class="p">(</span><span class="n">bin</span><span class="p">,</span><span class="w"> </span><span class="n">bin</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tunnel&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;--url&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">origin</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;--no-autoupdate&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="nb">NULL</span><span class="p">);</span>
+</code></pre></div>
+
+<p>Why Cloudflare Quick Tunnels make a massive difference:</p>
 <ul>
-<li><strong>Kernel zero-copy with <code>sendfile()</code>:</strong> on Linux systems, <code>beam</code> streams requested byte ranges directly from the file descriptor to the network socket within kernel space using <code>sendfile()</code>. Bytes are never copied into user-space RAM buffers, keeping CPU and memory usage negligible even when serving multiple gigabytes.</li>
-<li><strong>HTTP/1.1 Keep-Alive:</strong> browser media players fire dozens of rapid Range requests in quick succession. <code>beam</code> maintains open TCP sockets with <code>Connection: keep-alive</code> (with a 15-second idle timeout), eliminating the latency of repeated handshakes.</li>
-<li><strong>Terminal QR generation:</strong> <code>beam</code> includes an integrated C QR generator (<code>qr.c</code>) that outputs the share link directly to the terminal using Unicode half-block characters (<code>▀</code>, <code>█</code>). If I want to test playback on my own phone over local Wi-Fi, I simply point my camera at the terminal.</li>
+<li><strong>No SSH encapsulation overhead:</strong> Traffic routes directly from Cloudflare's global Anycast edge down to the local HTTP daemon. No SSH handshakes, no host key prompts, and zero TCP-over-TCP meltdown.</li>
+<li><strong>Dynamic URL extraction:</strong> <code>beam</code> monitors the child <code>cloudflared</code> process using a non-blocking pipe, extracts the generated <code>https://*.trycloudflare.com</code> URL, and keeps the log pipe open so <code>cloudflared</code> never hits a broken pipe (SIGPIPE).</li>
+<li><strong>Edge route propagation delay:</strong> A short one-second wait ensures Cloudflare's edge routing tables propagate before the URL is printed to the terminal or copied to the clipboard.</li>
+<li><strong>Tunnel resilience:</strong> If the connection drops or the process exits, <code>beam</code> automatically re-establishes the tunnel and prints the new URL without interrupting the underlying HTTP server.</li>
 </ul>
+<hr />
+<h2>4. Systems performance: sendfile(), keep-alive, and Range session tracking</h2>
+<p>Because <code>beam</code> is written from scratch in POSIX C99, I tuned the network transmission pipeline specifically for the quirky behavior of mobile video players:</p>
+<h3>Zero-copy streaming and socket tuning</h3>
+<ul>
+<li><strong>Kernel zero-copy with <code>sendfile(2)</code>:</strong> On Linux systems, <code>beam</code> streams requested byte ranges directly from the file descriptor into the TCP socket within the kernel. Bytes never travel through user-space RAM, keeping memory consumption down to a few kilobytes even when streaming multi-gigabyte 4K media.</li>
+<li><strong>Socket flags:</strong> Sockets are tuned with <code>TCP_NODELAY</code> (disabling Nagle's algorithm for immediate range delivery), <code>TCP_QUICKACK</code> on Linux to minimize ACK round-trips, and <code>posix_fadvise(fd, offset, len, POSIX_FADV_SEQUENTIAL)</code> to trigger aggressive kernel page cache readahead.</li>
+<li><strong>Persistent connections (<code>Connection: keep-alive</code>):</strong> Native players fire dozens of Range requests in rapid succession. Speaking HTTP/1.1 persistent connections on the same socket eliminates the latency of repeated three-way TCP handshakes.</li>
+<li><strong>Robust header buffering:</strong> Incoming requests are buffered until the <code>\r\n\r\n</code> boundary is reached, with <code>gettimeofday</code> timeout bounds. Any leftover bytes after the terminator are preserved for the next pipelined request on the socket.</li>
+</ul>
+<h3>Range session tracking in one-shot mode (<code>-1</code>)</h3>
+<p>A classic burn-after-reading file server simply terminates after serving one complete file. But video players never download the entire file in one request. They fire dozens of <code>206 Partial Content</code> requests as the user buffers and seeks.</p>
+<p>If <code>-1</code> had terminated on the first request, the video would freeze after 0.1 seconds. </p>
+<p>In <code>beam</code>, the <code>-1</code> flag treats a finished Range response as part of an active viewer session. As long as the viewer continues requesting chunks, the worker stays alive. Once all sibling worker processes finish and the two-second keep-alive grace window closes, <code>beam</code> safely terminates.</p>
+<h3>Resume and interactive controls</h3>
+<p>If you close <code>beam</code> and want to re-share the same video later, running <code>beam -p -c</code> (or <code>beam -r</code>) reopens the previous file while preserving the original token hash, keeping existing shared links alive. </p>
+<p>While <code>beam</code> runs, you can also press <code>[p]</code> to reopen or refresh the tunnel on demand, <code>[c]</code> to re-copy the URL, and <code>[q]</code> to quit cleanly.</p>
 <hr />
 <h2>5. UNIX composition with autodub</h2>
 <p>The primary reason I built <code>beam</code> was to close the loop with <code>autodub</code> using classic UNIX piping principles: small, focused utilities composed together.</p>
@@ -825,7 +867,7 @@ autodub<span class="w"> </span><span class="s2">&quot;https://www.youtube.com/wa
         <footer class="p-3 sm:p-4 border-t theme-border text-xs flex justify-between items-center theme-bg-header">
             <span class="theme-text-muted text-[11px] sm:text-xs font-bold">riccivr.github.io/blog</span>
             <span id="footer-text" class="text-right text-[11px] sm:text-xs theme-text-muted font-mono font-medium">
-                REV: 382f0e8 // PUBLICADO: 2026.09.14
+                REV: 469e719 // PUBLICADO: 2026.09.14
             </span>
         </footer>
 
@@ -857,8 +899,8 @@ autodub<span class="w"> </span><span class="s2">&quot;https://www.youtube.com/wa
                 repoAria: "Ver repositorio en GitHub (se abre en nueva pestaña) [G]",
                 topBtn: "[^] Arriba",
                 topBtnAria: "Ir arriba [K]",
-                footerText: "REV: 382f0e8 // PUBLICADO: 2026.09.14",
-                title: "beam: streaming de videos ef\u00edmeros en C99 con peticiones Range y t\u00faneles SSH",
+                footerText: "REV: 469e719 // PUBLICADO: 2026.09.14",
+                title: "beam: streaming de videos ef\u00edmeros en C99 con peticiones Range y t\u00faneles HTTPS",
                 metaDesc: "En mi art\u00edculo anterior expliqu\u00e9 c\u00f3mo constru\u00ed autodub para transcribir, traducir y doblar videos en ingl\u00e9s al espa\u00f1ol y mand\u00e1rselos a mi novia, ahorr\u00e1ndole el cansancio de leer subt\u00edtulos despu\u00e9s de trabajar todo el d\u00eda..."
             },
             en: {
@@ -884,7 +926,7 @@ autodub<span class="w"> </span><span class="s2">&quot;https://www.youtube.com/wa
                 repoAria: "View GitHub repository (opens in a new tab) [G]",
                 topBtn: "[^] Top",
                 topBtnAria: "Scroll to top [K]",
-                footerText: "REV: 382f0e8 // PUBLISHED: 2026.09.14",
+                footerText: "REV: 469e719 // PUBLISHED: 2026.09.14",
                 title: "beam: streaming dubbed videos with ephemeral HTTP tunnels and Range requests in C99",
                 metaDesc: "In my previous post, I wrote about building autodub to transcribe, translate, and dub English videos into Spanish so I could send them to my girlfriend, sparing her the eye fatigue of reading tiny subtitles after working..."
             }

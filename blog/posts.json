@@ -2,7 +2,7 @@
   {
     "slug": "beam-ephemeral-video-streaming-in-c99",
     "date": "2026-09-14",
-    "title": "beam: streaming de videos efímeros en C99 con peticiones Range y túneles SSH",
+    "title": "beam: streaming de videos efímeros en C99 con peticiones Range y túneles HTTPS",
     "category": "Sistemas & Redes",
     "tags": [
       "C99",
@@ -13,7 +13,7 @@
       "Video"
     ],
     "summary": "En mi artículo anterior expliqué cómo construí autodub para transcribir, traducir y doblar videos en inglés al español y mandárselos a mi novia, ahorrándole el cansancio de leer subtítulos después de trabajar todo el día...",
-    "readingTime": "8 min",
+    "readingTime": "10 min",
     "file": "posts/beam-ephemeral-video-streaming-in-c99.es.md",
     "en": {
       "title": "beam: streaming dubbed videos with ephemeral HTTP tunnels and Range requests in C99",
@@ -28,11 +28,11 @@
         "Video"
       ],
       "summary": "In my previous post, I wrote about building autodub to transcribe, translate, and dub English videos into Spanish so I could send them to my girlfriend, sparing her the eye fatigue of reading tiny subtitles after working...",
-      "readingTime": "8 min",
+      "readingTime": "9 min",
       "file": "posts/beam-ephemeral-video-streaming-in-c99.en.md"
     },
     "es": {
-      "title": "beam: streaming de videos efímeros en C99 con peticiones Range y túneles SSH",
+      "title": "beam: streaming de videos efímeros en C99 con peticiones Range y túneles HTTPS",
       "date": "2026-09-14",
       "category": "Sistemas & Redes",
       "tags": [
@@ -44,7 +44,7 @@
         "Video"
       ],
       "summary": "En mi artículo anterior expliqué cómo construí autodub para transcribir, traducir y doblar videos en inglés al español y mandárselos a mi novia, ahorrándole el cansancio de leer subtítulos después de trabajar todo el día...",
-      "readingTime": "8 min",
+      "readingTime": "10 min",
       "file": "posts/beam-ephemeral-video-streaming-in-c99.es.md"
     }
   },

@@ -1237,15 +1237,15 @@ def cmd_build():
             clean_item['es'] = clean_item_es
         clean_posts.append(clean_item)
 
-        # Full precompiled dictionary in posts-data.js
-        posts_data_dict[p['slug']] = item
+        # Optimized metadata dictionary in posts-data.js (avoids 140+ KiB of unused HTML payload)
+        posts_data_dict[p['slug']] = clean_item
 
     with open(POSTS_JSON, 'w', encoding='utf-8') as f:
         json.dump(clean_posts, f, indent=2, ensure_ascii=False)
     print(f"[✓] Indexed {len(clean_posts)} bilingual posts into {POSTS_JSON}")
 
     with open(POSTS_DATA_JS, 'w', encoding='utf-8') as f:
-        f.write("window.__POSTS_DATA__ = " + json.dumps(posts_data_dict, ensure_ascii=False) + ";\n")
+        f.write("window.__POSTS_DATA__=" + json.dumps(posts_data_dict, separators=(',', ':'), ensure_ascii=False) + ";\n")
     print(f"[✓] Generated pre-rendered post bundle {POSTS_DATA_JS}")
 
     generate_sitemap(clean_posts)

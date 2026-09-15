@@ -227,7 +227,7 @@
                     <div class="flex items-start space-x-4">
                         <picture class="hidden sm:block mr-2 flex-shrink-0">
                             <source srcset="./riccivr-retro.webp" type="image/webp">
-                            <img src="./riccivr-retro-avatar.png" width="112" height="82" loading="lazy" decoding="async" class="w-28 aspect-[37/27] rounded-sm border-2 theme-border" style="box-shadow: var(--avatar-shadow);" alt="Avatar pixel art de Ricardo Veronese">
+                            <img src="./riccivr-retro-avatar.png" width="112" height="82" loading="eager" fetchpriority="high" decoding="async" class="w-28 aspect-[37/27] rounded-sm border-2 theme-border" style="box-shadow: var(--avatar-shadow);" alt="Avatar pixel art de Ricardo Veronese">
                         </picture>
                         
                         <div>
@@ -302,7 +302,7 @@
                         </header>
                         <div class="text-sm leading-relaxed theme-text-main mt-2">
                             <p id="beam-desc" class="mb-3">
-                                CLI en C99 que comparte archivos locales mediante enlaces HTTP efímeros con expiración automática. Soporta peticiones HTTP Range (206 Partial Content) para scrubbing instantáneo en reproductores de video nativos (Chrome, Safari, iOS), sendfile() sin bloqueo, túneles públicos reversos vía SSH (-p) con auto-reconexión, códigos QR en consola Unicode y piping directo desde autodub.
+                                CLI en C99 que comparte archivos locales mediante enlaces HTTP efímeros con expiración automática. Soporta peticiones HTTP Range (206 Partial Content) para scrubbing instantáneo en reproductores de video nativos (Chrome, Safari, iOS), zero-copy con sendfile(), túneles públicos rápidos de Cloudflare (-p), códigos QR en consola Unicode y piping directo desde autodub.
                             </p>
                             <div id="beam-tags" class="flex flex-wrap gap-1.5 pt-1">
                                 <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">C99</span>
@@ -663,7 +663,7 @@
                 tabAnnounceContact: "Sección Contacto mostrada",
                 beamSub: "CLI de intercambio efímero de archivos y streaming de video local-first en C99",
                 beamBadge: "Activo",
-                beamDesc: "CLI en C99 que comparte archivos locales mediante enlaces HTTP efímeros con expiración automática. Soporta peticiones HTTP Range (206 Partial Content) para scrubbing instantáneo en reproductores de video nativos (Chrome, Safari, iOS), sendfile() sin bloqueo, túneles públicos reversos vía SSH (-p) con auto-reconexión, códigos QR en consola Unicode y piping directo desde autodub.",
+                beamDesc: "CLI en C99 que comparte archivos locales mediante enlaces HTTP efímeros con expiración automática. Soporta peticiones HTTP Range (206 Partial Content) para scrubbing instantáneo en reproductores de video nativos (Chrome, Safari, iOS), zero-copy con sendfile(), túneles públicos rápidos de Cloudflare (-p), códigos QR en consola Unicode y piping directo desde autodub.",
                 beamTags: ["C99", "POSIX", "HTTP / STREAMING", "VIDEO", "TUNNELING", "CLI", "ZERO-DEP"],
                 beamGhAria: "Repositorio beam en GitHub (se abre en una nueva pestaña)",
                 autodubSub: "Pipeline CLI de doblaje de video local y síntesis de voz en CPU",
@@ -696,11 +696,11 @@
                 blogIntro: "// Artículos técnicos, arquitectura de sistemas y notas de trabajo",
                 featuredTag: "POST_2026.09.14 // SISTEMAS & REDES",
                 featuredReading: "Lectura: ~6 min",
-                featuredTitle: "beam: streaming de videos efímeros en C99 con peticiones Range y túneles SSH",
-                featuredSummary: "Servidor HTTP mínimo en C99 para transmitir archivos locales a reproductores nativos mediante peticiones Range (206 Partial Content), remux Faststart de MP4 y túneles HTTPS reversos efímeros.",
+                featuredTitle: "beam: streaming de videos efímeros en C99 con peticiones Range y túneles HTTPS",
+                featuredSummary: "Servidor HTTP mínimo en C99 para transmitir archivos locales a reproductores nativos mediante peticiones Range (206 Partial Content), remux Faststart de MP4 y túneles rápidos de Cloudflare.",
                 featuredBadges: ["#C99", "#beam", "#HTTP", "#Redes", "#POSIX", "#Video"],
                 featuredBtn: "[LEER ARTÍCULO ->]",
-                featuredBtnAria: "Leer artículo: beam: streaming de videos efímeros en C99 con peticiones Range y túneles SSH",
+                featuredBtnAria: "Leer artículo: beam: streaming de videos efímeros en C99 con peticiones Range y túneles HTTPS",
                 blogBannerText: "¿Quieres ver más artículos y experimentos?",
                 blogBannerBtn: "[VER TODOS LOS POSTS ->]",
                 skillsIntro: "// Competencias técnicas y herramientas de uso diario",
@@ -794,7 +794,7 @@
                 tabAnnounceContact: "Contact section displayed",
                 beamSub: "Ephemeral local-first file and video streaming CLI in C99",
                 beamBadge: "Active",
-                beamDesc: "A C99 CLI tool for local-first ephemeral file and video sharing over short-lived HTTP links. Features full HTTP Range request support (206 Partial Content) for instant native browser video scrubbing (Chrome, Safari, iOS), non-blocking sendfile() I/O, zero-account public HTTPS reverse tunneling via SSH (-p) with auto-reconnect, terminal Unicode QR codes, and direct stdin piping from autodub.",
+                beamDesc: "A C99 CLI tool for local-first ephemeral file and video sharing over short-lived HTTP links. Features full HTTP Range request support (206 Partial Content) for instant native browser video scrubbing (Chrome, Safari, iOS), zero-copy sendfile() I/O, zero-account public HTTPS reverse tunneling via Cloudflare (-p), terminal Unicode QR codes, and direct stdin piping from autodub.",
                 beamTags: ["C99", "POSIX", "HTTP / STREAMING", "VIDEO", "TUNNELING", "CLI", "ZERO-DEP"],
                 beamGhAria: "beam repository on GitHub (opens in a new tab)",
                 autodubSub: "Local CPU-based video dubbing CLI and neural speech synthesis pipeline",
@@ -828,7 +828,7 @@
                 featuredTag: "POST_2026.09.14 // SYSTEMS & NETWORKING",
                 featuredReading: "Reading time: ~6 min",
                 featuredTitle: "beam: streaming dubbed videos with ephemeral HTTP tunnels and Range requests in C99",
-                featuredSummary: "A minimal C99 HTTP server to stream local media directly into native browser players via HTTP Range requests (206 Partial Content), faststart MP4 remuxing, and ephemeral SSH reverse tunnels.",
+                featuredSummary: "A minimal C99 HTTP server to stream local media directly into native browser players via HTTP Range requests (206 Partial Content), faststart MP4 remuxing, and Cloudflare quick tunnels.",
                 featuredBadges: ["#C99", "#beam", "#HTTP", "#Networking", "#POSIX", "#Video"],
                 featuredBtn: "[READ POST ->]",
                 featuredBtnAria: "Read article: beam: streaming dubbed videos with ephemeral HTTP tunnels and Range requests in C99",
