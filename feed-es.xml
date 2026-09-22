@@ -5,7 +5,7 @@
     <link>https://riccivr.github.io/blog/</link>
     <description>Reflexiones sobre arquitectura de sistemas, infraestructura cloud, programación de bajo nivel y algoritmos.</description>
     <language>es-ve</language>
-    <lastBuildDate>Tue, 15 Sep 2026 16:19:30 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 22 Sep 2026 17:50:50 GMT</lastBuildDate>
     <atom:link href="https://riccivr.github.io/feed-es.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>beam: streaming de videos efímeros en C99 con peticiones Range y túneles HTTPS</title>
