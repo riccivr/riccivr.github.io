@@ -1,3 +1,6 @@
+(function () {
+'use strict';
+
 function safeGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
 function safeSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
 
@@ -956,12 +959,8 @@ function initPortfolio() {
     window.getSiteState = function() {
         return JSON.parse(JSON.stringify(window.__SITE_STATE__));
     };
-    window.dispatch = function(action) {
-        return dispatch(action);
-    };
-    window.getLayoutBoxes = function() {
-        return getLayoutBoxes();
-    };
+    window.dispatch = dispatch;
+    window.getLayoutBoxes = getLayoutBoxes;
 
     // Serialize initial state to script tag
     const scriptState = document.getElementById('site-state');
@@ -1153,3 +1152,5 @@ if (document.readyState === 'loading') {
 } else {
     initPortfolio();
 }
+})();
+
