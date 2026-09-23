@@ -29,6 +29,7 @@ const i18n = {
                 stateAria: "Alternar inspector de estado JSON del sitio [J]",
                 stateAnnounceOpen: "Inspector de estado JSON abierto",
                 stateAnnounceClose: "Inspector de estado JSON cerrado",
+                stateCopyBtn: "[COPIAR]",
                 stateCopied: "¡COPIADO!",
                 bioRole: "Cloud & Full-Stack Engineer en Enroly",
                 bioStack: "AWS · CDK · Remix · React · TypeScript · Python · Rust · C99 · Embedded / IoT",
@@ -165,6 +166,7 @@ const i18n = {
                 stateAria: "Toggle site JSON state inspector [J]",
                 stateAnnounceOpen: "JSON state inspector opened",
                 stateAnnounceClose: "JSON state inspector closed",
+                stateCopyBtn: "[COPY]",
                 stateCopied: "COPIED!",
                 bioRole: "Cloud & Full-Stack Engineer at Enroly",
                 bioStack: "AWS · CDK · Remix · React · TypeScript · Python · Rust · C99 · Embedded / IoT",
@@ -838,6 +840,8 @@ function render(state) {
             inspectorModal.classList.remove('hidden');
             const tickEl = document.getElementById('state-inspector-tick');
             if (tickEl) tickEl.textContent = `TICK: ${state.tick}`;
+            const copyBtn = document.getElementById('state-inspector-copy');
+            if (copyBtn && !copyBtn.dataset.copied) copyBtn.textContent = t.stateCopyBtn || '[COPIAR]';
             const jsonPre = document.getElementById('state-inspector-json');
             if (jsonPre) jsonPre.textContent = JSON.stringify(state, null, 2);
         } else {
@@ -1024,11 +1028,14 @@ function initPortfolio() {
             e.preventDefault();
             const jsonText = JSON.stringify(window.__SITE_STATE__, null, 2);
             navigator.clipboard.writeText(jsonText).then(() => {
-                const lang = window.__SITE_STATE__.config.lang;
+                const lang = (window.__SITE_STATE__ && window.__SITE_STATE__.config.lang) || 'es';
                 const t = i18n[lang] || i18n.es;
-                const prev = inspectorCopy.textContent;
-                inspectorCopy.textContent = t.stateCopied || '[COPIADO]';
-                setTimeout(() => { inspectorCopy.textContent = prev; }, 1500);
+                inspectorCopy.dataset.copied = 'true';
+                inspectorCopy.textContent = t.stateCopied || '¡COPIADO!';
+                setTimeout(() => {
+                    delete inspectorCopy.dataset.copied;
+                    inspectorCopy.textContent = t.stateCopyBtn || '[COPIAR]';
+                }, 1500);
             }).catch(() => {});
         });
     }

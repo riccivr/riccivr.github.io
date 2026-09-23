@@ -726,38 +726,38 @@
     </div>
 
     <!-- Interactive JSON State Inspector HUD (ThePrimeagen Pattern) -->
-    <aside id="state-inspector-modal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="state-inspector-title">
-        <div class="terminal-frame w-full max-w-3xl max-h-[85vh] flex flex-col rounded-lg overflow-hidden shadow-2xl">
-            <div class="p-2.5 sm:p-3 theme-bg-header border-b theme-border flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <h2 id="state-inspector-title" class="text-xs sm:text-sm font-bold uppercase tracking-wider theme-text-heading font-mono">
+    <aside id="state-inspector-modal" class="hidden" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="state-inspector-title">
+        <div id="state-inspector-dialog" class="terminal-frame">
+            <header id="state-inspector-header" class="theme-bg-header theme-border border-b">
+                <div class="state-inspector-title-row">
+                    <span class="state-pulse-dot" aria-hidden="true"></span>
+                    <h2 id="state-inspector-title">
                         // SITE STATE INSPECTOR (THEPRIMEAGEN JSON MODEL)
                     </h2>
                 </div>
-                <div class="flex items-center gap-2 sm:gap-3">
-                    <span id="state-inspector-tick" class="text-[11px] font-mono px-2 py-0.5 rounded border theme-border theme-text-muted">
+                <div class="state-inspector-controls">
+                    <span id="state-inspector-tick">
                         TICK: 0
                     </span>
-                    <button id="state-inspector-copy" class="interactive-link border theme-border px-2 py-0.5 text-[11px] uppercase font-bold" title="Copiar estado JSON al portapapeles">
+                    <button id="state-inspector-copy" class="interactive-link" title="Copiar estado JSON al portapapeles">
                         [COPIAR]
                     </button>
-                    <button id="state-inspector-close" class="interactive-link border theme-border px-2 py-0.5 text-[11px] uppercase font-bold" aria-label="Cerrar inspector [ESC / J]" title="Cerrar inspector [ESC / J]">
+                    <button id="state-inspector-close" class="interactive-link" aria-label="Cerrar inspector [ESC / J]" title="Cerrar inspector [ESC / J]">
                         [X]
                     </button>
                 </div>
+            </header>
+            <div id="state-inspector-body">
+                <pre id="state-inspector-json"></pre>
             </div>
-            <div class="p-3 sm:p-4 overflow-auto flex-1 font-mono text-xs leading-relaxed" style="background-color: var(--bg-card);">
-                <pre id="state-inspector-json" class="select-text whitespace-pre-wrap break-all"></pre>
-            </div>
-            <div class="p-2 sm:p-2.5 theme-bg-header border-t theme-border flex flex-col sm:flex-row justify-between items-start sm:items-center text-[10px] sm:text-[11px] theme-text-muted gap-1">
-                <span>Consola DevTools / Agentes: <code class="theme-text-heading">window.__SITE_STATE__</code> | <code class="theme-text-heading">window.dispatch(action)</code></span>
+            <footer id="state-inspector-footer" class="theme-bg-header theme-border border-t">
+                <span>Consola: <code class="theme-text-heading">window.__SITE_STATE__</code> | <code class="theme-text-heading">window.dispatch(action)</code></span>
                 <span>Atajos: [J] o [ESC]</span>
-            </div>
+            </footer>
         </div>
     </aside>
 
-    <script src="./portfolio.min.js?v=3" defer></script>
+    <script src="./portfolio.min.js?v=4" defer></script>
 
 </body>
 </html>
