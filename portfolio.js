@@ -22,27 +22,7 @@ const i18n = {
                 themeAriaPaper: "Alternar tema visual (actual: Papel)",
                 themeAnnouncePaper: "Tema cambiado a modo papel",
                 themeAnnounceCrt: "Tema cambiado a modo CRT",
-                                stateBtn: "[JSON]",
-                stateAria: "Alternar inspector de estado JSON del sitio [J]",
-                stateAnnounceOpen: "Inspector de estado JSON abierto",
-                stateAnnounceClose: "Inspector de estado JSON cerrado",
-                stateCopied: "¡COPIADO!",
-                                stateBtn: "[JSON]",
-                stateAria: "Alternar inspector de estado JSON del sitio [J]",
-                stateAnnounceOpen: "Inspector de estado JSON abierto",
-                stateAnnounceClose: "Inspector de estado JSON cerrado",
-                stateCopied: "¡COPIADO!",
-                                stateBtn: "[JSON]",
-                stateAria: "Alternar inspector de estado JSON del sitio [J]",
-                stateAnnounceOpen: "Inspector de estado JSON abierto",
-                stateAnnounceClose: "Inspector de estado JSON cerrado",
-                stateCopied: "¡COPIADO!",
-                                stateBtn: "[JSON]",
-                stateAria: "Alternar inspector de estado JSON del sitio [J]",
-                stateAnnounceOpen: "Inspector de estado JSON abierto",
-                stateAnnounceClose: "Inspector de estado JSON cerrado",
-                stateCopied: "¡COPIADO!",
-                                stateBtn: "[JSON]",
+                stateBtn: "[JSON]",
                 stateAria: "Alternar inspector de estado JSON del sitio [J]",
                 stateAnnounceOpen: "Inspector de estado JSON abierto",
                 stateAnnounceClose: "Inspector de estado JSON cerrado",
@@ -178,27 +158,7 @@ const i18n = {
                 themeAriaPaper: "Toggle visual theme (current: Paper)",
                 themeAnnouncePaper: "Theme switched to paper mode",
                 themeAnnounceCrt: "Theme switched to CRT mode",
-                                stateBtn: "[JSON]",
-                stateAria: "Toggle site JSON state inspector [J]",
-                stateAnnounceOpen: "JSON state inspector opened",
-                stateAnnounceClose: "JSON state inspector closed",
-                stateCopied: "COPIED!",
-                                stateBtn: "[JSON]",
-                stateAria: "Toggle site JSON state inspector [J]",
-                stateAnnounceOpen: "JSON state inspector opened",
-                stateAnnounceClose: "JSON state inspector closed",
-                stateCopied: "COPIED!",
-                                stateBtn: "[JSON]",
-                stateAria: "Toggle site JSON state inspector [J]",
-                stateAnnounceOpen: "JSON state inspector opened",
-                stateAnnounceClose: "JSON state inspector closed",
-                stateCopied: "COPIED!",
-                                stateBtn: "[JSON]",
-                stateAria: "Toggle site JSON state inspector [J]",
-                stateAnnounceOpen: "JSON state inspector opened",
-                stateAnnounceClose: "JSON state inspector closed",
-                stateCopied: "COPIED!",
-                                stateBtn: "[JSON]",
+                stateBtn: "[JSON]",
                 stateAria: "Toggle site JSON state inspector [J]",
                 stateAnnounceOpen: "JSON state inspector opened",
                 stateAnnounceClose: "JSON state inspector closed",
@@ -871,12 +831,14 @@ function render(state) {
     const inspectorModal = document.getElementById('state-inspector-modal');
     if (inspectorModal) {
         if (state.config.inspectorOpen) {
+            inspectorModal.style.display = 'flex';
             inspectorModal.classList.remove('hidden');
             const tickEl = document.getElementById('state-inspector-tick');
             if (tickEl) tickEl.textContent = `TICK: ${state.tick}`;
             const jsonPre = document.getElementById('state-inspector-json');
             if (jsonPre) jsonPre.textContent = JSON.stringify(state, null, 2);
         } else {
+            inspectorModal.style.display = 'none';
             inspectorModal.classList.add('hidden');
         }
     }
@@ -912,7 +874,11 @@ function dispatch(action) {
     }
 
     // Re-render UI projection
-    render(next);
+    try {
+        render(next);
+    } catch (e) {
+        console.error("State render error:", e);
+    }
 
     // Notify agents & testers via CustomEvent
     try {
@@ -1003,33 +969,45 @@ function initPortfolio() {
         scriptState.textContent = JSON.stringify(state, null, 2);
     }
 
-    // Render initial UI projection
-    render(state);
-
     // 2. Wire Control Buttons
     const langBtn = document.getElementById('lang-toggle');
     if (langBtn) {
-        langBtn.addEventListener('click', () => dispatch({ type: 'TOGGLE_LANG' }));
+        langBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            dispatch({ type: 'TOGGLE_LANG' });
+        });
     }
 
     const themeBtn = document.getElementById('theme-toggle');
     if (themeBtn) {
-        themeBtn.addEventListener('click', () => dispatch({ type: 'TOGGLE_THEME' }));
+        themeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            dispatch({ type: 'TOGGLE_THEME' });
+        });
     }
 
     const keysBtn = document.getElementById('keys-toggle');
     if (keysBtn) {
-        keysBtn.addEventListener('click', () => dispatch({ type: 'TOGGLE_KEYS' }));
+        keysBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            dispatch({ type: 'TOGGLE_KEYS' });
+        });
     }
 
     const stateBtn = document.getElementById('state-toggle');
     if (stateBtn) {
-        stateBtn.addEventListener('click', () => dispatch({ type: 'TOGGLE_INSPECTOR' }));
+        stateBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            dispatch({ type: 'TOGGLE_INSPECTOR' });
+        });
     }
 
     const inspectorClose = document.getElementById('state-inspector-close');
     if (inspectorClose) {
-        inspectorClose.addEventListener('click', () => dispatch({ type: 'CLOSE_INSPECTOR' }));
+        inspectorClose.addEventListener('click', (e) => {
+            e.preventDefault();
+            dispatch({ type: 'CLOSE_INSPECTOR' });
+        });
     }
 
     const inspectorModal = document.getElementById('state-inspector-modal');
@@ -1043,7 +1021,8 @@ function initPortfolio() {
 
     const inspectorCopy = document.getElementById('state-inspector-copy');
     if (inspectorCopy) {
-        inspectorCopy.addEventListener('click', () => {
+        inspectorCopy.addEventListener('click', (e) => {
+            e.preventDefault();
             const jsonText = JSON.stringify(window.__SITE_STATE__, null, 2);
             navigator.clipboard.writeText(jsonText).then(() => {
                 const lang = window.__SITE_STATE__.config.lang;
@@ -1058,8 +1037,12 @@ function initPortfolio() {
     // 3. Tab Interactions
     const tabButtons = Array.from(document.querySelectorAll('.tab-button'));
     tabButtons.forEach((tab, index) => {
-        tab.addEventListener('click', () => {
-            dispatch({ type: 'SELECT_TAB', payload: { tabId: tab.getAttribute('data-target') } });
+        tab.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = tab.getAttribute('data-target');
+            if (targetId) {
+                dispatch({ type: 'SELECT_TAB', payload: { tabId: targetId } });
+            }
         });
 
         // WAI-ARIA Arrow Navigation for Tablist
@@ -1081,21 +1064,31 @@ function initPortfolio() {
 
             if (targetIndex !== null) {
                 tabButtons[targetIndex].focus();
-                dispatch({ type: 'SELECT_TAB', payload: { tabId: tabButtons[targetIndex].getAttribute('data-target') } });
+                const targetId = tabButtons[targetIndex].getAttribute('data-target');
+                if (targetId) {
+                    dispatch({ type: 'SELECT_TAB', payload: { tabId: targetId } });
+                }
             }
         });
 
         tab.addEventListener('mouseenter', () => {
-            if (tab.getAttribute('data-target') !== window.__SITE_STATE__.navigation.activeTab) {
+            if (window.__SITE_STATE__ && tab.getAttribute('data-target') !== window.__SITE_STATE__.navigation.activeTab) {
                 tab.style.backgroundColor = 'var(--bg-tab-hover)';
             }
         });
         tab.addEventListener('mouseleave', () => {
-            if (tab.getAttribute('data-target') !== window.__SITE_STATE__.navigation.activeTab) {
+            if (window.__SITE_STATE__ && tab.getAttribute('data-target') !== window.__SITE_STATE__.navigation.activeTab) {
                 tab.style.backgroundColor = 'transparent';
             }
         });
     });
+
+    // 4. Initial Safe Render
+    try {
+        render(state);
+    } catch (err) {
+        console.error("Initial render error:", err);
+    }
 
     // 4. Global Keyboard Behaviors
     document.addEventListener('keydown', (e) => {
