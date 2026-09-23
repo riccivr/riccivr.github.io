@@ -398,15 +398,6 @@ img, video {
     flex-shrink: 0;
 }
 
-#state-inspector-tick {
-    font-size: 11px;
-    font-family: inherit;
-    padding: 0.15rem 0.5rem;
-    border-radius: 3px;
-    border: 1px solid var(--border-primary);
-    color: var(--text-muted);
-}
-
 #state-inspector-copy,
 #state-inspector-close {
     padding: 0.15rem 0.5rem;

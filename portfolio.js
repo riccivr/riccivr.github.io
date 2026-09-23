@@ -418,7 +418,6 @@ function createInitialState() {
 
     return {
         "$schema": "https://riccivr.github.io/state.schema.json",
-        "tick": 0,
         "timestamp": Date.now(),
         "lastAction": {
             "type": "INIT",
@@ -846,8 +845,6 @@ function render(state) {
         if (state.config.inspectorOpen) {
             inspectorModal.style.display = 'flex';
             inspectorModal.classList.remove('hidden');
-            const tickEl = document.getElementById('state-inspector-tick');
-            if (tickEl) tickEl.textContent = `TICK: ${state.tick}`;
             const copyBtn = document.getElementById('state-inspector-copy');
             if (copyBtn) {
                 if (!copyBtn.dataset.copied) copyBtn.textContent = t.stateCopyBtn || '[COPIAR]';
@@ -882,7 +879,6 @@ function render(state) {
 function dispatch(action) {
     const current = window.__SITE_STATE__ || createInitialState();
     const next = reduce(current, action);
-    next.tick = (current.tick || 0) + 1;
     next.timestamp = Date.now();
     next.lastAction = {
         type: action.type,

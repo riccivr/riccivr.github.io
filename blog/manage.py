@@ -1257,7 +1257,6 @@ def cmd_build():
 def generate_state_json(posts):
     state = {
         "$schema": "https://riccivr.github.io/state.schema.json",
-        "tick": 0,
         "meta": {
             "sysId": "SYS.ID: riccivr",
             "status": "ONLINE",
