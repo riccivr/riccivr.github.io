@@ -22,6 +22,31 @@ const i18n = {
                 themeAriaPaper: "Alternar tema visual (actual: Papel)",
                 themeAnnouncePaper: "Tema cambiado a modo papel",
                 themeAnnounceCrt: "Tema cambiado a modo CRT",
+                                stateBtn: "[JSON]",
+                stateAria: "Alternar inspector de estado JSON del sitio [J]",
+                stateAnnounceOpen: "Inspector de estado JSON abierto",
+                stateAnnounceClose: "Inspector de estado JSON cerrado",
+                stateCopied: "¡COPIADO!",
+                                stateBtn: "[JSON]",
+                stateAria: "Alternar inspector de estado JSON del sitio [J]",
+                stateAnnounceOpen: "Inspector de estado JSON abierto",
+                stateAnnounceClose: "Inspector de estado JSON cerrado",
+                stateCopied: "¡COPIADO!",
+                                stateBtn: "[JSON]",
+                stateAria: "Alternar inspector de estado JSON del sitio [J]",
+                stateAnnounceOpen: "Inspector de estado JSON abierto",
+                stateAnnounceClose: "Inspector de estado JSON cerrado",
+                stateCopied: "¡COPIADO!",
+                                stateBtn: "[JSON]",
+                stateAria: "Alternar inspector de estado JSON del sitio [J]",
+                stateAnnounceOpen: "Inspector de estado JSON abierto",
+                stateAnnounceClose: "Inspector de estado JSON cerrado",
+                stateCopied: "¡COPIADO!",
+                                stateBtn: "[JSON]",
+                stateAria: "Alternar inspector de estado JSON del sitio [J]",
+                stateAnnounceOpen: "Inspector de estado JSON abierto",
+                stateAnnounceClose: "Inspector de estado JSON cerrado",
+                stateCopied: "¡COPIADO!",
                 bioRole: "Cloud & Full-Stack Engineer en Enroly",
                 bioStack: "AWS · CDK · Remix · React · TypeScript · Python · Rust · C99 · Embedded / IoT",
                 bioMotto: "Desarrollando productos full-stack y backends serverless con Remix, React y AWS Lambda. Cacharreando con C de bajo nivel, sistemas embebidos e IoT en mi tiempo libre.",
@@ -153,6 +178,31 @@ const i18n = {
                 themeAriaPaper: "Toggle visual theme (current: Paper)",
                 themeAnnouncePaper: "Theme switched to paper mode",
                 themeAnnounceCrt: "Theme switched to CRT mode",
+                                stateBtn: "[JSON]",
+                stateAria: "Toggle site JSON state inspector [J]",
+                stateAnnounceOpen: "JSON state inspector opened",
+                stateAnnounceClose: "JSON state inspector closed",
+                stateCopied: "COPIED!",
+                                stateBtn: "[JSON]",
+                stateAria: "Toggle site JSON state inspector [J]",
+                stateAnnounceOpen: "JSON state inspector opened",
+                stateAnnounceClose: "JSON state inspector closed",
+                stateCopied: "COPIED!",
+                                stateBtn: "[JSON]",
+                stateAria: "Toggle site JSON state inspector [J]",
+                stateAnnounceOpen: "JSON state inspector opened",
+                stateAnnounceClose: "JSON state inspector closed",
+                stateCopied: "COPIED!",
+                                stateBtn: "[JSON]",
+                stateAria: "Toggle site JSON state inspector [J]",
+                stateAnnounceOpen: "JSON state inspector opened",
+                stateAnnounceClose: "JSON state inspector closed",
+                stateCopied: "COPIED!",
+                                stateBtn: "[JSON]",
+                stateAria: "Toggle site JSON state inspector [J]",
+                stateAnnounceOpen: "JSON state inspector opened",
+                stateAnnounceClose: "JSON state inspector closed",
+                stateCopied: "COPIED!",
                 bioRole: "Cloud & Full-Stack Engineer at Enroly",
                 bioStack: "AWS · CDK · Remix · React · TypeScript · Python · Rust · C99 · Embedded / IoT",
                 bioMotto: "Building full-stack products and serverless backends with Remix, React & AWS Lambda. Tinkering with low-level C, embedded systems & IoT on the side.",
@@ -266,463 +316,847 @@ const i18n = {
             }
         };
 
-        function getLanguage() {
-            const saved = safeGet('riccivr-lang');
-            if (saved === 'es' || saved === 'en') return saved;
-            const browserLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
-            return browserLang.startsWith('es') ? 'es' : 'en';
+function getInitialLanguage() {
+    const saved = safeGet('riccivr-lang');
+    if (saved === 'es' || saved === 'en') return saved;
+    const browserLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
+    return browserLang.startsWith('es') ? 'es' : 'en';
+}
+
+function getInitialTheme() {
+    const saved = safeGet('riccivr-theme');
+    if (saved === 'light' || saved === 'dark') return saved;
+    const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    return prefersLight ? 'light' : 'dark';
+}
+
+function getInitialKeys() {
+    return safeGet('riccivr-keys') !== 'off';
+}
+
+function buildEntities(lang) {
+    const t = i18n[lang] || i18n.es;
+    return {
+        projects: [
+            {
+                id: "beam",
+                name: "beam",
+                badge: t.beamBadge,
+                subtitle: t.beamSub,
+                description: t.beamDesc,
+                tags: t.beamTags,
+                repoUrl: "https://github.com/riccivr/beam",
+                ariaLabel: t.beamGhAria
+            },
+            {
+                id: "autodub",
+                name: "autodub",
+                badge: t.autodubBadge,
+                subtitle: t.autodubSub,
+                description: t.autodubDesc,
+                tags: t.autodubTags,
+                repoUrl: "https://github.com/riccivr/autodub",
+                ariaLabel: t.autodubGhAria
+            },
+            {
+                id: "dshuf",
+                name: "dshuf",
+                badge: t.dshufBadge,
+                subtitle: t.dshufSub,
+                description: t.dshufDesc,
+                tags: t.dshufTags,
+                repoUrl: "https://github.com/riccivr/dshuf",
+                ariaLabel: t.dshufGhAria
+            },
+            {
+                id: "gitcrawl",
+                name: "gitcrawl",
+                badge: t.gitcrawlBadge,
+                subtitle: t.gitcrawlSub,
+                description: t.gitcrawlDesc,
+                tags: t.gitcrawlTags,
+                repoUrl: "https://github.com/riccivr/gitcrawl",
+                ariaLabel: t.gitcrawlGhAria
+            },
+            {
+                id: "approx",
+                name: "approx",
+                badge: t.approxBadge,
+                subtitle: t.approxSub,
+                description: t.approxDesc,
+                tags: t.approxTags,
+                repoUrl: "https://github.com/riccivr/approx",
+                ariaLabel: t.approxGhAria
+            },
+            {
+                id: "unipaste",
+                name: "unipaste",
+                badge: t.unipasteBadge,
+                subtitle: t.unipasteSub,
+                description: t.unipasteDesc,
+                tags: t.unipasteTags,
+                repoUrl: "https://github.com/riccivr/unipaste",
+                ariaLabel: t.unipasteGhAria
+            },
+            {
+                id: "clipbridge",
+                name: "clipbridge",
+                badge: t.clipbridgeBadge,
+                subtitle: t.clipbridgeSub,
+                description: t.clipbridgeDesc,
+                tags: t.clipbridgeTags,
+                repoUrl: "https://github.com/riccivr/clipbridge",
+                ariaLabel: t.clipbridgeGhAria
+            }
+        ],
+        featuredPost: {
+            id: "beam-post",
+            tag: t.featuredTag,
+            readingTime: t.featuredReading,
+            title: t.featuredTitle,
+            summary: t.featuredSummary,
+            badges: t.featuredBadges,
+            buttonText: t.featuredBtn,
+            ariaLabel: t.featuredBtnAria,
+            url: "./blog/beam-ephemeral-video-streaming-in-c99.html"
+        },
+        skills: {
+            card1Title: t.skillCard1Title,
+            card1Badge: t.skillCard1Badge,
+            card1Groups: t.skillCard1Groups,
+            card2Title: t.skillCard2Title,
+            card2Badge: t.skillCard2Badge,
+            card2Groups: t.skillCard2Groups
+        },
+        contact: {
+            email: "ricci.vr@gmail.com",
+            github: "https://github.com/riccivr",
+            linkedin: "https://www.linkedin.com/in/riccivr/",
+            rss: lang === 'es' ? './feed-es.xml' : './feed.xml'
+        }
+    };
+}
+
+function createInitialState() {
+    const lang = getInitialLanguage();
+    const theme = getInitialTheme();
+    const shortcuts = getInitialKeys();
+    const t = i18n[lang] || i18n.es;
+
+    return {
+        "$schema": "https://riccivr.github.io/state.schema.json",
+        "tick": 0,
+        "timestamp": Date.now(),
+        "lastAction": {
+            "type": "INIT",
+            "payload": null,
+            "timestamp": Date.now()
+        },
+        "meta": {
+            "sysId": t.sysId,
+            "status": t.status,
+            "version": "1.0.0",
+            "title": t.metaTitle,
+            "description": t.metaDesc
+        },
+        "config": {
+            "lang": lang,
+            "theme": theme,
+            "shortcutsEnabled": shortcuts,
+            "inspectorOpen": false
+        },
+        "navigation": {
+            "activeTab": "projects-content",
+            "tabs": [
+                { "id": "projects-content", "key": "1", "label": t.tabProjects, "announce": t.tabAnnounceProjects },
+                { "id": "blog-content", "key": "2", "label": t.tabBlog, "announce": t.tabAnnounceBlog },
+                { "id": "skills-content", "key": "3", "label": t.tabSkills, "announce": t.tabAnnounceSkills },
+                { "id": "contact-content", "key": "4", "label": t.tabContact, "announce": t.tabAnnounceContact }
+            ]
+        },
+        "behaviors": {
+            "keymap": {
+                "I": "TOGGLE_LANG",
+                "T": "TOGGLE_THEME",
+                "K": "TOGGLE_KEYS",
+                "J": "TOGGLE_INSPECTOR",
+                "B": "NAVIGATE_BLOG",
+                "C": "NAVIGATE_EMAIL",
+                "G": "NAVIGATE_GITHUB",
+                "L": "NAVIGATE_LINKEDIN",
+                "R": "NAVIGATE_RSS",
+                "1": "SELECT_TAB:projects-content",
+                "P": "SELECT_TAB:projects-content",
+                "2": "SELECT_TAB:blog-content",
+                "3": "SELECT_TAB:skills-content",
+                "S": "SELECT_TAB:skills-content",
+                "4": "SELECT_TAB:contact-content"
+            }
+        },
+        "entities": buildEntities(lang),
+        "a11y": {
+            "lastAnnounced": null
+        }
+    };
+}
+
+// Pure State Reducer (ThePrimeagen Pattern: (state, action) => nextState)
+function reduce(state, action) {
+    const currentLang = state.config.lang;
+    const t = i18n[currentLang] || i18n.es;
+
+    switch (action.type) {
+        case 'SET_LANG': {
+            const nextLang = action.payload.lang === 'en' ? 'en' : 'es';
+            const nextT = i18n[nextLang] || i18n.es;
+            return Object.assign({}, state, {
+                config: Object.assign({}, state.config, { lang: nextLang }),
+                meta: Object.assign({}, state.meta, {
+                    sysId: nextT.sysId,
+                    status: nextT.status,
+                    title: nextT.metaTitle,
+                    description: nextT.metaDesc
+                }),
+                navigation: Object.assign({}, state.navigation, {
+                    tabs: [
+                        { "id": "projects-content", "key": "1", "label": nextT.tabProjects, "announce": nextT.tabAnnounceProjects },
+                        { "id": "blog-content", "key": "2", "label": nextT.tabBlog, "announce": nextT.tabAnnounceBlog },
+                        { "id": "skills-content", "key": "3", "label": nextT.tabSkills, "announce": nextT.tabAnnounceSkills },
+                        { "id": "contact-content", "key": "4", "label": nextT.tabContact, "announce": nextT.tabAnnounceContact }
+                    ]
+                }),
+                entities: buildEntities(nextLang),
+                a11y: { lastAnnounced: nextT.langAnnounce }
+            });
         }
 
-        function renderSkillGroups(groups) {
-            return groups.map(g => `
-                <div class="border-b theme-border-dim pb-2.5 last:border-0 last:pb-0">
-                    <div class="font-bold text-xs sm:text-sm theme-text-heading flex items-center mb-1.5">
-                        <span class="theme-text-muted mr-1.5 font-mono font-bold">></span> ${g.title}
-                    </div>
-                    <div class="flex flex-wrap gap-1.5 pl-3.5">
-                        ${g.tags.map(t => `<span class="text-[11px] px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">${t}</span>`).join('')}
-                    </div>
-                </div>
-            `).join('');
+        case 'TOGGLE_LANG': {
+            const nextLang = state.config.lang === 'es' ? 'en' : 'es';
+            return reduce(state, { type: 'SET_LANG', payload: { lang: nextLang } });
         }
 
-        function announceA11y(message) {
-            const announcer = document.getElementById('a11y-announcer');
-            if (!announcer || !message) return;
-            announcer.textContent = '';
-            setTimeout(() => {
-                announcer.textContent = message;
-            }, 60);
+        case 'SET_THEME': {
+            const nextTheme = action.payload.theme === 'light' ? 'light' : 'dark';
+            return Object.assign({}, state, {
+                config: Object.assign({}, state.config, { theme: nextTheme }),
+                a11y: { lastAnnounced: nextTheme === 'light' ? t.themeAnnouncePaper : t.themeAnnounceCrt }
+            });
         }
 
-        function applyLanguage(lang) {
-            const t = i18n[lang] || i18n.es;
-            document.documentElement.setAttribute('lang', lang);
-            
-            document.getElementById('meta-title').textContent = t.metaTitle;
-            document.getElementById('meta-desc').setAttribute('content', t.metaDesc);
-            document.getElementById('og-title').setAttribute('content', t.metaTitle);
-            document.getElementById('og-desc').setAttribute('content', t.metaDesc);
-            document.getElementById('tw-title').setAttribute('content', t.metaTitle);
-            document.getElementById('tw-desc').setAttribute('content', t.metaDesc);
-
-            const skipLink = document.getElementById('skip-link');
-            if (skipLink) skipLink.textContent = t.skipLink;
-
-            document.getElementById('sys-id-label').textContent = t.sysId;
-            document.getElementById('status-label').textContent = t.status;
-            const statusMobile = document.getElementById('status-label-mobile');
-            if (statusMobile) statusMobile.textContent = t.status;
-
-            const langBtn = document.getElementById('lang-toggle');
-            langBtn.textContent = t.langToggle;
-            langBtn.setAttribute('aria-label', t.langAria);
-            langBtn.setAttribute('title', t.langAria);
-
-            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-            const themeBtn = document.getElementById('theme-toggle');
-            themeBtn.textContent = isLight ? t.modePaper : t.modeCrt;
-            const themeLabel = isLight ? t.themeAriaPaper : t.themeAria;
-            themeBtn.setAttribute('aria-label', themeLabel);
-            themeBtn.setAttribute('title', themeLabel);
-
-            const keysEnabled = safeGet('riccivr-keys') !== 'off';
-            const keysBtn = document.getElementById('keys-toggle');
-            keysBtn.textContent = keysEnabled ? t.keysOn : t.keysOff;
-            keysBtn.setAttribute('aria-label', t.keysAria);
-            keysBtn.setAttribute('title', t.keysAria);
-            keysBtn.setAttribute('aria-pressed', keysEnabled ? 'true' : 'false');
-
-            document.getElementById('bio-role').textContent = t.bioRole;
-            document.getElementById('bio-stack').textContent = t.bioStack;
-            document.getElementById('bio-motto').textContent = t.bioMotto;
-
-            const navBlog = document.getElementById('nav-btn-blog');
-            navBlog.textContent = t.navBlog;
-            navBlog.setAttribute('aria-label', t.navBlogAria);
-            navBlog.setAttribute('title', t.navBlogAria);
-
-            const navEmail = document.getElementById('nav-btn-email');
-            navEmail.textContent = t.navEmail;
-            navEmail.setAttribute('aria-label', t.navEmailAria);
-            navEmail.setAttribute('title', t.navEmailAria);
-
-            const navGh = document.getElementById('nav-btn-gh');
-            if (navGh) {
-                navGh.setAttribute('aria-label', t.navGhAria);
-                navGh.setAttribute('title', t.navGhAria);
-            }
-
-            const navLi = document.getElementById('nav-btn-li');
-            if (navLi) {
-                navLi.setAttribute('aria-label', t.navLiAria);
-                navLi.setAttribute('title', t.navLiAria);
-            }
-
-            const tablist = document.getElementById('portfolio-tablist');
-            if (tablist) tablist.setAttribute('aria-label', t.tablistLabel);
-
-            document.getElementById('tab-projects').textContent = t.tabProjects;
-            document.getElementById('tab-blog').textContent = t.tabBlog;
-            document.getElementById('tab-skills').textContent = t.tabSkills;
-            document.getElementById('tab-contact').textContent = t.tabContact;
-
-            document.getElementById('beam-sub').textContent = t.beamSub;
-            document.getElementById('beam-badge').textContent = t.beamBadge;
-            document.getElementById('beam-desc').textContent = t.beamDesc;
-            document.getElementById('beam-tags').innerHTML = t.beamTags.map(tag => `<span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">${tag}</span>`).join('');
-            const beamLink = document.getElementById('beam-link');
-            if (beamLink) {
-                beamLink.setAttribute('aria-label', t.beamGhAria || 'beam');
-                beamLink.setAttribute('title', t.beamGhAria || 'beam');
-            }
-
-            document.getElementById('autodub-sub').textContent = t.autodubSub;
-            document.getElementById('autodub-badge').textContent = t.autodubBadge;
-            document.getElementById('autodub-desc').textContent = t.autodubDesc;
-            document.getElementById('autodub-tags').innerHTML = t.autodubTags.map(tag => `<span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">${tag}</span>`).join('');
-            const autodubLink = document.getElementById('autodub-link');
-            if (autodubLink) {
-                autodubLink.setAttribute('aria-label', t.autodubGhAria || 'autodub');
-                autodubLink.setAttribute('title', t.autodubGhAria || 'autodub');
-            }
-
-            document.getElementById('dshuf-sub').textContent = t.dshufSub;
-            document.getElementById('dshuf-badge').textContent = t.dshufBadge;
-            document.getElementById('dshuf-desc').textContent = t.dshufDesc;
-            document.getElementById('dshuf-tags').innerHTML = t.dshufTags.map(tag => `<span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">${tag}</span>`).join('');
-            const dshufLink = document.getElementById('dshuf-link');
-            if (dshufLink) {
-                dshufLink.setAttribute('aria-label', t.dshufGhAria || 'dshuf');
-                dshufLink.setAttribute('title', t.dshufGhAria || 'dshuf');
-            }
-
-            document.getElementById('gitcrawl-sub').textContent = t.gitcrawlSub;
-            document.getElementById('gitcrawl-badge').textContent = t.gitcrawlBadge;
-            document.getElementById('gitcrawl-desc').textContent = t.gitcrawlDesc;
-            document.getElementById('gitcrawl-tags').innerHTML = t.gitcrawlTags.map(tag => `<span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">${tag}</span>`).join('');
-            const gitcrawlLink = document.getElementById('gitcrawl-link');
-            if (gitcrawlLink) {
-                gitcrawlLink.setAttribute('aria-label', t.gitcrawlGhAria || 'gitcrawl');
-                gitcrawlLink.setAttribute('title', t.gitcrawlGhAria || 'gitcrawl');
-            }
-
-            document.getElementById('approx-sub').textContent = t.approxSub;
-            document.getElementById('approx-badge').textContent = t.approxBadge;
-            document.getElementById('approx-desc').textContent = t.approxDesc;
-            document.getElementById('approx-tags').innerHTML = t.approxTags.map(tag => `<span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">${tag}</span>`).join('');
-            const approxLink = document.getElementById('approx-link');
-            if (approxLink) {
-                approxLink.setAttribute('aria-label', t.approxGhAria || 'approx');
-                approxLink.setAttribute('title', t.approxGhAria || 'approx');
-            }
-
-            document.getElementById('unipaste-sub').textContent = t.unipasteSub;
-            document.getElementById('unipaste-badge').textContent = t.unipasteBadge;
-            document.getElementById('unipaste-desc').textContent = t.unipasteDesc;
-            document.getElementById('unipaste-tags').innerHTML = t.unipasteTags.map(tag => `<span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">${tag}</span>`).join('');
-            const unipasteLink = document.getElementById('unipaste-link');
-            if (unipasteLink) {
-                unipasteLink.setAttribute('aria-label', t.unipasteGhAria || 'unipaste');
-                unipasteLink.setAttribute('title', t.unipasteGhAria || 'unipaste');
-            }
-
-            document.getElementById('clipbridge-sub').textContent = t.clipbridgeSub;
-            document.getElementById('clipbridge-badge').textContent = t.clipbridgeBadge;
-            document.getElementById('clipbridge-desc').textContent = t.clipbridgeDesc;
-            document.getElementById('clipbridge-tags').innerHTML = t.clipbridgeTags.map(tag => `<span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">${tag}</span>`).join('');
-            const clipbridgeLink = document.getElementById('clipbridge-link');
-            if (clipbridgeLink) {
-                clipbridgeLink.setAttribute('aria-label', t.clipbridgeGhAria || 'clipbridge');
-                clipbridgeLink.setAttribute('title', t.clipbridgeGhAria || 'clipbridge');
-            }
-
-            document.getElementById('blog-section-intro').textContent = t.blogIntro;
-            document.getElementById('featured-post-tag').textContent = t.featuredTag;
-            document.getElementById('featured-post-reading-time').textContent = t.featuredReading;
-            document.getElementById('featured-post-link').textContent = t.featuredTitle;
-            document.getElementById('featured-post-summary').textContent = t.featuredSummary;
-            document.getElementById('featured-post-badges').innerHTML = t.featuredBadges.map(b => `<span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">${b}</span>`).join('');
-            
-            const featuredBtn = document.getElementById('featured-post-btn');
-            featuredBtn.textContent = t.featuredBtn;
-            if (t.featuredBtnAria) {
-                featuredBtn.setAttribute('aria-label', t.featuredBtnAria);
-                featuredBtn.setAttribute('title', t.featuredBtnAria);
-            }
-
-            document.getElementById('blog-banner-text').textContent = t.blogBannerText;
-            const blogBannerBtn = document.getElementById('blog-banner-btn');
-            blogBannerBtn.textContent = t.blogBannerBtn;
-            if (t.allPostsAria) {
-                blogBannerBtn.setAttribute('aria-label', t.allPostsAria);
-                blogBannerBtn.setAttribute('title', t.allPostsAria);
-            }
-
-            document.getElementById('skills-intro').textContent = t.skillsIntro;
-            document.getElementById('skill-card-1-title').textContent = t.skillCard1Title;
-            document.getElementById('skill-card-1-badge').textContent = t.skillCard1Badge;
-            document.getElementById('skill-card-1-list').innerHTML = renderSkillGroups(t.skillCard1Groups);
-
-            document.getElementById('skill-card-2-title').textContent = t.skillCard2Title;
-            document.getElementById('skill-card-2-badge').textContent = t.skillCard2Badge;
-            document.getElementById('skill-card-2-list').innerHTML = renderSkillGroups(t.skillCard2Groups);
-
-            document.getElementById('contact-intro').textContent = t.contactIntro;
-            document.getElementById('contact-email-label').textContent = t.contactEmailLabel;
-            document.getElementById('contact-email-btn').textContent = t.contactEmailBtn;
-            const ghLabel = document.getElementById('contact-gh-label');
-            if (ghLabel) ghLabel.textContent = t.contactGhLabel;
-            const liLabel = document.getElementById('contact-li-label');
-            if (liLabel) liLabel.textContent = t.contactLiLabel;
-
-            const contactGh = document.getElementById('contact-gh-btn');
-            if (contactGh) {
-                contactGh.textContent = t.contactOpenBtn;
-                contactGh.setAttribute('aria-label', t.contactGhAria);
-                contactGh.setAttribute('title', t.contactGhAria);
-            }
-            const contactLi = document.getElementById('contact-li-btn');
-            if (contactLi) {
-                contactLi.textContent = t.contactOpenBtn;
-                contactLi.setAttribute('aria-label', t.contactLiAria);
-                contactLi.setAttribute('title', t.contactLiAria);
-            }
-
-            const footerRss = document.getElementById('footer-rss-btn');
-            if (footerRss) {
-                footerRss.setAttribute('href', lang === 'es' ? './feed-es.xml' : './feed.xml');
-                footerRss.setAttribute('title', lang === 'es' ? 'Canal RSS en XML (Español) [R]' : 'RSS Feed in XML (English) [R]');
-            }
-
-            document.getElementById('footer-text').textContent = t.footerText;
+        case 'TOGGLE_THEME': {
+            const nextTheme = state.config.theme === 'light' ? 'dark' : 'light';
+            return reduce(state, { type: 'SET_THEME', payload: { theme: nextTheme } });
         }
 
-        function initPortfolio() {
-            let currentLang = getLanguage();
-            applyLanguage(currentLang);
-
-            const langBtn = document.getElementById('lang-toggle');
-            langBtn.addEventListener('click', () => {
-                currentLang = currentLang === 'es' ? 'en' : 'es';
-                safeSet('riccivr-lang', currentLang);
-                applyLanguage(currentLang);
-                const t = i18n[currentLang] || i18n.es;
-                announceA11y(t.langAnnounce);
+        case 'SET_KEYS': {
+            const enabled = Boolean(action.payload.enabled);
+            return Object.assign({}, state, {
+                config: Object.assign({}, state.config, { shortcutsEnabled: enabled }),
+                a11y: { lastAnnounced: enabled ? t.keysAnnounceOn : t.keysAnnounceOff }
             });
-
-            const themeBtn = document.getElementById('theme-toggle');
-            
-            function updateThemeBtn() {
-                const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-                const t = i18n[currentLang] || i18n.es;
-                themeBtn.textContent = isLight ? t.modePaper : t.modeCrt;
-                const label = isLight ? t.themeAriaPaper : t.themeAria;
-                themeBtn.setAttribute('aria-label', label);
-                themeBtn.setAttribute('title', label);
-            }
-
-            themeBtn.addEventListener('click', () => {
-                const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-                const next = isLight ? 'dark' : 'light';
-                if (next === 'light') {
-                    document.documentElement.setAttribute('data-theme', 'light');
-                } else {
-                    document.documentElement.removeAttribute('data-theme');
-                }
-                safeSet('riccivr-theme', next);
-                updateThemeBtn();
-                syncTabsStyling();
-                const t = i18n[currentLang] || i18n.es;
-                announceA11y(next === 'light' ? t.themeAnnouncePaper : t.themeAnnounceCrt);
-            });
-
-            updateThemeBtn();
-
-            const keysToggleBtn = document.getElementById('keys-toggle');
-            function areKeysEnabled() {
-                return safeGet('riccivr-keys') !== 'off';
-            }
-            function updateKeysBtn() {
-                if (!keysToggleBtn) return;
-                const enabled = areKeysEnabled();
-                const t = i18n[currentLang] || i18n.es;
-                keysToggleBtn.textContent = enabled ? t.keysOn : t.keysOff;
-                keysToggleBtn.setAttribute('aria-pressed', enabled ? 'true' : 'false');
-                keysToggleBtn.setAttribute('aria-label', t.keysAria);
-                keysToggleBtn.setAttribute('title', t.keysAria);
-                keysToggleBtn.style.opacity = enabled ? '1' : '0.6';
-            }
-            keysToggleBtn.addEventListener('click', () => {
-                const currentlyEnabled = areKeysEnabled();
-                const nextState = currentlyEnabled ? 'off' : 'on';
-                safeSet('riccivr-keys', nextState);
-                updateKeysBtn();
-                const t = i18n[currentLang] || i18n.es;
-                announceA11y(nextState === 'on' ? t.keysAnnounceOn : t.keysAnnounceOff);
-            });
-            updateKeysBtn();
-
-            const tabButtons = Array.from(document.querySelectorAll('.tab-button'));
-            const contents = document.querySelectorAll('.content-section');
-            let currentTabId = 'projects-content';
-
-            function syncTabsStyling() {
-                const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-                tabButtons.forEach(tab => {
-                    const isSelected = tab.getAttribute('data-target') === currentTabId;
-                    tab.setAttribute('aria-selected', isSelected ? 'true' : 'false');
-                    tab.setAttribute('tabindex', '0');
-                    if (isSelected) {
-                        tab.style.backgroundColor = isLight ? 'var(--bg-tab-active)' : 'var(--bg-tab-active)';
-                        tab.style.borderBottom = 'none';
-                    } else {
-                        tab.style.backgroundColor = 'transparent';
-                        tab.style.borderBottom = '';
-                    }
-                });
-            }
-
-            function switchTab(targetId, shouldAnnounce = false) {
-                currentTabId = targetId;
-                contents.forEach(content => {
-                    content.classList.add('hidden');
-                });
-
-                const activeContent = document.getElementById(targetId);
-                if (activeContent) {
-                    activeContent.classList.remove('hidden');
-                }
-                syncTabsStyling();
-
-                if (shouldAnnounce) {
-                    const t = i18n[currentLang] || i18n.es;
-                    const map = {
-                        'projects-content': t.tabAnnounceProjects,
-                        'blog-content': t.tabAnnounceBlog,
-                        'skills-content': t.tabAnnounceSkills,
-                        'contact-content': t.tabAnnounceContact
-                    };
-                    announceA11y(map[targetId] || targetId);
-                }
-            }
-
-            tabButtons.forEach((tab, index) => {
-                tab.addEventListener('click', () => {
-                    switchTab(tab.getAttribute('data-target'), true);
-                });
-
-                // Keyboard arrow navigation for tabs (WAI-ARIA Tablist Pattern)
-                tab.addEventListener('keydown', (e) => {
-                    let targetIndex = null;
-                    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-                        e.preventDefault();
-                        targetIndex = (index + 1) % tabButtons.length;
-                    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-                        e.preventDefault();
-                        targetIndex = (index - 1 + tabButtons.length) % tabButtons.length;
-                    } else if (e.key === 'Home') {
-                        e.preventDefault();
-                        targetIndex = 0;
-                    } else if (e.key === 'End') {
-                        e.preventDefault();
-                        targetIndex = tabButtons.length - 1;
-                    }
-
-                    if (targetIndex !== null) {
-                        tabButtons[targetIndex].focus();
-                        switchTab(tabButtons[targetIndex].getAttribute('data-target'), true);
-                    }
-                });
-
-                tab.addEventListener('mouseenter', () => {
-                    if (tab.getAttribute('data-target') !== currentTabId) {
-                        tab.style.backgroundColor = 'var(--bg-tab-hover)';
-                    }
-                });
-                tab.addEventListener('mouseleave', () => {
-                    if (tab.getAttribute('data-target') !== currentTabId) {
-                        tab.style.backgroundColor = 'transparent';
-                    }
-                });
-            });
-
-            function flashElement(el) {
-                if (!el) return;
-                const isTab = el.classList.contains('tab-button');
-                const prevBg = el.style.backgroundColor;
-                const prevColor = el.style.color;
-                el.style.backgroundColor = isTab ? 'var(--bg-tab-hover)' : 'var(--btn-hover-bg)';
-                if (!isTab) el.style.color = 'var(--btn-hover-text)';
-                setTimeout(() => {
-                    el.style.backgroundColor = prevBg;
-                    el.style.color = prevColor;
-                }, 200);
-            }
-
-            document.addEventListener('keydown', (e) => {
-                if (!areKeysEnabled()) {
-                    return;
-                }
-                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
-                    return;
-                }
-                if (e.ctrlKey || e.metaKey || e.altKey) {
-                    return;
-                }
-
-                const key = e.key.toUpperCase();
-                
-                if (key === 'I') {
-                    flashElement(langBtn);
-                    langBtn.click();
-                } else if (key === 'B') {
-                    const blogBtn = document.getElementById('nav-btn-blog');
-                    flashElement(blogBtn);
-                    setTimeout(() => { window.location.href = './blog/'; }, 150);
-                } else if (key === 'C') {
-                    const emailBtn = document.getElementById('nav-btn-email');
-                    flashElement(emailBtn);
-                    window.location.href = 'mailto:ricci.vr@gmail.com';
-                } else if (key === 'G') {
-                    const ghBtn = document.getElementById('nav-btn-gh') || document.querySelector('a[href="https://github.com/riccivr"]');
-                    flashElement(ghBtn);
-                    window.open('https://github.com/riccivr', '_blank');
-                } else if (key === 'L') {
-                    const liBtn = document.getElementById('nav-btn-li') || document.querySelector('a[href*="linkedin.com"]');
-                    flashElement(liBtn);
-                    window.open('https://www.linkedin.com/in/riccivr/', '_blank');
-                } else if (key === 'R') {
-                    const currentLang = getLanguage();
-                    const targetFeed = currentLang === 'es' ? './feed-es.xml' : './feed.xml';
-                    setTimeout(() => { window.location.href = targetFeed; }, 150);
-                } else if (key === 'T') {
-                    flashElement(themeBtn);
-                    themeBtn.click();
-                } else if (key === '1' || key === 'P') {
-                    const tab = document.getElementById('tab-projects');
-                    flashElement(tab);
-                    switchTab('projects-content', true);
-                } else if (key === '2') {
-                    const tab = document.getElementById('tab-blog');
-                    flashElement(tab);
-                    switchTab('blog-content', true);
-                } else if (key === '3' || key === 'S') {
-                    const tab = document.getElementById('tab-skills');
-                    flashElement(tab);
-                    switchTab('skills-content', true);
-                } else if (key === '4') {
-                    const tab = document.getElementById('tab-contact');
-                    flashElement(tab);
-                    switchTab('contact-content', true);
-                }
-            });
-
-            switchTab('projects-content', false);
         }
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initPortfolio);
+        case 'TOGGLE_KEYS': {
+            return reduce(state, { type: 'SET_KEYS', payload: { enabled: !state.config.shortcutsEnabled } });
+        }
+
+        case 'SELECT_TAB': {
+            const targetId = action.payload.tabId;
+            const tab = state.navigation.tabs.find(x => x.id === targetId);
+            return Object.assign({}, state, {
+                navigation: Object.assign({}, state.navigation, { activeTab: targetId }),
+                a11y: { lastAnnounced: tab ? tab.announce : targetId }
+            });
+        }
+
+        case 'TOGGLE_INSPECTOR': {
+            const nextOpen = !state.config.inspectorOpen;
+            return Object.assign({}, state, {
+                config: Object.assign({}, state.config, { inspectorOpen: nextOpen }),
+                a11y: { lastAnnounced: nextOpen ? t.stateAnnounceOpen : t.stateAnnounceClose }
+            });
+        }
+
+        case 'CLOSE_INSPECTOR': {
+            return Object.assign({}, state, {
+                config: Object.assign({}, state.config, { inspectorOpen: false }),
+                a11y: { lastAnnounced: t.stateAnnounceClose }
+            });
+        }
+
+        case 'SET_ANNOUNCEMENT': {
+            return Object.assign({}, state, {
+                a11y: { lastAnnounced: action.payload.message }
+            });
+        }
+
+        default:
+            return state;
+    }
+}
+
+function announceA11y(message) {
+    const announcer = document.getElementById('a11y-announcer');
+    if (!announcer || !message) return;
+    announcer.textContent = '';
+    setTimeout(() => {
+        announcer.textContent = message;
+    }, 60);
+}
+
+function renderSkillGroups(groups) {
+    return groups.map(g => `
+        <div class="border-b theme-border-dim pb-2.5 last:border-0 last:pb-0">
+            <div class="font-bold text-xs sm:text-sm theme-text-heading flex items-center mb-1.5">
+                <span class="theme-text-muted mr-1.5 font-mono font-bold">></span> ${g.title}
+            </div>
+            <div class="flex flex-wrap gap-1.5 pl-3.5">
+                ${g.tags.map(t => `<span class="text-[11px] px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">${t}</span>`).join('')}
+            </div>
+        </div>
+    `).join('');
+}
+
+// Declarative UI Renderer: Projects JSON State onto the DOM
+function render(state) {
+    const lang = state.config.lang;
+    const t = i18n[lang] || i18n.es;
+    const isLight = state.config.theme === 'light';
+
+    // 1. Document & HTML attributes
+    document.documentElement.setAttribute('lang', lang);
+    if (isLight) {
+        document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+        document.documentElement.removeAttribute('data-theme');
+    }
+
+    // 2. Head meta tags
+    const titleEl = document.getElementById('meta-title');
+    if (titleEl) titleEl.textContent = state.meta.title;
+    const metaDescEl = document.getElementById('meta-desc');
+    if (metaDescEl) metaDescEl.setAttribute('content', state.meta.description);
+    const ogTitle = document.getElementById('og-title');
+    if (ogTitle) ogTitle.setAttribute('content', state.meta.title);
+    const ogDesc = document.getElementById('og-desc');
+    if (ogDesc) ogDesc.setAttribute('content', state.meta.description);
+    const twTitle = document.getElementById('tw-title');
+    if (twTitle) twTitle.setAttribute('content', state.meta.title);
+    const twDesc = document.getElementById('tw-desc');
+    if (twDesc) twDesc.setAttribute('content', state.meta.description);
+
+    // 3. Skip link
+    const skipLink = document.getElementById('skip-link');
+    if (skipLink) skipLink.textContent = t.skipLink;
+
+    // 4. Header status labels
+    const sysId = document.getElementById('sys-id-label');
+    if (sysId) sysId.textContent = state.meta.sysId;
+    const statusLabel = document.getElementById('status-label');
+    if (statusLabel) statusLabel.textContent = state.meta.status;
+    const statusMobile = document.getElementById('status-label-mobile');
+    if (statusMobile) statusMobile.textContent = state.meta.status;
+
+    // 5. Header toggle buttons
+    const langBtn = document.getElementById('lang-toggle');
+    if (langBtn) {
+        langBtn.textContent = t.langToggle;
+        langBtn.setAttribute('aria-label', t.langAria);
+        langBtn.setAttribute('title', t.langAria);
+    }
+
+    const keysBtn = document.getElementById('keys-toggle');
+    if (keysBtn) {
+        keysBtn.textContent = state.config.shortcutsEnabled ? t.keysOn : t.keysOff;
+        keysBtn.setAttribute('aria-pressed', state.config.shortcutsEnabled ? 'true' : 'false');
+        keysBtn.setAttribute('aria-label', t.keysAria);
+        keysBtn.setAttribute('title', t.keysAria);
+        keysBtn.style.opacity = state.config.shortcutsEnabled ? '1' : '0.6';
+    }
+
+    const themeBtn = document.getElementById('theme-toggle');
+    if (themeBtn) {
+        themeBtn.textContent = isLight ? t.modePaper : t.modeCrt;
+        const themeLabel = isLight ? t.themeAriaPaper : t.themeAria;
+        themeBtn.setAttribute('aria-label', themeLabel);
+        themeBtn.setAttribute('title', themeLabel);
+    }
+
+    const stateBtn = document.getElementById('state-toggle');
+    if (stateBtn) {
+        stateBtn.textContent = t.stateBtn;
+        stateBtn.setAttribute('aria-expanded', state.config.inspectorOpen ? 'true' : 'false');
+        stateBtn.setAttribute('aria-label', t.stateAria);
+        stateBtn.setAttribute('title', t.stateAria);
+        stateBtn.style.backgroundColor = state.config.inspectorOpen ? 'var(--btn-hover-bg)' : '';
+        stateBtn.style.color = state.config.inspectorOpen ? 'var(--btn-hover-text)' : '';
+    }
+
+    // 6. Bio section
+    const bioRole = document.getElementById('bio-role');
+    if (bioRole) bioRole.textContent = t.bioRole;
+    const bioStack = document.getElementById('bio-stack');
+    if (bioStack) bioStack.textContent = t.bioStack;
+    const bioMotto = document.getElementById('bio-motto');
+    if (bioMotto) bioMotto.textContent = t.bioMotto;
+
+    const navBlog = document.getElementById('nav-btn-blog');
+    if (navBlog) {
+        navBlog.textContent = t.navBlog;
+        navBlog.setAttribute('aria-label', t.navBlogAria);
+        navBlog.setAttribute('title', t.navBlogAria);
+    }
+
+    const navEmail = document.getElementById('nav-btn-email');
+    if (navEmail) {
+        navEmail.textContent = t.navEmail;
+        navEmail.setAttribute('aria-label', t.navEmailAria);
+        navEmail.setAttribute('title', t.navEmailAria);
+    }
+
+    const navGh = document.getElementById('nav-btn-gh');
+    if (navGh) {
+        navGh.setAttribute('aria-label', t.navGhAria);
+        navGh.setAttribute('title', t.navGhAria);
+    }
+
+    const navLi = document.getElementById('nav-btn-li');
+    if (navLi) {
+        navLi.setAttribute('aria-label', t.navLiAria);
+        navLi.setAttribute('title', t.navLiAria);
+    }
+
+    // 7. Navigation Tabs
+    const tablist = document.getElementById('portfolio-tablist');
+    if (tablist) tablist.setAttribute('aria-label', t.tablistLabel);
+
+    const tabProjects = document.getElementById('tab-projects');
+    if (tabProjects) tabProjects.textContent = t.tabProjects;
+    const tabBlog = document.getElementById('tab-blog');
+    if (tabBlog) tabBlog.textContent = t.tabBlog;
+    const tabSkills = document.getElementById('tab-skills');
+    if (tabSkills) tabSkills.textContent = t.tabSkills;
+    const tabContact = document.getElementById('tab-contact');
+    if (tabContact) tabContact.textContent = t.tabContact;
+
+    const tabButtons = Array.from(document.querySelectorAll('.tab-button'));
+    const contents = document.querySelectorAll('.content-section');
+    tabButtons.forEach(tab => {
+        const isSelected = tab.getAttribute('data-target') === state.navigation.activeTab;
+        tab.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+        tab.setAttribute('tabindex', '0');
+        if (isSelected) {
+            tab.style.backgroundColor = 'var(--bg-tab-active)';
+            tab.style.borderBottom = 'none';
         } else {
-            initPortfolio();
+            tab.style.backgroundColor = 'transparent';
+            tab.style.borderBottom = '';
         }
+    });
+
+    contents.forEach(content => {
+        if (content.id === state.navigation.activeTab) {
+            content.classList.remove('hidden');
+        } else {
+            content.classList.add('hidden');
+        }
+    });
+
+    // 8. Projects Section Entities
+    state.entities.projects.forEach(p => {
+        const sub = document.getElementById(`${p.id}-sub`);
+        if (sub) sub.textContent = p.subtitle;
+        const badge = document.getElementById(`${p.id}-badge`);
+        if (badge) badge.textContent = p.badge;
+        const desc = document.getElementById(`${p.id}-desc`);
+        if (desc) desc.textContent = p.description;
+        const tags = document.getElementById(`${p.id}-tags`);
+        if (tags) {
+            tags.innerHTML = p.tags.map(tag => `<span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">${tag}</span>`).join('');
+        }
+        const link = document.getElementById(`${p.id}-link`);
+        if (link) {
+            link.setAttribute('aria-label', p.ariaLabel || p.name);
+            link.setAttribute('title', p.ariaLabel || p.name);
+        }
+    });
+
+    // 9. Blog Section Entities
+    const blogIntro = document.getElementById('blog-section-intro');
+    if (blogIntro) blogIntro.textContent = t.blogIntro;
+    const featuredTag = document.getElementById('featured-post-tag');
+    if (featuredTag) featuredTag.textContent = state.entities.featuredPost.tag;
+    const featuredReading = document.getElementById('featured-post-reading-time');
+    if (featuredReading) featuredReading.textContent = state.entities.featuredPost.readingTime;
+    const featuredLink = document.getElementById('featured-post-link');
+    if (featuredLink) featuredLink.textContent = state.entities.featuredPost.title;
+    const featuredSummary = document.getElementById('featured-post-summary');
+    if (featuredSummary) featuredSummary.textContent = state.entities.featuredPost.summary;
+    const featuredBadges = document.getElementById('featured-post-badges');
+    if (featuredBadges) {
+        featuredBadges.innerHTML = state.entities.featuredPost.badges.map(b => `<span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">${b}</span>`).join('');
+    }
+    const featuredBtn = document.getElementById('featured-post-btn');
+    if (featuredBtn) {
+        featuredBtn.textContent = state.entities.featuredPost.buttonText;
+        if (state.entities.featuredPost.ariaLabel) {
+            featuredBtn.setAttribute('aria-label', state.entities.featuredPost.ariaLabel);
+            featuredBtn.setAttribute('title', state.entities.featuredPost.ariaLabel);
+        }
+    }
+    const blogBannerText = document.getElementById('blog-banner-text');
+    if (blogBannerText) blogBannerText.textContent = t.blogBannerText;
+    const blogBannerBtn = document.getElementById('blog-banner-btn');
+    if (blogBannerBtn) {
+        blogBannerBtn.textContent = t.blogBannerBtn;
+        if (t.allPostsAria) {
+            blogBannerBtn.setAttribute('aria-label', t.allPostsAria);
+            blogBannerBtn.setAttribute('title', t.allPostsAria);
+        }
+    }
+
+    // 10. Skills Section Entities
+    const skillsIntro = document.getElementById('skills-intro');
+    if (skillsIntro) skillsIntro.textContent = t.skillsIntro;
+    const skill1Title = document.getElementById('skill-card-1-title');
+    if (skill1Title) skill1Title.textContent = state.entities.skills.card1Title;
+    const skill1Badge = document.getElementById('skill-card-1-badge');
+    if (skill1Badge) skill1Badge.textContent = state.entities.skills.card1Badge;
+    const skill1List = document.getElementById('skill-card-1-list');
+    if (skill1List) skill1List.innerHTML = renderSkillGroups(state.entities.skills.card1Groups);
+
+    const skill2Title = document.getElementById('skill-card-2-title');
+    if (skill2Title) skill2Title.textContent = state.entities.skills.card2Title;
+    const skill2Badge = document.getElementById('skill-card-2-badge');
+    if (skill2Badge) skill2Badge.textContent = state.entities.skills.card2Badge;
+    const skill2List = document.getElementById('skill-card-2-list');
+    if (skill2List) skill2List.innerHTML = renderSkillGroups(state.entities.skills.card2Groups);
+
+    // 11. Contact Section Entities
+    const contactIntro = document.getElementById('contact-intro');
+    if (contactIntro) contactIntro.textContent = t.contactIntro;
+    const contactEmailLabel = document.getElementById('contact-email-label');
+    if (contactEmailLabel) contactEmailLabel.textContent = t.contactEmailLabel;
+    const contactEmailBtn = document.getElementById('contact-email-btn');
+    if (contactEmailBtn) contactEmailBtn.textContent = t.contactEmailBtn;
+
+    const ghLabel = document.getElementById('contact-gh-label');
+    if (ghLabel) ghLabel.textContent = t.contactGhLabel;
+    const liLabel = document.getElementById('contact-li-label');
+    if (liLabel) liLabel.textContent = t.contactLiLabel;
+
+    const contactGh = document.getElementById('contact-gh-btn');
+    if (contactGh) {
+        contactGh.textContent = t.contactOpenBtn;
+        contactGh.setAttribute('aria-label', t.contactGhAria);
+        contactGh.setAttribute('title', t.contactGhAria);
+    }
+    const contactLi = document.getElementById('contact-li-btn');
+    if (contactLi) {
+        contactLi.textContent = t.contactOpenBtn;
+        contactLi.setAttribute('aria-label', t.contactLiAria);
+        contactLi.setAttribute('title', t.contactLiAria);
+    }
+
+    const footerRss = document.getElementById('footer-rss-btn');
+    if (footerRss) {
+        footerRss.setAttribute('href', state.entities.contact.rss);
+        footerRss.setAttribute('title', lang === 'es' ? 'Canal RSS en XML (Español) [R]' : 'RSS Feed in XML (English) [R]');
+    }
+
+    const footerText = document.getElementById('footer-text');
+    if (footerText) footerText.textContent = t.footerText;
+
+    // 12. Interactive State Inspector Modal HUD
+    const inspectorModal = document.getElementById('state-inspector-modal');
+    if (inspectorModal) {
+        if (state.config.inspectorOpen) {
+            inspectorModal.classList.remove('hidden');
+            const tickEl = document.getElementById('state-inspector-tick');
+            if (tickEl) tickEl.textContent = `TICK: ${state.tick}`;
+            const jsonPre = document.getElementById('state-inspector-json');
+            if (jsonPre) jsonPre.textContent = JSON.stringify(state, null, 2);
+        } else {
+            inspectorModal.classList.add('hidden');
+        }
+    }
+
+    // 13. Screen Reader Live Announcer
+    if (state.a11y && state.a11y.lastAnnounced) {
+        announceA11y(state.a11y.lastAnnounced);
+    }
+}
+
+// Central State Dispatcher
+function dispatch(action) {
+    const current = window.__SITE_STATE__ || createInitialState();
+    const next = reduce(current, action);
+    next.tick = (current.tick || 0) + 1;
+    next.timestamp = Date.now();
+    next.lastAction = {
+        type: action.type,
+        payload: action.payload || null,
+        timestamp: next.timestamp
+    };
+
+    // Persist storage
+    safeSet('riccivr-lang', next.config.lang);
+    safeSet('riccivr-theme', next.config.theme);
+    safeSet('riccivr-keys', next.config.shortcutsEnabled ? 'on' : 'off');
+
+    // Update global state & serialized script tag
+    window.__SITE_STATE__ = next;
+    const scriptState = document.getElementById('site-state');
+    if (scriptState) {
+        scriptState.textContent = JSON.stringify(next, null, 2);
+    }
+
+    // Re-render UI projection
+    render(next);
+
+    // Notify agents & testers via CustomEvent
+    try {
+        window.dispatchEvent(new CustomEvent('site:state-change', { detail: { state: next, action } }));
+    } catch (e) {}
+
+    return next;
+}
+
+// Axis-Aligned Bounding Box (AABB) spatial layout calculator for testing agents
+function getLayoutBoxes() {
+    const elementsToTrack = [
+        { id: 'lang-toggle', role: 'button' },
+        { id: 'keys-toggle', role: 'button' },
+        { id: 'theme-toggle', role: 'button' },
+        { id: 'state-toggle', role: 'button' },
+        { id: 'tab-projects', role: 'tab' },
+        { id: 'tab-blog', role: 'tab' },
+        { id: 'tab-skills', role: 'tab' },
+        { id: 'tab-contact', role: 'tab' },
+        { id: 'nav-btn-blog', role: 'link' },
+        { id: 'nav-btn-email', role: 'link' },
+        { id: 'nav-btn-gh', role: 'link' },
+        { id: 'nav-btn-li', role: 'link' },
+        { id: 'beam-link', role: 'link' },
+        { id: 'autodub-link', role: 'link' },
+        { id: 'dshuf-link', role: 'link' },
+        { id: 'gitcrawl-link', role: 'link' },
+        { id: 'approx-link', role: 'link' },
+        { id: 'unipaste-link', role: 'link' },
+        { id: 'clipbridge-link', role: 'link' }
+    ];
+
+    return elementsToTrack.map(item => {
+        const el = document.getElementById(item.id);
+        if (!el) return null;
+        const rect = el.getBoundingClientRect();
+        const style = typeof window.getComputedStyle === 'function' ? window.getComputedStyle(el) : null;
+        return {
+            id: item.id,
+            role: item.role,
+            visible: rect.width > 0 && rect.height > 0 && (!style || style.display !== 'none'),
+            aabb: {
+                x: Math.round(rect.x),
+                y: Math.round(rect.y),
+                width: Math.round(rect.width),
+                height: Math.round(rect.height),
+                top: Math.round(rect.top),
+                left: Math.round(rect.left),
+                bottom: Math.round(rect.bottom),
+                right: Math.round(rect.right)
+            }
+        };
+    }).filter(Boolean);
+}
+
+// Flash visual feedback for shortcut actuation
+function flashElement(el) {
+    if (!el) return;
+    const isTab = el.classList.contains('tab-button');
+    const prevBg = el.style.backgroundColor;
+    const prevColor = el.style.color;
+    el.style.backgroundColor = isTab ? 'var(--bg-tab-hover)' : 'var(--btn-hover-bg)';
+    if (!isTab) el.style.color = 'var(--btn-hover-text)';
+    setTimeout(() => {
+        el.style.backgroundColor = prevBg;
+        el.style.color = prevColor;
+    }, 200);
+}
+
+function initPortfolio() {
+    // 1. Initialize Single Source of Truth JSON State
+    const state = createInitialState();
+    window.__SITE_STATE__ = state;
+    window.getSiteState = function() {
+        return JSON.parse(JSON.stringify(window.__SITE_STATE__));
+    };
+    window.dispatch = function(action) {
+        return dispatch(action);
+    };
+    window.getLayoutBoxes = function() {
+        return getLayoutBoxes();
+    };
+
+    // Serialize initial state to script tag
+    const scriptState = document.getElementById('site-state');
+    if (scriptState) {
+        scriptState.textContent = JSON.stringify(state, null, 2);
+    }
+
+    // Render initial UI projection
+    render(state);
+
+    // 2. Wire Control Buttons
+    const langBtn = document.getElementById('lang-toggle');
+    if (langBtn) {
+        langBtn.addEventListener('click', () => dispatch({ type: 'TOGGLE_LANG' }));
+    }
+
+    const themeBtn = document.getElementById('theme-toggle');
+    if (themeBtn) {
+        themeBtn.addEventListener('click', () => dispatch({ type: 'TOGGLE_THEME' }));
+    }
+
+    const keysBtn = document.getElementById('keys-toggle');
+    if (keysBtn) {
+        keysBtn.addEventListener('click', () => dispatch({ type: 'TOGGLE_KEYS' }));
+    }
+
+    const stateBtn = document.getElementById('state-toggle');
+    if (stateBtn) {
+        stateBtn.addEventListener('click', () => dispatch({ type: 'TOGGLE_INSPECTOR' }));
+    }
+
+    const inspectorClose = document.getElementById('state-inspector-close');
+    if (inspectorClose) {
+        inspectorClose.addEventListener('click', () => dispatch({ type: 'CLOSE_INSPECTOR' }));
+    }
+
+    const inspectorModal = document.getElementById('state-inspector-modal');
+    if (inspectorModal) {
+        inspectorModal.addEventListener('click', (e) => {
+            if (e.target === inspectorModal) {
+                dispatch({ type: 'CLOSE_INSPECTOR' });
+            }
+        });
+    }
+
+    const inspectorCopy = document.getElementById('state-inspector-copy');
+    if (inspectorCopy) {
+        inspectorCopy.addEventListener('click', () => {
+            const jsonText = JSON.stringify(window.__SITE_STATE__, null, 2);
+            navigator.clipboard.writeText(jsonText).then(() => {
+                const lang = window.__SITE_STATE__.config.lang;
+                const t = i18n[lang] || i18n.es;
+                const prev = inspectorCopy.textContent;
+                inspectorCopy.textContent = t.stateCopied || '[COPIADO]';
+                setTimeout(() => { inspectorCopy.textContent = prev; }, 1500);
+            }).catch(() => {});
+        });
+    }
+
+    // 3. Tab Interactions
+    const tabButtons = Array.from(document.querySelectorAll('.tab-button'));
+    tabButtons.forEach((tab, index) => {
+        tab.addEventListener('click', () => {
+            dispatch({ type: 'SELECT_TAB', payload: { tabId: tab.getAttribute('data-target') } });
+        });
+
+        // WAI-ARIA Arrow Navigation for Tablist
+        tab.addEventListener('keydown', (e) => {
+            let targetIndex = null;
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                targetIndex = (index + 1) % tabButtons.length;
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                targetIndex = (index - 1 + tabButtons.length) % tabButtons.length;
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                targetIndex = 0;
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                targetIndex = tabButtons.length - 1;
+            }
+
+            if (targetIndex !== null) {
+                tabButtons[targetIndex].focus();
+                dispatch({ type: 'SELECT_TAB', payload: { tabId: tabButtons[targetIndex].getAttribute('data-target') } });
+            }
+        });
+
+        tab.addEventListener('mouseenter', () => {
+            if (tab.getAttribute('data-target') !== window.__SITE_STATE__.navigation.activeTab) {
+                tab.style.backgroundColor = 'var(--bg-tab-hover)';
+            }
+        });
+        tab.addEventListener('mouseleave', () => {
+            if (tab.getAttribute('data-target') !== window.__SITE_STATE__.navigation.activeTab) {
+                tab.style.backgroundColor = 'transparent';
+            }
+        });
+    });
+
+    // 4. Global Keyboard Behaviors
+    document.addEventListener('keydown', (e) => {
+        const currentState = window.__SITE_STATE__;
+        if (!currentState) return;
+
+        // Escape always closes the inspector if open
+        if (e.key === 'Escape' && currentState.config.inspectorOpen) {
+            dispatch({ type: 'CLOSE_INSPECTOR' });
+            return;
+        }
+
+        if (!currentState.config.shortcutsEnabled) return;
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) return;
+        if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+        const key = e.key.toUpperCase();
+        const actionName = currentState.behaviors.keymap[key];
+        if (!actionName) return;
+
+        if (actionName === 'TOGGLE_LANG') {
+            flashElement(langBtn);
+            dispatch({ type: 'TOGGLE_LANG' });
+        } else if (actionName === 'TOGGLE_THEME') {
+            flashElement(themeBtn);
+            dispatch({ type: 'TOGGLE_THEME' });
+        } else if (actionName === 'TOGGLE_KEYS') {
+            flashElement(keysBtn);
+            dispatch({ type: 'TOGGLE_KEYS' });
+        } else if (actionName === 'TOGGLE_INSPECTOR') {
+            flashElement(stateBtn);
+            dispatch({ type: 'TOGGLE_INSPECTOR' });
+        } else if (actionName.startsWith('SELECT_TAB:')) {
+            const targetId = actionName.split(':')[1];
+            const tab = document.querySelector(`.tab-button[data-target="${targetId}"]`);
+            flashElement(tab);
+            dispatch({ type: 'SELECT_TAB', payload: { tabId: targetId } });
+        } else if (actionName === 'NAVIGATE_BLOG') {
+            const blogBtn = document.getElementById('nav-btn-blog');
+            flashElement(blogBtn);
+            setTimeout(() => { window.location.href = './blog/'; }, 150);
+        } else if (actionName === 'NAVIGATE_EMAIL') {
+            const emailBtn = document.getElementById('nav-btn-email');
+            flashElement(emailBtn);
+            window.location.href = `mailto:${currentState.entities.contact.email}`;
+        } else if (actionName === 'NAVIGATE_GITHUB') {
+            const ghBtn = document.getElementById('nav-btn-gh') || document.querySelector('a[href*="github.com/riccivr"]');
+            flashElement(ghBtn);
+            window.open(currentState.entities.contact.github, '_blank');
+        } else if (actionName === 'NAVIGATE_LINKEDIN') {
+            const liBtn = document.getElementById('nav-btn-li') || document.querySelector('a[href*="linkedin.com"]');
+            flashElement(liBtn);
+            window.open(currentState.entities.contact.linkedin, '_blank');
+        } else if (actionName === 'NAVIGATE_RSS') {
+            setTimeout(() => { window.location.href = currentState.entities.contact.rss; }, 150);
+        }
+    });
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPortfolio);
+} else {
+    initPortfolio();
+}

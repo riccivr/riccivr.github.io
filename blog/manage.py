@@ -26,6 +26,7 @@ SITEMAP_XML = os.path.join(SITE_ROOT, "sitemap.xml")
 FEED_XML = os.path.join(SITE_ROOT, "feed.xml")
 FEED_ES_XML = os.path.join(SITE_ROOT, "feed-es.xml")
 LLMS_TXT = os.path.join(SITE_ROOT, "llms.txt")
+STATE_JSON = os.path.join(SITE_ROOT, "state.json")
 
 SITE_URL = "https://riccivr.github.io"
 AUTHOR_NAME = "Ricardo Veronese"
@@ -1251,6 +1252,133 @@ def cmd_build():
     generate_sitemap(clean_posts)
     generate_rss(clean_posts)
     generate_llms_txt(clean_posts)
+    generate_state_json(clean_posts)
+
+def generate_state_json(posts):
+    state = {
+        "$schema": "https://riccivr.github.io/state.schema.json",
+        "tick": 0,
+        "meta": {
+            "sysId": "SYS.ID: riccivr",
+            "status": "ONLINE",
+            "author": AUTHOR_NAME,
+            "email": AUTHOR_EMAIL,
+            "siteUrl": SITE_URL,
+            "generator": "ThePrimeagen State Model (riccivr.github.io)"
+        },
+        "config": {
+            "defaultLang": "es",
+            "supportedLangs": ["es", "en"],
+            "defaultTheme": "crt",
+            "shortcutsEnabled": True,
+            "inspectorOpen": False
+        },
+        "navigation": {
+            "activeTab": "projects-content",
+            "tabs": [
+                { "id": "projects-content", "key": "1", "label": "PROYECTOS ACTIVOS" },
+                { "id": "blog-content", "key": "2", "label": "BLOG & ARTÍCULOS" },
+                { "id": "skills-content", "key": "3", "label": "STACK & SKILLS" },
+                { "id": "contact-content", "key": "4", "label": "CONTACTO" }
+            ]
+        },
+        "behaviors": {
+            "keymap": {
+                "I": "TOGGLE_LANG",
+                "T": "TOGGLE_THEME",
+                "K": "TOGGLE_KEYS",
+                "J": "TOGGLE_INSPECTOR",
+                "B": "NAVIGATE_BLOG",
+                "C": "NAVIGATE_EMAIL",
+                "G": "NAVIGATE_GITHUB",
+                "L": "NAVIGATE_LINKEDIN",
+                "R": "NAVIGATE_RSS",
+                "1": "SELECT_TAB:projects-content",
+                "2": "SELECT_TAB:blog-content",
+                "3": "SELECT_TAB:skills-content",
+                "4": "SELECT_TAB:contact-content"
+            }
+        },
+        "entities": {
+            "projects": [
+                {
+                    "id": "beam",
+                    "name": "beam",
+                    "badge": "Activo",
+                    "repoUrl": "https://github.com/riccivr/beam",
+                    "tags": ["C99", "POSIX", "HTTP / STREAMING", "VIDEO", "TUNNELING", "CLI", "ZERO-DEP"],
+                    "subtitle": "CLI de intercambio efímero de archivos y streaming de video local-first en C99",
+                    "description": "CLI en C99 que comparte archivos locales mediante enlaces HTTP efímeros con expiración automática. Soporta peticiones HTTP Range (206 Partial Content) para scrubbing instantáneo en reproductores de video nativos (Chrome, Safari, iOS), zero-copy con sendfile(), túneles públicos rápidos de Cloudflare (-p), códigos QR en consola Unicode y piping directo desde autodub."
+                },
+                {
+                    "id": "autodub",
+                    "name": "autodub",
+                    "badge": "Activo",
+                    "repoUrl": "https://github.com/riccivr/autodub",
+                    "tags": ["PYTHON", "WHISPER", "TTS", "FFMPEG", "AUDIO PIPELINE", "CLI"],
+                    "subtitle": "Pipeline CLI de doblaje de video local y síntesis de voz en CPU",
+                    "description": "Herramienta de línea de comandos que descarga videos con yt-dlp, transcribe el audio en CPU con faster-whisper (cuantización int8), traduce los segmentos y sintetiza la voz doblada con Piper TTS o Edge-TTS. Ajusta la velocidad por segmento con atempo para cuadrar con el video original sin desfase temporal y atenúa el audio de fondo para no perder la música ni los efectos."
+                },
+                {
+                    "id": "dshuf",
+                    "name": "dshuf",
+                    "badge": "Activo",
+                    "repoUrl": "https://github.com/riccivr/dshuf",
+                    "tags": ["C99", "POSIX", "SUCKLESS", "ALGORITMOS", "PIPELINES UNIX", "ZERO-DEP"],
+                    "subtitle": "Shuffler balanceado multiclave en C99/POSIX con soporte para streaming",
+                    "description": "Herramienta CLI y librería de cabecera única en C99/POSIX suckless que espacia elementos con atributos compartidos (artista, álbum, género) usando una heurística voraz de penalización en ventana para evitar repeticiones seguidas en playlists y pipelines UNIX. Soporta streaming infinito con memoria estrictamente acotada O(W) y bindings sin dependencias para C++, Python y TypeScript/WASM."
+                },
+                {
+                    "id": "gitcrawl",
+                    "name": "gitcrawl",
+                    "badge": "Activo",
+                    "repoUrl": "https://github.com/riccivr/gitcrawl",
+                    "tags": ["C99", "GIT PLUMBING", "CRAWLERS", "POSIX", "ZERO-DEP"],
+                    "subtitle": "Crawler y archivador web direccionable por contenido sobre repositorios Git",
+                    "description": "CLI en C99 que rastrea sitios web y guarda snapshots históricos en Markdown directo en repositorios Git (.git/objects). Se salta el working tree escribiendo objetos en memoria a millón, usa compresión delta nativa para ahorrar gigas y te deja auditar cualquier cambio con git diff y git log sin meter bases de datos."
+                },
+                {
+                    "id": "approx",
+                    "name": "approx",
+                    "badge": "Activo",
+                    "repoUrl": "https://github.com/riccivr/approx",
+                    "tags": ["C99", "POSIX", "ALGORITMOS", "EMBEBIDOS / IOT", "ZERO-DEP"],
+                    "subtitle": "Filtro y ranker difuso para streams POSIX (no interactivo)",
+                    "description": "CLI ultraligera en C99 con cero dependencias para filtrar y ordenar texto en streams usando coincidencia difusa. Usa memoria O(M) con programación dinámica. La armé para meterla en scripts, pipelines UNIX y microcontroladores donde las TUIs interactivas como fzf no dan la talla."
+                },
+                {
+                    "id": "unipaste",
+                    "name": "unipaste",
+                    "badge": "Activo",
+                    "repoUrl": "https://github.com/riccivr/unipaste",
+                    "tags": ["C99", "PARSERS", "MARKDOWN", "SISTEMAS", "ZERO-DEP"],
+                    "subtitle": "Formateador universal de streams HTML y texto enriquecido para el portapapeles",
+                    "description": "Parser en C99 que agarra el HTML enredado del portapapeles y lo convierte en Markdown limpiecito. Te arma tablas en cajas ASCII al pelo, parsea listas de tareas, decodifica entidades HTML y le quita los headers raros de Windows sin depender de navegadores ni librerías pesadas."
+                },
+                {
+                    "id": "clipbridge",
+                    "name": "clipbridge",
+                    "badge": "Activo",
+                    "repoUrl": "https://github.com/riccivr/clipbridge",
+                    "tags": ["C99", "WIN32", "POSIX", "DAEMON", "INTEGRACIÓN"],
+                    "subtitle": "Daemon y bridge universal de portapapeles potenciado por unipaste",
+                    "description": "Daemon para Windows y Linux que se queda escuchando el portapapeles en segundo plano. Cuando copias cualquier vaina de Slack, Teams o el navegador, le pasa el HTML a unipaste y te actualiza el portapapeles de texto plano al tiro con Markdown listo para pegar."
+                }
+            ],
+            "posts": [
+                {
+                    "slug": p["slug"],
+                    "date": p["date"],
+                    "title": (p.get("es") or p).get("title"),
+                    "summary": (p.get("es") or p).get("summary"),
+                    "url": f"{SITE_URL}/blog/{p['slug']}.html"
+                } for p in posts[:6]
+            ]
+        }
+    }
+    with open(STATE_JSON, 'w', encoding='utf-8') as f:
+        json.dump(state, f, indent=2, ensure_ascii=False)
+    print(f"[✓] Generated {STATE_JSON} (ThePrimeagen JSON State Model)")
 
 if __name__ == '__main__':
     import sys
