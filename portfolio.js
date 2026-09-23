@@ -31,6 +31,10 @@ const i18n = {
                 stateAnnounceClose: "Inspector de estado JSON cerrado",
                 stateCopyBtn: "[COPIAR]",
                 stateCopied: "¡COPIADO!",
+                stateConsoleLabel: "Consola:",
+                stateShortcutsInfo: "Atajos: [J] o [ESC]",
+                stateCloseAria: "Cerrar inspector [ESC / J]",
+                stateCopyTitle: "Copiar estado JSON al portapapeles",
                 bioRole: "Cloud & Full-Stack Engineer en Enroly",
                 bioStack: "AWS · CDK · Remix · React · TypeScript · Python · Rust · C99 · Embedded / IoT",
                 bioMotto: "Desarrollando productos full-stack y backends serverless con Remix, React y AWS Lambda. Cacharreando con C de bajo nivel, sistemas embebidos e IoT en mi tiempo libre.",
@@ -168,6 +172,10 @@ const i18n = {
                 stateAnnounceClose: "JSON state inspector closed",
                 stateCopyBtn: "[COPY]",
                 stateCopied: "COPIED!",
+                stateConsoleLabel: "Console:",
+                stateShortcutsInfo: "Shortcuts: [J] or [ESC]",
+                stateCloseAria: "Close inspector [ESC / J]",
+                stateCopyTitle: "Copy JSON state to clipboard",
                 bioRole: "Cloud & Full-Stack Engineer at Enroly",
                 bioStack: "AWS · CDK · Remix · React · TypeScript · Python · Rust · C99 · Embedded / IoT",
                 bioMotto: "Building full-stack products and serverless backends with Remix, React & AWS Lambda. Tinkering with low-level C, embedded systems & IoT on the side.",
@@ -841,7 +849,21 @@ function render(state) {
             const tickEl = document.getElementById('state-inspector-tick');
             if (tickEl) tickEl.textContent = `TICK: ${state.tick}`;
             const copyBtn = document.getElementById('state-inspector-copy');
-            if (copyBtn && !copyBtn.dataset.copied) copyBtn.textContent = t.stateCopyBtn || '[COPIAR]';
+            if (copyBtn) {
+                if (!copyBtn.dataset.copied) copyBtn.textContent = t.stateCopyBtn || '[COPIAR]';
+                copyBtn.setAttribute('title', t.stateCopyTitle || '');
+            }
+            const closeBtn = document.getElementById('state-inspector-close');
+            if (closeBtn) {
+                closeBtn.setAttribute('aria-label', t.stateCloseAria || 'Cerrar inspector [ESC / J]');
+                closeBtn.setAttribute('title', t.stateCloseAria || 'Cerrar inspector [ESC / J]');
+            }
+            const shortcutsInfo = document.getElementById('state-inspector-shortcuts-info');
+            if (shortcutsInfo) shortcutsInfo.textContent = t.stateShortcutsInfo || '';
+            const consoleInfo = document.getElementById('state-inspector-console-info');
+            if (consoleInfo) {
+                consoleInfo.innerHTML = `${t.stateConsoleLabel || 'Consola:'} <code class="theme-text-heading">window.__SITE_STATE__</code> | <code class="theme-text-heading">window.dispatch(action)</code>`;
+            }
             const jsonPre = document.getElementById('state-inspector-json');
             if (jsonPre) jsonPre.textContent = JSON.stringify(state, null, 2);
         } else {
