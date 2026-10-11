@@ -497,25 +497,38 @@
             .terminal-flow .flow-connector-line {
                 height: 10px;
             }
-            /* Stack buttons one per row when on mobile */
+            /* Compact key-style buttons on mobile (horizontal wrap, short labels) */
+            .header-button-group,
+            .nav-btn-group,
+            .bottom-nav-bar {
+                flex-direction: row !important;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.35rem !important;
+                width: 100%;
+            }
+            .header-action-container,
+            .nav-controls-bar {
+                width: 100% !important;
+            }
             .header-button-group button,
             .nav-controls-bar a,
             .nav-controls-bar button,
             .bottom-nav-bar a,
             .bottom-nav-bar button {
-                width: 100% !important;
-                display: block !important;
+                width: auto !important;
+                display: inline-block !important;
+                padding: 0.22rem 0.45rem !important;
+                font-size: 0.62rem !important;
+                min-width: 2.1rem;
                 text-align: center !important;
                 box-sizing: border-box !important;
+                line-height: 1.2;
             }
-            .header-action-container,
-            .header-button-group,
-            .nav-controls-bar,
-            .nav-btn-group,
-            .bottom-nav-bar {
-                width: 100% !important;
-            }
+            .label-full { display: none; }
+            .label-short { display: inline; }
         }
+        .label-short { display: none; }
 
         /* Build-Time Pygments Syntax Highlighting (0 KB JS, 0 ms cost) */
         /* CRT Dark Amber Phosphor Scheme */
@@ -682,13 +695,13 @@
             <div class="header-action-container flex flex-col sm:flex-row items-stretch sm:items-center justify-between sm:justify-end gap-1.5 sm:gap-2 w-full sm:w-auto shrink-0">
                 <div class="header-button-group flex flex-col sm:flex-row items-stretch sm:items-center gap-1.5 sm:gap-2 w-full sm:w-auto">
                     <button id="lang-toggle" class="interactive-link border theme-border px-2 py-1.5 sm:py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider text-center whitespace-nowrap w-full sm:w-auto shrink-0" aria-label="Alternar idioma a inglés (actual: Español) [I]" title="Alternar idioma a inglés (actual: Español) [I]">
-                        [LANG: ES]
+                        <span class="label-full">[LANG: ES]</span><span class="label-short">[ES]</span>
                     </button>
                     <button id="keys-toggle" class="interactive-link border theme-border px-2 py-1.5 sm:py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider text-center whitespace-nowrap w-full sm:w-auto shrink-0" aria-pressed="true" aria-label="Alternar atajos de navegación por teclado" title="Alternar atajos de navegación por teclado">
-                        [TECLAS: ACT]
+                        <span class="label-full">[TECLAS: ACT]</span><span class="label-short">[K]</span>
                     </button>
                     <button id="theme-toggle" class="interactive-link border theme-border px-2 py-1.5 sm:py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider text-center whitespace-nowrap w-full sm:w-auto shrink-0" aria-label="Alternar tema visual (actual: CRT) [T]" title="Alternar tema visual (actual: CRT) [T]">
-                        [MODO: CRT]
+                        <span class="label-full">[MODO: CRT]</span><span class="label-short">[CRT]</span>
                     </button>
                 </div>
                 <span class="status-label-text theme-text-main text-xs sm:text-sm font-bold uppercase tracking-wider hidden sm:inline-block ml-2 whitespace-nowrap shrink-0">
@@ -703,18 +716,18 @@
             <div class="nav-controls-bar flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-1.5 sm:gap-2 pb-3 mb-5 border-b theme-border-subtle text-[11px] sm:text-xs">
                 <div class="nav-btn-group flex flex-col sm:flex-row items-stretch sm:items-center gap-1.5 sm:gap-2 w-full sm:w-auto">
                     <a href="index.html" id="back-index-btn" class="interactive-link border theme-border px-2.5 py-1.5 sm:py-1 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Volver a la lista del blog [<]" title="Volver a la lista del blog [<]">
-                        [<] Volver al Blog
+                        <span class="label-full">[<] Volver al Blog</span><span class="label-short">[<]</span>
                     </a>
                     <a href="../" id="home-portal-btn" class="interactive-link border theme-border px-2.5 py-1.5 sm:py-1 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Ir al portal principal [H]" title="Ir al portal principal [H]">
-                        [H] Portal Principal
+                        <span class="label-full">[H] Portal Principal</span><span class="label-short">[H]</span>
                     </a>
                 </div>
                 <div class="nav-btn-group flex flex-col sm:flex-row items-stretch sm:items-center gap-1.5 sm:gap-2 w-full sm:w-auto">
                     <button id="copy-link-btn" class="interactive-link border theme-border px-2.5 py-1.5 sm:py-1 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Copiar enlace de este artículo [S]" title="Copiar enlace de este artículo [S]">
-                        [S] Copiar Enlace
+                        <span class="label-full">[S] Copiar Enlace</span><span class="label-short">[S]</span>
                     </button>
                     <a href="https://github.com/riccivr/riccivr.github.io" target="_blank" rel="noopener noreferrer" id="repo-btn" class="interactive-link border theme-border px-2.5 py-1.5 sm:py-1 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Ver repositorio en GitHub (se abre en nueva pestaña) [G]" title="Ver repositorio en GitHub (se abre en nueva pestaña) [G]">
-                        [G] Repo
+                        <span class="label-full">[G] Repo</span><span class="label-short">[G]</span>
                     </a>
                 </div>
             </div>
@@ -1003,10 +1016,10 @@
             <!-- Bottom Return Navigation -->
             <div class="bottom-nav-bar mt-10 sm:mt-12 pt-6 sm:pt-8 pb-3 sm:pb-4 border-t theme-border-subtle flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2 text-xs sm:text-sm">
                 <a href="index.html" id="bottom-back-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-2 sm:py-1.5 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Volver a la lista de artículos [<]" title="Volver a la lista de artículos [<]">
-                    [<] Volver al Blog
+                    <span class="label-full">[<] Volver al Blog</span><span class="label-short">[<]</span>
                 </a>
                 <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" id="bottom-top-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-2 sm:py-1.5 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Ir arriba [K]" title="Ir arriba [K]">
-                    [^] Arriba
+                    <span class="label-full">[^] Arriba</span><span class="label-short">[^]</span>
                 </a>
             </div>
 
@@ -1015,7 +1028,7 @@
         <footer class="p-3 sm:p-4 border-t theme-border text-xs flex justify-between items-center theme-bg-header">
             <span class="theme-text-muted text-[11px] sm:text-xs font-bold">riccivr.github.io/blog</span>
             <span id="footer-text" class="text-right text-[11px] sm:text-xs theme-text-muted font-mono font-medium">
-                REV: 2ab86a9 // PUBLICADO: 2026.08.31
+                REV: 40bc71a // PUBLICADO: 2026.08.31
             </span>
         </footer>
 
@@ -1027,54 +1040,54 @@
             es: {
                 sysId: "SYS.ID: riccivr // gitcrawl-content-addressable-web-archiver",
                 status: "ESTADO: EN LÍNEA",
-                langToggle: "[LANG: ES]",
+                langToggle: '<span class="label-full">[LANG: ES]</span><span class="label-short">[ES]</span>',
                 langAria: "Alternar idioma a inglés (actual: Español) [I]",
-                keysOn: "[TECLAS: ACT]",
-                keysOff: "[TECLAS: DES]",
+                keysOn: '<span class="label-full">[TECLAS: ACT]</span><span class="label-short">[K]</span>',
+                keysOff: '<span class="label-full">[TECLAS: DES]</span><span class="label-short">[K]</span>',
                 keysAria: "Alternar atajos de navegación por teclado",
-                modeCrt: "[MODO: CRT]",
-                modePaper: "[MODO: PAPEL]",
+                modeCrt: '<span class="label-full">[MODO: CRT]</span><span class="label-short">[CRT]</span>',
+                modePaper: '<span class="label-full">[MODO: PAPEL]</span><span class="label-short">[PAPEL]</span>',
                 themeAria: "Alternar tema visual a Papel (actual: CRT) [T]",
                 themeAriaPaper: "Alternar tema visual a CRT (actual: Papel) [T]",
-                backIndex: "[<] Volver al Blog",
+                backIndex: '<span class="label-full">[<] Volver al Blog</span><span class="label-short">[<]</span>',
                 backIndexAria: "Volver a la lista del blog [<]",
-                homePortal: "[H] Portal Principal",
+                homePortal: '<span class="label-full">[H] Portal Principal</span><span class="label-short">[H]</span>',
                 homePortalAria: "Ir al portal principal [H]",
-                copyLink: "[S] Copiar Enlace",
+                copyLink: '<span class="label-full">[S] Copiar Enlace</span><span class="label-short">[S]</span>',
                 copyLinkAria: "Copiar enlace de este artículo [S]",
-                copied: "[✓] ¡Copiado!",
-                repo: "[G] Repo",
+                copied: '<span class="label-full">[✓] ¡Copiado!</span><span class="label-short">[✓]</span>',
+                repo: '<span class="label-full">[G] Repo</span><span class="label-short">[G]</span>',
                 repoAria: "Ver repositorio en GitHub (se abre en nueva pestaña) [G]",
-                topBtn: "[^] Arriba",
+                topBtn: '<span class="label-full">[^] Arriba</span><span class="label-short">[^]</span>',
                 topBtnAria: "Ir arriba [K]",
-                footerText: "REV: 2ab86a9 // PUBLICADO: 2026.08.31",
+                footerText: "REV: 40bc71a // PUBLICADO: 2026.08.31",
                 title: "gitcrawl: crawler web direccionable por contenido y motor de snapshots en Git",
                 metaDesc: "En mi art\u00edculo anterior sobre archivar la web con Git, me puse a explorar la teor\u00eda detr\u00e1s de usar el almac\u00e9n de objetos direccionable por contenido de Git como base de datos hist\u00f3rica para p\u00e1ginas web y documentaci\u00f3n t\u00e9..."
             },
             en: {
                 sysId: "SYS.ID: riccivr // gitcrawl-content-addressable-web-archiver",
                 status: "STATUS: ONLINE",
-                langToggle: "[LANG: EN]",
+                langToggle: '<span class="label-full">[LANG: EN]</span><span class="label-short">[EN]</span>',
                 langAria: "Toggle language to Spanish (current: English) [I]",
-                keysOn: "[KEYS: ON]",
-                keysOff: "[KEYS: OFF]",
+                keysOn: '<span class="label-full">[KEYS: ON]</span><span class="label-short">[K]</span>',
+                keysOff: '<span class="label-full">[KEYS: OFF]</span><span class="label-short">[K]</span>',
                 keysAria: "Toggle keyboard navigation shortcuts",
-                modeCrt: "[MODE: CRT]",
-                modePaper: "[MODE: PAPER]",
+                modeCrt: '<span class="label-full">[MODE: CRT]</span><span class="label-short">[CRT]</span>',
+                modePaper: '<span class="label-full">[MODE: PAPER]</span><span class="label-short">[PAPER]</span>',
                 themeAria: "Toggle visual theme to Paper (current: CRT) [T]",
                 themeAriaPaper: "Toggle visual theme to CRT (current: Paper) [T]",
-                backIndex: "[<] Return to Blog",
+                backIndex: '<span class="label-full">[<] Return to Blog</span><span class="label-short">[<]</span>',
                 backIndexAria: "Return to blog list [<]",
-                homePortal: "[H] Home Portal",
+                homePortal: '<span class="label-full">[H] Home Portal</span><span class="label-short">[H]</span>',
                 homePortalAria: "Go to home portal [H]",
-                copyLink: "[S] Copy Link",
+                copyLink: '<span class="label-full">[S] Copy Link</span><span class="label-short">[S]</span>',
                 copyLinkAria: "Copy link to this article [S]",
-                copied: "[✓] Copied!",
-                repo: "[G] Repo",
+                copied: '<span class="label-full">[✓] Copied!</span><span class="label-short">[✓]</span>',
+                repo: '<span class="label-full">[G] Repo</span><span class="label-short">[G]</span>',
                 repoAria: "View GitHub repository (opens in a new tab) [G]",
-                topBtn: "[^] Top",
+                topBtn: '<span class="label-full">[^] Top</span><span class="label-short">[^]</span>',
                 topBtnAria: "Scroll to top [K]",
-                footerText: "REV: 2ab86a9 // PUBLISHED: 2026.08.31",
+                footerText: "REV: 40bc71a // PUBLISHED: 2026.08.31",
                 title: "gitcrawl: content-addressable web archiver and snapshot engine backed by Git",
                 metaDesc: "In my previous article on archiving the web with Git, I explored using Git's content-addressable object store as a historical database for web pages and documentation."
             }
@@ -1096,51 +1109,51 @@
             document.querySelectorAll('.status-label-text').forEach(el => el.textContent = t.status);
             
             const langBtn = document.getElementById('lang-toggle');
-            langBtn.textContent = t.langToggle;
+            langBtn.innerHTML = t.langToggle;
             langBtn.setAttribute('aria-label', t.langAria);
             langBtn.setAttribute('title', t.langAria);
 
             const isLight = document.documentElement.getAttribute('data-theme') === 'light';
             const themeBtn = document.getElementById('theme-toggle');
-            themeBtn.textContent = isLight ? t.modePaper : t.modeCrt;
+            themeBtn.innerHTML = isLight ? t.modePaper : t.modeCrt;
             const themeLabel = isLight ? t.themeAriaPaper : t.themeAria;
             themeBtn.setAttribute('aria-label', themeLabel);
             themeBtn.setAttribute('title', themeLabel);
 
             const keysEnabled = localStorage.getItem('riccivr-keys') !== 'off';
             const keysBtn = document.getElementById('keys-toggle');
-            keysBtn.textContent = keysEnabled ? t.keysOn : t.keysOff;
+            keysBtn.innerHTML = keysEnabled ? t.keysOn : t.keysOff;
             keysBtn.setAttribute('aria-label', t.keysAria);
             keysBtn.setAttribute('title', t.keysAria);
             keysBtn.setAttribute('aria-pressed', keysEnabled ? 'true' : 'false');
 
             const backBtn = document.getElementById('back-index-btn');
-            backBtn.textContent = t.backIndex;
+            backBtn.innerHTML = t.backIndex;
             backBtn.setAttribute('aria-label', t.backIndexAria);
             backBtn.setAttribute('title', t.backIndexAria);
 
             const homeBtn = document.getElementById('home-portal-btn');
-            homeBtn.textContent = t.homePortal;
+            homeBtn.innerHTML = t.homePortal;
             homeBtn.setAttribute('aria-label', t.homePortalAria);
             homeBtn.setAttribute('title', t.homePortalAria);
 
             const copyBtn = document.getElementById('copy-link-btn');
-            copyBtn.textContent = t.copyLink;
+            copyBtn.innerHTML = t.copyLink;
             copyBtn.setAttribute('aria-label', t.copyLinkAria);
             copyBtn.setAttribute('title', t.copyLinkAria);
 
             const repoBtn = document.getElementById('repo-btn');
-            repoBtn.textContent = t.repo;
+            repoBtn.innerHTML = t.repo;
             repoBtn.setAttribute('aria-label', t.repoAria);
             repoBtn.setAttribute('title', t.repoAria);
 
             const bottomBackBtn = document.getElementById('bottom-back-btn');
-            bottomBackBtn.textContent = t.backIndex;
+            bottomBackBtn.innerHTML = t.backIndex;
             bottomBackBtn.setAttribute('aria-label', t.backIndexAria);
             bottomBackBtn.setAttribute('title', t.backIndexAria);
 
             const bottomTopBtn = document.getElementById('bottom-top-btn');
-            bottomTopBtn.textContent = t.topBtn;
+            bottomTopBtn.innerHTML = t.topBtn;
             bottomTopBtn.setAttribute('aria-label', t.topBtnAria);
             bottomTopBtn.setAttribute('title', t.topBtnAria);
 
@@ -1174,7 +1187,7 @@
         function updateThemeBtn() {
             const isLight = document.documentElement.getAttribute('data-theme') === 'light';
             const t = i18n[currentLang] || i18n.es;
-            themeBtn.textContent = isLight ? t.modePaper : t.modeCrt;
+            themeBtn.innerHTML = isLight ? t.modePaper : t.modeCrt;
             const themeLabel = isLight ? t.themeAriaPaper : t.themeAria;
             themeBtn.setAttribute('aria-label', themeLabel);
             themeBtn.setAttribute('title', themeLabel);
@@ -1205,7 +1218,7 @@
 
         function updateKeysBtn() {
             const t = i18n[currentLang] || i18n.es;
-            keysBtn.textContent = keyboardEnabled ? t.keysOn : t.keysOff;
+            keysBtn.innerHTML = keyboardEnabled ? t.keysOn : t.keysOff;
             keysBtn.setAttribute('aria-label', t.keysAria);
             keysBtn.setAttribute('title', t.keysAria);
             keysBtn.setAttribute('aria-pressed', keyboardEnabled ? 'true' : 'false');
@@ -1223,10 +1236,10 @@
             const url = window.location.href;
             const t = i18n[currentLang] || i18n.es;
             navigator.clipboard.writeText(url).then(() => {
-                const originalText = copyBtn.textContent;
-                copyBtn.textContent = t.copied;
+                const originalHTML = copyBtn.innerHTML;
+                copyBtn.innerHTML = t.copied;
                 setTimeout(() => {
-                    copyBtn.textContent = originalText;
+                    copyBtn.innerHTML = originalHTML;
                 }, 2000);
             }).catch(() => {
                 prompt("Copia este enlace / Copy this link:", url);
