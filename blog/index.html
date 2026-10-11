@@ -50,7 +50,7 @@
     </script>
 
     <link rel="stylesheet" href="../style.css">
-    <script src="posts-data.js"></script>
+    <script src="posts-data.js?v=7"></script>
     <script>
         // Immediately apply saved or system theme and language to avoid FOUC
         (function() {
@@ -271,7 +271,40 @@
 
             <!-- Posts List Container -->
             <div id="posts-container" class="space-y-6">
-                <!-- Post 1: beam -->
+                <!-- Post 1: reelscribe -->
+                <article class="border theme-border-subtle theme-bg-card p-5 transition duration-150">
+                    <header class="flex flex-col sm:flex-row justify-between sm:items-center gap-1 mb-2 border-b theme-border-dim pb-2">
+                        <div class="text-xs theme-text-muted font-bold font-mono">
+                            POST_2026.10.11 // PROYECTOS & MULTIMEDIA
+                        </div>
+                        <div class="text-xs theme-text-dim font-medium">
+                            Lectura: ~5 min
+                        </div>
+                    </header>
+                    <h2 class="text-lg sm:text-xl font-bold theme-text-heading mb-2">
+                        <a href="reelscribe-transcribing-reels-and-tiktoks-for-content-analytics.html" class="hover:underline">
+                            reelscribe: transcribiendo reels y tiktoks con IA local para el trabajo de mi novia
+                        </a>
+                    </h2>
+                    <p class="text-sm leading-relaxed theme-text-main mb-4">
+                        Herramienta CLI en WSL que descarga lotes de TikToks y Reels, resuelve short links, transcribe cada video con faster-whisper (.md, .srt y .json) y genera un resumen analítico en local con Ollama.
+                    </p>
+                    <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t theme-border-dim">
+                        <div class="flex flex-wrap gap-1.5">
+                            <button onclick="setFilterTag('Python')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#Python</button>
+                            <button onclick="setFilterTag('reelscribe')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#reelscribe</button>
+                            <button onclick="setFilterTag('Whisper')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#Whisper</button>
+                            <button onclick="setFilterTag('Ollama')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#Ollama</button>
+                            <button onclick="setFilterTag('yt-dlp')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#yt-dlp</button>
+                            <button onclick="setFilterTag('CLI')" class="interactive-link text-xs border theme-border-subtle px-2 py-0.5 font-semibold">#CLI</button>
+                        </div>
+                        <a href="reelscribe-transcribing-reels-and-tiktoks-for-content-analytics.html" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold" aria-label="Leer artículo: reelscribe: transcribiendo reels y tiktoks con IA local para el trabajo de mi novia">
+                            [LEER ARTÍCULO ->]
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Post 2: beam -->
                 <article class="border theme-border-subtle theme-bg-card p-5 transition duration-150">
                     <header class="flex flex-col sm:flex-row justify-between sm:items-center gap-1 mb-2 border-b theme-border-dim pb-2">
                         <div class="text-xs theme-text-muted font-bold font-mono">

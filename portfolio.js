@@ -781,7 +781,12 @@ function render(state) {
     const featuredReading = document.getElementById('featured-post-reading-time');
     if (featuredReading) featuredReading.textContent = state.entities.featuredPost.readingTime;
     const featuredLink = document.getElementById('featured-post-link');
-    if (featuredLink) featuredLink.textContent = state.entities.featuredPost.title;
+    if (featuredLink) {
+        featuredLink.textContent = state.entities.featuredPost.title;
+        if (state.entities.featuredPost.url) {
+            featuredLink.setAttribute('href', state.entities.featuredPost.url);
+        }
+    }
     const featuredSummary = document.getElementById('featured-post-summary');
     if (featuredSummary) featuredSummary.textContent = state.entities.featuredPost.summary;
     const featuredBadges = document.getElementById('featured-post-badges');
@@ -791,6 +796,9 @@ function render(state) {
     const featuredBtn = document.getElementById('featured-post-btn');
     if (featuredBtn) {
         featuredBtn.textContent = state.entities.featuredPost.buttonText;
+        if (state.entities.featuredPost.url) {
+            featuredBtn.setAttribute('href', state.entities.featuredPost.url);
+        }
         if (state.entities.featuredPost.ariaLabel) {
             featuredBtn.setAttribute('aria-label', state.entities.featuredPost.ariaLabel);
             featuredBtn.setAttribute('title', state.entities.featuredPost.ariaLabel);
