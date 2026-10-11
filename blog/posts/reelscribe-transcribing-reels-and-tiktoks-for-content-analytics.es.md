@@ -39,15 +39,15 @@ La idea desde el principio fue que ella me pudiera pasar una lista de enlaces ta
                                ▼
 ┌──────────────────────────────────────────────────────────────┐
 │ 2. Extracción con yt-dlp + FFmpeg                            │
-│ - Descarga pista de audio en temporal                        │
+│ - Descarga pista de audio temporal (soporta cookies.txt)     │
 │ - Extrae metadatos (autor, plataforma, ID, título, duración) │
 └──────────────────────────────┬───────────────────────────────┘
                                │
                                ▼
 ┌──────────────────────────────────────────────────────────────┐
-│ 3. Transcripción Local con faster-whisper                    │
-│ - Filtro VAD (Voice Activity Detection) contra música/ruido  │
-│ - Timestamps exactos por segmento y por palabra              │
+│ 3. Transcripción en GPU con faster-whisper                   │
+│ - Carga el modelo una sola vez en caché para todo el lote    │
+│ - CUDA float16 automático (con fallback a CPU int8) + VAD    │
 └──────────────────────────────┬───────────────────────────────┘
                                │
                                ▼
@@ -61,7 +61,7 @@ La idea desde el principio fue que ella me pudiera pasar una lista de enlaces ta
                                ▼
 ┌──────────────────────────────────────────────────────────────┐
 │ 5. Resumen Global con Ollama Local (Qwen 2.5 14B)            │
-│ - Cruza todas las transcripciones del lote en local          │
+│ - Verifica disponibilidad de Ollama sin bloquear el lote     │
 │ - Genera transcriptions/resumen.md con puntos accionables    │
 └──────────────────────────────────────────────────────────────┘
 ```
@@ -101,21 +101,25 @@ def resolve_url(url: str) -> str:
     return url
 ```
 
-Con esto el cliente resuelve las redirecciones de los dominios cortos, limpia los parámetros `?_r=1&_t=...` y compara la URL canónica resultante contra un conjunto en memoria. Si el enlace corto y el enlace largo apuntan al mismo video, lo detecta de inmediato y omite el duplicado.
+Con esto el cliente resuelve las redirecciones de los dominios cortos, limpia los parámetros `?_r=1&_t=...` y compara la URL canónica resultante contra un conjunto en memoria. Si el enlace corto y el enlace largo apuntan al mismo video, lo detecta de inmediato y omite el duplicado. Además, si algún Reel o TikTok pide sesión iniciada, acepta tanto `-c cookies.txt` como `--cookies-from-browser`.
 
 ---
 
-## 3. Transcripción limpia con filtro VAD y salida en tres formatos
+## 3. Aceleración por GPU, caché del modelo y salida en tres formatos
 
-Los videos cortos de redes sociales tienen una trampa para los modelos de reconocimiento de voz: casi todos tienen música comercial sonando duro de fondo, cortes bruscos y silencios intermedios. Si pasas ese audio crudo por Whisper sin filtros, el modelo suele alucinar frases repetidas durante los compases musicales.
+Después de probar la primera versión con lotes reales de su trabajo, mi novia abrió la [PR #1](https://github.com/riccivr/reelscribe/pull/1) como usuaria final con varias mejoras clave de rendimiento y experiencia de uso:
 
-Para evitarlo, `reelscribe` activa el filtro VAD (`vad_filter=True`) integrado en `faster-whisper` con ventanas de silencio de 400 ms y extracción de marcas de tiempo palabra por palabra (`word_timestamps=True`).
+- **Aceleración automática con GPU NVIDIA (`--device auto|cuda|cpu`).** Al arrancar, `reelscribe` precarga dinámicamente `libcublas.so` y `libcudnn.so` si están instalados dentro del entorno virtual, detecta si hay GPU NVIDIA disponible para correr en `float16` y hace fallback automático a CPU (`int8`) si no encuentra CUDA.
+- **Caché del modelo por lote.** En lugar de instanciar `WhisperModel` desde disco en cada video, el modelo se carga en memoria una sola vez al principio y se reutiliza en todas las URLs de la cola.
+- **Shim de compatibilidad con PyAV.** Parchea `av.open` para ignorar el argumento `metadata_errors` en versiones recientes de PyAV y evitar caídas al decodificar el audio.
+
+Los videos cortos de redes sociales tienen además una trampa para los modelos de reconocimiento de voz: casi todos tienen música comercial sonando duro de fondo, cortes bruscos y silencios intermedios. Si pasas ese audio crudo por Whisper sin filtros, el modelo suele alucinar frases repetidas durante los compases musicales. Para evitarlo, `reelscribe` activa el filtro VAD (`vad_filter=True`) con ventanas de silencio de 400 ms y extracción de marcas de tiempo palabra por palabra (`word_timestamps=True`).
 
 Por cada video procesado se guardan tres archivos separados en la carpeta de salida:
 
-1. **Archivo Markdown (`.md`):** pensado para lectura rápida. Incluye la ficha del video (URL canónica, plataforma, autor, ID, duración e idioma), seguida del párrafo de transcripción limpia de corrido y, más abajo, el desglose línea por línea con su minuto y segundo exacto (`[00:00 - 00:06]`).
-2. **Archivo de subtítulos (`.srt`):** listo para importar en cualquier editor de video si hace falta reutilizar o subtitular piezas.
-3. **Archivo estructurado (`.json`):** contiene todos los metadatos extraídos por `yt-dlp` junto con el arreglo completo de segmentos y cada palabra individual con su segundo de inicio, fin y probabilidad. Esto permite correr scripts de conteo de palabras clave, medir la velocidad de habla (palabras por minuto) o cruzar qué términos aparecen en los videos con mayor retención.
+1. **Archivo Markdown (`.md`).** Pensado para lectura rápida. Incluye la ficha del video, el párrafo de transcripción limpia de corrido y el desglose línea por línea con su minuto y segundo exacto (`[00:00 - 00:06]`).
+2. **Archivo de subtítulos (`.srt`).** Listo para importar en cualquier editor de video si hace falta reutilizar o subtitular piezas.
+3. **Archivo estructurado (`.json`).** Contiene todos los metadatos extraídos por `yt-dlp` junto con el arreglo completo de segmentos y cada palabra individual con su segundo de inicio, fin y probabilidad. Esto permite correr scripts de conteo de palabras clave, medir la velocidad de habla o cruzar qué términos aparecen en los videos con mayor retención.
 
 ---
 
@@ -125,26 +129,26 @@ Tener veinte archivos `.md` separados resuelve la mitad del trabajo, pero el ver
 
 En lugar de depender de APIs pagas en la nube o copiar y pegar textos en un navegador, conecté el paso final de `reelscribe` directamente a la API HTTP local de **Ollama** (`http://localhost:11434/api/chat`) corriendo `Qwen2.5-14B-Instruct`.
 
-Cuando termina de transcribir el último video de la lista, la herramienta empaqueta todas las transcripciones con sus metadatos (autor, título y texto completo) y le pide al modelo local que genere `transcriptions/resumen.md` estructurado en tres partes:
+Antes de lanzar el resumen, `is_ollama_available()` comprueba en 1.5 segundos si el servidor local responde en `/api/tags`. Si Ollama está apagado, muestra un aviso y conserva intactas todas las transcripciones individuales sin dar por fallido el lote. Si está activo, empaqueta todas las transcripciones con sus metadatos y genera `transcriptions/resumen.md` estructurado en tres partes:
 
-- **Resumen ejecutivo general:** de qué trata el lote de videos y cuál es el enfoque común de comunicación.
-- **Desglose video por video:** qué ofrece, qué gancho utiliza, qué estructura sigue y cuál es el llamado a la acción de cada pieza.
-- **Conclusiones e ideas accionables:** qué patrones, ofertas o palabras clave destacan para replicar en futuros guiones.
+- **Resumen ejecutivo general.** De qué trata el lote de videos y cuál es el enfoque común de comunicación.
+- **Desglose video por video.** Qué ofrece, qué gancho utiliza, qué estructura sigue y cuál es el llamado a la acción de cada pieza.
+- **Conclusiones e ideas accionables.** Qué patrones, ofertas o palabras clave destacan para replicar en futuros guiones.
 
 ---
 
 ## 5. Uso diario en la terminal
 
-Procesar una tanda de Reels o TikToks toma un solo comando en WSL:
+Procesar una tanda de Reels o TikToks toma un solo comando en WSL, ya sea pasando enlaces como argumentos, desde un archivo `-f`, o por `stdin`:
 
 ```sh
-# Procesar varias URLs (incluyendo short links) y generar el resumen con Ollama
-reelscribe "https://vm.tiktok.com/ZN8BDuYDp/" "https://www.instagram.com/reel/EXAMPLE/"
+# Procesar varias URLs en GPU (incluyendo short links) y abrir la carpeta al terminar
+reelscribe --open-dir "https://vm.tiktok.com/ZN8BDuYDp/" "https://www.instagram.com/reel/EXAMPLE/"
 
-# Procesar una lista completa de un cliente desde un archivo de texto
-reelscribe -f cliente_octubre.txt -o transcriptions/cliente_octubre
+# Procesar una lista completa de un cliente con cookies y modelo large-v3-turbo
+reelscribe -f cliente_octubre.txt -c cookies.txt -m large-v3-turbo -o transcriptions/cliente_octubre
 ```
 
-Al terminar, la carpeta queda ordenada con los archivos numerados (`01_tiktok_...`, `02_instagram_...`) y el informe consolidado en `resumen.md`. Lo que antes tomaba una tarde entera de escuchar videos en bucle y tomar notas a mano ahora sale en menos de un minuto corriendo 100% en local.
+Al terminar, la carpeta queda ordenada con los archivos numerados (`01_tiktok_...`, `02_instagram_...`) y el informe consolidado en `resumen.md`, abriéndose directamente en el Explorador de archivos si pasas `--open-dir`. Lo que antes tomaba una tarde entera de escuchar videos en bucle y tomar notas a mano ahora sale en segundos corriendo 100% en local.
 
 El código fuente está disponible en GitHub: [**`github.com/riccivr/reelscribe`**](https://github.com/riccivr/reelscribe).
