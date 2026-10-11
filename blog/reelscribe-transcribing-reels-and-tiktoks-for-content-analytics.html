@@ -10,7 +10,7 @@
     <meta name="author" content="Ricardo Veronese">
     <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed (English)" href="https://riccivr.github.io/feed.xml">
     <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Feed RSS del Blog (Español)" href="https://riccivr.github.io/feed-es.xml">
-    <meta name="description" id="meta-desc" content="Hace unas semanas armé autodub y beam para poder mandarle videos doblados al español a mi novia cuando terminamos de trabajar. Esta vez el problema venía directamente de su propio trabajo diario.">
+    <meta name="description" id="meta-desc" content="Hace unas semanas armé autodub y beam para poder mandarle videos doblados al español a mi novia cuando terminamos de trabajar. Esta vez el rollo venía directamente de su trabajo del día a día.">
     <link rel="canonical" href="https://riccivr.github.io/blog/reelscribe-transcribing-reels-and-tiktoks-for-content-analytics.html">
 
     <!-- Privacy-first analytics by GoatCounter -->
@@ -22,14 +22,14 @@
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="Ricardo Veronese">
     <meta property="og:title" id="og-title" content="reelscribe: transcribiendo reels y tiktoks con IA local para el trabajo de mi novia - Ricardo Veronese">
-    <meta property="og:description" id="og-desc" content="Hace unas semanas armé autodub y beam para poder mandarle videos doblados al español a mi novia cuando terminamos de trabajar. Esta vez el problema venía directamente de su propio trabajo diario.">
+    <meta property="og:description" id="og-desc" content="Hace unas semanas armé autodub y beam para poder mandarle videos doblados al español a mi novia cuando terminamos de trabajar. Esta vez el rollo venía directamente de su trabajo del día a día.">
     <meta property="og:url" content="https://riccivr.github.io/blog/reelscribe-transcribing-reels-and-tiktoks-for-content-analytics.html">
     <meta property="og:image" content="https://riccivr.github.io/riccivr-retro-og.png">
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" id="tw-title" content="reelscribe: transcribiendo reels y tiktoks con IA local para el trabajo de mi novia - Ricardo Veronese">
-    <meta name="twitter:description" id="tw-desc" content="Hace unas semanas armé autodub y beam para poder mandarle videos doblados al español a mi novia cuando terminamos de trabajar. Esta vez el problema venía directamente de su propio trabajo diario.">
+    <meta name="twitter:description" id="tw-desc" content="Hace unas semanas armé autodub y beam para poder mandarle videos doblados al español a mi novia cuando terminamos de trabajar. Esta vez el rollo venía directamente de su trabajo del día a día.">
     <meta name="twitter:image" content="https://riccivr.github.io/riccivr-retro-og.png">
 
     <!-- Schema.org BlogPosting -->
@@ -38,7 +38,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "headline": "reelscribe: transcribiendo reels y tiktoks con IA local para el trabajo de mi novia",
-        "description": "Hace unas semanas arm\u00e9 autodub y beam para poder mandarle videos doblados al espa\u00f1ol a mi novia cuando terminamos de trabajar. Esta vez el problema ven\u00eda directamente de su propio trabajo diario.",
+        "description": "Hace unas semanas arm\u00e9 autodub y beam para poder mandarle videos doblados al espa\u00f1ol a mi novia cuando terminamos de trabajar. Esta vez el rollo ven\u00eda directamente de su trabajo del d\u00eda a d\u00eda.",
         "author": {
             "@type": "Person",
             "name": "Ricardo Veronese",
@@ -333,6 +333,154 @@
             font-weight: 600;
         }
 
+        /* Terminal Flow Diagram (Zero-JS, 100% Mobile Responsive, No Horizontal Scroll) */
+        .terminal-flow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 620px;
+            margin: 1.75rem auto;
+            box-sizing: border-box;
+        }
+
+        .terminal-flow .flow-step {
+            width: 100%;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.12), inset 0 0 4px rgba(245, 158, 11, 0.04);
+            padding: 0.85rem 1.15rem;
+            border-radius: 2px;
+            position: relative;
+            box-sizing: border-box;
+            transition: border-color 0.15s ease, background-color 0.15s ease;
+        }
+
+        [data-theme="light"] .terminal-flow .flow-step {
+            box-shadow: 0 2px 6px rgba(146, 64, 14, 0.1), inset 0 0 4px rgba(146, 64, 14, 0.03);
+        }
+
+        .terminal-flow .flow-step-title {
+            font-weight: 700;
+            color: var(--text-heading);
+            font-size: clamp(0.85rem, 2.5vw, 0.98rem);
+            letter-spacing: -0.01em;
+            margin-bottom: 0.25rem;
+            line-height: 1.4;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .terminal-flow .flow-step-desc {
+            color: var(--text-dim);
+            font-size: clamp(0.78rem, 2.2vw, 0.86rem);
+            line-height: 1.45;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .terminal-flow .flow-step-list {
+            margin: 0.35rem 0 0 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .terminal-flow .flow-step-list li {
+            position: relative;
+            color: var(--text-main);
+            font-size: clamp(0.8rem, 2.3vw, 0.88rem);
+            line-height: 1.5;
+            margin-bottom: 0.25rem;
+            padding-left: 1.25rem;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .terminal-flow .flow-step-list li::before {
+            content: "›";
+            position: absolute;
+            left: 0.2rem;
+            color: var(--border-primary);
+            font-weight: bold;
+        }
+
+        .terminal-flow .flow-step-list li.flow-item-numbered {
+            padding-left: 0.2rem;
+        }
+
+        .terminal-flow .flow-step-list li.flow-item-numbered::before {
+            content: none;
+        }
+
+        .terminal-flow .flow-step-list li .flow-item-num {
+            color: var(--border-primary);
+            font-weight: bold;
+            display: inline-block;
+            min-width: 1.2rem;
+        }
+
+        .terminal-flow .flow-connector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.25rem 0;
+            user-select: none;
+        }
+
+        .terminal-flow .flow-connector-line {
+            width: 2px;
+            height: 14px;
+            background-color: var(--border-primary);
+            opacity: 0.75;
+        }
+
+        .terminal-flow .flow-connector-arrow {
+            font-size: 0.85rem;
+            line-height: 1;
+            color: var(--border-primary);
+            margin-top: -2px;
+            text-shadow: 0 0 6px rgba(245, 158, 11, 0.4);
+        }
+
+        [data-theme="light"] .terminal-flow .flow-connector-arrow {
+            text-shadow: none;
+        }
+
+        .terminal-flow .flow-connector-label {
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            font-style: italic;
+            padding: 0.15rem 0.55rem;
+            margin: 0.15rem 0;
+            background: var(--bg-badge);
+            border: 1px dashed var(--border-dim);
+            border-radius: 2px;
+            max-width: 90%;
+            text-align: center;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .terminal-flow code {
+            background-color: var(--bg-inline-code);
+            color: var(--text-code);
+            padding: 0.1rem 0.3rem;
+            border: 1px solid var(--border-dim);
+            border-radius: 2px;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+
+        @media (max-width: 640px) {
+            .terminal-flow .flow-step {
+                padding: 0.65rem 0.85rem;
+            }
+            .terminal-flow .flow-connector-line {
+                height: 10px;
+            }
+        }
+
         /* Build-Time Pygments Syntax Highlighting (0 KB JS, 0 ms cost) */
         /* CRT Dark Amber Phosphor Scheme */
         html:not([data-theme="light"]) .code-highlight .k,
@@ -542,69 +690,41 @@
 <p><em>Publicado: 11 de octubre de 2026. Categoría: Proyectos &amp; Multimedia. Tiempo de lectura: ~5 min</em><br />
 <em>Etiquetas: Python, reelscribe, Whisper, Ollama, yt-dlp, CLI</em></p>
 <hr />
-<p>Hace unas semanas armé <a href="https://riccivr.github.io/blog/autodub-automating-video-dubbing-to-spanish.html"><code>autodub</code></a> y <a href="https://riccivr.github.io/blog/beam-ephemeral-video-streaming-in-c99.html"><code>beam</code></a> para poder mandarle videos doblados al español a mi novia cuando terminamos de trabajar. Esta vez el problema venía directamente de su propio trabajo diario.</p>
-<p>En su trabajo con redes sociales y estrategia de contenido, ella necesita revisar lotes enteros de publicaciones, Reels de Instagram y videos de TikTok de sus clientes. Para sacar analíticas de verdad y tomar decisiones con datos, no basta con ver el número de vistas o likes. Hay que bajar al texto: analizar qué ganchos iniciales retienen a la gente en los primeros tres segundos, qué palabras o estructuras de guion funcionan para vender un producto, qué temas se repiten en los videos exitosos y qué cosas simplemente no sirven.</p>
-<p>Hacer ese levantamiento a mano es un castigo:</p>
+<p>Hace unas semanas armé <a href="https://riccivr.github.io/blog/autodub-automating-video-dubbing-to-spanish.html"><code>autodub</code></a> y <a href="https://riccivr.github.io/blog/beam-ephemeral-video-streaming-in-c99.html"><code>beam</code></a> para poder mandarle videos doblados al español a mi novia cuando terminamos de trabajar. Esta vez el rollo venía directamente de su trabajo del día a día.</p>
+<p>En su trabajo llevando redes sociales y estrategia de contenido, a ella le toca revisar lotes enteros de publicaciones, Reels de Instagram y videos de TikTok de sus clientes. Para sacar analíticas de verdad y cuadrar qué contenido funciona, ver el número de vistas o likes se queda corto. Tienes que bajar al guion para pillar qué ganchos iniciales retienen a la gente en los primeros tres segundos, qué palabras exactas ayudan a vender un producto, qué temas se repiten en los videos que pegan y qué cosas simplemente no sirven.</p>
+<p>Hacer ese levantamiento a mano es un fastidio enorme:</p>
 <ul>
-<li>Tienes que abrir veinte o treinta enlaces seguidos, muchos compartidos desde el teléfono como enlaces cortos (<code>vm.tiktok.com/...</code>) llenos de parámetros basura de rastreo.</li>
-<li>Tienes que escuchar cada video con música de fondo a todo volumen, pausando cada tres segundos para copiar en un documento lo que dice la persona.</li>
-<li>Al terminar de transcribir diez o quince videos, todavía te toca leer todo de arriba a abajo para cruzar patrones y redactar un informe comparativo.</li>
+<li>Te toca abrir veinte o treinta enlaces seguidos, muchos compartidos desde el celular como enlaces cortos <code>vm.tiktok.com</code> llenos de parámetros basura de rastreo.</li>
+<li>Tienes que calarte cada video con música de fondo a todo volumen, pausando cada tres segundos para anotar en un documento lo que dice la persona.</li>
+<li>Cuando por fin terminas de transcribir quince videos a pedal, todavía te queda leer todas esas páginas de arriba a abajo para cruzar patrones y armar un informe comparativo.</li>
 </ul>
-<p>Para quitarle ese trabajo mecánico de encima construí <a href="https://github.com/riccivr/reelscribe"><strong><code>reelscribe</code></strong></a>: una herramienta de terminal en WSL que recibe cualquier cantidad de URLs de TikTok o Instagram, resuelve enlaces cortos, transcribe cada video por separado en tres formatos (<code>.md</code>, <code>.srt</code> y <code>.json</code>) usando <code>faster-whisper</code> y genera al final un resumen analítico de todo el lote con un modelo local en Ollama.</p>
+<p>Para quitarle ese trabajo mecánico de encima construí <a href="https://github.com/riccivr/reelscribe"><strong><code>reelscribe</code></strong></a>, una herramienta de terminal en WSL que agarra cualquier cantidad de URLs de TikTok o Instagram, resuelve los enlaces cortos, transcribe cada video por separado en archivos <code>.md</code>, <code>.srt</code> y <code>.json</code> con <code>faster-whisper</code> y genera al final un resumen analítico de todo el lote con un modelo local en Ollama.</p>
 <hr />
 <h2>1. El flujo completo desde las URLs hasta el análisis</h2>
-<p>La idea desde el principio fue que ella me pudiera pasar una lista de enlaces tal cual salen al darle "Copiar enlace" desde la app del teléfono o desde el navegador, y que un solo comando dejara toda la carpeta lista para trabajar.</p>
-<div class="code-highlight"><pre><span></span><code>┌──────────────────────────────────────────────────────────────┐
-│ Entrada: URLs de TikTok / Instagram + Short Links            │
-│ (ej. vm.tiktok.com/ZN8BDuYDp/ o urls con ?_r=1&amp;_t=...)       │
-└──────────────────────────────┬───────────────────────────────┘
-                               │
-                               ▼
-┌──────────────────────────────────────────────────────────────┐
-│ 1. Resolución HTTP y Deduplicación Canónica                  │
-│ - Sigue redirecciones 301/302 de short links                 │
-│ - Limpia query params de rastreo y filtra duplicados         │
-└──────────────────────────────┬───────────────────────────────┘
-                               │
-                               ▼
-┌──────────────────────────────────────────────────────────────┐
-│ 2. Extracción con yt-dlp + FFmpeg                            │
-│ - Descarga pista de audio temporal (soporta cookies.txt)     │
-│ - Extrae metadatos (autor, plataforma, ID, título, duración) │
-└──────────────────────────────┬───────────────────────────────┘
-                               │
-                               ▼
-┌──────────────────────────────────────────────────────────────┐
-│ 3. Transcripción en GPU con faster-whisper                   │
-│ - Carga el modelo una sola vez en caché para todo el lote    │
-│ - CUDA float16 automático (con fallback a CPU int8) + VAD    │
-└──────────────────────────────┬───────────────────────────────┘
-                               │
-                               ▼
-┌──────────────────────────────────────────────────────────────┐
-│ 4. Archivos Individuales por Video                           │
-│ - 01_tiktok_autor_id.md   (Metadatos + texto limpio + reloj) │
-│ - 01_tiktok_autor_id.srt  (Subtítulos estándar)              │
-│ - 01_tiktok_autor_id.json (Datos crudos para analíticas)     │
-└──────────────────────────────┬───────────────────────────────┘
-                               │
-                               ▼
-┌──────────────────────────────────────────────────────────────┐
-│ 5. Resumen Global con Ollama Local (Qwen 2.5 14B)            │
-│ - Verifica disponibilidad de Ollama sin bloquear el lote     │
-│ - Genera transcriptions/resumen.md con puntos accionables    │
-└──────────────────────────────────────────────────────────────┘
-</code></pre></div>
+<p>La idea desde el principio fue que ella me pudiera pasar una lista de enlaces tal cual salen al darle al botón de compartir desde la app del celular o desde el navegador, y que un solo comando dejara toda la carpeta lista y ordenada.</p>
+<div class="terminal-flow" role="region" aria-label="Pipeline architecture diagram">
+  <div class="flow-step">    <div class="flow-step-title">Entrada: URLs de TikTok / Instagram + Short Links</div>    <div class="flow-step-desc">(ej. vm.tiktok.com/ZN8BDuYDp/ o urls con ?_r=1&amp;_t=...)</div>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">1. Resolución HTTP y Deduplicación Canónica</div>    <ul class="flow-step-list">      <li>Sigue redirecciones 301/302 de short links</li>      <li>Limpia query params de rastreo y filtra duplicados</li>    </ul>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">2. Extracción con yt-dlp + FFmpeg</div>    <ul class="flow-step-list">      <li>Descarga pista de audio temporal (soporta cookies.txt)</li>      <li>Extrae metadatos (autor, plataforma, ID, título, duración)</li>    </ul>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">3. Transcripción en GPU con faster-whisper</div>    <ul class="flow-step-list">      <li>Carga el modelo una sola vez en caché para todo el lote</li>      <li>CUDA float16 automático (con fallback a CPU int8) + VAD</li>    </ul>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">4. Archivos Individuales por Video</div>    <ul class="flow-step-list">      <li>01_tiktok_autor_id.md   (Metadatos + texto limpio + reloj)</li>      <li>01_tiktok_autor_id.srt  (Subtítulos estándar)</li>      <li>01_tiktok_autor_id.json (Datos crudos para analíticas)</li>    </ul>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">5. Resumen Global con Ollama Local (Qwen 2.5 14B)</div>    <ul class="flow-step-list">      <li>Verifica disponibilidad de Ollama sin bloquear el lote</li>      <li>Genera transcriptions/resumen.md con puntos accionables</li>    </ul>  </div>
+</div>
 
 <hr />
 <h2>2. Enlaces cortos, basura de rastreo y deduplicación</h2>
 <p>Cuando trabajas con enlaces que te mandan por WhatsApp o Slack, casi nunca vienen limpios. Un mismo video de TikTok te puede llegar de dos formas distintas en la misma lista:</p>
 <ol>
-<li>El enlace largo del navegador con parámetros de sesión: <code>https://www.tiktok.com/@cliente/video/7691761289726594326?_r=1&amp;_t=ZN-9ASicGAxtaw</code></li>
-<li>El short link generado por la aplicación móvil: <code>https://vm.tiktok.com/ZN8BDuYDp/</code></li>
+<li>El enlace largo del navegador con parámetros de sesión como <code>https://www.tiktok.com/@cliente/video/7691761289726594326?_r=1&amp;_t=ZN-9ASicGAxtaw</code></li>
+<li>El enlace corto generado por la aplicación móvil como <code>https://vm.tiktok.com/ZN8BDuYDp/</code></li>
 </ol>
-<p>Si le pasas ambos a un script ingenuo, descarga y transcribe el mismo video dos veces, ensuciando las métricas y el resumen final.</p>
-<p>En <code>reelscribe</code>, antes de tocar <code>yt-dlp</code>, cada URL pasa por <code>resolve_url()</code>:</p>
+<p>Si le tiras ambos a un script a lo loco, descarga y transcribe el mismo video dos veces, ensuciando el conteo de palabras y el resumen final.</p>
+<p>En <code>reelscribe</code>, antes de llamar a <code>yt-dlp</code>, cada URL pasa por <code>resolve_url()</code>:</p>
 <div class="code-highlight"><pre><span></span><code><span class="n">SHORT_LINK_HOSTS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;vm.tiktok.com&quot;</span><span class="p">,</span> <span class="s2">&quot;vt.tiktok.com&quot;</span><span class="p">,</span> <span class="s2">&quot;instagr.am&quot;</span><span class="p">}</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">resolve_url</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -626,35 +746,35 @@
     <span class="k">return</span> <span class="n">url</span>
 </code></pre></div>
 
-<p>Con esto el cliente resuelve las redirecciones de los dominios cortos, limpia los parámetros <code>?_r=1&amp;_t=...</code> y compara la URL canónica resultante contra un conjunto en memoria. Si el enlace corto y el enlace largo apuntan al mismo video, lo detecta de inmediato y omite el duplicado. Además, si algún Reel o TikTok pide sesión iniciada, acepta tanto <code>-c cookies.txt</code> como <code>--cookies-from-browser</code>.</p>
+<p>Con esto el cliente resuelve las redirecciones de los dominios cortos, limpia los parámetros <code>?_r=1&amp;_t=...</code> y compara la URL canónica resultante contra un conjunto en memoria. Si el enlace corto y el enlace largo apuntan al mismo video, lo pilla de una vez y salta el duplicado. Y si algún Reel o TikTok pide sesión iniciada, puedes pasarle tus credenciales con <code>-c cookies.txt</code> o <code>--cookies-from-browser</code>.</p>
 <hr />
 <h2>3. Aceleración por GPU, caché del modelo y salida en tres formatos</h2>
-<p>Después de probar la primera versión con lotes reales de su trabajo, mi novia abrió la <a href="https://github.com/riccivr/reelscribe/pull/1">PR #1</a> como usuaria final con varias mejoras clave de rendimiento y experiencia de uso:</p>
+<p>Apenas probamos la primera versión con lotes reales de su trabajo, mi novia armó y subió la <a href="https://github.com/riccivr/reelscribe/pull/1">PR #1</a> como usuaria final para meterle varias mejoras de velocidad y comodidad que hacían falta:</p>
 <ul>
-<li><strong>Aceleración automática con GPU NVIDIA (<code>--device auto|cuda|cpu</code>).</strong> Al arrancar, <code>reelscribe</code> precarga dinámicamente <code>libcublas.so</code> y <code>libcudnn.so</code> si están instalados dentro del entorno virtual, detecta si hay GPU NVIDIA disponible para correr en <code>float16</code> y hace fallback automático a CPU (<code>int8</code>) si no encuentra CUDA.</li>
-<li><strong>Caché del modelo por lote.</strong> En lugar de instanciar <code>WhisperModel</code> desde disco en cada video, el modelo se carga en memoria una sola vez al principio y se reutiliza en todas las URLs de la cola.</li>
-<li><strong>Shim de compatibilidad con PyAV.</strong> Parchea <code>av.open</code> para ignorar el argumento <code>metadata_errors</code> en versiones recientes de PyAV y evitar caídas al decodificar el audio.</li>
+<li><strong>Aceleración automática con GPU NVIDIA.</strong> Al arrancar con <code>--device auto</code>, <code>reelscribe</code> precarga dinámicamente <code>libcublas.so</code> y <code>libcudnn.so</code> desde el entorno virtual, detecta si hay tarjeta NVIDIA para correr en precisión <code>float16</code> y cae automáticamente a CPU en <code>int8</code> si no consigue CUDA.</li>
+<li><strong>Caché del modelo por lote.</strong> En vez de volver a cargar <code>WhisperModel</code> desde el disco por cada video, el modelo se inicializa en memoria una sola vez al principio y se reutiliza en toda la cola.</li>
+<li><strong>Parche de compatibilidad con PyAV.</strong> Envuelve <code>av.open</code> para limpiar el argumento <code>metadata_errors</code> en versiones recientes de PyAV y evitar que la decodificación de audio explote a mitad de camino.</li>
 </ul>
-<p>Los videos cortos de redes sociales tienen además una trampa para los modelos de reconocimiento de voz: casi todos tienen música comercial sonando duro de fondo, cortes bruscos y silencios intermedios. Si pasas ese audio crudo por Whisper sin filtros, el modelo suele alucinar frases repetidas durante los compases musicales. Para evitarlo, <code>reelscribe</code> activa el filtro VAD (<code>vad_filter=True</code>) con ventanas de silencio de 400 ms y extracción de marcas de tiempo palabra por palabra (<code>word_timestamps=True</code>).</p>
+<p>Los videos cortos de redes sociales tienen además una trampa clásica para el reconocimiento de voz. Casi todos traen música comercial sonando duro de fondo, cortes bruscos y silencios intermedios. Si pasas ese audio crudo por Whisper sin filtro, el modelo se vuelve loco inventando frases repetidas durante los compases musicales. Para evitar ese rollo, <code>reelscribe</code> activa el filtro de detección de voz <code>vad_filter=True</code> con ventanas de silencio de 400 ms y extrae marcas de tiempo palabra por palabra con <code>word_timestamps=True</code>.</p>
 <p>Por cada video procesado se guardan tres archivos separados en la carpeta de salida:</p>
 <ol>
-<li><strong>Archivo Markdown (<code>.md</code>).</strong> Pensado para lectura rápida. Incluye la ficha del video, el párrafo de transcripción limpia de corrido y el desglose línea por línea con su minuto y segundo exacto (<code>[00:00 - 00:06]</code>).</li>
-<li><strong>Archivo de subtítulos (<code>.srt</code>).</strong> Listo para importar en cualquier editor de video si hace falta reutilizar o subtitular piezas.</li>
-<li><strong>Archivo estructurado (<code>.json</code>).</strong> Contiene todos los metadatos extraídos por <code>yt-dlp</code> junto con el arreglo completo de segmentos y cada palabra individual con su segundo de inicio, fin y probabilidad. Esto permite correr scripts de conteo de palabras clave, medir la velocidad de habla o cruzar qué términos aparecen en los videos con mayor retención.</li>
+<li><strong>Archivo Markdown <code>.md</code>.</strong> Queda listo para leer de un vistazo. Trae la ficha del video con su URL canónica, plataforma, autor, ID, duración e idioma, seguida del párrafo de transcripción de corrido y el desglose línea por línea con su minuto y segundo exacto.</li>
+<li><strong>Archivo de subtítulos <code>.srt</code>.</strong> Sirve para meterlo directo en cualquier editor de video si hace falta subtitular o picar clips para el cliente.</li>
+<li><strong>Archivo estructurado <code>.json</code>.</strong> Guarda todos los metadatos de <code>yt-dlp</code> junto con el arreglo completo de segmentos y cada palabra individual con su segundo de inicio, fin y probabilidad. Con esto puedes correr scripts para contar palabras clave, medir la velocidad de habla o cruzar qué términos salen en los videos con mejor retención.</li>
 </ol>
 <hr />
 <h2>4. Resumen analítico del lote con Ollama local</h2>
-<p>Tener veinte archivos <code>.md</code> separados resuelve la mitad del trabajo, pero el verdadero ahorro de tiempo está en cruzar todo el lote de una vez.</p>
-<p>En lugar de depender de APIs pagas en la nube o copiar y pegar textos en un navegador, conecté el paso final de <code>reelscribe</code> directamente a la API HTTP local de <strong>Ollama</strong> (<code>http://localhost:11434/api/chat</code>) corriendo <code>Qwen2.5-14B-Instruct</code>.</p>
-<p>Antes de lanzar el resumen, <code>is_ollama_available()</code> comprueba en 1.5 segundos si el servidor local responde en <code>/api/tags</code>. Si Ollama está apagado, muestra un aviso y conserva intactas todas las transcripciones individuales sin dar por fallido el lote. Si está activo, empaqueta todas las transcripciones con sus metadatos y genera <code>transcriptions/resumen.md</code> estructurado en tres partes:</p>
+<p>Tener veinte archivos <code>.md</code> separados te ahorra el trabajo de transcribir, pero lo que de verdad te salva la tarde es cruzar todo el lote de un solo golpe.</p>
+<p>En lugar de pagar APIs en la nube o andar copiando y pegando textos en el navegador, conecté el paso final de <code>reelscribe</code> directo al servidor HTTP local de Ollama en <code>http://localhost:11434/api/chat</code> corriendo <code>Qwen2.5-14B-Instruct</code>.</p>
+<p>Antes de pedir el resumen, <code>is_ollama_available()</code> verifica en 1.5 segundos si el servidor local responde en <code>/api/tags</code>. Si tienes Ollama apagado, te avisa por consola y deja intactas todas las transcripciones individuales sin tumbar el proceso. Cuando Ollama está activo, junta todas las transcripciones con sus metadatos y genera <code>transcriptions/resumen.md</code> dividido en tres bloques:</p>
 <ul>
-<li><strong>Resumen ejecutivo general.</strong> De qué trata el lote de videos y cuál es el enfoque común de comunicación.</li>
-<li><strong>Desglose video por video.</strong> Qué ofrece, qué gancho utiliza, qué estructura sigue y cuál es el llamado a la acción de cada pieza.</li>
-<li><strong>Conclusiones e ideas accionables.</strong> Qué patrones, ofertas o palabras clave destacan para replicar en futuros guiones.</li>
+<li><strong>Resumen ejecutivo general.</strong> Explica de qué va el lote de videos y cuál es la línea de comunicación de la cuenta.</li>
+<li><strong>Desglose video por video.</strong> Detalla qué ofrece cada pieza, qué gancho usa al abrir, cómo estructura el guion y cuál es el llamado a la acción.</li>
+<li><strong>Conclusiones e ideas accionables.</strong> Saca en limpio qué patrones, ofertas o palabras clave se repiten para replicarlos en los próximos guiones.</li>
 </ul>
 <hr />
 <h2>5. Uso diario en la terminal</h2>
-<p>Procesar una tanda de Reels o TikToks toma un solo comando en WSL, ya sea pasando enlaces como argumentos, desde un archivo <code>-f</code>, o por <code>stdin</code>:</p>
+<p>Procesar una tanda de Reels o TikToks se reduce a tirar un comando en WSL, pasando los enlaces como argumentos, desde un archivo con <code>-f</code> o por <code>stdin</code>:</p>
 <div class="code-highlight"><pre><span></span><code><span class="c1"># Procesar varias URLs en GPU (incluyendo short links) y abrir la carpeta al terminar</span>
 reelscribe<span class="w"> </span>--open-dir<span class="w"> </span><span class="s2">&quot;https://vm.tiktok.com/ZN8BDuYDp/&quot;</span><span class="w"> </span><span class="s2">&quot;https://www.instagram.com/reel/EXAMPLE/&quot;</span>
 
@@ -662,8 +782,8 @@ reelscribe<span class="w"> </span>--open-dir<span class="w"> </span><span class=
 reelscribe<span class="w"> </span>-f<span class="w"> </span>cliente_octubre.txt<span class="w"> </span>-c<span class="w"> </span>cookies.txt<span class="w"> </span>-m<span class="w"> </span>large-v3-turbo<span class="w"> </span>-o<span class="w"> </span>transcriptions/cliente_octubre
 </code></pre></div>
 
-<p>Al terminar, la carpeta queda ordenada con los archivos numerados (<code>01_tiktok_...</code>, <code>02_instagram_...</code>) y el informe consolidado en <code>resumen.md</code>, abriéndose directamente en el Explorador de archivos si pasas <code>--open-dir</code>. Lo que antes tomaba una tarde entera de escuchar videos en bucle y tomar notas a mano ahora sale en segundos corriendo 100% en local.</p>
-<p>El código fuente está disponible en GitHub: <a href="https://github.com/riccivr/reelscribe"><strong><code>github.com/riccivr/reelscribe</code></strong></a>.</p>
+<p>Al terminar, la carpeta queda al pelo con todos los archivos numerados y el informe consolidado en <code>resumen.md</code>, abriéndose sola en el Explorador de Windows si le pasas <code>--open-dir</code>. Lo que antes era una tarde entera escuchando videos en bucle y tomando notas a mano ahora sale en segundos corriendo 100% en local.</p>
+<p>El código fuente está disponible en GitHub en <a href="https://github.com/riccivr/reelscribe"><strong><code>github.com/riccivr/reelscribe</code></strong></a>.</p>
                 </div>
             </article>
 
@@ -674,65 +794,37 @@ reelscribe<span class="w"> </span>-f<span class="w"> </span>cliente_octubre.txt<
 <em>Tags: Python, reelscribe, Whisper, Ollama, yt-dlp, CLI</em></p>
 <hr />
 <p>A few weeks ago I built <a href="https://riccivr.github.io/blog/autodub-automating-video-dubbing-to-spanish.html"><code>autodub</code></a> and <a href="https://riccivr.github.io/blog/beam-ephemeral-video-streaming-in-c99.html"><code>beam</code></a> so I could send Spanish-dubbed videos to my girlfriend after work. This time, the problem came straight from her day-to-day job.</p>
-<p>In her social media and content strategy work, she regularly reviews batches of client posts, Instagram Reels, and TikTok videos. To get real analytics and figure out what actually works, surface metrics like view counts or likes are not enough. You have to look at the actual script: which opening hooks keep people watching past the first three seconds, which exact words and offers drive engagement, which topics perform best, and what falls flat.</p>
-<p>Doing that manually is exhausting:</p>
+<p>In her social media and content strategy work, she regularly reviews batches of client posts, Instagram Reels, and TikTok videos. Surface metrics like view counts or likes only tell you a video performed well, not why. You have to look at the script itself to see which opening hooks keep people watching past the first three seconds, which exact words and offers drive engagement, which topics repeat across top performers, and what falls flat.</p>
+<p>Doing that by hand is a grind:</p>
 <ul>
-<li>You have to open twenty or thirty links in a row, many shared from phones as short links (<code>vm.tiktok.com/...</code>) cluttered with tracking parameters.</li>
+<li>You have to open twenty or thirty links in a row, many shared from phones as <code>vm.tiktok.com</code> short links cluttered with tracking parameters.</li>
 <li>You have to listen to each clip over loud background music, pausing every three seconds to type out what the speaker is saying.</li>
-<li>Once you finish transcribing fifteen videos by hand, you still have to read through pages of notes to spot patterns and write a summary report.</li>
+<li>Once you finish transcribing fifteen videos manually, you still have to read through pages of notes to spot patterns and write a comparative report.</li>
 </ul>
-<p>To take that repetitive work off her plate, I built <a href="https://github.com/riccivr/reelscribe"><strong><code>reelscribe</code></strong></a>: a CLI tool running on WSL that takes any number of TikTok or Instagram URLs, resolves short links, transcribes each video into separate files (<code>.md</code>, <code>.srt</code>, and <code>.json</code>) using <code>faster-whisper</code>, and generates a consolidated analytical summary at the end using a local LLM on Ollama.</p>
+<p>To take that mechanical work off her plate, I built <a href="https://github.com/riccivr/reelscribe"><strong><code>reelscribe</code></strong></a>, a CLI tool on WSL that takes any number of TikTok or Instagram URLs, resolves short links, transcribes each video into separate <code>.md</code>, <code>.srt</code>, and <code>.json</code> files using <code>faster-whisper</code>, and generates a batch analytical summary at the end using a local LLM on Ollama.</p>
 <hr />
 <h2>1. The pipeline from raw URLs to content analytics</h2>
-<p>The goal was simple: she passes me a list of links exactly as they come out of the mobile "Copy Link" button or desktop browser, and a single command produces an organized folder with every transcript and a final report.</p>
-<div class="code-highlight"><pre><span></span><code>┌──────────────────────────────────────────────────────────────┐
-│ Input: TikTok / Instagram URLs &amp; Short Links                 │
-│ (e.g. vm.tiktok.com/ZN8BDuYDp/ or URLs with ?_r=1&amp;_t=...)    │
-└──────────────────────────────┬───────────────────────────────┘
-                               │
-                               ▼
-┌──────────────────────────────────────────────────────────────┐
-│ 1. HTTP Redirect Resolution &amp; Canonical Deduplication        │
-│ - Follows 301/302 redirects on mobile short links            │
-│ - Strips tracking query params and filters duplicate videos  │
-└──────────────────────────────┬───────────────────────────────┘
-                               │
-                               ▼
-┌──────────────────────────────────────────────────────────────┐
-│ 2. Media &amp; Metadata Extraction via yt-dlp + FFmpeg           │
-│ - Extracts temporary audio stream (supports cookies.txt)     │
-│ - Captures metadata (author, platform, ID, title, duration)  │
-└──────────────────────────────┬───────────────────────────────┘
-                               │
-                               ▼
-┌──────────────────────────────────────────────────────────────┐
-│ 3. GPU-Accelerated Transcription via faster-whisper          │
-│ - Caches WhisperModel in memory once for the entire batch    │
-│ - Auto CUDA float16 (with CPU int8 fallback) + VAD filtering │
-└──────────────────────────────┬───────────────────────────────┘
-                               │
-                               ▼
-┌──────────────────────────────────────────────────────────────┐
-│ 4. Per-Video Output Files                                    │
-│ - 01_tiktok_author_id.md   (Metadata + clean prose + clock)  │
-│ - 01_tiktok_author_id.srt  (Standard subtitle file)          │
-│ - 01_tiktok_author_id.json (Structured data for analytics)   │
-└──────────────────────────────┬───────────────────────────────┘
-                               │
-                               ▼
-┌──────────────────────────────────────────────────────────────┐
-│ 5. Batch Summary via Local Ollama (Qwen 2.5 14B)             │
-│ - Non-blocking Ollama availability check before summarizing  │
-│ - Writes transcriptions/resumen.md with actionable insights  │
-└──────────────────────────────────────────────────────────────┘
-</code></pre></div>
+<p>The goal was simple. She passes me a list of links exactly as they come out of the mobile share button or desktop browser, and a single command produces an organized folder with every transcript and a final report.</p>
+<div class="terminal-flow" role="region" aria-label="Pipeline architecture diagram">
+  <div class="flow-step">    <div class="flow-step-title">Input: TikTok / Instagram URLs &amp; Short Links</div>    <div class="flow-step-desc">(e.g. vm.tiktok.com/ZN8BDuYDp/ or URLs with ?_r=1&amp;_t=...)</div>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">1. HTTP Redirect Resolution &amp; Canonical Deduplication</div>    <ul class="flow-step-list">      <li>Follows 301/302 redirects on mobile short links</li>      <li>Strips tracking query params and filters duplicate videos</li>    </ul>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">2. Media &amp; Metadata Extraction via yt-dlp + FFmpeg</div>    <ul class="flow-step-list">      <li>Extracts temporary audio stream (supports cookies.txt)</li>      <li>Captures metadata (author, platform, ID, title, duration)</li>    </ul>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">3. GPU-Accelerated Transcription via faster-whisper</div>    <ul class="flow-step-list">      <li>Caches WhisperModel in memory once for the entire batch</li>      <li>Auto CUDA float16 (with CPU int8 fallback) + VAD filtering</li>    </ul>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">4. Per-Video Output Files</div>    <ul class="flow-step-list">      <li>01_tiktok_author_id.md   (Metadata + clean prose + clock)</li>      <li>01_tiktok_author_id.srt  (Standard subtitle file)</li>      <li>01_tiktok_author_id.json (Structured data for analytics)</li>    </ul>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">5. Batch Summary via Local Ollama (Qwen 2.5 14B)</div>    <ul class="flow-step-list">      <li>Non-blocking Ollama availability check before summarizing</li>      <li>Writes transcriptions/resumen.md with actionable insights</li>    </ul>  </div>
+</div>
 
 <hr />
 <h2>2. Short links, tracking parameters, and deduplication</h2>
 <p>Links shared over WhatsApp or Slack are rarely clean. The exact same TikTok video often shows up in two different formats within the same batch:</p>
 <ol>
-<li>The full browser URL with session tracking query strings: <code>https://www.tiktok.com/@client/video/7691761289726594326?_r=1&amp;_t=ZN-9ASicGAxtaw</code></li>
-<li>The mobile short link: <code>https://vm.tiktok.com/ZN8BDuYDp/</code></li>
+<li>The full browser URL with session tracking query strings like <code>https://www.tiktok.com/@client/video/7691761289726594326?_r=1&amp;_t=ZN-9ASicGAxtaw</code></li>
+<li>The mobile short link like <code>https://vm.tiktok.com/ZN8BDuYDp/</code></li>
 </ol>
 <p>If you feed both into a naive script, it downloads and transcribes the same video twice, skewing both the word counts and the final summary.</p>
 <p>In <code>reelscribe</code>, every URL runs through <code>resolve_url()</code> before calling <code>yt-dlp</code>:</p>
@@ -757,31 +849,31 @@ reelscribe<span class="w"> </span>-f<span class="w"> </span>cliente_octubre.txt<
     <span class="k">return</span> <span class="n">url</span>
 </code></pre></div>
 
-<p>This follows HTTP redirects on short-link domains, strips <code>?_r=1&amp;_t=...</code> tracking parameters, and checks the resulting canonical URL against an in-memory set so duplicate links are skipped automatically. When Instagram or TikTok requires an authenticated session, <code>reelscribe</code> accepts either a <code>-c cookies.txt</code> file or <code>--cookies-from-browser</code>.</p>
+<p>This follows HTTP redirects on short-link domains, strips <code>?_r=1&amp;_t=...</code> tracking parameters, and checks the resulting canonical URL against an in-memory set so duplicate links are skipped automatically. When Instagram or TikTok requires an authenticated session, <code>reelscribe</code> accepts either <code>-c cookies.txt</code> or <code>--cookies-from-browser</code>.</p>
 <hr />
 <h2>3. GPU acceleration, batch model caching, and three output formats</h2>
-<p>After testing the initial release on real client batches, my girlfriend opened <a href="https://github.com/riccivr/reelscribe/pull/1">PR #1</a> as the end user with several performance and usability upgrades:</p>
+<p>After testing the first version on real client batches, my girlfriend opened <a href="https://github.com/riccivr/reelscribe/pull/1">PR #1</a> as the end user with several speed and usability upgrades:</p>
 <ul>
-<li><strong>Automatic NVIDIA GPU acceleration (<code>--device auto|cuda|cpu</code>).</strong> At startup, <code>reelscribe</code> dynamically preloads <code>libcublas.so</code> and <code>libcudnn.so</code> if installed in the active virtualenv, runs <code>faster-whisper</code> on CUDA with <code>float16</code> precision when a GPU is present, and falls back to CPU (<code>int8</code>) automatically if CUDA is unavailable.</li>
-<li><strong>Batch model caching.</strong> Instead of reloading <code>WhisperModel</code> from disk for each URL, the model is initialized once and reused across the entire batch.</li>
-<li><strong>PyAV compatibility shim.</strong> Patches <code>av.open</code> to strip the deprecated <code>metadata_errors</code> keyword argument on newer PyAV releases so audio decoding never crashes.</li>
+<li><strong>Automatic NVIDIA GPU acceleration.</strong> With <code>--device auto</code>, <code>reelscribe</code> dynamically preloads <code>libcublas.so</code> and <code>libcudnn.so</code> from the active virtualenv, runs <code>faster-whisper</code> on CUDA in <code>float16</code> precision when an NVIDIA GPU is available, and falls back to CPU in <code>int8</code> if CUDA is missing.</li>
+<li><strong>Batch model caching.</strong> Instead of reloading <code>WhisperModel</code> from disk for each URL, the CLI initializes the model once in memory and reuses it across the entire queue.</li>
+<li><strong>PyAV compatibility shim.</strong> Wraps <code>av.open</code> to strip the deprecated <code>metadata_errors</code> keyword argument on newer PyAV releases so audio decoding does not crash.</li>
 </ul>
-<p>Short-form social videos also have a common trap for speech recognition models: loud background music, jump cuts, and non-speech audio effects. Running raw audio through Whisper without filtering often causes hallucinated phrases during music-only sections. To prevent this, <code>reelscribe</code> enables <code>faster-whisper</code>'s built-in Voice Activity Detection (<code>vad_filter=True</code>) with a 400 ms silence threshold alongside word-level timestamps (<code>word_timestamps=True</code>).</p>
+<p>Short-form social videos also have a common trap for speech recognition models. Loud background music, jump cuts, and non-speech audio effects often cause un-filtered Whisper runs to hallucinate repeated phrases during music sections. To prevent this, <code>reelscribe</code> enables <code>faster-whisper</code>'s Voice Activity Detection via <code>vad_filter=True</code> with a 400 ms silence threshold and extracts word-level timestamps via <code>word_timestamps=True</code>.</p>
 <p>Each video produces three separate files in the output directory:</p>
 <ol>
-<li><strong>Markdown file (<code>.md</code>).</strong> Formatted for quick human review. It includes a metadata header, the full clean paragraph transcript, and a timestamped breakdown (<code>[00:00 - 00:06]</code>).</li>
-<li><strong>SubRip subtitle file (<code>.srt</code>).</strong> Ready to drop into any video editor if clips need captions or repurposing.</li>
-<li><strong>Structured JSON (<code>.json</code>).</strong> Stores all <code>yt-dlp</code> metadata, full text, segments, and every individual word with its start time, end time, and confidence score. This makes it easy to run keyword frequency scripts, measure speaking pace, or correlate specific hooks with video retention.</li>
+<li><strong>Markdown file <code>.md</code>.</strong> Formatted for quick human review with a metadata header, the full clean paragraph transcript, and a timestamped breakdown.</li>
+<li><strong>SubRip subtitle file <code>.srt</code>.</strong> Ready to drop into any video editor when clips need captions or repurposing.</li>
+<li><strong>Structured JSON <code>.json</code>.</strong> Stores all <code>yt-dlp</code> metadata, full text, segments, and every individual word with its start time, end time, and confidence score. You can run scripts against it to count keyword frequency, measure speaking pace, or correlate specific hooks with video retention.</li>
 </ol>
 <hr />
 <h2>4. Batch summarization with local Ollama</h2>
-<p>Having separate <code>.md</code> files for twenty videos solves the transcription bottleneck, but the real time-saver is analyzing the whole batch together.</p>
-<p>Instead of relying on paid cloud APIs or pasting transcripts into a browser tab, <code>reelscribe</code> connects directly to a local <strong>Ollama</strong> instance (<code>http://localhost:11434/api/chat</code>) running <code>Qwen2.5-14B-Instruct</code>.</p>
-<p>Before requesting the summary, <code>is_ollama_available()</code> runs a quick 1.5-second check against <code>/api/tags</code>. If Ollama is offline, <code>reelscribe</code> prints a notice and keeps all per-video transcripts intact without failing the batch. When Ollama is active, it bundles the metadata and transcripts to generate <code>transcriptions/resumen.md</code> with three sections:</p>
+<p>Having separate <code>.md</code> files for twenty videos solves the transcription bottleneck, while the final step analyzes the entire batch together.</p>
+<p>Instead of paying for cloud APIs or pasting transcripts into a browser tab, <code>reelscribe</code> connects directly to a local Ollama server at <code>http://localhost:11434/api/chat</code> running <code>Qwen2.5-14B-Instruct</code>.</p>
+<p>Before requesting the summary, <code>is_ollama_available()</code> runs a 1.5-second check against <code>/api/tags</code>. If Ollama is offline, <code>reelscribe</code> prints a notice and keeps all per-video transcripts intact without failing the batch. When Ollama is active, it bundles the metadata and transcripts to generate <code>transcriptions/resumen.md</code> with three sections:</p>
 <ul>
-<li><strong>Executive summary.</strong> The overarching theme and positioning across the batch.</li>
-<li><strong>Per-video breakdown.</strong> The hook, core offer, structure, and call to action of each individual video.</li>
-<li><strong>Actionable takeaways.</strong> Which phrasing, offers, and script structures stand out to replicate in upcoming content.</li>
+<li><strong>Executive summary.</strong> Covers the overarching theme and communication style across the batch.</li>
+<li><strong>Per-video breakdown.</strong> Details the hook, core offer, structure, and call to action of each individual video.</li>
+<li><strong>Actionable takeaways.</strong> Highlights which phrasing, offers, and script structures stand out to replicate in upcoming content.</li>
 </ul>
 <hr />
 <h2>5. Terminal workflow</h2>
@@ -793,8 +885,8 @@ reelscribe<span class="w"> </span>--open-dir<span class="w"> </span><span class=
 reelscribe<span class="w"> </span>-f<span class="w"> </span>client_october.txt<span class="w"> </span>-c<span class="w"> </span>cookies.txt<span class="w"> </span>-m<span class="w"> </span>large-v3-turbo<span class="w"> </span>-o<span class="w"> </span>transcriptions/client_october
 </code></pre></div>
 
-<p>When it finishes, the output folder contains numbered files for each video (<code>01_tiktok_...</code>, <code>02_instagram_...</code>) plus the consolidated <code>resumen.md</code>, opening straight in File Explorer when <code>--open-dir</code> is passed. What used to take an entire afternoon of replaying videos and typing notes by hand now finishes in seconds, running 100% locally.</p>
-<p>The source code is available on GitHub: <a href="https://github.com/riccivr/reelscribe"><strong><code>github.com/riccivr/reelscribe</code></strong></a>.</p>
+<p>When it finishes, the output folder contains numbered files for each video plus the consolidated <code>resumen.md</code>, opening straight in File Explorer when <code>--open-dir</code> is passed. What used to take an entire afternoon of replaying videos and typing notes by hand now finishes in seconds, running 100% locally.</p>
+<p>The source code is available on GitHub at <a href="https://github.com/riccivr/reelscribe"><strong><code>github.com/riccivr/reelscribe</code></strong></a>.</p>
                 </div>
             </article>
 
@@ -813,7 +905,7 @@ reelscribe<span class="w"> </span>-f<span class="w"> </span>client_october.txt<s
         <footer class="p-3 sm:p-4 border-t theme-border text-xs flex justify-between items-center theme-bg-header">
             <span class="theme-text-muted text-[11px] sm:text-xs font-bold">riccivr.github.io/blog</span>
             <span id="footer-text" class="text-right text-[11px] sm:text-xs theme-text-muted font-mono font-medium">
-                REV: 3f3e70d // PUBLICADO: 2026.10.11
+                REV: dc2a214 // PUBLICADO: 2026.10.11
             </span>
         </footer>
 
@@ -845,9 +937,9 @@ reelscribe<span class="w"> </span>-f<span class="w"> </span>client_october.txt<s
                 repoAria: "Ver repositorio en GitHub (se abre en nueva pestaña) [G]",
                 topBtn: "[^] Arriba",
                 topBtnAria: "Ir arriba [K]",
-                footerText: "REV: 3f3e70d // PUBLICADO: 2026.10.11",
+                footerText: "REV: dc2a214 // PUBLICADO: 2026.10.11",
                 title: "reelscribe: transcribiendo reels y tiktoks con IA local para el trabajo de mi novia",
-                metaDesc: "Hace unas semanas arm\u00e9 autodub y beam para poder mandarle videos doblados al espa\u00f1ol a mi novia cuando terminamos de trabajar. Esta vez el problema ven\u00eda directamente de su propio trabajo diario."
+                metaDesc: "Hace unas semanas arm\u00e9 autodub y beam para poder mandarle videos doblados al espa\u00f1ol a mi novia cuando terminamos de trabajar. Esta vez el rollo ven\u00eda directamente de su trabajo del d\u00eda a d\u00eda."
             },
             en: {
                 sysId: "SYS.ID: riccivr // reelscribe-transcribing-reels-and-tiktoks-for-content-analytics",
@@ -872,7 +964,7 @@ reelscribe<span class="w"> </span>-f<span class="w"> </span>client_october.txt<s
                 repoAria: "View GitHub repository (opens in a new tab) [G]",
                 topBtn: "[^] Top",
                 topBtnAria: "Scroll to top [K]",
-                footerText: "REV: 3f3e70d // PUBLISHED: 2026.10.11",
+                footerText: "REV: dc2a214 // PUBLISHED: 2026.10.11",
                 title: "reelscribe: transcribing reels and tiktoks with local AI for my girlfriend's work",
                 metaDesc: "A few weeks ago I built autodub and beam so I could send Spanish-dubbed videos to my girlfriend after work. This time, the problem came straight from her day-to-day job."
             }

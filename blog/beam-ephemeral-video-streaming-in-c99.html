@@ -333,6 +333,154 @@
             font-weight: 600;
         }
 
+        /* Terminal Flow Diagram (Zero-JS, 100% Mobile Responsive, No Horizontal Scroll) */
+        .terminal-flow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 620px;
+            margin: 1.75rem auto;
+            box-sizing: border-box;
+        }
+
+        .terminal-flow .flow-step {
+            width: 100%;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.12), inset 0 0 4px rgba(245, 158, 11, 0.04);
+            padding: 0.85rem 1.15rem;
+            border-radius: 2px;
+            position: relative;
+            box-sizing: border-box;
+            transition: border-color 0.15s ease, background-color 0.15s ease;
+        }
+
+        [data-theme="light"] .terminal-flow .flow-step {
+            box-shadow: 0 2px 6px rgba(146, 64, 14, 0.1), inset 0 0 4px rgba(146, 64, 14, 0.03);
+        }
+
+        .terminal-flow .flow-step-title {
+            font-weight: 700;
+            color: var(--text-heading);
+            font-size: clamp(0.85rem, 2.5vw, 0.98rem);
+            letter-spacing: -0.01em;
+            margin-bottom: 0.25rem;
+            line-height: 1.4;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .terminal-flow .flow-step-desc {
+            color: var(--text-dim);
+            font-size: clamp(0.78rem, 2.2vw, 0.86rem);
+            line-height: 1.45;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .terminal-flow .flow-step-list {
+            margin: 0.35rem 0 0 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .terminal-flow .flow-step-list li {
+            position: relative;
+            color: var(--text-main);
+            font-size: clamp(0.8rem, 2.3vw, 0.88rem);
+            line-height: 1.5;
+            margin-bottom: 0.25rem;
+            padding-left: 1.25rem;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .terminal-flow .flow-step-list li::before {
+            content: "›";
+            position: absolute;
+            left: 0.2rem;
+            color: var(--border-primary);
+            font-weight: bold;
+        }
+
+        .terminal-flow .flow-step-list li.flow-item-numbered {
+            padding-left: 0.2rem;
+        }
+
+        .terminal-flow .flow-step-list li.flow-item-numbered::before {
+            content: none;
+        }
+
+        .terminal-flow .flow-step-list li .flow-item-num {
+            color: var(--border-primary);
+            font-weight: bold;
+            display: inline-block;
+            min-width: 1.2rem;
+        }
+
+        .terminal-flow .flow-connector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.25rem 0;
+            user-select: none;
+        }
+
+        .terminal-flow .flow-connector-line {
+            width: 2px;
+            height: 14px;
+            background-color: var(--border-primary);
+            opacity: 0.75;
+        }
+
+        .terminal-flow .flow-connector-arrow {
+            font-size: 0.85rem;
+            line-height: 1;
+            color: var(--border-primary);
+            margin-top: -2px;
+            text-shadow: 0 0 6px rgba(245, 158, 11, 0.4);
+        }
+
+        [data-theme="light"] .terminal-flow .flow-connector-arrow {
+            text-shadow: none;
+        }
+
+        .terminal-flow .flow-connector-label {
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            font-style: italic;
+            padding: 0.15rem 0.55rem;
+            margin: 0.15rem 0;
+            background: var(--bg-badge);
+            border: 1px dashed var(--border-dim);
+            border-radius: 2px;
+            max-width: 90%;
+            text-align: center;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .terminal-flow code {
+            background-color: var(--bg-inline-code);
+            color: var(--text-code);
+            padding: 0.1rem 0.3rem;
+            border: 1px solid var(--border-dim);
+            border-radius: 2px;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+
+        @media (max-width: 640px) {
+            .terminal-flow .flow-step {
+                padding: 0.65rem 0.85rem;
+            }
+            .terminal-flow .flow-connector-line {
+                height: 10px;
+            }
+        }
+
         /* Build-Time Pygments Syntax Highlighting (0 KB JS, 0 ms cost) */
         /* CRT Dark Amber Phosphor Scheme */
         html:not([data-theme="light"]) .code-highlight .k,
@@ -666,27 +814,11 @@ autodub<span class="w"> </span><span class="s2">&quot;https://www.youtube.com/wa
 </code></pre></div>
 
 <p>¿Qué ocurre internamente cuando ejecuto ese comando?</p>
-<div class="code-highlight"><pre><span></span><code>┌──────────────────────────────────────────────────────────────┐
-│ autodub (Python)                                             │
-│ 1. Descarga video con yt-dlp                                 │
-│ 2. Transcribe con faster-whisper en CPU                      │
-│ 3. Traduce texto y sintetiza con Piper TTS                   │
-│ 4. Alinea audio en memoria y aplica ducking con FFmpeg       │
-│ 5. Imprime en stdout: &quot;Dubbed: /tmp/autodub/video_es.mp4&quot;    │
-└──────────────────────────────┬───────────────────────────────┘
-                               │ (pipe en tiempo real)
-                               ▼
-┌──────────────────────────────────────────────────────────────┐
-│ beam (C99)                                                   │
-│ 1. Muestra el progreso de autodub en la terminal             │
-│ 2. Detecta la ruta del video final cuando el proceso termina │
-│ 3. Ejecuta faststart con FFmpeg si es necesario              │
-│ 4. Abre el túnel reverso SSH (-p)                            │
-│ 5. Copia el enlace HTTPS al portapapeles (-c)                │
-│ 6. Dibuja el código QR en la consola                         │
-│ 7. Sirve el video con peticiones Range hasta que expire      │
-└──────────────────────────────────────────────────────────────┘
-</code></pre></div>
+<div class="terminal-flow" role="region" aria-label="Pipeline architecture diagram">
+  <div class="flow-step">    <div class="flow-step-title">autodub (Python)</div>    <ul class="flow-step-list">      <li class="flow-item-numbered"><span class="flow-item-num">1.</span> Descarga video con yt-dlp</li>      <li class="flow-item-numbered"><span class="flow-item-num">2.</span> Transcribe con faster-whisper en CPU</li>      <li class="flow-item-numbered"><span class="flow-item-num">3.</span> Traduce texto y sintetiza con Piper TTS</li>      <li class="flow-item-numbered"><span class="flow-item-num">4.</span> Alinea audio en memoria y aplica ducking con FFmpeg</li>      <li class="flow-item-numbered"><span class="flow-item-num">5.</span> Imprime en stdout: &quot;Dubbed: /tmp/autodub/video_es.mp4&quot;</li>    </ul>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-label">(pipe en tiempo real)</div>    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">beam (C99)</div>    <ul class="flow-step-list">      <li class="flow-item-numbered"><span class="flow-item-num">1.</span> Muestra el progreso de autodub en la terminal</li>      <li class="flow-item-numbered"><span class="flow-item-num">2.</span> Detecta la ruta del video final cuando el proceso termina</li>      <li class="flow-item-numbered"><span class="flow-item-num">3.</span> Ejecuta faststart con FFmpeg si es necesario</li>      <li class="flow-item-numbered"><span class="flow-item-num">4.</span> Abre el túnel reverso SSH (-p)</li>      <li class="flow-item-numbered"><span class="flow-item-num">5.</span> Copia el enlace HTTPS al portapapeles (-c)</li>      <li class="flow-item-numbered"><span class="flow-item-num">6.</span> Dibuja el código QR en la consola</li>      <li class="flow-item-numbered"><span class="flow-item-num">7.</span> Sirve el video con peticiones Range hasta que expire</li>    </ul>  </div>
+</div>
 
 <p>Cuando <code>autodub</code> termina su trabajo, <code>beam</code> captura la ruta del archivo generado, levanta el servidor, abre el túnel público, copia el enlace al portapapeles del sistema (usando <code>clipbridge</code> o <code>wl-copy</code>) y me avisa.</p>
 <p>Yo solo tengo que pegar el enlace en el chat con mi novia. Ella hace clic en el enlace desde su teléfono, el video comienza a sonar de inmediato en su navegador sin logins ni publicidad, y yo me desentiendo por completo porque a las 5 horas el servidor expira y se apaga solo.</p>
@@ -824,27 +956,11 @@ autodub<span class="w"> </span><span class="s2">&quot;https://www.youtube.com/wa
 </code></pre></div>
 
 <p>Here is what happens during that pipeline:</p>
-<div class="code-highlight"><pre><span></span><code>┌──────────────────────────────────────────────────────────────┐
-│ autodub (Python)                                             │
-│ 1. Downloads media with yt-dlp                               │
-│ 2. Transcribes on CPU using faster-whisper                   │
-│ 3. Translates text and synthesizes speech via Piper TTS      │
-│ 4. Performs PCM alignment and FFmpeg audio ducking           │
-│ 5. Writes to stdout: &quot;Dubbed: /tmp/autodub/video_es.mp4&quot;     │
-└──────────────────────────────┬───────────────────────────────┘
-                               │ (real-time pipe stream)
-                               ▼
-┌──────────────────────────────────────────────────────────────┐
-│ beam (C99)                                                   │
-│ 1. Echoes autodub&#39;s progress bars to the terminal            │
-│ 2. Extracts the final dubbed video path when completed       │
-│ 3. Executes faststart remuxing if necessary                  │
-│ 4. Opens the public HTTPS reverse tunnel (-p)                │
-│ 5. Copies the secure URL to the system clipboard (-c)        │
-│ 6. Renders the ANSI QR code in the terminal                  │
-│ 7. Streams Range chunks until the TTL expires                │
-└──────────────────────────────────────────────────────────────┘
-</code></pre></div>
+<div class="terminal-flow" role="region" aria-label="Pipeline architecture diagram">
+  <div class="flow-step">    <div class="flow-step-title">autodub (Python)</div>    <ul class="flow-step-list">      <li class="flow-item-numbered"><span class="flow-item-num">1.</span> Downloads media with yt-dlp</li>      <li class="flow-item-numbered"><span class="flow-item-num">2.</span> Transcribes on CPU using faster-whisper</li>      <li class="flow-item-numbered"><span class="flow-item-num">3.</span> Translates text and synthesizes speech via Piper TTS</li>      <li class="flow-item-numbered"><span class="flow-item-num">4.</span> Performs PCM alignment and FFmpeg audio ducking</li>      <li class="flow-item-numbered"><span class="flow-item-num">5.</span> Writes to stdout: &quot;Dubbed: /tmp/autodub/video_es.mp4&quot;</li>    </ul>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-label">(real-time pipe stream)</div>    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">beam (C99)</div>    <ul class="flow-step-list">      <li class="flow-item-numbered"><span class="flow-item-num">1.</span> Echoes autodub&#x27;s progress bars to the terminal</li>      <li class="flow-item-numbered"><span class="flow-item-num">2.</span> Extracts the final dubbed video path when completed</li>      <li class="flow-item-numbered"><span class="flow-item-num">3.</span> Executes faststart remuxing if necessary</li>      <li class="flow-item-numbered"><span class="flow-item-num">4.</span> Opens the public HTTPS reverse tunnel (-p)</li>      <li class="flow-item-numbered"><span class="flow-item-num">5.</span> Copies the secure URL to the system clipboard (-c)</li>      <li class="flow-item-numbered"><span class="flow-item-num">6.</span> Renders the ANSI QR code in the terminal</li>      <li class="flow-item-numbered"><span class="flow-item-num">7.</span> Streams Range chunks until the TTL expires</li>    </ul>  </div>
+</div>
 
 <p>Once <code>autodub</code> finishes processing, <code>beam</code> detects the output file path, launches the HTTP daemon, establishes the HTTPS tunnel, and places the ready-to-share URL straight onto my clipboard via <code>clipbridge</code> or <code>wl-copy</code>.</p>
 <p>All I have to do is paste the link into a chat with my girlfriend. She taps it from her phone, the video streams immediately in Safari without logins, ads, or file downloads, and the server automatically shuts down five hours later.</p>
@@ -867,7 +983,7 @@ autodub<span class="w"> </span><span class="s2">&quot;https://www.youtube.com/wa
         <footer class="p-3 sm:p-4 border-t theme-border text-xs flex justify-between items-center theme-bg-header">
             <span class="theme-text-muted text-[11px] sm:text-xs font-bold">riccivr.github.io/blog</span>
             <span id="footer-text" class="text-right text-[11px] sm:text-xs theme-text-muted font-mono font-medium">
-                REV: 3f3e70d // PUBLICADO: 2026.09.14
+                REV: dc2a214 // PUBLICADO: 2026.09.14
             </span>
         </footer>
 
@@ -899,7 +1015,7 @@ autodub<span class="w"> </span><span class="s2">&quot;https://www.youtube.com/wa
                 repoAria: "Ver repositorio en GitHub (se abre en nueva pestaña) [G]",
                 topBtn: "[^] Arriba",
                 topBtnAria: "Ir arriba [K]",
-                footerText: "REV: 3f3e70d // PUBLICADO: 2026.09.14",
+                footerText: "REV: dc2a214 // PUBLICADO: 2026.09.14",
                 title: "beam: streaming de videos ef\u00edmeros en C99 con peticiones Range y t\u00faneles HTTPS",
                 metaDesc: "En mi art\u00edculo anterior expliqu\u00e9 c\u00f3mo constru\u00ed autodub para transcribir, traducir y doblar videos en ingl\u00e9s al espa\u00f1ol y mand\u00e1rselos a mi novia, ahorr\u00e1ndole el cansancio de leer subt\u00edtulos despu\u00e9s de trabajar todo el d\u00eda..."
             },
@@ -926,7 +1042,7 @@ autodub<span class="w"> </span><span class="s2">&quot;https://www.youtube.com/wa
                 repoAria: "View GitHub repository (opens in a new tab) [G]",
                 topBtn: "[^] Top",
                 topBtnAria: "Scroll to top [K]",
-                footerText: "REV: 3f3e70d // PUBLISHED: 2026.09.14",
+                footerText: "REV: dc2a214 // PUBLISHED: 2026.09.14",
                 title: "beam: streaming dubbed videos with ephemeral HTTP tunnels and Range requests in C99",
                 metaDesc: "In my previous post, I wrote about building autodub to transcribe, translate, and dub English videos into Spanish so I could send them to my girlfriend, sparing her the eye fatigue of reading tiny subtitles after working..."
             }

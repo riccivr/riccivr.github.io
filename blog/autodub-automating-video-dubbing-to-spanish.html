@@ -333,6 +333,154 @@
             font-weight: 600;
         }
 
+        /* Terminal Flow Diagram (Zero-JS, 100% Mobile Responsive, No Horizontal Scroll) */
+        .terminal-flow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 620px;
+            margin: 1.75rem auto;
+            box-sizing: border-box;
+        }
+
+        .terminal-flow .flow-step {
+            width: 100%;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.12), inset 0 0 4px rgba(245, 158, 11, 0.04);
+            padding: 0.85rem 1.15rem;
+            border-radius: 2px;
+            position: relative;
+            box-sizing: border-box;
+            transition: border-color 0.15s ease, background-color 0.15s ease;
+        }
+
+        [data-theme="light"] .terminal-flow .flow-step {
+            box-shadow: 0 2px 6px rgba(146, 64, 14, 0.1), inset 0 0 4px rgba(146, 64, 14, 0.03);
+        }
+
+        .terminal-flow .flow-step-title {
+            font-weight: 700;
+            color: var(--text-heading);
+            font-size: clamp(0.85rem, 2.5vw, 0.98rem);
+            letter-spacing: -0.01em;
+            margin-bottom: 0.25rem;
+            line-height: 1.4;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .terminal-flow .flow-step-desc {
+            color: var(--text-dim);
+            font-size: clamp(0.78rem, 2.2vw, 0.86rem);
+            line-height: 1.45;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .terminal-flow .flow-step-list {
+            margin: 0.35rem 0 0 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .terminal-flow .flow-step-list li {
+            position: relative;
+            color: var(--text-main);
+            font-size: clamp(0.8rem, 2.3vw, 0.88rem);
+            line-height: 1.5;
+            margin-bottom: 0.25rem;
+            padding-left: 1.25rem;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .terminal-flow .flow-step-list li::before {
+            content: "›";
+            position: absolute;
+            left: 0.2rem;
+            color: var(--border-primary);
+            font-weight: bold;
+        }
+
+        .terminal-flow .flow-step-list li.flow-item-numbered {
+            padding-left: 0.2rem;
+        }
+
+        .terminal-flow .flow-step-list li.flow-item-numbered::before {
+            content: none;
+        }
+
+        .terminal-flow .flow-step-list li .flow-item-num {
+            color: var(--border-primary);
+            font-weight: bold;
+            display: inline-block;
+            min-width: 1.2rem;
+        }
+
+        .terminal-flow .flow-connector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.25rem 0;
+            user-select: none;
+        }
+
+        .terminal-flow .flow-connector-line {
+            width: 2px;
+            height: 14px;
+            background-color: var(--border-primary);
+            opacity: 0.75;
+        }
+
+        .terminal-flow .flow-connector-arrow {
+            font-size: 0.85rem;
+            line-height: 1;
+            color: var(--border-primary);
+            margin-top: -2px;
+            text-shadow: 0 0 6px rgba(245, 158, 11, 0.4);
+        }
+
+        [data-theme="light"] .terminal-flow .flow-connector-arrow {
+            text-shadow: none;
+        }
+
+        .terminal-flow .flow-connector-label {
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            font-style: italic;
+            padding: 0.15rem 0.55rem;
+            margin: 0.15rem 0;
+            background: var(--bg-badge);
+            border: 1px dashed var(--border-dim);
+            border-radius: 2px;
+            max-width: 90%;
+            text-align: center;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .terminal-flow code {
+            background-color: var(--bg-inline-code);
+            color: var(--text-code);
+            padding: 0.1rem 0.3rem;
+            border: 1px solid var(--border-dim);
+            border-radius: 2px;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+
+        @media (max-width: 640px) {
+            .terminal-flow .flow-step {
+                padding: 0.65rem 0.85rem;
+            }
+            .terminal-flow .flow-connector-line {
+                height: 10px;
+            }
+        }
+
         /* Build-Time Pygments Syntax Highlighting (0 KB JS, 0 ms cost) */
         /* CRT Dark Amber Phosphor Scheme */
         html:not([data-theme="light"]) .code-highlight .k,
@@ -566,53 +714,23 @@
 <hr />
 <h2>2. Cómo lo resuelve autodub</h2>
 <p>Diseñé <code>autodub</code> con objetivos bien claros: tenía que correr localmente en CPU sin obligarme a tener una tarjeta gráfica dedicada, tenía que mantener sincronía absoluta en videos largos sin desfasarse, y tenía que preservar la atmósfera del audio original.</p>
-<div class="code-highlight"><pre><span></span><code>                    ┌────────────────────────────┐
-                    │      Video / URL YouTube   │
-                    └──────────────┬─────────────┘
-                                   │
-                                   ▼
-                    ┌────────────────────────────┐
-                    │  yt-dlp &amp; Extractor FFmpeg │
-                    │     WAV 16 kHz Mono        │
-                    └──────────────┬─────────────┘
-                                   │
-                                   ▼
-                    ┌────────────────────────────┐
-                    │ faster-whisper (int8 CPU)  │
-                    │   Segmentos con Timestamp  │
-                    └──────────────┬─────────────┘
-                                   │
-                                   ▼
-                    ┌────────────────────────────┐
-                    │    Traducción Concurrente  │
-                    │    Mapeo Estricto de Tiempo│
-                    └──────────────┬─────────────┘
-                                   │
-                                   ▼
-                    ┌────────────────────────────┐
-                    │    Piper TTS / Edge-TTS    │
-                    │   Síntesis de Audio Crudo  │
-                    └──────────────┬─────────────┘
-                                   │
-                                   ▼
-                    ┌────────────────────────────┐
-                    │ Alineador PCM en Memoria   │
-                    │ - Time-stretch con atempo  │
-                    │ - Silencios PCM calculados │
-                    └──────────────┬─────────────┘
-                                   │
-                                   ▼
-                    ┌────────────────────────────┐
-                    │    Audio Ducking en FFmpeg │
-                    │  Voz doblada: 1.0 Volumen  │
-                    │  Audio original: 0.15 Vol  │
-                    └──────────────┬─────────────┘
-                                   │
-                                   ▼
-                    ┌────────────────────────────┐
-                    │    Video Doblado al Pelo   │
-                    └────────────────────────────┘
-</code></pre></div>
+<div class="terminal-flow" role="region" aria-label="Pipeline architecture diagram">
+  <div class="flow-step">    <div class="flow-step-title">Video / URL YouTube</div>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">yt-dlp &amp; Extractor FFmpeg</div>    <div class="flow-step-desc">WAV 16 kHz Mono</div>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">faster-whisper (int8 CPU)</div>    <div class="flow-step-desc">Segmentos con Timestamp</div>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">Traducción Concurrente</div>    <div class="flow-step-desc">Mapeo Estricto de Tiempo</div>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">Piper TTS / Edge-TTS</div>    <div class="flow-step-desc">Síntesis de Audio Crudo</div>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">Alineador PCM en Memoria</div>    <ul class="flow-step-list">      <li>Time-stretch con atempo</li>      <li>Silencios PCM calculados</li>    </ul>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">Audio Ducking en FFmpeg</div>    <div class="flow-step-desc">Voz doblada: 1.0 Volumen<br>Audio original: 0.15 Vol</div>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">Video Doblado al Pelo</div>  </div>
+</div>
 
 <h3>Alineación en memoria sin desfase acumulado</h3>
 <p>Para resolver el problema del texto largo en español, <code>autodub</code> compara la duración del audio sintetizado contra la ventana de tiempo original en inglés.</p>
@@ -676,53 +794,23 @@
 <hr />
 <h2>2. How autodub solves these problems</h2>
 <p>I designed <code>autodub</code> around a few practical constraints: it had to run locally on my CPU without requiring an expensive GPU, it had to prevent timeline drift across long videos, and it had to keep the original ambience intact.</p>
-<div class="code-highlight"><pre><span></span><code>                    ┌────────────────────────────┐
-                    │      Input URL / Video     │
-                    └──────────────┬─────────────┘
-                                   │
-                                   ▼
-                    ┌────────────────────────────┐
-                    │  yt-dlp &amp; FFmpeg Audio Ext │
-                    │    16 kHz Mono WAV Stream  │
-                    └──────────────┬─────────────┘
-                                   │
-                                   ▼
-                    ┌────────────────────────────┐
-                    │ faster-whisper (int8 CPU)  │
-                    │   Timestamped Segments     │
-                    └──────────────┬─────────────┘
-                                   │
-                                   ▼
-                    ┌────────────────────────────┐
-                    │  Concurrent Translation    │
-                    │    Strict Timestamp Map    │
-                    └──────────────┬─────────────┘
-                                   │
-                                   ▼
-                    ┌────────────────────────────┐
-                    │    Piper TTS / Edge-TTS    │
-                    │   Synthesize Raw Audio     │
-                    └──────────────┬─────────────┘
-                                   │
-                                   ▼
-                    ┌────────────────────────────┐
-                    │ In-Memory Timeline Aligner │
-                    │ - Time-stretch via atempo  │
-                    │ - In-memory PCM silence    │
-                    └──────────────┬─────────────┘
-                                   │
-                                   ▼
-                    ┌────────────────────────────┐
-                    │      FFmpeg Audio Duck     │
-                    │  Dubbed Voice: 1.0 Volume  │
-                    │  Original Audio: 0.15 Vol  │
-                    └──────────────┬─────────────┘
-                                   │
-                                   ▼
-                    ┌────────────────────────────┐
-                    │    Dubbed Video Output     │
-                    └────────────────────────────┘
-</code></pre></div>
+<div class="terminal-flow" role="region" aria-label="Pipeline architecture diagram">
+  <div class="flow-step">    <div class="flow-step-title">Input URL / Video</div>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">yt-dlp &amp; FFmpeg Audio Ext</div>    <div class="flow-step-desc">16 kHz Mono WAV Stream</div>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">faster-whisper (int8 CPU)</div>    <div class="flow-step-desc">Timestamped Segments</div>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">Concurrent Translation</div>    <div class="flow-step-desc">Strict Timestamp Map</div>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">Piper TTS / Edge-TTS</div>    <div class="flow-step-desc">Synthesize Raw Audio</div>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">In-Memory Timeline Aligner</div>    <ul class="flow-step-list">      <li>Time-stretch via atempo</li>      <li>In-memory PCM silence</li>    </ul>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">FFmpeg Audio Duck</div>    <div class="flow-step-desc">Dubbed Voice: 1.0 Volume<br>Original Audio: 0.15 Vol</div>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">Dubbed Video Output</div>  </div>
+</div>
 
 <h3>In-memory PCM timeline alignment</h3>
 <p>To solve syllable expansion, <code>autodub</code> measures the duration of each synthesized Spanish segment against the original English speaking window.</p>
@@ -771,7 +859,7 @@
         <footer class="p-3 sm:p-4 border-t theme-border text-xs flex justify-between items-center theme-bg-header">
             <span class="theme-text-muted text-[11px] sm:text-xs font-bold">riccivr.github.io/blog</span>
             <span id="footer-text" class="text-right text-[11px] sm:text-xs theme-text-muted font-mono font-medium">
-                REV: 3f3e70d // PUBLICADO: 2026.09.14
+                REV: dc2a214 // PUBLICADO: 2026.09.14
             </span>
         </footer>
 
@@ -803,7 +891,7 @@
                 repoAria: "Ver repositorio en GitHub (se abre en nueva pestaña) [G]",
                 topBtn: "[^] Arriba",
                 topBtnAria: "Ir arriba [K]",
-                footerText: "REV: 3f3e70d // PUBLICADO: 2026.09.14",
+                footerText: "REV: dc2a214 // PUBLICADO: 2026.09.14",
                 title: "autodub: doblando videos al espa\u00f1ol para mand\u00e1rselos a mi novia",
                 metaDesc: "Yo consumo una cantidad absurda de videos todos los d\u00edas: an\u00e1lisis t\u00e9cnicos, ensayos documentales, historias de computaci\u00f3n y cosas raras que me voy encontrando en YouTube."
             },
@@ -830,7 +918,7 @@
                 repoAria: "View GitHub repository (opens in a new tab) [G]",
                 topBtn: "[^] Top",
                 topBtnAria: "Scroll to top [K]",
-                footerText: "REV: 3f3e70d // PUBLISHED: 2026.09.14",
+                footerText: "REV: dc2a214 // PUBLISHED: 2026.09.14",
                 title: "autodub: automating video dubbing to Spanish for my girlfriend",
                 metaDesc: "I consume an unhealthy amount of videos every day: technical deep dives, documentary essays, historical breakdowns, and random curiosities on YouTube."
             }

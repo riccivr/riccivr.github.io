@@ -5,23 +5,23 @@
 
 ---
 
-Hace unas semanas armé [`autodub`](https://riccivr.github.io/blog/autodub-automating-video-dubbing-to-spanish.html) y [`beam`](https://riccivr.github.io/blog/beam-ephemeral-video-streaming-in-c99.html) para poder mandarle videos doblados al español a mi novia cuando terminamos de trabajar. Esta vez el problema venía directamente de su propio trabajo diario.
+Hace unas semanas armé [`autodub`](https://riccivr.github.io/blog/autodub-automating-video-dubbing-to-spanish.html) y [`beam`](https://riccivr.github.io/blog/beam-ephemeral-video-streaming-in-c99.html) para poder mandarle videos doblados al español a mi novia cuando terminamos de trabajar. Esta vez el rollo venía directamente de su trabajo del día a día.
 
-En su trabajo con redes sociales y estrategia de contenido, ella necesita revisar lotes enteros de publicaciones, Reels de Instagram y videos de TikTok de sus clientes. Para sacar analíticas de verdad y tomar decisiones con datos, no basta con ver el número de vistas o likes. Hay que bajar al texto: analizar qué ganchos iniciales retienen a la gente en los primeros tres segundos, qué palabras o estructuras de guion funcionan para vender un producto, qué temas se repiten en los videos exitosos y qué cosas simplemente no sirven.
+En su trabajo llevando redes sociales y estrategia de contenido, a ella le toca revisar lotes enteros de publicaciones, Reels de Instagram y videos de TikTok de sus clientes. Para sacar analíticas de verdad y cuadrar qué contenido funciona, ver el número de vistas o likes se queda corto. Tienes que bajar al guion para pillar qué ganchos iniciales retienen a la gente en los primeros tres segundos, qué palabras exactas ayudan a vender un producto, qué temas se repiten en los videos que pegan y qué cosas simplemente no sirven.
 
-Hacer ese levantamiento a mano es un castigo:
+Hacer ese levantamiento a mano es un fastidio enorme:
 
-- Tienes que abrir veinte o treinta enlaces seguidos, muchos compartidos desde el teléfono como enlaces cortos (`vm.tiktok.com/...`) llenos de parámetros basura de rastreo.
-- Tienes que escuchar cada video con música de fondo a todo volumen, pausando cada tres segundos para copiar en un documento lo que dice la persona.
-- Al terminar de transcribir diez o quince videos, todavía te toca leer todo de arriba a abajo para cruzar patrones y redactar un informe comparativo.
+- Te toca abrir veinte o treinta enlaces seguidos, muchos compartidos desde el celular como enlaces cortos `vm.tiktok.com` llenos de parámetros basura de rastreo.
+- Tienes que calarte cada video con música de fondo a todo volumen, pausando cada tres segundos para anotar en un documento lo que dice la persona.
+- Cuando por fin terminas de transcribir quince videos a pedal, todavía te queda leer todas esas páginas de arriba a abajo para cruzar patrones y armar un informe comparativo.
 
-Para quitarle ese trabajo mecánico de encima construí [**`reelscribe`**](https://github.com/riccivr/reelscribe): una herramienta de terminal en WSL que recibe cualquier cantidad de URLs de TikTok o Instagram, resuelve enlaces cortos, transcribe cada video por separado en tres formatos (`.md`, `.srt` y `.json`) usando `faster-whisper` y genera al final un resumen analítico de todo el lote con un modelo local en Ollama.
+Para quitarle ese trabajo mecánico de encima construí [**`reelscribe`**](https://github.com/riccivr/reelscribe), una herramienta de terminal en WSL que agarra cualquier cantidad de URLs de TikTok o Instagram, resuelve los enlaces cortos, transcribe cada video por separado en archivos `.md`, `.srt` y `.json` con `faster-whisper` y genera al final un resumen analítico de todo el lote con un modelo local en Ollama.
 
 ---
 
 ## 1. El flujo completo desde las URLs hasta el análisis
 
-La idea desde el principio fue que ella me pudiera pasar una lista de enlaces tal cual salen al darle "Copiar enlace" desde la app del teléfono o desde el navegador, y que un solo comando dejara toda la carpeta lista para trabajar.
+La idea desde el principio fue que ella me pudiera pasar una lista de enlaces tal cual salen al darle al botón de compartir desde la app del celular o desde el navegador, y que un solo comando dejara toda la carpeta lista y ordenada.
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
@@ -72,12 +72,12 @@ La idea desde el principio fue que ella me pudiera pasar una lista de enlaces ta
 
 Cuando trabajas con enlaces que te mandan por WhatsApp o Slack, casi nunca vienen limpios. Un mismo video de TikTok te puede llegar de dos formas distintas en la misma lista:
 
-1. El enlace largo del navegador con parámetros de sesión: `https://www.tiktok.com/@cliente/video/7691761289726594326?_r=1&_t=ZN-9ASicGAxtaw`
-2. El short link generado por la aplicación móvil: `https://vm.tiktok.com/ZN8BDuYDp/`
+1. El enlace largo del navegador con parámetros de sesión como `https://www.tiktok.com/@cliente/video/7691761289726594326?_r=1&_t=ZN-9ASicGAxtaw`
+2. El enlace corto generado por la aplicación móvil como `https://vm.tiktok.com/ZN8BDuYDp/`
 
-Si le pasas ambos a un script ingenuo, descarga y transcribe el mismo video dos veces, ensuciando las métricas y el resumen final.
+Si le tiras ambos a un script a lo loco, descarga y transcribe el mismo video dos veces, ensuciando el conteo de palabras y el resumen final.
 
-En `reelscribe`, antes de tocar `yt-dlp`, cada URL pasa por `resolve_url()`:
+En `reelscribe`, antes de llamar a `yt-dlp`, cada URL pasa por `resolve_url()`:
 
 ```python
 SHORT_LINK_HOSTS = {"vm.tiktok.com", "vt.tiktok.com", "instagr.am"}
@@ -101,45 +101,45 @@ def resolve_url(url: str) -> str:
     return url
 ```
 
-Con esto el cliente resuelve las redirecciones de los dominios cortos, limpia los parámetros `?_r=1&_t=...` y compara la URL canónica resultante contra un conjunto en memoria. Si el enlace corto y el enlace largo apuntan al mismo video, lo detecta de inmediato y omite el duplicado. Además, si algún Reel o TikTok pide sesión iniciada, acepta tanto `-c cookies.txt` como `--cookies-from-browser`.
+Con esto el cliente resuelve las redirecciones de los dominios cortos, limpia los parámetros `?_r=1&_t=...` y compara la URL canónica resultante contra un conjunto en memoria. Si el enlace corto y el enlace largo apuntan al mismo video, lo pilla de una vez y salta el duplicado. Y si algún Reel o TikTok pide sesión iniciada, puedes pasarle tus credenciales con `-c cookies.txt` o `--cookies-from-browser`.
 
 ---
 
 ## 3. Aceleración por GPU, caché del modelo y salida en tres formatos
 
-Después de probar la primera versión con lotes reales de su trabajo, mi novia abrió la [PR #1](https://github.com/riccivr/reelscribe/pull/1) como usuaria final con varias mejoras clave de rendimiento y experiencia de uso:
+Apenas probamos la primera versión con lotes reales de su trabajo, mi novia armó y subió la [PR #1](https://github.com/riccivr/reelscribe/pull/1) como usuaria final para meterle varias mejoras de velocidad y comodidad que hacían falta:
 
-- **Aceleración automática con GPU NVIDIA (`--device auto|cuda|cpu`).** Al arrancar, `reelscribe` precarga dinámicamente `libcublas.so` y `libcudnn.so` si están instalados dentro del entorno virtual, detecta si hay GPU NVIDIA disponible para correr en `float16` y hace fallback automático a CPU (`int8`) si no encuentra CUDA.
-- **Caché del modelo por lote.** En lugar de instanciar `WhisperModel` desde disco en cada video, el modelo se carga en memoria una sola vez al principio y se reutiliza en todas las URLs de la cola.
-- **Shim de compatibilidad con PyAV.** Parchea `av.open` para ignorar el argumento `metadata_errors` en versiones recientes de PyAV y evitar caídas al decodificar el audio.
+- **Aceleración automática con GPU NVIDIA.** Al arrancar con `--device auto`, `reelscribe` precarga dinámicamente `libcublas.so` y `libcudnn.so` desde el entorno virtual, detecta si hay tarjeta NVIDIA para correr en precisión `float16` y cae automáticamente a CPU en `int8` si no consigue CUDA.
+- **Caché del modelo por lote.** En vez de volver a cargar `WhisperModel` desde el disco por cada video, el modelo se inicializa en memoria una sola vez al principio y se reutiliza en toda la cola.
+- **Parche de compatibilidad con PyAV.** Envuelve `av.open` para limpiar el argumento `metadata_errors` en versiones recientes de PyAV y evitar que la decodificación de audio explote a mitad de camino.
 
-Los videos cortos de redes sociales tienen además una trampa para los modelos de reconocimiento de voz: casi todos tienen música comercial sonando duro de fondo, cortes bruscos y silencios intermedios. Si pasas ese audio crudo por Whisper sin filtros, el modelo suele alucinar frases repetidas durante los compases musicales. Para evitarlo, `reelscribe` activa el filtro VAD (`vad_filter=True`) con ventanas de silencio de 400 ms y extracción de marcas de tiempo palabra por palabra (`word_timestamps=True`).
+Los videos cortos de redes sociales tienen además una trampa clásica para el reconocimiento de voz. Casi todos traen música comercial sonando duro de fondo, cortes bruscos y silencios intermedios. Si pasas ese audio crudo por Whisper sin filtro, el modelo se vuelve loco inventando frases repetidas durante los compases musicales. Para evitar ese rollo, `reelscribe` activa el filtro de detección de voz `vad_filter=True` con ventanas de silencio de 400 ms y extrae marcas de tiempo palabra por palabra con `word_timestamps=True`.
 
 Por cada video procesado se guardan tres archivos separados en la carpeta de salida:
 
-1. **Archivo Markdown (`.md`).** Pensado para lectura rápida. Incluye la ficha del video, el párrafo de transcripción limpia de corrido y el desglose línea por línea con su minuto y segundo exacto (`[00:00 - 00:06]`).
-2. **Archivo de subtítulos (`.srt`).** Listo para importar en cualquier editor de video si hace falta reutilizar o subtitular piezas.
-3. **Archivo estructurado (`.json`).** Contiene todos los metadatos extraídos por `yt-dlp` junto con el arreglo completo de segmentos y cada palabra individual con su segundo de inicio, fin y probabilidad. Esto permite correr scripts de conteo de palabras clave, medir la velocidad de habla o cruzar qué términos aparecen en los videos con mayor retención.
+1. **Archivo Markdown `.md`.** Queda listo para leer de un vistazo. Trae la ficha del video con su URL canónica, plataforma, autor, ID, duración e idioma, seguida del párrafo de transcripción de corrido y el desglose línea por línea con su minuto y segundo exacto.
+2. **Archivo de subtítulos `.srt`.** Sirve para meterlo directo en cualquier editor de video si hace falta subtitular o picar clips para el cliente.
+3. **Archivo estructurado `.json`.** Guarda todos los metadatos de `yt-dlp` junto con el arreglo completo de segmentos y cada palabra individual con su segundo de inicio, fin y probabilidad. Con esto puedes correr scripts para contar palabras clave, medir la velocidad de habla o cruzar qué términos salen en los videos con mejor retención.
 
 ---
 
 ## 4. Resumen analítico del lote con Ollama local
 
-Tener veinte archivos `.md` separados resuelve la mitad del trabajo, pero el verdadero ahorro de tiempo está en cruzar todo el lote de una vez.
+Tener veinte archivos `.md` separados te ahorra el trabajo de transcribir, pero lo que de verdad te salva la tarde es cruzar todo el lote de un solo golpe.
 
-En lugar de depender de APIs pagas en la nube o copiar y pegar textos en un navegador, conecté el paso final de `reelscribe` directamente a la API HTTP local de **Ollama** (`http://localhost:11434/api/chat`) corriendo `Qwen2.5-14B-Instruct`.
+En lugar de pagar APIs en la nube o andar copiando y pegando textos en el navegador, conecté el paso final de `reelscribe` directo al servidor HTTP local de Ollama en `http://localhost:11434/api/chat` corriendo `Qwen2.5-14B-Instruct`.
 
-Antes de lanzar el resumen, `is_ollama_available()` comprueba en 1.5 segundos si el servidor local responde en `/api/tags`. Si Ollama está apagado, muestra un aviso y conserva intactas todas las transcripciones individuales sin dar por fallido el lote. Si está activo, empaqueta todas las transcripciones con sus metadatos y genera `transcriptions/resumen.md` estructurado en tres partes:
+Antes de pedir el resumen, `is_ollama_available()` verifica en 1.5 segundos si el servidor local responde en `/api/tags`. Si tienes Ollama apagado, te avisa por consola y deja intactas todas las transcripciones individuales sin tumbar el proceso. Cuando Ollama está activo, junta todas las transcripciones con sus metadatos y genera `transcriptions/resumen.md` dividido en tres bloques:
 
-- **Resumen ejecutivo general.** De qué trata el lote de videos y cuál es el enfoque común de comunicación.
-- **Desglose video por video.** Qué ofrece, qué gancho utiliza, qué estructura sigue y cuál es el llamado a la acción de cada pieza.
-- **Conclusiones e ideas accionables.** Qué patrones, ofertas o palabras clave destacan para replicar en futuros guiones.
+- **Resumen ejecutivo general.** Explica de qué va el lote de videos y cuál es la línea de comunicación de la cuenta.
+- **Desglose video por video.** Detalla qué ofrece cada pieza, qué gancho usa al abrir, cómo estructura el guion y cuál es el llamado a la acción.
+- **Conclusiones e ideas accionables.** Saca en limpio qué patrones, ofertas o palabras clave se repiten para replicarlos en los próximos guiones.
 
 ---
 
 ## 5. Uso diario en la terminal
 
-Procesar una tanda de Reels o TikToks toma un solo comando en WSL, ya sea pasando enlaces como argumentos, desde un archivo `-f`, o por `stdin`:
+Procesar una tanda de Reels o TikToks se reduce a tirar un comando en WSL, pasando los enlaces como argumentos, desde un archivo con `-f` o por `stdin`:
 
 ```sh
 # Procesar varias URLs en GPU (incluyendo short links) y abrir la carpeta al terminar
@@ -149,6 +149,6 @@ reelscribe --open-dir "https://vm.tiktok.com/ZN8BDuYDp/" "https://www.instagram.
 reelscribe -f cliente_octubre.txt -c cookies.txt -m large-v3-turbo -o transcriptions/cliente_octubre
 ```
 
-Al terminar, la carpeta queda ordenada con los archivos numerados (`01_tiktok_...`, `02_instagram_...`) y el informe consolidado en `resumen.md`, abriéndose directamente en el Explorador de archivos si pasas `--open-dir`. Lo que antes tomaba una tarde entera de escuchar videos en bucle y tomar notas a mano ahora sale en segundos corriendo 100% en local.
+Al terminar, la carpeta queda al pelo con todos los archivos numerados y el informe consolidado en `resumen.md`, abriéndose sola en el Explorador de Windows si le pasas `--open-dir`. Lo que antes era una tarde entera escuchando videos en bucle y tomando notas a mano ahora sale en segundos corriendo 100% en local.
 
-El código fuente está disponible en GitHub: [**`github.com/riccivr/reelscribe`**](https://github.com/riccivr/reelscribe).
+El código fuente está disponible en GitHub en [**`github.com/riccivr/reelscribe`**](https://github.com/riccivr/reelscribe).

@@ -7,10 +7,18 @@ Usage:
 """
 
 import os
+import sys
 import re
 import json
 import datetime
+import html
 from xml.sax.saxutils import escape
+
+if sys.stdout and hasattr(sys.stdout, 'reconfigure'):
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
 
 try:
     import markdown
@@ -384,6 +392,154 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
             border: 1px solid var(--border-dim);
             border-radius: 2px;
             font-weight: 600;
+        }}
+
+        /* Terminal Flow Diagram (Zero-JS, 100% Mobile Responsive, No Horizontal Scroll) */
+        .terminal-flow {{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 620px;
+            margin: 1.75rem auto;
+            box-sizing: border-box;
+        }}
+
+        .terminal-flow .flow-step {{
+            width: 100%;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.12), inset 0 0 4px rgba(245, 158, 11, 0.04);
+            padding: 0.85rem 1.15rem;
+            border-radius: 2px;
+            position: relative;
+            box-sizing: border-box;
+            transition: border-color 0.15s ease, background-color 0.15s ease;
+        }}
+
+        [data-theme="light"] .terminal-flow .flow-step {{
+            box-shadow: 0 2px 6px rgba(146, 64, 14, 0.1), inset 0 0 4px rgba(146, 64, 14, 0.03);
+        }}
+
+        .terminal-flow .flow-step-title {{
+            font-weight: 700;
+            color: var(--text-heading);
+            font-size: clamp(0.85rem, 2.5vw, 0.98rem);
+            letter-spacing: -0.01em;
+            margin-bottom: 0.25rem;
+            line-height: 1.4;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }}
+
+        .terminal-flow .flow-step-desc {{
+            color: var(--text-dim);
+            font-size: clamp(0.78rem, 2.2vw, 0.86rem);
+            line-height: 1.45;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }}
+
+        .terminal-flow .flow-step-list {{
+            margin: 0.35rem 0 0 0;
+            padding-left: 0;
+            list-style: none;
+        }}
+
+        .terminal-flow .flow-step-list li {{
+            position: relative;
+            color: var(--text-main);
+            font-size: clamp(0.8rem, 2.3vw, 0.88rem);
+            line-height: 1.5;
+            margin-bottom: 0.25rem;
+            padding-left: 1.25rem;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }}
+
+        .terminal-flow .flow-step-list li::before {{
+            content: "›";
+            position: absolute;
+            left: 0.2rem;
+            color: var(--border-primary);
+            font-weight: bold;
+        }}
+
+        .terminal-flow .flow-step-list li.flow-item-numbered {{
+            padding-left: 0.2rem;
+        }}
+
+        .terminal-flow .flow-step-list li.flow-item-numbered::before {{
+            content: none;
+        }}
+
+        .terminal-flow .flow-step-list li .flow-item-num {{
+            color: var(--border-primary);
+            font-weight: bold;
+            display: inline-block;
+            min-width: 1.2rem;
+        }}
+
+        .terminal-flow .flow-connector {{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.25rem 0;
+            user-select: none;
+        }}
+
+        .terminal-flow .flow-connector-line {{
+            width: 2px;
+            height: 14px;
+            background-color: var(--border-primary);
+            opacity: 0.75;
+        }}
+
+        .terminal-flow .flow-connector-arrow {{
+            font-size: 0.85rem;
+            line-height: 1;
+            color: var(--border-primary);
+            margin-top: -2px;
+            text-shadow: 0 0 6px rgba(245, 158, 11, 0.4);
+        }}
+
+        [data-theme="light"] .terminal-flow .flow-connector-arrow {{
+            text-shadow: none;
+        }}
+
+        .terminal-flow .flow-connector-label {{
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            font-style: italic;
+            padding: 0.15rem 0.55rem;
+            margin: 0.15rem 0;
+            background: var(--bg-badge);
+            border: 1px dashed var(--border-dim);
+            border-radius: 2px;
+            max-width: 90%;
+            text-align: center;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }}
+
+        .terminal-flow code {{
+            background-color: var(--bg-inline-code);
+            color: var(--text-code);
+            padding: 0.1rem 0.3rem;
+            border: 1px solid var(--border-dim);
+            border-radius: 2px;
+            font-weight: 600;
+            font-size: 0.85em;
+        }}
+
+        @media (max-width: 640px) {{
+            .terminal-flow .flow-step {{
+                padding: 0.65rem 0.85rem;
+            }}
+            .terminal-flow .flow-connector-line {{
+                height: 10px;
+            }}
         }}
 
         /* Build-Time Pygments Syntax Highlighting (0 KB JS, 0 ms cost) */
@@ -904,7 +1060,128 @@ def parse_date(content):
 
     return datetime.date.today().isoformat()
 
+def parse_ascii_diagram(code_text):
+    lines = code_text.splitlines()
+    nodes = []
+    
+    in_box = False
+    current_box_lines = []
+    current_connector_lines = []
+    
+    for line in lines:
+        stripped = line.strip()
+        if not stripped:
+            continue
+            
+        if '┌' in stripped and '┐' in stripped:
+            in_box = True
+            current_box_lines = []
+            continue
+            
+        if in_box:
+            if '└' in stripped and '┘' in stripped:
+                in_box = False
+                nodes.append({
+                    "type": "box",
+                    "lines": current_box_lines
+                })
+                current_box_lines = []
+            elif '│' in stripped:
+                content = stripped.strip('│').strip()
+                if content:
+                    current_box_lines.append(content)
+            continue
+        else:
+            if any(ch in stripped for ch in ['│', '▼', '|', 'v', 'V']):
+                label = stripped.replace('│', '').replace('▼', '').replace('|', '').replace('v', '').strip()
+                if label:
+                    label = label.strip('()')
+                    current_connector_lines.append(label)
+                if '▼' in stripped or 'v' in stripped:
+                    conn_label = " ".join(current_connector_lines).strip()
+                    nodes.append({
+                        "type": "connector",
+                        "label": conn_label
+                    })
+                    current_connector_lines = []
+                    
+    return nodes
+
+def format_inline_diagram_text(text):
+    text = html.escape(text)
+    text = re.sub(r'`([^`]+)`', r'<code>\1</code>', text)
+    return text
+
+def format_diagram_html(nodes):
+    if not nodes:
+        return ""
+        
+    html_parts = ['\n<div class="terminal-flow" role="region" aria-label="Pipeline architecture diagram">\n']
+    
+    for node in nodes:
+        if node["type"] == "box":
+            box_lines = node["lines"]
+            if not box_lines:
+                continue
+                
+            title = format_inline_diagram_text(box_lines[0])
+            desc_lines = []
+            list_items = []
+            
+            for line in box_lines[1:]:
+                m_list = re.match(r'^((?:[-*•]|\d+\.))\s+(.+)$', line)
+                if m_list:
+                    prefix = m_list.group(1)
+                    item_text = format_inline_diagram_text(m_list.group(2))
+                    list_items.append((prefix, item_text))
+                else:
+                    desc_lines.append(format_inline_diagram_text(line))
+                    
+            html_parts.append('  <div class="flow-step">')
+            html_parts.append(f'    <div class="flow-step-title">{title}</div>')
+            
+            if desc_lines:
+                desc_text = "<br>".join(desc_lines)
+                html_parts.append(f'    <div class="flow-step-desc">{desc_text}</div>')
+                
+            if list_items:
+                html_parts.append('    <ul class="flow-step-list">')
+                for prefix, item_text in list_items:
+                    if re.match(r'^\d+\.', prefix):
+                        html_parts.append(f'      <li class="flow-item-numbered"><span class="flow-item-num">{prefix}</span> {item_text}</li>')
+                    else:
+                        html_parts.append(f'      <li>{item_text}</li>')
+                html_parts.append('    </ul>')
+                
+            html_parts.append('  </div>\n')
+            
+        elif node["type"] == "connector":
+            label = format_inline_diagram_text(node.get("label", ""))
+            html_parts.append('  <div class="flow-connector" aria-hidden="true">')
+            html_parts.append('    <div class="flow-connector-line"></div>')
+            if label:
+                html_parts.append(f'    <div class="flow-connector-label">({label})</div>')
+                html_parts.append('    <div class="flow-connector-line"></div>')
+            html_parts.append('    <div class="flow-connector-arrow">▼</div>')
+            html_parts.append('  </div>\n')
+            
+    html_parts.append('</div>\n')
+    return "".join(html_parts)
+
+def transform_ascii_diagrams(content):
+    diagram_regex = re.compile(r'```(?:diagram|flow|ascii-flow|text)?\r?\n([ \t]*┌[\s\S]+?└[─┬]+┘[ \t]*\r?\n)```')
+    
+    def replacer(match):
+        raw_diagram = match.group(1)
+        nodes = parse_ascii_diagram(raw_diagram)
+        if nodes and any(n["type"] == "box" for n in nodes):
+            return format_diagram_html(nodes)
+        return match.group(0)
+        
+    return diagram_regex.sub(replacer, content)
+
 def markdown_to_html(content):
+    content = transform_ascii_diagrams(content)
     if markdown:
         md = markdown.Markdown(
             extensions=['fenced_code', 'tables', 'nl2br', 'sane_lists', 'codehilite'],
