@@ -63,6 +63,22 @@
   "entities": {
     "projects": [
       {
+        "id": "reelscribe",
+        "name": "reelscribe",
+        "badge": "Activo",
+        "repoUrl": "https://github.com/riccivr/reelscribe",
+        "tags": [
+          "PYTHON",
+          "WHISPER",
+          "OLLAMA",
+          "YT-DLP",
+          "CONTENT ANALYTICS",
+          "CLI"
+        ],
+        "subtitle": "CLI de transcripción por lotes de Reels y TikToks con resumen analítico en Ollama local",
+        "description": "Herramienta CLI en WSL que resuelve enlaces cortos (vm.tiktok.com, instagr.am), limpia parámetros de rastreo, descarga el audio con yt-dlp y transcribe cada video por separado en tres formatos (.md, .srt y .json) usando faster-whisper con filtro VAD y tiempos por palabra. Al terminar el lote, resume todos los guiones en local con Ollama (Qwen 2.5 14B) para analizar ganchos, palabras clave y estructura de contenido."
+      },
+      {
         "id": "beam",
         "name": "beam",
         "badge": "Activo",
@@ -174,6 +190,13 @@
     ],
     "posts": [
       {
+        "slug": "reelscribe-transcribing-reels-and-tiktoks-for-content-analytics",
+        "date": "2026-10-11",
+        "title": "reelscribe: transcribiendo reels y tiktoks con IA local para el trabajo de mi novia",
+        "summary": "Hace unas semanas armé autodub y beam para poder mandarle videos doblados al español a mi novia cuando terminamos de trabajar. Esta vez el problema venía directamente de su propio trabajo diario.",
+        "url": "https://riccivr.github.io/blog/reelscribe-transcribing-reels-and-tiktoks-for-content-analytics.html"
+      },
+      {
         "slug": "beam-ephemeral-video-streaming-in-c99",
         "date": "2026-09-14",
         "title": "beam: streaming de videos efímeros en C99 con peticiones Range y túneles HTTPS",
@@ -207,13 +230,6 @@
         "title": "Ser un buen ciudadano de la red en la era de la IA: guía moderna para el rastreo y descubrimiento web",
         "summary": "Los buscadores cambiaron la web indexando enlaces. Hoy en día la vaina es otra: los agentes de IA, los pipelines RAG y motores como Perplexity o Claude recorren sitios web para responderle de una vez a la gente.",
         "url": "https://riccivr.github.io/blog/being-a-good-net-citizen-in-the-ai-era.html"
-      },
-      {
-        "slug": "preserving-the-web-with-git",
-        "date": "2026-08-30",
-        "title": "Archivar la web con Git: construyendo un crawler e indexador histórico",
-        "summary": "Las páginas web mutan y desaparecen a cada rato. Las empresas borran documentación durante rediseños corporativos, los términos de servicio cambian sin avisar y los links se rompen de la nada.",
-        "url": "https://riccivr.github.io/blog/preserving-the-web-with-git.html"
       }
     ]
   }

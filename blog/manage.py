@@ -42,6 +42,7 @@ SPANISH_MONTHS = {
 }
 
 POST_CHRONO_ORDER = {
+    "reelscribe-transcribing-reels-and-tiktoks-for-content-analytics": 7,
     "beam-ephemeral-video-streaming-in-c99": 6,
     "autodub-automating-video-dubbing-to-spanish": 5,
     "gitcrawl-content-addressable-web-archiver": 4,
@@ -1146,6 +1147,7 @@ def generate_llms_txt(posts):
         "> Systems & Cloud Engineer specializing in AWS, Cloud Architecture, C99/POSIX low-level systems, parsers, and memory-bounded algorithms.",
         "",
         "## Active Projects",
+        "- [reelscribe](https://github.com/riccivr/reelscribe): Local TikTok and Instagram Reels batch transcription and content analytics CLI powered by yt-dlp, faster-whisper (with VAD word timestamps), and local Ollama summarization.",
         "- [beam](https://github.com/riccivr/beam): Ephemeral POSIX C99 HTTP file and media server supporting single-range byte seeking, faststart MP4 remuxing, in-terminal QR codes, and zero-config public HTTPS reverse tunnels.",
         "- [autodub](https://github.com/riccivr/autodub): Local CPU-based video dubbing CLI and neural speech synthesis pipeline powered by faster-whisper, Piper TTS, and sample-accurate FFmpeg audio alignment.",
         "- [dshuf](https://github.com/riccivr/dshuf): Suckless multi-key low-discrepancy shuffler and single-header C99/POSIX library with strictly bounded O(W) memory for infinite streams.",
@@ -1300,6 +1302,15 @@ def generate_state_json(posts):
         },
         "entities": {
             "projects": [
+                {
+                    "id": "reelscribe",
+                    "name": "reelscribe",
+                    "badge": "Activo",
+                    "repoUrl": "https://github.com/riccivr/reelscribe",
+                    "tags": ["PYTHON", "WHISPER", "OLLAMA", "YT-DLP", "CONTENT ANALYTICS", "CLI"],
+                    "subtitle": "CLI de transcripción por lotes de Reels y TikToks con resumen analítico en Ollama local",
+                    "description": "Herramienta CLI en WSL que resuelve enlaces cortos (vm.tiktok.com, instagr.am), limpia parámetros de rastreo, descarga el audio con yt-dlp y transcribe cada video por separado en tres formatos (.md, .srt y .json) usando faster-whisper con filtro VAD y tiempos por palabra. Al terminar el lote, resume todos los guiones en local con Ollama (Qwen 2.5 14B) para analizar ganchos, palabras clave y estructura de contenido."
+                },
                 {
                     "id": "beam",
                     "name": "beam",

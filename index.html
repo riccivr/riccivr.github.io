@@ -297,6 +297,36 @@
 
                 <section id="projects-content" role="tabpanel" aria-labelledby="tab-projects" tabindex="0" class="content-section space-y-6">
 
+                    <!-- reelscribe -->
+                    <article class="border theme-border-subtle theme-bg-card p-4 transition duration-150">
+                        <header class="flex justify-between items-start mb-2">
+                            <div>
+                                <h2 class="font-bold text-lg theme-text-heading">
+                                    <a href="https://github.com/riccivr/reelscribe" target="_blank" rel="noopener noreferrer" id="reelscribe-link" aria-label="Repositorio reelscribe en GitHub (se abre en una nueva pestaña)" class="hover:underline inline-flex items-center gap-1.5">
+                                        reelscribe <span class="text-xs opacity-75" aria-hidden="true">↗</span>
+                                    </a>
+                                </h2>
+                                <span id="reelscribe-sub" class="text-xs theme-text-muted font-bold">CLI de transcripción por lotes de Reels y TikToks con resumen analítico en Ollama local</span>
+                            </div>
+                            <div id="reelscribe-badge" class="text-xs theme-text-muted text-right whitespace-nowrap font-semibold">
+                                Activo
+                            </div>
+                        </header>
+                        <div class="text-sm leading-relaxed theme-text-main mt-2">
+                            <p id="reelscribe-desc" class="mb-3">
+                                Herramienta CLI en WSL que resuelve enlaces cortos (vm.tiktok.com, instagr.am), limpia parámetros de rastreo, descarga el audio con yt-dlp y transcribe cada video por separado en tres formatos (.md, .srt y .json) usando faster-whisper con filtro VAD y tiempos por palabra. Al terminar el lote, resume todos los guiones en local con Ollama (Qwen 2.5 14B) para analizar ganchos, palabras clave y estructura de contenido.
+                            </p>
+                            <div id="reelscribe-tags" class="flex flex-wrap gap-1.5 pt-1">
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">PYTHON</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">WHISPER</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">OLLAMA</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">YT-DLP</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">CONTENT ANALYTICS</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">CLI</span>
+                            </div>
+                        </div>
+                    </article>
+
                     <!-- beam -->
                     <article class="border theme-border-subtle theme-bg-card p-4 transition duration-150">
                         <header class="flex justify-between items-start mb-2">
@@ -515,33 +545,33 @@
                     <article class="border theme-border-subtle theme-bg-card p-5">
                         <header class="flex flex-col sm:flex-row justify-between sm:items-center gap-1 mb-2 border-b theme-border-dim pb-2">
                             <div id="featured-post-tag" class="text-xs theme-text-muted font-bold font-mono">
-                                POST_2026.09.14 // SISTEMAS & REDES
+                                POST_2026.10.11 // PROYECTOS & MULTIMEDIA
                             </div>
                             <div id="featured-post-reading-time" class="text-xs theme-text-dim font-medium">
-                                Lectura: ~6 min
+                                Lectura: ~5 min
                             </div>
                         </header>
 
                         <h2 class="text-lg sm:text-xl font-bold theme-text-heading mb-2">
-                            <a id="featured-post-link" href="./blog/beam-ephemeral-video-streaming-in-c99.html" class="hover:underline">
-                                beam: streaming de videos efímeros en C99 con peticiones Range y túneles SSH
+                            <a id="featured-post-link" href="./blog/reelscribe-transcribing-reels-and-tiktoks-for-content-analytics.html" class="hover:underline">
+                                reelscribe: transcribiendo reels y tiktoks con IA local para el trabajo de mi novia
                             </a>
                         </h2>
 
                         <p id="featured-post-summary" class="text-sm leading-relaxed theme-text-main mb-4">
-                            Servidor HTTP mínimo en C99 para transmitir archivos locales a reproductores nativos mediante peticiones Range (206 Partial Content), remux Faststart de MP4 y túneles HTTPS reversos efímeros.
+                            Herramienta CLI en WSL que descarga lotes de TikToks y Reels, resuelve short links, transcribe cada video con faster-whisper (.md, .srt y .json) y genera un resumen analítico en local con Ollama.
                         </p>
 
                         <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t theme-border-dim">
                             <div id="featured-post-badges" class="flex flex-wrap gap-1.5">
-                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#C99</span>
-                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#beam</span>
-                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#HTTP</span>
-                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#Redes</span>
-                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#POSIX</span>
-                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#Video</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#Python</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#reelscribe</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#Whisper</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#Ollama</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#yt-dlp</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#CLI</span>
                             </div>
-                            <a id="featured-post-btn" href="./blog/beam-ephemeral-video-streaming-in-c99.html" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold" aria-label="Leer artículo: beam: streaming de videos efímeros en C99 con peticiones Range y túneles SSH">
+                            <a id="featured-post-btn" href="./blog/reelscribe-transcribing-reels-and-tiktoks-for-content-analytics.html" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold" aria-label="Leer artículo: reelscribe: transcribiendo reels y tiktoks con IA local para el trabajo de mi novia">
                                 [LEER ARTÍCULO ->]
                             </a>
                         </div>
@@ -754,7 +784,7 @@
         </div>
     </aside>
 
-    <script src="./portfolio.min.js?v=6" defer></script>
+    <script src="./portfolio.min.js?v=7" defer></script>
 
 </body>
 </html>

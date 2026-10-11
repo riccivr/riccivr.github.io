@@ -5,8 +5,21 @@
     <link>https://riccivr.github.io/blog/</link>
     <description>Thoughts on systems architecture, cloud infrastructure, low-level programming &amp; algorithms.</description>
     <language>en-us</language>
-    <lastBuildDate>Wed, 23 Sep 2026 15:45:04 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 11 Oct 2026 09:25:29 GMT</lastBuildDate>
     <atom:link href="https://riccivr.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>reelscribe: transcribing reels and tiktoks with local AI for my girlfriend's work</title>
+      <link>https://riccivr.github.io/blog/reelscribe-transcribing-reels-and-tiktoks-for-content-analytics.html</link>
+      <guid isPermaLink="true">https://riccivr.github.io/blog/reelscribe-transcribing-reels-and-tiktoks-for-content-analytics.html</guid>
+      <pubDate>Sun, 11 Oct 2026 12:00:00 GMT</pubDate>
+      <description>A few weeks ago I built autodub and beam so I could send Spanish-dubbed videos to my girlfriend after work. This time, the problem came straight from her day-to-day job.</description>
+      <category>Python</category>
+      <category>reelscribe</category>
+      <category>Whisper</category>
+      <category>Ollama</category>
+      <category>yt-dlp</category>
+      <category>CLI</category>
+    </item>
     <item>
       <title>beam: streaming dubbed videos with ephemeral HTTP tunnels and Range requests in C99</title>
       <link>https://riccivr.github.io/blog/beam-ephemeral-video-streaming-in-c99.html</link>

@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="meta-title">reelscribe: transcribiendo reels y tiktoks con IA local para el trabajo de mi novia - Ricardo Veronese</title>
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../riccivr-retro-avatar.png">
+    <meta name="theme-color" content="#0c0a07">
+    <meta name="author" content="Ricardo Veronese">
+    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed (English)" href="https://riccivr.github.io/feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Feed RSS del Blog (Español)" href="https://riccivr.github.io/feed-es.xml">
+    <meta name="description" id="meta-desc" content="Hace unas semanas armé autodub y beam para poder mandarle videos doblados al español a mi novia cuando terminamos de trabajar. Esta vez el problema venía directamente de su propio trabajo diario.">
+    <link rel="canonical" href="https://riccivr.github.io/blog/reelscribe-transcribing-reels-and-tiktoks-for-content-analytics.html">
+
+    <!-- Privacy-first analytics by GoatCounter -->
+    <script data-goatcounter="https://riccivr.goatcounter.com/count"
+            async src="https://gc.zgo.at/count.js"
+            onerror="this.remove()"></script>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Ricardo Veronese">
+    <meta property="og:title" id="og-title" content="reelscribe: transcribiendo reels y tiktoks con IA local para el trabajo de mi novia - Ricardo Veronese">
+    <meta property="og:description" id="og-desc" content="Hace unas semanas armé autodub y beam para poder mandarle videos doblados al español a mi novia cuando terminamos de trabajar. Esta vez el problema venía directamente de su propio trabajo diario.">
+    <meta property="og:url" content="https://riccivr.github.io/blog/reelscribe-transcribing-reels-and-tiktoks-for-content-analytics.html">
+    <meta property="og:image" content="https://riccivr.github.io/riccivr-retro-og.png">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" id="tw-title" content="reelscribe: transcribiendo reels y tiktoks con IA local para el trabajo de mi novia - Ricardo Veronese">
+    <meta name="twitter:description" id="tw-desc" content="Hace unas semanas armé autodub y beam para poder mandarle videos doblados al español a mi novia cuando terminamos de trabajar. Esta vez el problema venía directamente de su propio trabajo diario.">
+    <meta name="twitter:image" content="https://riccivr.github.io/riccivr-retro-og.png">
+
+    <!-- Schema.org BlogPosting -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "reelscribe: transcribiendo reels y tiktoks con IA local para el trabajo de mi novia",
+        "description": "Hace unas semanas arm\u00e9 autodub y beam para poder mandarle videos doblados al espa\u00f1ol a mi novia cuando terminamos de trabajar. Esta vez el problema ven\u00eda directamente de su propio trabajo diario.",
+        "author": {
+            "@type": "Person",
+            "name": "Ricardo Veronese",
+            "url": "https://riccivr.github.io/"
+        },
+        "datePublished": "2026-10-11",
+        "mainEntityOfPage": "https://riccivr.github.io/blog/reelscribe-transcribing-reels-and-tiktoks-for-content-analytics.html"
+    }
+    </script>
+
+    <link rel="stylesheet" href="../style.css">
+    <script>
+        // Immediately apply saved or system theme and language to avoid FOUC
+        (function() {
+            try {
+                const savedTheme = localStorage.getItem('riccivr-theme');
+                const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+                if (savedTheme === 'light' || (!savedTheme && prefersLight)) {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                }
+
+                const savedLang = localStorage.getItem('riccivr-lang');
+                const browserLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
+                const activeLang = (savedLang === 'es' || savedLang === 'en') ? savedLang : (browserLang.startsWith('es') ? 'es' : 'en');
+                document.documentElement.setAttribute('lang', activeLang);
+            } catch(e) {}
+        })();
+    </script>
+    <style>
+        :root {
+            --bg-page: #0c0a07;
+            --bg-frame: #110e0a;
+            --bg-header: #1a140d;
+            --bg-card: #16120b;
+            --bg-card-alt: #1c160e;
+            --bg-badge: rgba(245, 158, 11, 0.12);
+            
+            --border-primary: #d97706;
+            --border-subtle: rgba(217, 119, 6, 0.45);
+            --border-dim: rgba(217, 119, 6, 0.2);
+            
+            --text-title: #fffbeb;
+            --text-heading: #fef08a;
+            --text-main: #fde68a;
+            --text-muted: #fbbf24;
+            --text-dim: #f59e0b;
+            --text-code: #fef08a;
+            --text-blockquote: #fde68a;
+            
+            --scanline-color: rgba(245, 158, 11, 0.035);
+            --frame-shadow: 0 0 16px rgba(245, 158, 11, 0.2), 0 0 1px rgba(245, 158, 11, 0.4) inset;
+            --btn-hover-bg: #f59e0b;
+            --btn-hover-text: #110e0a;
+            
+            --bg-code-block: #080705;
+            --bg-inline-code: rgba(245, 158, 11, 0.14);
+            --bg-blockquote: rgba(245, 158, 11, 0.08);
+            --bg-table-header: rgba(245, 158, 11, 0.18);
+        }
+
+        [data-theme="light"] {
+            --bg-page: #f5efe1;
+            --bg-frame: #fcf8f0;
+            --bg-header: #ebe0ca;
+            --bg-card: #f3ecdb;
+            --bg-card-alt: #eae0cb;
+            --bg-badge: rgba(146, 64, 14, 0.08);
+            
+            --border-primary: #92400e;
+            --border-subtle: rgba(146, 64, 14, 0.5);
+            --border-dim: rgba(146, 64, 14, 0.25);
+            
+            --text-title: #1a0a01;
+            --text-heading: #78350f;
+            --text-main: #2b1103;
+            --text-muted: #612809;
+            --text-dim: #78350f;
+            --text-code: #581c87;
+            --text-blockquote: #451a03;
+            
+            --scanline-color: rgba(146, 64, 14, 0.035);
+            --frame-shadow: 0 3px 14px rgba(146, 64, 14, 0.18), 0 0 0 1px rgba(146, 64, 14, 0.12) inset;
+            --btn-hover-bg: #92400e;
+            --btn-hover-text: #fcf8f0;
+            
+            --bg-code-block: #f7f1e4;
+            --bg-inline-code: #eeddc3;
+            --bg-blockquote: #f0e6d2;
+            --bg-table-header: #ebdcc0;
+        }
+
+        /* Custom retro scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-page);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-subtle);
+            border-radius: 2px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border-primary);
+        }
+
+        .post-content pre::-webkit-scrollbar-track {
+            background: var(--bg-code-block);
+        }
+
+        body {
+            background-color: var(--bg-page);
+            background-image: linear-gradient(var(--scanline-color) 1px, transparent 1px);
+            background-size: 100% 4px;
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--text-main);
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .terminal-frame {
+            box-shadow: var(--frame-shadow);
+            border: 2px solid var(--border-primary);
+            background-color: var(--bg-frame);
+        }
+
+        .interactive-link {
+            transition: color 0.1s ease, background-color 0.1s ease, border-color 0.1s ease;
+            border-color: var(--border-primary);
+            color: var(--text-main);
+        }
+        .interactive-link:hover {
+            color: var(--btn-hover-text) !important;
+            background-color: var(--btn-hover-bg) !important;
+        }
+
+        .theme-border { border-color: var(--border-primary); }
+        .theme-border-subtle { border-color: var(--border-subtle); }
+        .theme-border-dim { border-color: var(--border-dim); }
+
+        .theme-bg-header { background-color: var(--bg-header); }
+        .theme-bg-card { background-color: var(--bg-card); }
+        .theme-bg-card-alt { background-color: var(--bg-card-alt); }
+
+        .theme-text-title { color: var(--text-title); }
+        .theme-text-heading { color: var(--text-heading); }
+        .theme-text-main { color: var(--text-main); }
+        .theme-text-muted { color: var(--text-muted); }
+        .theme-text-dim { color: var(--text-dim); }
+
+        /* Typography & Markdown Styles */
+        .post-content h1 {
+            font-size: clamp(1.2rem, 4.5vw, 1.65rem);
+            font-weight: 800;
+            color: var(--text-title);
+            line-height: 1.35;
+            margin-top: 0.25rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--border-primary);
+            padding-bottom: 0.5rem;
+            text-transform: uppercase;
+            word-break: break-word;
+            letter-spacing: -0.01em;
+        }
+        .post-content h2 {
+            font-size: clamp(1.05rem, 3.8vw, 1.3rem);
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-top: 1.75rem;
+            margin-bottom: 0.65rem;
+            border-bottom: 1px dashed var(--border-subtle);
+            padding-bottom: 0.25rem;
+            line-height: 1.35;
+            word-break: break-word;
+        }
+        .post-content h3 {
+            font-size: clamp(0.95rem, 3.2vw, 1.1rem);
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-top: 1.35rem;
+            margin-bottom: 0.45rem;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+        .post-content p {
+            margin-bottom: 1.15rem;
+            line-height: 1.7;
+            font-size: clamp(0.88rem, 2.5vw, 0.95rem);
+            color: var(--text-main);
+        }
+        .post-content ul, .post-content ol {
+            margin-bottom: 1.2rem;
+            padding-left: 1.25rem;
+        }
+        .post-content li {
+            margin-bottom: 0.45rem;
+            line-height: 1.65;
+            font-size: clamp(0.88rem, 2.5vw, 0.95rem);
+        }
+        .post-content a {
+            color: var(--text-heading);
+            text-decoration: underline;
+            font-weight: bold;
+            transition: color 0.1s ease, background-color 0.1s ease;
+        }
+        .post-content a:hover {
+            color: var(--btn-hover-text);
+            background-color: var(--btn-hover-bg);
+            text-decoration: none;
+        }
+        .post-content a code {
+            color: inherit !important;
+            background-color: transparent !important;
+            border: none !important;
+            text-decoration: underline;
+            padding: 0 !important;
+        }
+        .post-content a:hover code {
+            color: var(--btn-hover-text) !important;
+            background-color: transparent !important;
+        }
+        .post-content code a {
+            color: var(--text-heading) !important;
+            text-decoration: underline;
+        }
+        .post-content code a:hover {
+            color: var(--btn-hover-text) !important;
+            background-color: var(--btn-hover-bg) !important;
+        }
+        .post-content blockquote {
+            border-left: 3px solid var(--border-primary);
+            background: var(--bg-blockquote);
+            padding: 0.75rem 1rem;
+            margin: 1.2rem 0;
+            font-style: italic;
+            color: var(--text-blockquote);
+        }
+        .post-content blockquote p {
+            margin-bottom: 0;
+            color: var(--text-blockquote);
+        }
+        .post-content hr {
+            border: 0;
+            border-top: 1px solid var(--border-subtle);
+            margin: 2rem 0;
+        }
+        .post-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.85rem;
+        }
+        .post-content th, .post-content td {
+            border: 1px solid var(--border-subtle);
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+        }
+        .post-content th {
+            background-color: var(--bg-table-header);
+            color: var(--text-heading);
+            font-weight: bold;
+        }
+        .post-content td {
+            color: var(--text-main);
+        }
+        .post-content pre, .code-highlight pre {
+            background-color: var(--bg-code-block) !important;
+            border: 1px solid var(--border-subtle);
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border-radius: 2px;
+            color: var(--text-main);
+        }
+        .post-content pre code a, .code-highlight pre code a {
+            color: var(--text-heading) !important;
+            text-decoration: underline;
+        }
+        .post-content code, .code-highlight code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+        .post-content p code, .post-content li code {
+            background-color: var(--bg-inline-code);
+            color: var(--text-code);
+            padding: 0.1rem 0.3rem;
+            border: 1px solid var(--border-dim);
+            border-radius: 2px;
+            font-weight: 600;
+        }
+
+        /* Build-Time Pygments Syntax Highlighting (0 KB JS, 0 ms cost) */
+        /* CRT Dark Amber Phosphor Scheme */
+        html:not([data-theme="light"]) .code-highlight .k,
+        html:not([data-theme="light"]) .code-highlight .kd,
+        html:not([data-theme="light"]) .code-highlight .kn,
+        html:not([data-theme="light"]) .code-highlight .kp,
+        html:not([data-theme="light"]) .code-highlight .kr,
+        html:not([data-theme="light"]) .code-highlight .kt,
+        html:not([data-theme="light"]) .code-highlight .nt {
+            color: #f59e0b;
+            font-weight: bold;
+        }
+        html:not([data-theme="light"]) .code-highlight .nf,
+        html:not([data-theme="light"]) .code-highlight .nc,
+        html:not([data-theme="light"]) .code-highlight .nd,
+        html:not([data-theme="light"]) .code-highlight .na,
+        html:not([data-theme="light"]) .code-highlight .ne,
+        html:not([data-theme="light"]) .code-highlight .fm {
+            color: #fef08a;
+            font-weight: 600;
+        }
+        html:not([data-theme="light"]) .code-highlight .s,
+        html:not([data-theme="light"]) .code-highlight .s1,
+        html:not([data-theme="light"]) .code-highlight .s2,
+        html:not([data-theme="light"]) .code-highlight .sa,
+        html:not([data-theme="light"]) .code-highlight .sb,
+        html:not([data-theme="light"]) .code-highlight .sc,
+        html:not([data-theme="light"]) .code-highlight .sd,
+        html:not([data-theme="light"]) .code-highlight .se,
+        html:not([data-theme="light"]) .code-highlight .sh,
+        html:not([data-theme="light"]) .code-highlight .si,
+        html:not([data-theme="light"]) .code-highlight .sx,
+        html:not([data-theme="light"]) .code-highlight .sr,
+        html:not([data-theme="light"]) .code-highlight .ss {
+            color: #a3e635;
+        }
+        html:not([data-theme="light"]) .code-highlight .m,
+        html:not([data-theme="light"]) .code-highlight .mi,
+        html:not([data-theme="light"]) .code-highlight .mf,
+        html:not([data-theme="light"]) .code-highlight .mh,
+        html:not([data-theme="light"]) .code-highlight .mo,
+        html:not([data-theme="light"]) .code-highlight .mb,
+        html:not([data-theme="light"]) .code-highlight .kc {
+            color: #fb923c;
+        }
+        html:not([data-theme="light"]) .code-highlight .c,
+        html:not([data-theme="light"]) .code-highlight .c1,
+        html:not([data-theme="light"]) .code-highlight .cm,
+        html:not([data-theme="light"]) .code-highlight .cp,
+        html:not([data-theme="light"]) .code-highlight .cs,
+        html:not([data-theme="light"]) .code-highlight .ch {
+            color: #d97706;
+            font-style: italic;
+        }
+        html:not([data-theme="light"]) .code-highlight .o,
+        html:not([data-theme="light"]) .code-highlight .ow {
+            color: #fde68a;
+        }
+        html:not([data-theme="light"]) .code-highlight .p {
+            color: #fef08a;
+        }
+        html:not([data-theme="light"]) .code-highlight .nb,
+        html:not([data-theme="light"]) .code-highlight .bp {
+            color: #fbbf24;
+        }
+        html:not([data-theme="light"]) .code-highlight .nv,
+        html:not([data-theme="light"]) .code-highlight .vc,
+        html:not([data-theme="light"]) .code-highlight .vg,
+        html:not([data-theme="light"]) .code-highlight .vi,
+        html:not([data-theme="light"]) .code-highlight .vm,
+        html:not([data-theme="light"]) .code-highlight .n {
+            color: #fde68a;
+        }
+
+        /* Light Paper Theme Syntax Highlighting - 100% WCAG Compliant */
+        [data-theme="light"] .code-highlight .k,
+        [data-theme="light"] .code-highlight .kd,
+        [data-theme="light"] .code-highlight .kn,
+        [data-theme="light"] .code-highlight .kp,
+        [data-theme="light"] .code-highlight .kr,
+        [data-theme="light"] .code-highlight .kt,
+        [data-theme="light"] .code-highlight .nt {
+            color: #9a3412;
+            font-weight: bold;
+        }
+        [data-theme="light"] .code-highlight .nf,
+        [data-theme="light"] .code-highlight .nc,
+        [data-theme="light"] .code-highlight .nd,
+        [data-theme="light"] .code-highlight .na,
+        [data-theme="light"] .code-highlight .ne,
+        [data-theme="light"] .code-highlight .fm {
+            color: #78350f;
+            font-weight: 600;
+        }
+        [data-theme="light"] .code-highlight .s,
+        [data-theme="light"] .code-highlight .s1,
+        [data-theme="light"] .code-highlight .s2,
+        [data-theme="light"] .code-highlight .sa,
+        [data-theme="light"] .code-highlight .sb,
+        [data-theme="light"] .code-highlight .sc,
+        [data-theme="light"] .code-highlight .sd,
+        [data-theme="light"] .code-highlight .se,
+        [data-theme="light"] .code-highlight .sh,
+        [data-theme="light"] .code-highlight .si,
+        [data-theme="light"] .code-highlight .sx,
+        [data-theme="light"] .code-highlight .sr,
+        [data-theme="light"] .code-highlight .ss {
+            color: #14532d;
+        }
+        [data-theme="light"] .code-highlight .m,
+        [data-theme="light"] .code-highlight .mi,
+        [data-theme="light"] .code-highlight .mf,
+        [data-theme="light"] .code-highlight .mh,
+        [data-theme="light"] .code-highlight .mo,
+        [data-theme="light"] .code-highlight .mb,
+        [data-theme="light"] .code-highlight .kc {
+            color: #9a3412;
+        }
+        [data-theme="light"] .code-highlight .c,
+        [data-theme="light"] .code-highlight .c1,
+        [data-theme="light"] .code-highlight .cm,
+        [data-theme="light"] .code-highlight .cp,
+        [data-theme="light"] .code-highlight .cs,
+        [data-theme="light"] .code-highlight .ch {
+            color: #713f12;
+            font-style: italic;
+        }
+        [data-theme="light"] .code-highlight .o,
+        [data-theme="light"] .code-highlight .ow {
+            color: #451a03;
+        }
+        [data-theme="light"] .code-highlight .p {
+            color: #451a03;
+        }
+        [data-theme="light"] .code-highlight .nb,
+        [data-theme="light"] .code-highlight .bp {
+            color: #78350f;
+        }
+        [data-theme="light"] .code-highlight .nv,
+        [data-theme="light"] .code-highlight .vc,
+        [data-theme="light"] .code-highlight .vg,
+        [data-theme="light"] .code-highlight .vi,
+        [data-theme="light"] .code-highlight .vm,
+        [data-theme="light"] .code-highlight .n {
+            color: #2b1103;
+        }
+    </style>
+</head>
+<body class="p-2 sm:p-6 md:p-12 min-h-screen">
+
+    <a href="#main-content" id="skip-link" class="skip-link">[SALTAR AL CONTENIDO]</a>
+    <div id="a11y-announcer" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <div class="terminal-frame max-w-4xl mx-auto mt-1 sm:mt-4 rounded-lg overflow-hidden">
+
+        <header class="p-2.5 sm:p-3 theme-bg-header border-b theme-border flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+            <div class="flex items-center justify-between sm:justify-start gap-2">
+                <span class="text-xs theme-text-muted tracking-wider font-bold truncate max-w-[220px] sm:max-w-none" id="header-sys-id">SYS.ID: riccivr // reelscribe-transcribing-reels-and-tiktoks-for-content-analytics</span>
+                <span class="status-label-text theme-text-main text-[11px] font-bold uppercase tracking-wider sm:hidden">
+                    ESTADO: EN LÍNEA
+                </span>
+            </div>
+            <div class="flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2">
+                <div class="flex items-center gap-1.5 sm:gap-2">
+                    <button id="lang-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-label="Alternar idioma a inglés (actual: Español) [I]" title="Alternar idioma a inglés (actual: Español) [I]">
+                        [LANG: ES]
+                    </button>
+                    <button id="keys-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-pressed="true" aria-label="Alternar atajos de navegación por teclado" title="Alternar atajos de navegación por teclado">
+                        [TECLAS: ACT]
+                    </button>
+                    <button id="theme-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider" aria-label="Alternar tema visual (actual: CRT) [T]" title="Alternar tema visual (actual: CRT) [T]">
+                        [MODO: CRT]
+                    </button>
+                </div>
+                <span class="status-label-text theme-text-main text-xs sm:text-sm font-bold uppercase tracking-wider hidden sm:inline-block ml-2">
+                    ESTADO: EN LÍNEA
+                </span>
+            </div>
+        </header>
+
+        <main id="main-content" class="p-3.5 sm:p-6 md:p-8" tabindex="-1">
+
+            <!-- Navigation Controls -->
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-5 border-b theme-border-subtle text-[11px] sm:text-xs">
+                <div class="flex gap-1.5 sm:gap-2">
+                    <a href="index.html" id="back-index-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Volver a la lista del blog [<]" title="Volver a la lista del blog [<]">
+                        [<] Volver al Blog
+                    </a>
+                    <a href="../" id="home-portal-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Ir al portal principal [H]" title="Ir al portal principal [H]">
+                        [H] Portal Principal
+                    </a>
+                </div>
+                <div class="flex gap-1.5 sm:gap-2">
+                    <button id="copy-link-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Copiar enlace de este artículo [S]" title="Copiar enlace de este artículo [S]">
+                        [S] Copiar Enlace
+                    </button>
+                    <a href="https://github.com/riccivr/riccivr.github.io" target="_blank" rel="noopener noreferrer" id="repo-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Ver repositorio en GitHub (se abre en nueva pestaña) [G]" title="Ver repositorio en GitHub (se abre en nueva pestaña) [G]">
+                        [G] Repo
+                    </a>
+                </div>
+            </div>
+
+            <!-- Post Container (Zero-JS Pre-rendered) -->
+            <article id="post-article-es" lang="es">
+                <div class="post-content">
+<h1>reelscribe: transcribiendo reels y tiktoks con IA local para el trabajo de mi novia</h1>
+<p><em>Publicado: 11 de octubre de 2026. Categoría: Proyectos &amp; Multimedia. Tiempo de lectura: ~5 min</em><br />
+<em>Etiquetas: Python, reelscribe, Whisper, Ollama, yt-dlp, CLI</em></p>
+<hr />
+<p>Hace unas semanas armé <a href="https://riccivr.github.io/blog/autodub-automating-video-dubbing-to-spanish.html"><code>autodub</code></a> y <a href="https://riccivr.github.io/blog/beam-ephemeral-video-streaming-in-c99.html"><code>beam</code></a> para poder mandarle videos doblados al español a mi novia cuando terminamos de trabajar. Esta vez el problema venía directamente de su propio trabajo diario.</p>
+<p>En su trabajo con redes sociales y estrategia de contenido, ella necesita revisar lotes enteros de publicaciones, Reels de Instagram y videos de TikTok de sus clientes. Para sacar analíticas de verdad y tomar decisiones con datos, no basta con ver el número de vistas o likes. Hay que bajar al texto: analizar qué ganchos iniciales retienen a la gente en los primeros tres segundos, qué palabras o estructuras de guion funcionan para vender un producto, qué temas se repiten en los videos exitosos y qué cosas simplemente no sirven.</p>
+<p>Hacer ese levantamiento a mano es un castigo:</p>
+<ul>
+<li>Tienes que abrir veinte o treinta enlaces seguidos, muchos compartidos desde el teléfono como enlaces cortos (<code>vm.tiktok.com/...</code>) llenos de parámetros basura de rastreo.</li>
+<li>Tienes que escuchar cada video con música de fondo a todo volumen, pausando cada tres segundos para copiar en un documento lo que dice la persona.</li>
+<li>Al terminar de transcribir diez o quince videos, todavía te toca leer todo de arriba a abajo para cruzar patrones y redactar un informe comparativo.</li>
+</ul>
+<p>Para quitarle ese trabajo mecánico de encima construí <a href="https://github.com/riccivr/reelscribe"><strong><code>reelscribe</code></strong></a>: una herramienta de terminal en WSL que recibe cualquier cantidad de URLs de TikTok o Instagram, resuelve enlaces cortos, transcribe cada video por separado en tres formatos (<code>.md</code>, <code>.srt</code> y <code>.json</code>) usando <code>faster-whisper</code> y genera al final un resumen analítico de todo el lote con un modelo local en Ollama.</p>
+<hr />
+<h2>1. El flujo completo desde las URLs hasta el análisis</h2>
+<p>La idea desde el principio fue que ella me pudiera pasar una lista de enlaces tal cual salen al darle "Copiar enlace" desde la app del teléfono o desde el navegador, y que un solo comando dejara toda la carpeta lista para trabajar.</p>
+<div class="code-highlight"><pre><span></span><code>┌──────────────────────────────────────────────────────────────┐
+│ Entrada: URLs de TikTok / Instagram + Short Links            │
+│ (ej. vm.tiktok.com/ZN8BDuYDp/ o urls con ?_r=1&amp;_t=...)       │
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ 1. Resolución HTTP y Deduplicación Canónica                  │
+│ - Sigue redirecciones 301/302 de short links                 │
+│ - Limpia query params de rastreo y filtra duplicados         │
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ 2. Extracción con yt-dlp + FFmpeg                            │
+│ - Descarga pista de audio en temporal                        │
+│ - Extrae metadatos (autor, plataforma, ID, título, duración) │
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ 3. Transcripción Local con faster-whisper                    │
+│ - Filtro VAD (Voice Activity Detection) contra música/ruido  │
+│ - Timestamps exactos por segmento y por palabra              │
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ 4. Archivos Individuales por Video                           │
+│ - 01_tiktok_autor_id.md   (Metadatos + texto limpio + reloj) │
+│ - 01_tiktok_autor_id.srt  (Subtítulos estándar)              │
+│ - 01_tiktok_autor_id.json (Datos crudos para analíticas)     │
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ 5. Resumen Global con Ollama Local (Qwen 2.5 14B)            │
+│ - Cruza todas las transcripciones del lote en local          │
+│ - Genera transcriptions/resumen.md con puntos accionables    │
+└──────────────────────────────────────────────────────────────┘
+</code></pre></div>
+
+<hr />
+<h2>2. Enlaces cortos, basura de rastreo y deduplicación</h2>
+<p>Cuando trabajas con enlaces que te mandan por WhatsApp o Slack, casi nunca vienen limpios. Un mismo video de TikTok te puede llegar de dos formas distintas en la misma lista:</p>
+<ol>
+<li>El enlace largo del navegador con parámetros de sesión: <code>https://www.tiktok.com/@cliente/video/7691761289726594326?_r=1&amp;_t=ZN-9ASicGAxtaw</code></li>
+<li>El short link generado por la aplicación móvil: <code>https://vm.tiktok.com/ZN8BDuYDp/</code></li>
+</ol>
+<p>Si le pasas ambos a un script ingenuo, descarga y transcribe el mismo video dos veces, ensuciando las métricas y el resumen final.</p>
+<p>En <code>reelscribe</code>, antes de tocar <code>yt-dlp</code>, cada URL pasa por <code>resolve_url()</code>:</p>
+<div class="code-highlight"><pre><span></span><code><span class="n">SHORT_LINK_HOSTS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;vm.tiktok.com&quot;</span><span class="p">,</span> <span class="s2">&quot;vt.tiktok.com&quot;</span><span class="p">,</span> <span class="s2">&quot;instagr.am&quot;</span><span class="p">}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_url</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">parsed</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">host</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">netloc</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">host</span> <span class="ow">in</span> <span class="n">SHORT_LINK_HOSTS</span> <span class="ow">or</span> <span class="s2">&quot;/t/&quot;</span> <span class="ow">in</span> <span class="n">parsed</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="n">USER_AGENT</span><span class="p">})</span>
+        <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">geturl</span><span class="p">()</span>
+            <span class="n">parsed</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+            <span class="n">host</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">netloc</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="s2">&quot;tiktok.com&quot;</span> <span class="ow">in</span> <span class="n">host</span> <span class="ow">or</span> <span class="s2">&quot;instagram.com&quot;</span> <span class="ow">in</span> <span class="n">host</span><span class="p">:</span>
+        <span class="n">parsed</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">fragment</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">urlunparse</span><span class="p">(</span><span class="n">parsed</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">url</span>
+</code></pre></div>
+
+<p>Con esto el cliente resuelve las redirecciones de los dominios cortos, limpia los parámetros <code>?_r=1&amp;_t=...</code> y compara la URL canónica resultante contra un conjunto en memoria. Si el enlace corto y el enlace largo apuntan al mismo video, lo detecta de inmediato y omite el duplicado.</p>
+<hr />
+<h2>3. Transcripción limpia con filtro VAD y salida en tres formatos</h2>
+<p>Los videos cortos de redes sociales tienen una trampa para los modelos de reconocimiento de voz: casi todos tienen música comercial sonando duro de fondo, cortes bruscos y silencios intermedios. Si pasas ese audio crudo por Whisper sin filtros, el modelo suele alucinar frases repetidas durante los compases musicales.</p>
+<p>Para evitarlo, <code>reelscribe</code> activa el filtro VAD (<code>vad_filter=True</code>) integrado en <code>faster-whisper</code> con ventanas de silencio de 400 ms y extracción de marcas de tiempo palabra por palabra (<code>word_timestamps=True</code>).</p>
+<p>Por cada video procesado se guardan tres archivos separados en la carpeta de salida:</p>
+<ol>
+<li><strong>Archivo Markdown (<code>.md</code>):</strong> pensado para lectura rápida. Incluye la ficha del video (URL canónica, plataforma, autor, ID, duración e idioma), seguida del párrafo de transcripción limpia de corrido y, más abajo, el desglose línea por línea con su minuto y segundo exacto (<code>[00:00 - 00:06]</code>).</li>
+<li><strong>Archivo de subtítulos (<code>.srt</code>):</strong> listo para importar en cualquier editor de video si hace falta reutilizar o subtitular piezas.</li>
+<li><strong>Archivo estructurado (<code>.json</code>):</strong> contiene todos los metadatos extraídos por <code>yt-dlp</code> junto con el arreglo completo de segmentos y cada palabra individual con su segundo de inicio, fin y probabilidad. Esto permite correr scripts de conteo de palabras clave, medir la velocidad de habla (palabras por minuto) o cruzar qué términos aparecen en los videos con mayor retención.</li>
+</ol>
+<hr />
+<h2>4. Resumen analítico del lote con Ollama local</h2>
+<p>Tener veinte archivos <code>.md</code> separados resuelve la mitad del trabajo, pero el verdadero ahorro de tiempo está en cruzar todo el lote de una vez.</p>
+<p>En lugar de depender de APIs pagas en la nube o copiar y pegar textos en un navegador, conecté el paso final de <code>reelscribe</code> directamente a la API HTTP local de <strong>Ollama</strong> (<code>http://localhost:11434/api/chat</code>) corriendo <code>Qwen2.5-14B-Instruct</code>.</p>
+<p>Cuando termina de transcribir el último video de la lista, la herramienta empaqueta todas las transcripciones con sus metadatos (autor, título y texto completo) y le pide al modelo local que genere <code>transcriptions/resumen.md</code> estructurado en tres partes:</p>
+<ul>
+<li><strong>Resumen ejecutivo general:</strong> de qué trata el lote de videos y cuál es el enfoque común de comunicación.</li>
+<li><strong>Desglose video por video:</strong> qué ofrece, qué gancho utiliza, qué estructura sigue y cuál es el llamado a la acción de cada pieza.</li>
+<li><strong>Conclusiones e ideas accionables:</strong> qué patrones, ofertas o palabras clave destacan para replicar en futuros guiones.</li>
+</ul>
+<hr />
+<h2>5. Uso diario en la terminal</h2>
+<p>Procesar una tanda de Reels o TikToks toma un solo comando en WSL:</p>
+<div class="code-highlight"><pre><span></span><code><span class="c1"># Procesar varias URLs (incluyendo short links) y generar el resumen con Ollama</span>
+reelscribe<span class="w"> </span><span class="s2">&quot;https://vm.tiktok.com/ZN8BDuYDp/&quot;</span><span class="w"> </span><span class="s2">&quot;https://www.instagram.com/reel/EXAMPLE/&quot;</span>
+
+<span class="c1"># Procesar una lista completa de un cliente desde un archivo de texto</span>
+reelscribe<span class="w"> </span>-f<span class="w"> </span>cliente_octubre.txt<span class="w"> </span>-o<span class="w"> </span>transcriptions/cliente_octubre
+</code></pre></div>
+
+<p>Al terminar, la carpeta queda ordenada con los archivos numerados (<code>01_tiktok_...</code>, <code>02_instagram_...</code>) y el informe consolidado en <code>resumen.md</code>. Lo que antes tomaba una tarde entera de escuchar videos en bucle y tomar notas a mano ahora sale en menos de un minuto corriendo 100% en local.</p>
+<p>El código fuente está disponible en GitHub: <a href="https://github.com/riccivr/reelscribe"><strong><code>github.com/riccivr/reelscribe</code></strong></a>.</p>
+                </div>
+            </article>
+
+            <article id="post-article-en" lang="en" style="display: none;">
+                <div class="post-content">
+<h1>reelscribe: transcribing reels and tiktoks with local AI for my girlfriend's work</h1>
+<p><em>Published: October 11, 2026. Category: Projects &amp; Multimedia. Reading time: ~5 min</em><br />
+<em>Tags: Python, reelscribe, Whisper, Ollama, yt-dlp, CLI</em></p>
+<hr />
+<p>A few weeks ago I built <a href="https://riccivr.github.io/blog/autodub-automating-video-dubbing-to-spanish.html"><code>autodub</code></a> and <a href="https://riccivr.github.io/blog/beam-ephemeral-video-streaming-in-c99.html"><code>beam</code></a> so I could send Spanish-dubbed videos to my girlfriend after work. This time, the problem came straight from her day-to-day job.</p>
+<p>In her social media and content strategy work, she regularly reviews batches of client posts, Instagram Reels, and TikTok videos. To get real analytics and figure out what actually works, surface metrics like view counts or likes are not enough. You have to look at the actual script: which opening hooks keep people watching past the first three seconds, which exact words and offers drive engagement, which topics perform best, and what falls flat.</p>
+<p>Doing that manually is exhausting:</p>
+<ul>
+<li>You have to open twenty or thirty links in a row, many shared from phones as short links (<code>vm.tiktok.com/...</code>) cluttered with tracking parameters.</li>
+<li>You have to listen to each clip over loud background music, pausing every three seconds to type out what the speaker is saying.</li>
+<li>Once you finish transcribing fifteen videos by hand, you still have to read through pages of notes to spot patterns and write a summary report.</li>
+</ul>
+<p>To take that repetitive work off her plate, I built <a href="https://github.com/riccivr/reelscribe"><strong><code>reelscribe</code></strong></a>: a CLI tool running on WSL that takes any number of TikTok or Instagram URLs, resolves short links, transcribes each video into separate files (<code>.md</code>, <code>.srt</code>, and <code>.json</code>) using <code>faster-whisper</code>, and generates a consolidated analytical summary at the end using a local LLM on Ollama.</p>
+<hr />
+<h2>1. The pipeline from raw URLs to content analytics</h2>
+<p>The goal was simple: she passes me a list of links exactly as they come out of the mobile "Copy Link" button or desktop browser, and a single command produces an organized folder with every transcript and a final report.</p>
+<div class="code-highlight"><pre><span></span><code>┌──────────────────────────────────────────────────────────────┐
+│ Input: TikTok / Instagram URLs &amp; Short Links                 │
+│ (e.g. vm.tiktok.com/ZN8BDuYDp/ or URLs with ?_r=1&amp;_t=...)    │
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ 1. HTTP Redirect Resolution &amp; Canonical Deduplication        │
+│ - Follows 301/302 redirects on mobile short links            │
+│ - Strips tracking query params and filters duplicate videos  │
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ 2. Media &amp; Metadata Extraction via yt-dlp + FFmpeg           │
+│ - Extracts temporary audio stream                            │
+│ - Captures metadata (author, platform, ID, title, duration)  │
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ 3. Local Transcription via faster-whisper                    │
+│ - Voice Activity Detection (VAD) filters out background music│
+│ - Word-level and segment-level timestamps                    │
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ 4. Per-Video Output Files                                    │
+│ - 01_tiktok_author_id.md   (Metadata + clean prose + clock)  │
+│ - 01_tiktok_author_id.srt  (Standard subtitle file)          │
+│ - 01_tiktok_author_id.json (Structured data for analytics)   │
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ 5. Batch Summary via Local Ollama (Qwen 2.5 14B)             │
+│ - Synthesizes all transcripts in the batch locally           │
+│ - Writes transcriptions/resumen.md with actionable insights  │
+└──────────────────────────────────────────────────────────────┘
+</code></pre></div>
+
+<hr />
+<h2>2. Short links, tracking parameters, and deduplication</h2>
+<p>Links shared over WhatsApp or Slack are rarely clean. The exact same TikTok video often shows up in two different formats within the same batch:</p>
+<ol>
+<li>The full browser URL with session tracking query strings: <code>https://www.tiktok.com/@client/video/7691761289726594326?_r=1&amp;_t=ZN-9ASicGAxtaw</code></li>
+<li>The mobile short link: <code>https://vm.tiktok.com/ZN8BDuYDp/</code></li>
+</ol>
+<p>If you feed both into a naive script, it downloads and transcribes the same video twice, skewing both the word counts and the final summary.</p>
+<p>In <code>reelscribe</code>, every URL runs through <code>resolve_url()</code> before calling <code>yt-dlp</code>:</p>
+<div class="code-highlight"><pre><span></span><code><span class="n">SHORT_LINK_HOSTS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;vm.tiktok.com&quot;</span><span class="p">,</span> <span class="s2">&quot;vt.tiktok.com&quot;</span><span class="p">,</span> <span class="s2">&quot;instagr.am&quot;</span><span class="p">}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_url</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">parsed</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">host</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">netloc</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">host</span> <span class="ow">in</span> <span class="n">SHORT_LINK_HOSTS</span> <span class="ow">or</span> <span class="s2">&quot;/t/&quot;</span> <span class="ow">in</span> <span class="n">parsed</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="n">USER_AGENT</span><span class="p">})</span>
+        <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">geturl</span><span class="p">()</span>
+            <span class="n">parsed</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+            <span class="n">host</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">netloc</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="s2">&quot;tiktok.com&quot;</span> <span class="ow">in</span> <span class="n">host</span> <span class="ow">or</span> <span class="s2">&quot;instagram.com&quot;</span> <span class="ow">in</span> <span class="n">host</span><span class="p">:</span>
+        <span class="n">parsed</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">fragment</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">urlunparse</span><span class="p">(</span><span class="n">parsed</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">url</span>
+</code></pre></div>
+
+<p>This follows HTTP redirects on short-link domains, strips <code>?_r=1&amp;_t=...</code> tracking parameters, and checks the resulting canonical URL against an in-memory set so duplicate links are skipped automatically.</p>
+<hr />
+<h2>3. VAD-filtered transcription and three output formats per video</h2>
+<p>Short-form social videos have a common trap for speech recognition models: loud background music, jump cuts, and non-speech audio effects. Running raw audio through Whisper without filtering often causes hallucinated phrases during music-only sections.</p>
+<p>To prevent this, <code>reelscribe</code> enables <code>faster-whisper</code>'s built-in Voice Activity Detection (<code>vad_filter=True</code>) with a 400 ms silence threshold alongside word-level timestamps (<code>word_timestamps=True</code>).</p>
+<p>Each video produces three separate files in the output directory:</p>
+<ol>
+<li><strong>Markdown file (<code>.md</code>):</strong> formatted for quick human review. It includes a metadata header (canonical URL, platform, author, video ID, duration, and detected language), the full clean paragraph transcript, and a timestamped breakdown (<code>[00:00 - 00:06]</code>).</li>
+<li><strong>SubRip subtitle file (<code>.srt</code>):</strong> ready to drop into any video editor if clips need captions or repurposing.</li>
+<li><strong>Structured JSON (<code>.json</code>):</strong> stores all <code>yt-dlp</code> metadata, full text, segments, and every individual word with its start time, end time, and confidence score. This makes it easy to run keyword frequency scripts, measure speaking pace, or correlate specific hooks with video retention.</li>
+</ol>
+<hr />
+<h2>4. Batch summarization with local Ollama</h2>
+<p>Having separate <code>.md</code> files for twenty videos solves the transcription bottleneck, but the real time-saver is analyzing the whole batch together.</p>
+<p>Instead of relying on paid cloud APIs or pasting transcripts into a browser tab, <code>reelscribe</code> connects directly to a local <strong>Ollama</strong> instance (<code>http://localhost:11434/api/chat</code>) running <code>Qwen2.5-14B-Instruct</code>.</p>
+<p>Once all videos in the queue are transcribed, the CLI bundles their metadata and full transcripts and prompts the local model to write <code>transcriptions/resumen.md</code> with three sections:</p>
+<ul>
+<li><strong>Executive summary:</strong> the overarching theme and positioning across the batch.</li>
+<li><strong>Per-video breakdown:</strong> the hook, core offer, structure, and call to action of each individual video.</li>
+<li><strong>Actionable takeaways:</strong> which phrasing, offers, and script structures stand out to replicate in upcoming content.</li>
+</ul>
+<hr />
+<h2>5. Terminal workflow</h2>
+<p>Processing a batch of Reels or TikToks takes a single command in WSL:</p>
+<div class="code-highlight"><pre><span></span><code><span class="c1"># Transcribe multiple URLs (including short links) and summarize with local Ollama</span>
+reelscribe<span class="w"> </span><span class="s2">&quot;https://vm.tiktok.com/ZN8BDuYDp/&quot;</span><span class="w"> </span><span class="s2">&quot;https://www.instagram.com/reel/EXAMPLE/&quot;</span>
+
+<span class="c1"># Process an entire client batch from a text file</span>
+reelscribe<span class="w"> </span>-f<span class="w"> </span>client_october.txt<span class="w"> </span>-o<span class="w"> </span>transcriptions/client_october
+</code></pre></div>
+
+<p>When it finishes, the output folder contains numbered files for each video (<code>01_tiktok_...</code>, <code>02_instagram_...</code>) plus the consolidated <code>resumen.md</code>. What used to take an entire afternoon of replaying videos and typing notes by hand now finishes in under a minute, running 100% locally.</p>
+<p>The source code is available on GitHub: <a href="https://github.com/riccivr/reelscribe"><strong><code>github.com/riccivr/reelscribe</code></strong></a>.</p>
+                </div>
+            </article>
+
+            <!-- Bottom Return Navigation -->
+            <div class="mt-10 sm:mt-12 pt-6 sm:pt-8 pb-3 sm:pb-4 border-t theme-border-subtle flex justify-between items-center text-xs sm:text-sm">
+                <a href="index.html" id="bottom-back-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Volver a la lista de artículos [<]" title="Volver a la lista de artículos [<]">
+                    [<] Volver al Blog
+                </a>
+                <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" id="bottom-top-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Ir arriba [K]" title="Ir arriba [K]">
+                    [^] Arriba
+                </a>
+            </div>
+
+        </main>
+
+        <footer class="p-3 sm:p-4 border-t theme-border text-xs flex justify-between items-center theme-bg-header">
+            <span class="theme-text-muted text-[11px] sm:text-xs font-bold">riccivr.github.io/blog</span>
+            <span id="footer-text" class="text-right text-[11px] sm:text-xs theme-text-muted font-mono font-medium">
+                REV: c1042b0 // PUBLICADO: 2026.10.11
+            </span>
+        </footer>
+
+    </div>
+
+    <!-- Progressive Enhancement Script -->
+    <script>
+        const i18n = {
+            es: {
+                sysId: "SYS.ID: riccivr // reelscribe-transcribing-reels-and-tiktoks-for-content-analytics",
+                status: "ESTADO: EN LÍNEA",
+                langToggle: "[LANG: ES]",
+                langAria: "Alternar idioma a inglés (actual: Español) [I]",
+                keysOn: "[TECLAS: ACT]",
+                keysOff: "[TECLAS: DES]",
+                keysAria: "Alternar atajos de navegación por teclado",
+                modeCrt: "[MODO: CRT]",
+                modePaper: "[MODO: PAPEL]",
+                themeAria: "Alternar tema visual a Papel (actual: CRT) [T]",
+                themeAriaPaper: "Alternar tema visual a CRT (actual: Papel) [T]",
+                backIndex: "[<] Volver al Blog",
+                backIndexAria: "Volver a la lista del blog [<]",
+                homePortal: "[H] Portal Principal",
+                homePortalAria: "Ir al portal principal [H]",
+                copyLink: "[S] Copiar Enlace",
+                copyLinkAria: "Copiar enlace de este artículo [S]",
+                copied: "[✓] ¡Copiado!",
+                repo: "[G] Repo",
+                repoAria: "Ver repositorio en GitHub (se abre en nueva pestaña) [G]",
+                topBtn: "[^] Arriba",
+                topBtnAria: "Ir arriba [K]",
+                footerText: "REV: c1042b0 // PUBLICADO: 2026.10.11",
+                title: "reelscribe: transcribiendo reels y tiktoks con IA local para el trabajo de mi novia",
+                metaDesc: "Hace unas semanas arm\u00e9 autodub y beam para poder mandarle videos doblados al espa\u00f1ol a mi novia cuando terminamos de trabajar. Esta vez el problema ven\u00eda directamente de su propio trabajo diario."
+            },
+            en: {
+                sysId: "SYS.ID: riccivr // reelscribe-transcribing-reels-and-tiktoks-for-content-analytics",
+                status: "STATUS: ONLINE",
+                langToggle: "[LANG: EN]",
+                langAria: "Toggle language to Spanish (current: English) [I]",
+                keysOn: "[KEYS: ON]",
+                keysOff: "[KEYS: OFF]",
+                keysAria: "Toggle keyboard navigation shortcuts",
+                modeCrt: "[MODE: CRT]",
+                modePaper: "[MODE: PAPER]",
+                themeAria: "Toggle visual theme to Paper (current: CRT) [T]",
+                themeAriaPaper: "Toggle visual theme to CRT (current: Paper) [T]",
+                backIndex: "[<] Return to Blog",
+                backIndexAria: "Return to blog list [<]",
+                homePortal: "[H] Home Portal",
+                homePortalAria: "Go to home portal [H]",
+                copyLink: "[S] Copy Link",
+                copyLinkAria: "Copy link to this article [S]",
+                copied: "[✓] Copied!",
+                repo: "[G] Repo",
+                repoAria: "View GitHub repository (opens in a new tab) [G]",
+                topBtn: "[^] Top",
+                topBtnAria: "Scroll to top [K]",
+                footerText: "REV: c1042b0 // PUBLISHED: 2026.10.11",
+                title: "reelscribe: transcribing reels and tiktoks with local AI for my girlfriend's work",
+                metaDesc: "A few weeks ago I built autodub and beam so I could send Spanish-dubbed videos to my girlfriend after work. This time, the problem came straight from her day-to-day job."
+            }
+        };
+
+        function getLanguage() {
+            const saved = localStorage.getItem('riccivr-lang');
+            if (saved === 'es' || saved === 'en') return saved;
+            const browserLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
+            return browserLang.startsWith('es') ? 'es' : 'en';
+        }
+
+        let currentLang = getLanguage();
+
+        function applyLanguageUI() {
+            const t = i18n[currentLang] || i18n.es;
+            document.documentElement.setAttribute('lang', currentLang);
+
+            document.querySelectorAll('.status-label-text').forEach(el => el.textContent = t.status);
+            
+            const langBtn = document.getElementById('lang-toggle');
+            langBtn.textContent = t.langToggle;
+            langBtn.setAttribute('aria-label', t.langAria);
+            langBtn.setAttribute('title', t.langAria);
+
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            const themeBtn = document.getElementById('theme-toggle');
+            themeBtn.textContent = isLight ? t.modePaper : t.modeCrt;
+            const themeLabel = isLight ? t.themeAriaPaper : t.themeAria;
+            themeBtn.setAttribute('aria-label', themeLabel);
+            themeBtn.setAttribute('title', themeLabel);
+
+            const keysEnabled = localStorage.getItem('riccivr-keys') !== 'off';
+            const keysBtn = document.getElementById('keys-toggle');
+            keysBtn.textContent = keysEnabled ? t.keysOn : t.keysOff;
+            keysBtn.setAttribute('aria-label', t.keysAria);
+            keysBtn.setAttribute('title', t.keysAria);
+            keysBtn.setAttribute('aria-pressed', keysEnabled ? 'true' : 'false');
+
+            const backBtn = document.getElementById('back-index-btn');
+            backBtn.textContent = t.backIndex;
+            backBtn.setAttribute('aria-label', t.backIndexAria);
+            backBtn.setAttribute('title', t.backIndexAria);
+
+            const homeBtn = document.getElementById('home-portal-btn');
+            homeBtn.textContent = t.homePortal;
+            homeBtn.setAttribute('aria-label', t.homePortalAria);
+            homeBtn.setAttribute('title', t.homePortalAria);
+
+            const copyBtn = document.getElementById('copy-link-btn');
+            copyBtn.textContent = t.copyLink;
+            copyBtn.setAttribute('aria-label', t.copyLinkAria);
+            copyBtn.setAttribute('title', t.copyLinkAria);
+
+            const repoBtn = document.getElementById('repo-btn');
+            repoBtn.textContent = t.repo;
+            repoBtn.setAttribute('aria-label', t.repoAria);
+            repoBtn.setAttribute('title', t.repoAria);
+
+            const bottomBackBtn = document.getElementById('bottom-back-btn');
+            bottomBackBtn.textContent = t.backIndex;
+            bottomBackBtn.setAttribute('aria-label', t.backIndexAria);
+            bottomBackBtn.setAttribute('title', t.backIndexAria);
+
+            const bottomTopBtn = document.getElementById('bottom-top-btn');
+            bottomTopBtn.textContent = t.topBtn;
+            bottomTopBtn.setAttribute('aria-label', t.topBtnAria);
+            bottomTopBtn.setAttribute('title', t.topBtnAria);
+
+            document.getElementById('footer-text').textContent = t.footerText;
+
+            // Toggle language articles
+            const artEs = document.getElementById('post-article-es');
+            const artEn = document.getElementById('post-article-en');
+            if (artEs && artEn) {
+                if (currentLang === 'en') {
+                    artEs.style.display = 'none';
+                    artEn.style.display = 'block';
+                } else {
+                    artEs.style.display = 'block';
+                    artEn.style.display = 'none';
+                }
+            }
+
+            // Update meta tags
+            document.title = `${t.title} - Ricardo Veronese`;
+            const metaDesc = document.getElementById('meta-desc');
+            if (metaDesc) metaDesc.setAttribute('content', t.metaDesc);
+            const ogTitle = document.getElementById('og-title');
+            if (ogTitle) ogTitle.setAttribute('content', t.title);
+            const ogDesc = document.getElementById('og-desc');
+            if (ogDesc) ogDesc.setAttribute('content', t.metaDesc);
+        }
+
+        // Theme toggle handling
+        const themeBtn = document.getElementById('theme-toggle');
+        function updateThemeBtn() {
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            const t = i18n[currentLang] || i18n.es;
+            themeBtn.textContent = isLight ? t.modePaper : t.modeCrt;
+            const themeLabel = isLight ? t.themeAriaPaper : t.themeAria;
+            themeBtn.setAttribute('aria-label', themeLabel);
+            themeBtn.setAttribute('title', themeLabel);
+        }
+
+        themeBtn.addEventListener('click', () => {
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            if (isLight) {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('riccivr-theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('riccivr-theme', 'light');
+            }
+            updateThemeBtn();
+        });
+
+        // Language toggle handling
+        document.getElementById('lang-toggle').addEventListener('click', () => {
+            currentLang = currentLang === 'es' ? 'en' : 'es';
+            localStorage.setItem('riccivr-lang', currentLang);
+            applyLanguageUI();
+        });
+
+        // Keyboard shortcuts
+        const keysBtn = document.getElementById('keys-toggle');
+        let keyboardEnabled = localStorage.getItem('riccivr-keys') !== 'off';
+
+        function updateKeysBtn() {
+            const t = i18n[currentLang] || i18n.es;
+            keysBtn.textContent = keyboardEnabled ? t.keysOn : t.keysOff;
+            keysBtn.setAttribute('aria-label', t.keysAria);
+            keysBtn.setAttribute('title', t.keysAria);
+            keysBtn.setAttribute('aria-pressed', keyboardEnabled ? 'true' : 'false');
+        }
+
+        keysBtn.addEventListener('click', () => {
+            keyboardEnabled = !keyboardEnabled;
+            localStorage.setItem('riccivr-keys', keyboardEnabled ? 'on' : 'off');
+            updateKeysBtn();
+        });
+
+        // Copy link handler
+        const copyBtn = document.getElementById('copy-link-btn');
+        copyBtn.addEventListener('click', () => {
+            const url = window.location.href;
+            const t = i18n[currentLang] || i18n.es;
+            navigator.clipboard.writeText(url).then(() => {
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = t.copied;
+                setTimeout(() => {
+                    copyBtn.textContent = originalText;
+                }, 2000);
+            }).catch(() => {
+                prompt("Copia este enlace / Copy this link:", url);
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!keyboardEnabled) return;
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+            const key = e.key.toLowerCase();
+            if (key === 'i') {
+                e.preventDefault();
+                document.getElementById('lang-toggle').click();
+            } else if (key === 't') {
+                e.preventDefault();
+                themeBtn.click();
+            } else if (key === 'b' || key === '[') {
+                e.preventDefault();
+                window.location.href = 'index.html';
+            } else if (key === 'h') {
+                e.preventDefault();
+                window.location.href = '../';
+            } else if (key === 's') {
+                e.preventDefault();
+                copyBtn.click();
+            } else if (key === 'g') {
+                e.preventDefault();
+                window.open('https://github.com/riccivr/riccivr.github.io', '_blank');
+            } else if (key === 'k' || key === '^') {
+                e.preventDefault();
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
+        });
+
+        // Apply initial UI
+        applyLanguageUI();
+        updateThemeBtn();
+        updateKeysBtn();
+    </script>
+</body>
+</html>

@@ -1,5 +1,54 @@
 [
   {
+    "slug": "reelscribe-transcribing-reels-and-tiktoks-for-content-analytics",
+    "date": "2026-10-11",
+    "title": "reelscribe: transcribiendo reels y tiktoks con IA local para el trabajo de mi novia",
+    "category": "Proyectos & Multimedia",
+    "tags": [
+      "Python",
+      "reelscribe",
+      "Whisper",
+      "Ollama",
+      "yt-dlp",
+      "CLI"
+    ],
+    "summary": "Hace unas semanas armé autodub y beam para poder mandarle videos doblados al español a mi novia cuando terminamos de trabajar. Esta vez el problema venía directamente de su propio trabajo diario.",
+    "readingTime": "6 min",
+    "file": "posts/reelscribe-transcribing-reels-and-tiktoks-for-content-analytics.es.md",
+    "en": {
+      "title": "reelscribe: transcribing reels and tiktoks with local AI for my girlfriend's work",
+      "date": "2026-10-11",
+      "category": "Projects & Multimedia",
+      "tags": [
+        "Python",
+        "reelscribe",
+        "Whisper",
+        "Ollama",
+        "yt-dlp",
+        "CLI"
+      ],
+      "summary": "A few weeks ago I built autodub and beam so I could send Spanish-dubbed videos to my girlfriend after work. This time, the problem came straight from her day-to-day job.",
+      "readingTime": "6 min",
+      "file": "posts/reelscribe-transcribing-reels-and-tiktoks-for-content-analytics.en.md"
+    },
+    "es": {
+      "title": "reelscribe: transcribiendo reels y tiktoks con IA local para el trabajo de mi novia",
+      "date": "2026-10-11",
+      "category": "Proyectos & Multimedia",
+      "tags": [
+        "Python",
+        "reelscribe",
+        "Whisper",
+        "Ollama",
+        "yt-dlp",
+        "CLI"
+      ],
+      "summary": "Hace unas semanas armé autodub y beam para poder mandarle videos doblados al español a mi novia cuando terminamos de trabajar. Esta vez el problema venía directamente de su propio trabajo diario.",
+      "readingTime": "6 min",
+      "file": "posts/reelscribe-transcribing-reels-and-tiktoks-for-content-analytics.es.md"
+    }
+  },
+  {
     "slug": "beam-ephemeral-video-streaming-in-c99",
     "date": "2026-09-14",
     "title": "beam: streaming de videos efímeros en C99 con peticiones Range y túneles HTTPS",
