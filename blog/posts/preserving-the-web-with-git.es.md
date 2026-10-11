@@ -54,19 +54,32 @@ El reto más bravo al meter HTML en Git es el ruido dinámico.
 Si haces commit del HTML crudo que devuelve el servidor, cada corrida te va a generar diffs falsos por tokens CSRF, cookies de sesión, banners con fechas y bloques de publicidad aleatorios.
 
 ```
-Respuesta HTTP en crudo
-       │
-       ▼
-[ Stream de descarga ]
-       │
-       ▼
-[ Sanitizador de DOM ] ──> Quita scripts, pixeles de rastreo y atributos locos
-       │
-       ▼
-[ Parser de streams ]  ──> Convierte el DOM limpio en Markdown normalizado
-       │
-       ▼
-[ Plomería de Git ]    ──> Escribe el commit directo en .git/objects
+┌──────────────────────────────────────────────────────────────┐
+│ 1. Respuesta HTTP en Crudo y Stream de Descarga              │
+│ - Petición GET con control de timeout y tamaño de buffer     │
+│ - Stream de bytes recibido sin escribir archivos temporales  │
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ 2. Sanitizador de DOM y Reducción de Ruido                   │
+│ - Quita scripts, iframes y píxeles de rastreo publicitario   │
+│ - Elimina tokens CSRF, cookies de sesión y atributos volátiles│
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ 3. Parser de Streams y Normalización a Markdown              │
+│ - Extrae estructura limpia de contenido (`<main>`, `<article>`)│
+│ - Convierte el árbol a Markdown canónico y determinista      │
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ 4. Plomería Nativa de Git (.git/objects)                     │
+│ - Escribe blobs deduplicados por SHA-1/SHA-256 en disco      │
+│ - Genera árbol y commit atómico sin tocar el working tree    │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ### Esquema de almacenamiento en dos archivos:

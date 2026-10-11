@@ -18,11 +18,25 @@ Here are practical steps to make a site readable for machines without wasting se
 Googlebot can spin up headless Chromium instances to render complex single page apps. Most smaller crawlers and AI search bots do not do that. They make a basic GET request and expect raw text back.
 
 ```
-Crawler GET request (/article)
-         │
-         ├── Heavy client SPA ──> Returns <div id="root"></div> ──> Dropped
-         │
-         └── Static HTML      ──> Returns complete semantic DOM ──> Parsed
+┌──────────────────────────────────────────────────────────────┐
+│ 1. AI Crawler GET Request (/article)                         │
+│ - Bot or agent requests the URL expecting immediate payload  │
+│ - No headless Chromium execution or JavaScript runtime run   │
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ 2. Web Architecture Fork                                     │
+│ - Client SPA: Returns empty shell `<div id="root"></div>`    │
+│ - Static HTML: Returns fully pre-rendered semantic DOM       │
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ 3. Agent Ingestion and Content Extraction                    │
+│ - SPA: Ingestion failure or dropped due to extraction cost   │
+│ - Static HTML: Clean heading chunking, 0ms parse, JSON-LD    │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ### What to do:

@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="meta-title">La dualidad de trabajar en la nube y tirar código en C99 - Ricardo Veronese</title>
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="../riccivr-retro-avatar.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
     <meta name="theme-color" content="#0c0a07">
     <meta name="author" content="Ricardo Veronese">
     <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed (English)" href="https://riccivr.github.io/feed.xml">
@@ -324,13 +326,29 @@
             font-size: 0.88rem;
             line-height: 1.5;
         }
-        .post-content p code, .post-content li code {
+        .post-content p code, .post-content li code, .url-code, .url-link {
             background-color: var(--bg-inline-code);
             color: var(--text-code);
-            padding: 0.1rem 0.3rem;
+            padding: 0.1rem 0.35rem;
             border: 1px solid var(--border-dim);
             border-radius: 2px;
             font-weight: 600;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: inline-block;
+            vertical-align: bottom;
+            box-sizing: border-box;
+        }
+
+        .post-content a code {
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: inline-block;
+            vertical-align: bottom;
         }
 
         /* Terminal Flow Diagram (Zero-JS, 100% Mobile Responsive, No Horizontal Scroll) */
@@ -478,6 +496,24 @@
             }
             .terminal-flow .flow-connector-line {
                 height: 10px;
+            }
+            /* Stack buttons one per row when on mobile */
+            .header-button-group button,
+            .nav-controls-bar a,
+            .nav-controls-bar button,
+            .bottom-nav-bar a,
+            .bottom-nav-bar button {
+                width: 100% !important;
+                display: block !important;
+                text-align: center !important;
+                box-sizing: border-box !important;
+            }
+            .header-action-container,
+            .header-button-group,
+            .nav-controls-bar,
+            .nav-btn-group,
+            .bottom-nav-bar {
+                width: 100% !important;
             }
         }
 
@@ -643,15 +679,15 @@
                     ESTADO: EN LÍNEA
                 </span>
             </div>
-            <div class="flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2 shrink-0">
-                <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                    <button id="lang-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider whitespace-nowrap shrink-0" aria-label="Alternar idioma a inglés (actual: Español) [I]" title="Alternar idioma a inglés (actual: Español) [I]">
+            <div class="header-action-container flex flex-col sm:flex-row items-stretch sm:items-center justify-between sm:justify-end gap-1.5 sm:gap-2 w-full sm:w-auto shrink-0">
+                <div class="header-button-group flex flex-col sm:flex-row items-stretch sm:items-center gap-1.5 sm:gap-2 w-full sm:w-auto">
+                    <button id="lang-toggle" class="interactive-link border theme-border px-2 py-1.5 sm:py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider text-center whitespace-nowrap w-full sm:w-auto shrink-0" aria-label="Alternar idioma a inglés (actual: Español) [I]" title="Alternar idioma a inglés (actual: Español) [I]">
                         [LANG: ES]
                     </button>
-                    <button id="keys-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider whitespace-nowrap shrink-0" aria-pressed="true" aria-label="Alternar atajos de navegación por teclado" title="Alternar atajos de navegación por teclado">
+                    <button id="keys-toggle" class="interactive-link border theme-border px-2 py-1.5 sm:py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider text-center whitespace-nowrap w-full sm:w-auto shrink-0" aria-pressed="true" aria-label="Alternar atajos de navegación por teclado" title="Alternar atajos de navegación por teclado">
                         [TECLAS: ACT]
                     </button>
-                    <button id="theme-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider whitespace-nowrap shrink-0" aria-label="Alternar tema visual (actual: CRT) [T]" title="Alternar tema visual (actual: CRT) [T]">
+                    <button id="theme-toggle" class="interactive-link border theme-border px-2 py-1.5 sm:py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider text-center whitespace-nowrap w-full sm:w-auto shrink-0" aria-label="Alternar tema visual (actual: CRT) [T]" title="Alternar tema visual (actual: CRT) [T]">
                         [MODO: CRT]
                     </button>
                 </div>
@@ -664,20 +700,20 @@
         <main id="main-content" class="p-3.5 sm:p-6 md:p-8" tabindex="-1">
 
             <!-- Navigation Controls -->
-            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-5 border-b theme-border-subtle text-[11px] sm:text-xs">
-                <div class="flex gap-1.5 sm:gap-2">
-                    <a href="index.html" id="back-index-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Volver a la lista del blog [<]" title="Volver a la lista del blog [<]">
+            <div class="nav-controls-bar flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-1.5 sm:gap-2 pb-3 mb-5 border-b theme-border-subtle text-[11px] sm:text-xs">
+                <div class="nav-btn-group flex flex-col sm:flex-row items-stretch sm:items-center gap-1.5 sm:gap-2 w-full sm:w-auto">
+                    <a href="index.html" id="back-index-btn" class="interactive-link border theme-border px-2.5 py-1.5 sm:py-1 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Volver a la lista del blog [<]" title="Volver a la lista del blog [<]">
                         [<] Volver al Blog
                     </a>
-                    <a href="../" id="home-portal-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Ir al portal principal [H]" title="Ir al portal principal [H]">
+                    <a href="../" id="home-portal-btn" class="interactive-link border theme-border px-2.5 py-1.5 sm:py-1 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Ir al portal principal [H]" title="Ir al portal principal [H]">
                         [H] Portal Principal
                     </a>
                 </div>
-                <div class="flex gap-1.5 sm:gap-2">
-                    <button id="copy-link-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Copiar enlace de este artículo [S]" title="Copiar enlace de este artículo [S]">
+                <div class="nav-btn-group flex flex-col sm:flex-row items-stretch sm:items-center gap-1.5 sm:gap-2 w-full sm:w-auto">
+                    <button id="copy-link-btn" class="interactive-link border theme-border px-2.5 py-1.5 sm:py-1 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Copiar enlace de este artículo [S]" title="Copiar enlace de este artículo [S]">
                         [S] Copiar Enlace
                     </button>
-                    <a href="https://github.com/riccivr/riccivr.github.io" target="_blank" rel="noopener noreferrer" id="repo-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Ver repositorio en GitHub (se abre en nueva pestaña) [G]" title="Ver repositorio en GitHub (se abre en nueva pestaña) [G]">
+                    <a href="https://github.com/riccivr/riccivr.github.io" target="_blank" rel="noopener noreferrer" id="repo-btn" class="interactive-link border theme-border px-2.5 py-1.5 sm:py-1 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Ver repositorio en GitHub (se abre en nueva pestaña) [G]" title="Ver repositorio en GitHub (se abre en nueva pestaña) [G]">
                         [G] Repo
                     </a>
                 </div>
@@ -706,6 +742,12 @@
 <li>Las líneas de caché y el costo real de cada ciclo de CPU.</li>
 <li>Dejar los binarios diminutos y con cero dependencias externas.</li>
 </ul>
+<div class="terminal-flow" role="region" aria-label="Pipeline architecture diagram">
+  <div class="flow-step">    <div class="flow-step-title">Día a Día: Orquestación Cloud y Serverless</div>    <ul class="flow-step-list">      <li class="flow-item-numbered"><span class="flow-item-num">1.</span> Infraestructura como código con AWS CDK y TypeScript</li>      <li class="flow-item-numbered"><span class="flow-item-num">2.</span> Microservicios, colas AMQP y funciones Lambda escalables</li>      <li class="flow-item-numbered"><span class="flow-item-num">3.</span> Enrutamiento en Edge y orquestación de APIs distribuidas</li>      <li class="flow-item-numbered"><span class="flow-item-num">4.</span> Métricas de latencia de red toleradas en milisegundos</li>    </ul>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-label">(cambio de modelo mental)</div>    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">Noche / Hobbies: Sistemas de Bajo Nivel en C99</div>    <ul class="flow-step-list">      <li class="flow-item-numbered"><span class="flow-item-num">1.</span> Gestión manual de memoria, punteros y buffers acotados</li>      <li class="flow-item-numbered"><span class="flow-item-num">2.</span> Llamadas al sistema POSIX y control de descriptores (fd)</li>      <li class="flow-item-numbered"><span class="flow-item-num">3.</span> Optimización para líneas de caché y ciclos reales de CPU</li>      <li class="flow-item-numbered"><span class="flow-item-num">4.</span> Binarios estáticos con cero dependencias y footprint en KB</li>    </ul>  </div>
+</div>
+
 <p>Cambiar de un chip a otro todos los días te hace ver la computación desde los dos extremos de la cuerda.</p>
 <hr />
 <h2>2. El hobby que siempre mantuve guardado</h2>
@@ -749,6 +791,12 @@
 <li>Cache lines and algorithmic overhead.</li>
 <li>Keeping binaries small and dependencies at zero.</li>
 </ul>
+<div class="terminal-flow" role="region" aria-label="Pipeline architecture diagram">
+  <div class="flow-step">    <div class="flow-step-title">Day Job: Cloud Orchestration &amp; Serverless Architecture</div>    <ul class="flow-step-list">      <li class="flow-item-numbered"><span class="flow-item-num">1.</span> Infrastructure as Code with AWS CDK &amp; TypeScript</li>      <li class="flow-item-numbered"><span class="flow-item-num">2.</span> Microservices, AMQP message queues &amp; scalable Lambdas</li>      <li class="flow-item-numbered"><span class="flow-item-num">3.</span> Edge routing and distributed API composition</li>      <li class="flow-item-numbered"><span class="flow-item-num">4.</span> Network latency budgets measured in tens of milliseconds</li>    </ul>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-label">(mental model shift)</div>    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">Off-Hours: Low-Level Systems Programming in C99</div>    <ul class="flow-step-list">      <li class="flow-item-numbered"><span class="flow-item-num">1.</span> Manual memory layout, raw pointers &amp; buffer bounds</li>      <li class="flow-item-numbered"><span class="flow-item-num">2.</span> Direct POSIX syscalls &amp; file descriptor lifecycles</li>      <li class="flow-item-numbered"><span class="flow-item-num">3.</span> Cache line alignment and hardware instruction budgets</li>      <li class="flow-item-numbered"><span class="flow-item-num">4.</span> Zero-dependency static binaries with minimal KB footprint</li>    </ul>  </div>
+</div>
+
 <p>When you switch between these two modes daily, you see systems from both ends.</p>
 <hr />
 <h2>2. The quiet hobby I used to hide</h2>
@@ -771,11 +819,11 @@
             </article>
 
             <!-- Bottom Return Navigation -->
-            <div class="mt-10 sm:mt-12 pt-6 sm:pt-8 pb-3 sm:pb-4 border-t theme-border-subtle flex justify-between items-center text-xs sm:text-sm">
-                <a href="index.html" id="bottom-back-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Volver a la lista de artículos [<]" title="Volver a la lista de artículos [<]">
+            <div class="bottom-nav-bar mt-10 sm:mt-12 pt-6 sm:pt-8 pb-3 sm:pb-4 border-t theme-border-subtle flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2 text-xs sm:text-sm">
+                <a href="index.html" id="bottom-back-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-2 sm:py-1.5 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Volver a la lista de artículos [<]" title="Volver a la lista de artículos [<]">
                     [<] Volver al Blog
                 </a>
-                <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" id="bottom-top-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Ir arriba [K]" title="Ir arriba [K]">
+                <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" id="bottom-top-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-2 sm:py-1.5 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Ir arriba [K]" title="Ir arriba [K]">
                     [^] Arriba
                 </a>
             </div>
@@ -785,7 +833,7 @@
         <footer class="p-3 sm:p-4 border-t theme-border text-xs flex justify-between items-center theme-bg-header">
             <span class="theme-text-muted text-[11px] sm:text-xs font-bold">riccivr.github.io/blog</span>
             <span id="footer-text" class="text-right text-[11px] sm:text-xs theme-text-muted font-mono font-medium">
-                REV: dc2a214 // PUBLICADO: 2026.09.09
+                REV: 2ab86a9 // PUBLICADO: 2026.09.09
             </span>
         </footer>
 
@@ -817,7 +865,7 @@
                 repoAria: "Ver repositorio en GitHub (se abre en nueva pestaña) [G]",
                 topBtn: "[^] Arriba",
                 topBtnAria: "Ir arriba [K]",
-                footerText: "REV: dc2a214 // PUBLICADO: 2026.09.09",
+                footerText: "REV: 2ab86a9 // PUBLICADO: 2026.09.09",
                 title: "La dualidad de trabajar en la nube y tirar c\u00f3digo en C99",
                 metaDesc: "Llevo m\u00e1s de doce a\u00f1os metido de lleno en el mundo del desarrollo de software, la arquitectura distribuida y la infraestructura cloud."
             },
@@ -844,7 +892,7 @@
                 repoAria: "View GitHub repository (opens in a new tab) [G]",
                 topBtn: "[^] Top",
                 topBtnAria: "Scroll to top [K]",
-                footerText: "REV: dc2a214 // PUBLISHED: 2026.09.09",
+                footerText: "REV: 2ab86a9 // PUBLISHED: 2026.09.09",
                 title: "The duality of working in the cloud and hacking in C99",
                 metaDesc: "For over twelve years, my professional career has lived in the world of high-level web engineering, distributed systems, and cloud infrastructure."
             }

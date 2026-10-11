@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="meta-title">Ricardo Veronese - Cloud & Systems Engineer</title>
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="./riccivr-retro-avatar.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
     <meta name="theme-color" content="#0c0a07">
     <meta id="meta-desc" name="description" content="Ricardo Veronese. Ingeniero de cloud y sistemas. AWS CDK, TypeScript, Python, Rust, C99, sistemas de bajo nivel POSIX e IoT embebido.">
     <meta name="author" content="Ricardo Veronese">
@@ -193,6 +195,19 @@
         .theme-text-main { color: var(--text-main); }
         .theme-text-muted { color: var(--text-muted); }
         .theme-text-dim { color: var(--text-dim); }
+
+        @media (max-width: 640px) {
+            .header-button-group button {
+                width: 100% !important;
+                display: block !important;
+                text-align: center !important;
+                box-sizing: border-box !important;
+            }
+            .header-action-container,
+            .header-button-group {
+                width: 100% !important;
+            }
+        }
     </style>
 </head>
 <body class="p-2 sm:p-6 md:p-12 min-h-screen">
@@ -211,18 +226,18 @@
                     ESTADO: EN LÍNEA
                 </span>
             </div>
-            <div class="flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2 shrink-0">
-                <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                    <button id="lang-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider whitespace-nowrap shrink-0" aria-label="Alternar idioma a inglés (actual: Español) [I]" title="Alternar idioma a inglés (actual: Español) [I]">
+            <div class="header-action-container flex flex-col sm:flex-row items-stretch sm:items-center justify-between sm:justify-end gap-1.5 sm:gap-2 w-full sm:w-auto shrink-0">
+                <div class="header-button-group flex flex-col sm:flex-row items-stretch sm:items-center gap-1.5 sm:gap-2 w-full sm:w-auto">
+                    <button id="lang-toggle" class="interactive-link border theme-border px-2 py-1 sm:py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider text-center whitespace-nowrap w-full sm:w-auto shrink-0" aria-label="Alternar idioma a inglés (actual: Español) [I]" title="Alternar idioma a inglés (actual: Español) [I]">
                         [LANG: ES]
                     </button>
-                    <button id="keys-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider whitespace-nowrap shrink-0" aria-pressed="true" aria-label="Alternar atajos de navegación por teclado [K]" title="Alternar atajos de navegación por teclado [K]">
+                    <button id="keys-toggle" class="interactive-link border theme-border px-2 py-1 sm:py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider text-center whitespace-nowrap w-full sm:w-auto shrink-0" aria-pressed="true" aria-label="Alternar atajos de navegación por teclado [K]" title="Alternar atajos de navegación por teclado [K]">
                         [TECLAS: ACT]
                     </button>
-                    <button id="theme-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider whitespace-nowrap shrink-0" aria-label="Alternar tema visual (actual: CRT) [T]" title="Alternar tema visual (actual: CRT) [T]">
+                    <button id="theme-toggle" class="interactive-link border theme-border px-2 py-1 sm:py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider text-center whitespace-nowrap w-full sm:w-auto shrink-0" aria-label="Alternar tema visual (actual: CRT) [T]" title="Alternar tema visual (actual: CRT) [T]">
                         [MODO: CRT]
                     </button>
-                    <button id="state-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider whitespace-nowrap shrink-0" aria-expanded="false" aria-label="Alternar inspector de estado JSON del sitio [J]" title="Alternar inspector de estado JSON del sitio [J]">
+                    <button id="state-toggle" class="interactive-link border theme-border px-2 py-1 sm:py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider text-center whitespace-nowrap w-full sm:w-auto shrink-0" aria-expanded="false" aria-label="Alternar inspector de estado JSON del sitio [J]" title="Alternar inspector de estado JSON del sitio [J]">
                         [JSON]
                     </button>
                 </div>

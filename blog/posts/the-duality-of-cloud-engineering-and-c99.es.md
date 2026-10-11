@@ -30,6 +30,25 @@ En C99 y en sistemas embebidos, no hay colchón que te salve. No tienes garbage 
 - Las líneas de caché y el costo real de cada ciclo de CPU.
 - Dejar los binarios diminutos y con cero dependencias externas.
 
+```
+┌──────────────────────────────────────────────────────────────┐
+│ Día a Día: Orquestación Cloud y Serverless                   │
+│ 1. Infraestructura como código con AWS CDK y TypeScript      │
+│ 2. Microservicios, colas AMQP y funciones Lambda escalables  │
+│ 3. Enrutamiento en Edge y orquestación de APIs distribuidas  │
+│ 4. Métricas de latencia de red toleradas en milisegundos     │
+└──────────────────────────────┬───────────────────────────────┘
+                               │ (cambio de modelo mental)
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ Noche / Hobbies: Sistemas de Bajo Nivel en C99               │
+│ 1. Gestión manual de memoria, punteros y buffers acotados    │
+│ 2. Llamadas al sistema POSIX y control de descriptores (fd)  │
+│ 3. Optimización para líneas de caché y ciclos reales de CPU  │
+│ 4. Binarios estáticos con cero dependencias y footprint en KB│
+└──────────────────────────────────────────────────────────────┘
+```
+
 Cambiar de un chip a otro todos los días te hace ver la computación desde los dos extremos de la cuerda.
 
 ---

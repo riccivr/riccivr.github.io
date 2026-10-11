@@ -54,19 +54,32 @@ The main problem with archiving raw HTML into Git is non-deterministic noise.
 If you commit raw HTML from a browser request, every run creates fake diffs from CSRF tokens, session cookies, timestamp banners, and randomized ad containers.
 
 ```
-Raw HTTP response
-       │
-       ▼
-[ Fetch stream ]
-       │
-       ▼
-[ DOM sanitizer ] ──> Strip scripts, tracking pixels, volatile attributes
-       │
-       ▼
-[ Stream parser ] ──> Convert clean DOM into normalized Markdown
-       │
-       ▼
-[ Git plumbing ]  ──> Write tree and commit directly to .git/objects
+┌──────────────────────────────────────────────────────────────┐
+│ 1. Raw HTTP Response and Fetch Stream                        │
+│ - GET request with strict timeout and payload size bounds    │
+│ - Streamed byte response without staging temporary files     │
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ 2. DOM Sanitizer and Noise Reduction                         │
+│ - Strips scripts, iframes, and marketing tracking pixels     │
+│ - Purges CSRF tokens, session cookies, and volatile attributes│
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ 3. Stream Parser and Markdown Normalization                  │
+│ - Extracts clean semantic content (`<main>`, `<article>`)    │
+│ - Converts tree to canonical, deterministic Markdown text    │
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ 4. Git Plumbing Engine (.git/objects)                        │
+│ - Writes deduplicated blobs keyed by content SHA hashes      │
+│ - Produces tree and atomic commit directly without worktree  │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ### Two-tier file layout:

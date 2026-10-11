@@ -18,11 +18,25 @@ Aquí te dejo varias recomendaciones prácticas para que tu sitio sea fácil de 
 Googlebot se puede dar el lujo de levantar Chromium headless para renderizar SPAs pesadas. La mayoría de los bots de IA no hacen eso ni locos. Mandan una petición GET básica y esperan texto plano en la respuesta.
 
 ```
-Petición GET del crawler (/articulo)
-         │
-         ├── SPA pesada de cliente ──> Devuelve <div id="root"></div> ──> Descartado de una
-         │
-         └── HTML estático         ──> Devuelve el DOM semántico       ──> Parseado al pelo
+┌──────────────────────────────────────────────────────────────┐
+│ 1. Petición GET del Crawler de IA (/articulo)                │
+│ - Bot o agente solicita la URL esperando respuesta inmediata │
+│ - Sin ejecución de JavaScript ni renderizado Chromium pesado │
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ 2. Bifurcación de Arquitectura Web                           │
+│ - SPA de cliente: Devuelve `<div id="root"></div>` vacío     │
+│ - HTML estático: Devuelve DOM semántico pre-renderizado      │
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ 3. Procesamiento del Agente y Extracción de Contenido        │
+│ - SPA: Descarte inmediato por timeout o fallo de indexación  │
+│ - HTML estático: Chunking por encabezados y JSON-LD al tiro  │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ### Qué conviene hacer:

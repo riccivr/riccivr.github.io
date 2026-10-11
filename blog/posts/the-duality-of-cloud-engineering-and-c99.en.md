@@ -30,6 +30,25 @@ In C99 and embedded systems, you strip away every abstraction. There is no garba
 - Cache lines and algorithmic overhead.
 - Keeping binaries small and dependencies at zero.
 
+```
+┌──────────────────────────────────────────────────────────────┐
+│ Day Job: Cloud Orchestration & Serverless Architecture       │
+│ 1. Infrastructure as Code with AWS CDK & TypeScript          │
+│ 2. Microservices, AMQP message queues & scalable Lambdas     │
+│ 3. Edge routing and distributed API composition              │
+│ 4. Network latency budgets measured in tens of milliseconds  │
+└──────────────────────────────┬───────────────────────────────┘
+                               │ (mental model shift)
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ Off-Hours: Low-Level Systems Programming in C99              │
+│ 1. Manual memory layout, raw pointers & buffer bounds        │
+│ 2. Direct POSIX syscalls & file descriptor lifecycles        │
+│ 3. Cache line alignment and hardware instruction budgets     │
+│ 4. Zero-dependency static binaries with minimal KB footprint │
+└──────────────────────────────────────────────────────────────┘
+```
+
 When you switch between these two modes daily, you see systems from both ends.
 
 ---

@@ -66,7 +66,9 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="meta-title">{meta_title}</title>
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="../riccivr-retro-avatar.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
     <meta name="theme-color" content="#0c0a07">
     <meta name="author" content="Ricardo Veronese">
     <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed (English)" href="https://riccivr.github.io/feed.xml">
@@ -385,13 +387,29 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
             font-size: 0.88rem;
             line-height: 1.5;
         }}
-        .post-content p code, .post-content li code {{
+        .post-content p code, .post-content li code, .url-code, .url-link {{
             background-color: var(--bg-inline-code);
             color: var(--text-code);
-            padding: 0.1rem 0.3rem;
+            padding: 0.1rem 0.35rem;
             border: 1px solid var(--border-dim);
             border-radius: 2px;
             font-weight: 600;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: inline-block;
+            vertical-align: bottom;
+            box-sizing: border-box;
+        }}
+
+        .post-content a code {{
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: inline-block;
+            vertical-align: bottom;
         }}
 
         /* Terminal Flow Diagram (Zero-JS, 100% Mobile Responsive, No Horizontal Scroll) */
@@ -539,6 +557,24 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
             }}
             .terminal-flow .flow-connector-line {{
                 height: 10px;
+            }}
+            /* Stack buttons one per row when on mobile */
+            .header-button-group button,
+            .nav-controls-bar a,
+            .nav-controls-bar button,
+            .bottom-nav-bar a,
+            .bottom-nav-bar button {{
+                width: 100% !important;
+                display: block !important;
+                text-align: center !important;
+                box-sizing: border-box !important;
+            }}
+            .header-action-container,
+            .header-button-group,
+            .nav-controls-bar,
+            .nav-btn-group,
+            .bottom-nav-bar {{
+                width: 100% !important;
             }}
         }}
 
@@ -704,15 +740,15 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
                     ESTADO: EN LÍNEA
                 </span>
             </div>
-            <div class="flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2 shrink-0">
-                <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                    <button id="lang-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider whitespace-nowrap shrink-0" aria-label="Alternar idioma a inglés (actual: Español) [I]" title="Alternar idioma a inglés (actual: Español) [I]">
+            <div class="header-action-container flex flex-col sm:flex-row items-stretch sm:items-center justify-between sm:justify-end gap-1.5 sm:gap-2 w-full sm:w-auto shrink-0">
+                <div class="header-button-group flex flex-col sm:flex-row items-stretch sm:items-center gap-1.5 sm:gap-2 w-full sm:w-auto">
+                    <button id="lang-toggle" class="interactive-link border theme-border px-2 py-1.5 sm:py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider text-center whitespace-nowrap w-full sm:w-auto shrink-0" aria-label="Alternar idioma a inglés (actual: Español) [I]" title="Alternar idioma a inglés (actual: Español) [I]">
                         [LANG: ES]
                     </button>
-                    <button id="keys-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider whitespace-nowrap shrink-0" aria-pressed="true" aria-label="Alternar atajos de navegación por teclado" title="Alternar atajos de navegación por teclado">
+                    <button id="keys-toggle" class="interactive-link border theme-border px-2 py-1.5 sm:py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider text-center whitespace-nowrap w-full sm:w-auto shrink-0" aria-pressed="true" aria-label="Alternar atajos de navegación por teclado" title="Alternar atajos de navegación por teclado">
                         [TECLAS: ACT]
                     </button>
-                    <button id="theme-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider whitespace-nowrap shrink-0" aria-label="Alternar tema visual (actual: CRT) [T]" title="Alternar tema visual (actual: CRT) [T]">
+                    <button id="theme-toggle" class="interactive-link border theme-border px-2 py-1.5 sm:py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider text-center whitespace-nowrap w-full sm:w-auto shrink-0" aria-label="Alternar tema visual (actual: CRT) [T]" title="Alternar tema visual (actual: CRT) [T]">
                         [MODO: CRT]
                     </button>
                 </div>
@@ -725,20 +761,20 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
         <main id="main-content" class="p-3.5 sm:p-6 md:p-8" tabindex="-1">
 
             <!-- Navigation Controls -->
-            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-5 border-b theme-border-subtle text-[11px] sm:text-xs">
-                <div class="flex gap-1.5 sm:gap-2">
-                    <a href="index.html" id="back-index-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Volver a la lista del blog [<]" title="Volver a la lista del blog [<]">
+            <div class="nav-controls-bar flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-1.5 sm:gap-2 pb-3 mb-5 border-b theme-border-subtle text-[11px] sm:text-xs">
+                <div class="nav-btn-group flex flex-col sm:flex-row items-stretch sm:items-center gap-1.5 sm:gap-2 w-full sm:w-auto">
+                    <a href="index.html" id="back-index-btn" class="interactive-link border theme-border px-2.5 py-1.5 sm:py-1 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Volver a la lista del blog [<]" title="Volver a la lista del blog [<]">
                         [<] Volver al Blog
                     </a>
-                    <a href="../" id="home-portal-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Ir al portal principal [H]" title="Ir al portal principal [H]">
+                    <a href="../" id="home-portal-btn" class="interactive-link border theme-border px-2.5 py-1.5 sm:py-1 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Ir al portal principal [H]" title="Ir al portal principal [H]">
                         [H] Portal Principal
                     </a>
                 </div>
-                <div class="flex gap-1.5 sm:gap-2">
-                    <button id="copy-link-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Copiar enlace de este artículo [S]" title="Copiar enlace de este artículo [S]">
+                <div class="nav-btn-group flex flex-col sm:flex-row items-stretch sm:items-center gap-1.5 sm:gap-2 w-full sm:w-auto">
+                    <button id="copy-link-btn" class="interactive-link border theme-border px-2.5 py-1.5 sm:py-1 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Copiar enlace de este artículo [S]" title="Copiar enlace de este artículo [S]">
                         [S] Copiar Enlace
                     </button>
-                    <a href="https://github.com/riccivr/riccivr.github.io" target="_blank" rel="noopener noreferrer" id="repo-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Ver repositorio en GitHub (se abre en nueva pestaña) [G]" title="Ver repositorio en GitHub (se abre en nueva pestaña) [G]">
+                    <a href="https://github.com/riccivr/riccivr.github.io" target="_blank" rel="noopener noreferrer" id="repo-btn" class="interactive-link border theme-border px-2.5 py-1.5 sm:py-1 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Ver repositorio en GitHub (se abre en nueva pestaña) [G]" title="Ver repositorio en GitHub (se abre en nueva pestaña) [G]">
                         [G] Repo
                     </a>
                 </div>
@@ -758,11 +794,11 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
             </article>
 
             <!-- Bottom Return Navigation -->
-            <div class="mt-10 sm:mt-12 pt-6 sm:pt-8 pb-3 sm:pb-4 border-t theme-border-subtle flex justify-between items-center text-xs sm:text-sm">
-                <a href="index.html" id="bottom-back-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Volver a la lista de artículos [<]" title="Volver a la lista de artículos [<]">
+            <div class="bottom-nav-bar mt-10 sm:mt-12 pt-6 sm:pt-8 pb-3 sm:pb-4 border-t theme-border-subtle flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2 text-xs sm:text-sm">
+                <a href="index.html" id="bottom-back-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-2 sm:py-1.5 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Volver a la lista de artículos [<]" title="Volver a la lista de artículos [<]">
                     [<] Volver al Blog
                 </a>
-                <a href="#" onclick="window.scrollTo({{top: 0, behavior: 'smooth'}}); return false;" id="bottom-top-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Ir arriba [K]" title="Ir arriba [K]">
+                <a href="#" onclick="window.scrollTo({{top: 0, behavior: 'smooth'}}); return false;" id="bottom-top-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-2 sm:py-1.5 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Ir arriba [K]" title="Ir arriba [K]">
                     [^] Arriba
                 </a>
             </div>
@@ -1093,11 +1129,15 @@ def parse_ascii_diagram(code_text):
             continue
         else:
             if any(ch in stripped for ch in ['│', '▼', '|', 'v', 'V']):
-                label = stripped.replace('│', '').replace('▼', '').replace('|', '').replace('v', '').strip()
-                if label:
-                    label = label.strip('()')
-                    current_connector_lines.append(label)
-                if '▼' in stripped or 'v' in stripped:
+                is_arrow = ('▼' in stripped) or bool(re.search(r'^\s*[vV]\s*$', stripped))
+                clean_label = stripped.replace('▼', '')
+                clean_label = re.sub(r'^[│|\s]+|[│|\s]+$', '', clean_label)
+                if re.match(r'^[vV]$', clean_label):
+                    clean_label = ""
+                if clean_label:
+                    clean_label = clean_label.strip('() ')
+                    current_connector_lines.append(clean_label)
+                if is_arrow:
                     conn_label = " ".join(current_connector_lines).strip()
                     nodes.append({
                         "type": "connector",
@@ -1169,7 +1209,7 @@ def format_diagram_html(nodes):
     return "".join(html_parts)
 
 def transform_ascii_diagrams(content):
-    diagram_regex = re.compile(r'```(?:diagram|flow|ascii-flow|text)?\r?\n([ \t]*┌[\s\S]+?└[─┬]+┘[ \t]*\r?\n)```')
+    diagram_regex = re.compile(r'```(?:diagram|flow|ascii-flow|text)?\r?\n([ \t]*┌[\s\S]+?└[─┬]+┘[\s\r\n]*?)```')
     
     def replacer(match):
         raw_diagram = match.group(1)
@@ -1179,6 +1219,41 @@ def transform_ascii_diagrams(content):
         return match.group(0)
         
     return diagram_regex.sub(replacer, content)
+
+def enhance_urls_with_ellipsis(html_content):
+    def code_replacer(match):
+        attrs = match.group(1) or ""
+        text = match.group(2)
+        if '\n' in text:
+            return match.group(0)
+        if re.search(r'https?://|www\.|(?:\.com|\.org|\.net|\.app|\.es|\.io)/[^\s<]+', text):
+            clean_url = html.escape(html.unescape(re.sub(r'<[^>]+>', '', text)), quote=True)
+            if 'class="' in attrs:
+                new_attrs = re.sub(r'class="([^"]*)"', r'class="\1 url-code"', attrs)
+            else:
+                new_attrs = f'{attrs} class="url-code"'
+            if 'title=' not in new_attrs:
+                new_attrs += f' title="{clean_url}"'
+            return f'<code{new_attrs}>{text}</code>'
+        return match.group(0)
+
+    def a_replacer(match):
+        attrs = match.group(1) or ""
+        text = match.group(2)
+        if re.search(r'^\s*https?://', text):
+            clean_url = html.escape(html.unescape(re.sub(r'<[^>]+>', '', text)), quote=True)
+            if 'class="' in attrs:
+                new_attrs = re.sub(r'class="([^"]*)"', r'class="\1 url-link"', attrs)
+            else:
+                new_attrs = f'{attrs} class="url-link"'
+            if 'title=' not in new_attrs:
+                new_attrs += f' title="{clean_url}"'
+            return f'<a{new_attrs}>{text}</a>'
+        return match.group(0)
+
+    html_content = re.sub(r'<code([^>]*)>([\s\S]*?)</code>', code_replacer, html_content)
+    html_content = re.sub(r'<a([^>]*)>([\s\S]*?)</a>', a_replacer, html_content)
+    return html_content
 
 def markdown_to_html(content):
     content = transform_ascii_diagrams(content)
@@ -1194,8 +1269,10 @@ def markdown_to_html(content):
                 }
             }
         )
-        return md.convert(content)
-    return "<p>" + content.replace("\n\n", "</p><p>") + "</p>"
+        html_res = md.convert(content)
+    else:
+        html_res = "<p>" + content.replace("\n\n", "</p><p>") + "</p>"
+    return enhance_urls_with_ellipsis(html_res)
 
 def parse_markdown_file(filepath):
     with open(filepath, 'r', encoding='utf-8') as f:

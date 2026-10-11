@@ -18,14 +18,21 @@ Aquí te muestro cómo implementé la jugada, cómo funciona SQLite sobre petici
 Un patrón bien elegante consiste en subir un archivo `.sqlite` a GitHub Pages o Releases y consultarlo directamente desde el navegador sin tener que bajarte la base de datos completa.
 
 ```
-Cliente en el navegador (sql.js-httpvfs o SQLite WASM)
-Consulta: SELECT * FROM articulos WHERE id = 42;
-1. Lee los primeros 100 bytes del header de SQLite
-2. Pide la página raíz del B-Tree (Range: bytes=4096-8191)
-3. Pide la página hoja con la fila (Range: bytes=16384-...)
-                       │
-                       ▼ HTTP GET con cabecera Range
-GitHub Pages o CDN (archivo database.sqlite)
+┌──────────────────────────────────────────────────────────────┐
+│ Cliente en el navegador (sql.js-httpvfs o SQLite WASM)       │
+│ - Consulta SQL: SELECT * FROM articulos WHERE id = 42;       │
+│ 1. Lee los primeros 100 bytes del header de SQLite           │
+│ 2. Pide la página raíz del B-Tree (Range: bytes=4096-8191)   │
+│ 3. Pide la página hoja con la fila (Range: bytes=16384-...)  │
+└──────────────────────────────┬───────────────────────────────┘
+                               │ (HTTP GET con cabecera Range)
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ GitHub Pages o CDN Estático (archivo database.sqlite)        │
+│ 1. Recibe petición HTTP con Range: bytes=inicio-fin          │
+│ 2. Responde 206 Partial Content solo con la página de 4KB    │
+│ 3. Cachea en el Edge CDN sin levantar base de datos          │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ### Cómo funciona la cosa:

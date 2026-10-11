@@ -18,14 +18,21 @@ Here is my architectural look at how SQLite over HTTP range requests works on Gi
 A clean pattern is hosting a `.sqlite` file on GitHub Pages or Releases and querying it directly from the browser without downloading the full database.
 
 ```
-Browser client (sql.js-httpvfs or SQLite WASM)
-Query: SELECT * FROM articles WHERE id = 42;
-1. Reads SQLite 100-byte header
-2. Fetches B-Tree root page (Range: bytes=4096-8191)
-3. Fetches target leaf page (Range: bytes=16384-...)
-                       │
-                       ▼ HTTP GET with Range headers
-GitHub Pages or CDN storage (database.sqlite)
+┌──────────────────────────────────────────────────────────────┐
+│ Browser client (sql.js-httpvfs or SQLite WASM)               │
+│ - SQL Query: SELECT * FROM articles WHERE id = 42;           │
+│ 1. Reads SQLite 100-byte header                              │
+│ 2. Fetches B-Tree root page (Range: bytes=4096-8191)         │
+│ 3. Fetches target leaf page (Range: bytes=16384-...)         │
+└──────────────────────────────┬───────────────────────────────┘
+                               │ (HTTP GET with Range headers)
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│ GitHub Pages or Static CDN (database.sqlite file)            │
+│ 1. Receives request with Range: bytes=start-end header       │
+│ 2. Returns 206 Partial Content with only the 4KB page chunk  │
+│ 3. Edge-cached without spinning up database servers          │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ### How it works:
