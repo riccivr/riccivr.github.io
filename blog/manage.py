@@ -579,12 +579,14 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
             .bottom-nav-bar button {{
                 width: auto !important;
                 display: inline-block !important;
-                padding: 0.22rem 0.45rem !important;
-                font-size: 0.62rem !important;
-                min-width: 2.1rem;
+                padding: 0.35rem 0.6rem !important;
+                font-size: 0.75rem !important;
+                min-width: 2.75rem;
                 text-align: center !important;
                 box-sizing: border-box !important;
-                line-height: 1.2;
+                line-height: 1.25;
+                letter-spacing: 0.03em;
+                font-weight: 700;
             }}
             .label-full {{ display: none; }}
             .label-short {{ display: inline; }}
@@ -759,7 +761,7 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
                         <span class="label-full">[LANG: ES]</span><span class="label-short">[ES]</span>
                     </button>
                     <button id="keys-toggle" class="interactive-link border theme-border px-2 py-1.5 sm:py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider text-center whitespace-nowrap w-full sm:w-auto shrink-0" aria-pressed="true" aria-label="Alternar atajos de navegación por teclado" title="Alternar atajos de navegación por teclado">
-                        <span class="label-full">[TECLAS: ACT]</span><span class="label-short">[K]</span>
+                        <span class="label-full">[TECLAS: ACT]</span><span class="label-short">[KEYS]</span>
                     </button>
                     <button id="theme-toggle" class="interactive-link border theme-border px-2 py-1.5 sm:py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider text-center whitespace-nowrap w-full sm:w-auto shrink-0" aria-label="Alternar tema visual (actual: CRT) [T]" title="Alternar tema visual (actual: CRT) [T]">
                         <span class="label-full">[MODO: CRT]</span><span class="label-short">[CRT]</span>
@@ -835,8 +837,8 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
                 status: "ESTADO: EN LÍNEA",
                 langToggle: '<span class="label-full">[LANG: ES]</span><span class="label-short">[ES]</span>',
                 langAria: "Alternar idioma a inglés (actual: Español) [I]",
-                keysOn: '<span class="label-full">[TECLAS: ACT]</span><span class="label-short">[K]</span>',
-                keysOff: '<span class="label-full">[TECLAS: DES]</span><span class="label-short">[K]</span>',
+                keysOn: '<span class="label-full">[TECLAS: ACT]</span><span class="label-short">[KEYS]</span>',
+                keysOff: '<span class="label-full">[TECLAS: DES]</span><span class="label-short">[KEYS]</span>',
                 keysAria: "Alternar atajos de navegación por teclado",
                 modeCrt: '<span class="label-full">[MODO: CRT]</span><span class="label-short">[CRT]</span>',
                 modePaper: '<span class="label-full">[MODO: PAPEL]</span><span class="label-short">[PAPEL]</span>',
@@ -862,8 +864,8 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
                 status: "STATUS: ONLINE",
                 langToggle: '<span class="label-full">[LANG: EN]</span><span class="label-short">[EN]</span>',
                 langAria: "Toggle language to Spanish (current: English) [I]",
-                keysOn: '<span class="label-full">[KEYS: ON]</span><span class="label-short">[K]</span>',
-                keysOff: '<span class="label-full">[KEYS: OFF]</span><span class="label-short">[K]</span>',
+                keysOn: '<span class="label-full">[KEYS: ON]</span><span class="label-short">[KEYS]</span>',
+                keysOff: '<span class="label-full">[KEYS: OFF]</span><span class="label-short">[KEYS]</span>',
                 keysAria: "Toggle keyboard navigation shortcuts",
                 modeCrt: '<span class="label-full">[MODE: CRT]</span><span class="label-short">[CRT]</span>',
                 modePaper: '<span class="label-full">[MODE: PAPER]</span><span class="label-short">[PAPER]</span>',
