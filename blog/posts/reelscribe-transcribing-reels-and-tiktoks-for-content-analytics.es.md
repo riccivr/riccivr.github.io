@@ -72,8 +72,8 @@ La idea desde el principio fue que ella me pudiera pasar una lista de enlaces ta
 
 Cuando trabajas con enlaces que te mandan por WhatsApp o Slack, casi nunca vienen limpios. Un mismo video de TikTok te puede llegar de dos formas distintas en la misma lista:
 
-1. El enlace largo del navegador con parámetros de sesión como `https://www.tiktok.com/@cliente/video/7691761289726594326?_r=1&_t=ZN-9ASicGAxtaw`
-2. El enlace corto generado por la aplicación móvil como `https://vm.tiktok.com/ZN8BDuYDp/`
+1. El enlace largo del navegador con parámetros de sesión como [`https://www.tiktok.com/@cliente/video/7691761289726594326?_r=1&_t=ZN-9ASicGAxtaw`](https://www.tiktok.com/@cliente/video/7691761289726594326?_r=1&_t=ZN-9ASicGAxtaw)
+2. El enlace corto generado por la aplicación móvil como [`https://vm.tiktok.com/ZN8BDuYDp/`](https://vm.tiktok.com/ZN8BDuYDp/)
 
 Si le tiras ambos a un script a lo loco, descarga y transcribe el mismo video dos veces, ensuciando el conteo de palabras y el resumen final.
 

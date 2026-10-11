@@ -72,8 +72,8 @@ The goal was simple. She passes me a list of links exactly as they come out of t
 
 Links shared over WhatsApp or Slack are rarely clean. The exact same TikTok video often shows up in two different formats within the same batch:
 
-1. The full browser URL with session tracking query strings like `https://www.tiktok.com/@client/video/7691761289726594326?_r=1&_t=ZN-9ASicGAxtaw`
-2. The mobile short link like `https://vm.tiktok.com/ZN8BDuYDp/`
+1. The full browser URL with session tracking query strings like [`https://www.tiktok.com/@client/video/7691761289726594326?_r=1&_t=ZN-9ASicGAxtaw`](https://www.tiktok.com/@client/video/7691761289726594326?_r=1&_t=ZN-9ASicGAxtaw)
+2. The mobile short link like [`https://vm.tiktok.com/ZN8BDuYDp/`](https://vm.tiktok.com/ZN8BDuYDp/)
 
 If you feed both into a naive script, it downloads and transcribes the same video twice, skewing both the word counts and the final summary.
 

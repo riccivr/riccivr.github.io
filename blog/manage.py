@@ -324,6 +324,7 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
         .post-content a:hover code {{
             color: var(--btn-hover-text) !important;
             background-color: transparent !important;
+            text-decoration: none;
         }}
         .post-content code a {{
             color: var(--text-heading) !important;
@@ -1258,7 +1259,7 @@ def enhance_urls_with_ellipsis(html_content):
     def a_replacer(match):
         attrs = match.group(1) or ""
         text = match.group(2)
-        if re.search(r'^\s*https?://', text):
+        if re.search(r'^\s*(?:<code[^>]*>)?https?://', text):
             clean_url = html.escape(html.unescape(re.sub(r'<[^>]+>', '', text)), quote=True)
             if 'class="' in attrs:
                 new_attrs = re.sub(r'class="([^"]*)"', r'class="\1 url-link"', attrs)
