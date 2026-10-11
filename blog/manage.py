@@ -551,6 +551,10 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
             font-size: 0.85em;
         }}
 
+        /* Default: show full labels, hide short ones */
+        .label-short {{ display: none; }}
+        .label-full {{ display: inline; }}
+
         @media (max-width: 640px) {{
             .terminal-flow .flow-step {{
                 padding: 0.65rem 0.85rem;
@@ -563,10 +567,10 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
             .nav-btn-group,
             .bottom-nav-bar {{
                 flex-direction: row !important;
-                flex-wrap: wrap;
-                justify-content: center;
+                flex-wrap: wrap !important;
+                justify-content: center !important;
                 gap: 0.35rem !important;
-                width: 100%;
+                width: 100% !important;
             }}
             .header-action-container,
             .nav-controls-bar {{
@@ -588,10 +592,9 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
                 letter-spacing: 0.03em;
                 font-weight: 700;
             }}
-            .label-full {{ display: none; }}
-            .label-short {{ display: inline; }}
+            .label-full {{ display: none !important; }}
+            .label-short {{ display: inline !important; }}
         }}
-        .label-short {{ display: none; }}
 
         /* Build-Time Pygments Syntax Highlighting (0 KB JS, 0 ms cost) */
         /* CRT Dark Amber Phosphor Scheme */
@@ -755,15 +758,15 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
                     ESTADO: EN LÍNEA
                 </span>
             </div>
-            <div class="header-action-container flex flex-col sm:flex-row items-stretch sm:items-center justify-between sm:justify-end gap-1.5 sm:gap-2 w-full sm:w-auto shrink-0">
-                <div class="header-button-group flex flex-col sm:flex-row items-stretch sm:items-center gap-1.5 sm:gap-2 w-full sm:w-auto">
-                    <button id="lang-toggle" class="interactive-link border theme-border px-2 py-1.5 sm:py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider text-center whitespace-nowrap w-full sm:w-auto shrink-0" aria-label="Alternar idioma a inglés (actual: Español) [I]" title="Alternar idioma a inglés (actual: Español) [I]">
+            <div class="header-action-container flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2 shrink-0">
+                <div class="header-button-group flex items-center gap-1.5 sm:gap-2 shrink-0">
+                    <button id="lang-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider whitespace-nowrap shrink-0" aria-label="Alternar idioma a inglés (actual: Español) [I]" title="Alternar idioma a inglés (actual: Español) [I]">
                         <span class="label-full">[LANG: ES]</span><span class="label-short">[ES]</span>
                     </button>
-                    <button id="keys-toggle" class="interactive-link border theme-border px-2 py-1.5 sm:py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider text-center whitespace-nowrap w-full sm:w-auto shrink-0" aria-pressed="true" aria-label="Alternar atajos de navegación por teclado" title="Alternar atajos de navegación por teclado">
+                    <button id="keys-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider whitespace-nowrap shrink-0" aria-pressed="true" aria-label="Alternar atajos de navegación por teclado" title="Alternar atajos de navegación por teclado">
                         <span class="label-full">[TECLAS: ACT]</span><span class="label-short">[KEYS]</span>
                     </button>
-                    <button id="theme-toggle" class="interactive-link border theme-border px-2 py-1.5 sm:py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider text-center whitespace-nowrap w-full sm:w-auto shrink-0" aria-label="Alternar tema visual (actual: CRT) [T]" title="Alternar tema visual (actual: CRT) [T]">
+                    <button id="theme-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider whitespace-nowrap shrink-0" aria-label="Alternar tema visual (actual: CRT) [T]" title="Alternar tema visual (actual: CRT) [T]">
                         <span class="label-full">[MODO: CRT]</span><span class="label-short">[CRT]</span>
                     </button>
                 </div>
@@ -776,20 +779,20 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
         <main id="main-content" class="p-3.5 sm:p-6 md:p-8" tabindex="-1">
 
             <!-- Navigation Controls -->
-            <div class="nav-controls-bar flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-1.5 sm:gap-2 pb-3 mb-5 border-b theme-border-subtle text-[11px] sm:text-xs">
-                <div class="nav-btn-group flex flex-col sm:flex-row items-stretch sm:items-center gap-1.5 sm:gap-2 w-full sm:w-auto">
-                    <a href="index.html" id="back-index-btn" class="interactive-link border theme-border px-2.5 py-1.5 sm:py-1 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Volver a la lista del blog [<]" title="Volver a la lista del blog [<]">
+            <div class="nav-controls-bar flex flex-col sm:flex-row justify-between items-center gap-2 pb-3 mb-5 border-b theme-border-subtle text-[11px] sm:text-xs">
+                <div class="nav-btn-group flex gap-1.5 sm:gap-2">
+                    <a href="index.html" id="back-index-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Volver a la lista del blog [<]" title="Volver a la lista del blog [<]">
                         <span class="label-full">[<] Volver al Blog</span><span class="label-short">[<]</span>
                     </a>
-                    <a href="../" id="home-portal-btn" class="interactive-link border theme-border px-2.5 py-1.5 sm:py-1 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Ir al portal principal [H]" title="Ir al portal principal [H]">
+                    <a href="../" id="home-portal-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Ir al portal principal [H]" title="Ir al portal principal [H]">
                         <span class="label-full">[H] Portal Principal</span><span class="label-short">[H]</span>
                     </a>
                 </div>
-                <div class="nav-btn-group flex flex-col sm:flex-row items-stretch sm:items-center gap-1.5 sm:gap-2 w-full sm:w-auto">
-                    <button id="copy-link-btn" class="interactive-link border theme-border px-2.5 py-1.5 sm:py-1 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Copiar enlace de este artículo [S]" title="Copiar enlace de este artículo [S]">
+                <div class="nav-btn-group flex gap-1.5 sm:gap-2">
+                    <button id="copy-link-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Copiar enlace de este artículo [S]" title="Copiar enlace de este artículo [S]">
                         <span class="label-full">[S] Copiar Enlace</span><span class="label-short">[S]</span>
                     </button>
-                    <a href="https://github.com/riccivr/riccivr.github.io" target="_blank" rel="noopener noreferrer" id="repo-btn" class="interactive-link border theme-border px-2.5 py-1.5 sm:py-1 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Ver repositorio en GitHub (se abre en nueva pestaña) [G]" title="Ver repositorio en GitHub (se abre en nueva pestaña) [G]">
+                    <a href="https://github.com/riccivr/riccivr.github.io" target="_blank" rel="noopener noreferrer" id="repo-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Ver repositorio en GitHub (se abre en nueva pestaña) [G]" title="Ver repositorio en GitHub (se abre en nueva pestaña) [G]">
                         <span class="label-full">[G] Repo</span><span class="label-short">[G]</span>
                     </a>
                 </div>
@@ -809,11 +812,11 @@ STATIC_POST_TEMPLATE = """<!DOCTYPE html>
             </article>
 
             <!-- Bottom Return Navigation -->
-            <div class="bottom-nav-bar mt-10 sm:mt-12 pt-6 sm:pt-8 pb-3 sm:pb-4 border-t theme-border-subtle flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2 text-xs sm:text-sm">
-                <a href="index.html" id="bottom-back-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-2 sm:py-1.5 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Volver a la lista de artículos [<]" title="Volver a la lista de artículos [<]">
+            <div class="bottom-nav-bar mt-10 sm:mt-12 pt-6 sm:pt-8 pb-3 sm:pb-4 border-t theme-border-subtle flex justify-between items-center text-xs sm:text-sm">
+                <a href="index.html" id="bottom-back-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Volver a la lista de artículos [<]" title="Volver a la lista de artículos [<]">
                     <span class="label-full">[<] Volver al Blog</span><span class="label-short">[<]</span>
                 </a>
-                <a href="#" onclick="window.scrollTo({{top: 0, behavior: 'smooth'}}); return false;" id="bottom-top-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-2 sm:py-1.5 uppercase font-bold text-center whitespace-nowrap w-full sm:w-auto" aria-label="Ir arriba [K]" title="Ir arriba [K]">
+                <a href="#" onclick="window.scrollTo({{top: 0, behavior: 'smooth'}}); return false;" id="bottom-top-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Ir arriba [K]" title="Ir arriba [K]">
                     <span class="label-full">[^] Arriba</span><span class="label-short">[^]</span>
                 </a>
             </div>
