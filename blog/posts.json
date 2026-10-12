@@ -1,5 +1,54 @@
 [
   {
+    "slug": "d1-pages-starter-serverless-sqlite-on-github-pages-with-cloudflare-d1",
+    "date": "2026-10-12",
+    "title": "d1-pages-starter: conectando GitHub Pages con SQLite serverless mediante Cloudflare D1 y Workers",
+    "category": "Sistemas & Cloud",
+    "tags": [
+      "SQLite",
+      "Cloudflare D1",
+      "Cloudflare Workers",
+      "GitHub Pages",
+      "CLI",
+      "Serverless"
+    ],
+    "summary": "Cada vez que quiero armar una herramienta pequeña, un tablero de notas, un registro de correos o un widget interactivo para la web, me gusta mantener dos reglas claras: cero costos fijos mensuales y cero servidores que t...",
+    "readingTime": "4 min",
+    "file": "posts/d1-pages-starter-serverless-sqlite-on-github-pages-with-cloudflare-d1.es.md",
+    "en": {
+      "title": "d1-pages-starter: connecting GitHub Pages with serverless SQLite using Cloudflare D1 and Workers",
+      "date": "2026-10-12",
+      "category": "Systems & Cloud",
+      "tags": [
+        "SQLite",
+        "Cloudflare D1",
+        "Cloudflare Workers",
+        "GitHub Pages",
+        "CLI",
+        "Serverless"
+      ],
+      "summary": "Whenever I want to build a small utility, note board, waitlist, or interactive web widget, I stick to two rules: zero monthly hosting bills and zero virtual machines to maintain.",
+      "readingTime": "4 min",
+      "file": "posts/d1-pages-starter-serverless-sqlite-on-github-pages-with-cloudflare-d1.en.md"
+    },
+    "es": {
+      "title": "d1-pages-starter: conectando GitHub Pages con SQLite serverless mediante Cloudflare D1 y Workers",
+      "date": "2026-10-12",
+      "category": "Sistemas & Cloud",
+      "tags": [
+        "SQLite",
+        "Cloudflare D1",
+        "Cloudflare Workers",
+        "GitHub Pages",
+        "CLI",
+        "Serverless"
+      ],
+      "summary": "Cada vez que quiero armar una herramienta pequeña, un tablero de notas, un registro de correos o un widget interactivo para la web, me gusta mantener dos reglas claras: cero costos fijos mensuales y cero servidores que t...",
+      "readingTime": "4 min",
+      "file": "posts/d1-pages-starter-serverless-sqlite-on-github-pages-with-cloudflare-d1.es.md"
+    }
+  },
+  {
     "slug": "reelscribe-transcribing-reels-and-tiktoks-for-content-analytics",
     "date": "2026-10-11",
     "title": "reelscribe: transcribiendo reels y tiktoks con IA local para el trabajo de mi novia",

@@ -50,6 +50,7 @@ SPANISH_MONTHS = {
 }
 
 POST_CHRONO_ORDER = {
+    "d1-pages-starter-serverless-sqlite-on-github-pages-with-cloudflare-d1": 8,
     "reelscribe-transcribing-reels-and-tiktoks-for-content-analytics": 7,
     "beam-ephemeral-video-streaming-in-c99": 6,
     "autodub-automating-video-dubbing-to-spanish": 5,
@@ -1675,6 +1676,15 @@ def generate_state_json(posts):
         },
         "entities": {
             "projects": [
+                {
+                    "id": "d1-pages-starter",
+                    "name": "d1-pages-starter",
+                    "badge": "Activo",
+                    "repoUrl": "https://github.com/riccivr/d1-pages-starter",
+                    "tags": ["SQLITE", "CLOUDFLARE D1", "WORKERS", "GITHUB PAGES", "CLI", "SERVERLESS"],
+                    "subtitle": "Baseline y CLI interactivo para apps web serverless con GitHub Pages, Cloudflare Workers y D1 SQLite",
+                    "description": "Generador y arquitectura edge que conecta GitHub Pages con Cloudflare D1 (SQLite nativo) o Turso a través de Cloudflare Workers como gateway seguro. Incluye plantillas para Vanilla JS, React, Astro y Svelte, soporte para backends en TypeScript, Rust (WebAssembly) o Python, y un CLI interactivo de terminal estilo bun create para inicializar proyectos en segundos."
+                },
                 {
                     "id": "reelscribe",
                     "name": "reelscribe",
