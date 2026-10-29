@@ -5,57 +5,13 @@
     <link>https://riccivr.github.io/blog/</link>
     <description>Reflexiones sobre arquitectura de sistemas, infraestructura cloud, programación de bajo nivel y algoritmos.</description>
     <language>es-ve</language>
-    <lastBuildDate>Thu, 29 Oct 2026 15:40:05 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 29 Oct 2026 15:47:03 GMT</lastBuildDate>
     <atom:link href="https://riccivr.github.io/feed-es.xml" rel="self" type="application/rss+xml"/>
-    <item>
-      <title>bugrouter Devlog #4: Preparación para Producción v1.0, Precisión del Scrubber y la Revisión Independiente de Código</title>
-      <link>https://riccivr.github.io/blog/bugrouter-devlog-04-v1-readiness-code-review-and-cli-polish.html</link>
-      <guid isPermaLink="true">https://riccivr.github.io/blog/bugrouter-devlog-04-v1-readiness-code-review-and-cli-polish.html</guid>
-      <pubDate>Thu, 29 Oct 2026 12:00:00 GMT</pubDate>
-      <description>Tras cuatro hitos intensos diseñando la cascada del resolver, armando parsers sin dependencias y blindando el Cloud Control Plane (como contamos en el Devlog #1, Devlog #2 y Devlog #3), bugrouter ya estaba funcionalmente...</description>
-      <category>Go</category>
-      <category>bugrouter</category>
-      <category>Devlog</category>
-      <category>Code Review</category>
-      <category>Seguridad</category>
-      <category>CLI</category>
-      <category>Arquitectura</category>
-    </item>
-    <item>
-      <title>bugrouter Devlog #3: Detección de Duplicados Upstream, Probes Políglotas y Blindaje Red-Team</title>
-      <link>https://riccivr.github.io/blog/bugrouter-devlog-03-upstream-deduplication-and-polyglot-probes.html</link>
-      <guid isPermaLink="true">https://riccivr.github.io/blog/bugrouter-devlog-03-upstream-deduplication-and-polyglot-probes.html</guid>
-      <pubDate>Thu, 29 Oct 2026 12:00:00 GMT</pubDate>
-      <description>Pregúntale a cualquier mantenedor de código abierto cuál es su mayor queja con la ola reciente de agentes de IA para programar, y siempre te va a responder lo mismo:</description>
-      <category>Go</category>
-      <category>bugrouter</category>
-      <category>Devlog</category>
-      <category>Duplicados</category>
-      <category>Políglota</category>
-      <category>Auditoría</category>
-      <category>Webhooks</category>
-      <category>Seguridad</category>
-    </item>
-    <item>
-      <title>bugrouter Devlog #2: Introspección de Plantillas Upstream, Catálogo Org-Cloud y Colas Human-in-the-Loop</title>
-      <link>https://riccivr.github.io/blog/bugrouter-devlog-02-issue-template-introspection-and-cloud-control-plane.html</link>
-      <guid isPermaLink="true">https://riccivr.github.io/blog/bugrouter-devlog-02-issue-template-introspection-and-cloud-control-plane.html</guid>
-      <pubDate>Wed, 28 Oct 2026 12:00:00 GMT</pubDate>
-      <description>Una vez que bugrouter fue capaz de resolver cualquier dependencia a su tracker canónico y limpiar secretos a nivel de tipos (como vimos en el Devlog #1), nos topamos con el segundo gran dolor de cabeza de los agentes de ...</description>
-      <category>Go</category>
-      <category>bugrouter</category>
-      <category>Devlog</category>
-      <category>Introspector</category>
-      <category>Cloud</category>
-      <category>HITL</category>
-      <category>OAuth</category>
-      <category>Seguridad</category>
-    </item>
     <item>
       <title>bugrouter Devlog #1: Arquitectura con Cero Dependencias, Espíritu C99 en Go y la Constitución para Agentes</title>
       <link>https://riccivr.github.io/blog/bugrouter-devlog-01-architecture-zero-dep-go-and-the-agent-constitution.html</link>
       <guid isPermaLink="true">https://riccivr.github.io/blog/bugrouter-devlog-01-architecture-zero-dep-go-and-the-agent-constitution.html</guid>
-      <pubDate>Tue, 27 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Thu, 29 Oct 2026 12:00:00 GMT</pubDate>
       <description>Si te has puesto a cacharrear en serio con agentes de IA autónomos que tiran código en tus proyectos, seguro te has estrellado de frente con el mismo saperoco de siempre.</description>
       <category>Go</category>
       <category>bugrouter</category>

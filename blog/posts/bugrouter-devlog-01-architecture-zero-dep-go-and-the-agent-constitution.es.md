@@ -1,6 +1,6 @@
 # bugrouter Devlog #1: Arquitectura con Cero Dependencias, Espíritu C99 en Go y la Constitución para Agentes
 
-*Publicado: 27 de octubre de 2026. Categoría: Sistemas & Arquitectura. Tiempo de lectura: ~7 min*
+*Publicado: 29 de octubre de 2026. Categoría: Sistemas & Arquitectura. Tiempo de lectura: ~7 min*
 *Etiquetas: Go, bugrouter, Devlog, Arquitectura, MCP, Seguridad, Sistemas, Agentes*
 
 ---

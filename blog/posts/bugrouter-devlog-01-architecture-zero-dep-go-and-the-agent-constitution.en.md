@@ -1,6 +1,6 @@
 # bugrouter Devlog #1: Zero-Dependency Architecture, C99-Spirit in Go, and the Agent Constitution
 
-*Published: October 27, 2026. Category: Systems & Architecture. Reading time: ~7 min*
+*Published: October 29, 2026. Category: Systems & Architecture. Reading time: ~7 min*
 *Tags: Go, bugrouter, Devlog, Architecture, MCP, Security, Systems, Agents*
 
 ---
