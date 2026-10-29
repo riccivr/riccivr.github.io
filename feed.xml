@@ -5,8 +5,67 @@
     <link>https://riccivr.github.io/blog/</link>
     <description>Thoughts on systems architecture, cloud infrastructure, low-level programming &amp; algorithms.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 12 Oct 2026 16:47:55 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 29 Oct 2026 15:19:42 GMT</lastBuildDate>
     <atom:link href="https://riccivr.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>bugrouter Devlog #4: v1.0 Production Readiness, Scrubber Precision, and the Independent Code Review</title>
+      <link>https://riccivr.github.io/blog/bugrouter-devlog-04-v1-readiness-code-review-and-cli-polish.html</link>
+      <guid isPermaLink="true">https://riccivr.github.io/blog/bugrouter-devlog-04-v1-readiness-code-review-and-cli-polish.html</guid>
+      <pubDate>Thu, 29 Oct 2026 12:00:00 GMT</pubDate>
+      <description>After four intense milestones of designing the resolver waterfall, building zero-dependency introspectors, and hardening the Cloud Control Plane (covered in Devlog #1, Devlog #2, and Devlog #3), bugrouter was functionall...</description>
+      <category>Go</category>
+      <category>bugrouter</category>
+      <category>Devlog</category>
+      <category>Code Review</category>
+      <category>Security</category>
+      <category>CLI</category>
+      <category>Architecture</category>
+    </item>
+    <item>
+      <title>bugrouter Devlog #3: Upstream Issue Deduplication, Polyglot Probes, and Red-Team Hardening</title>
+      <link>https://riccivr.github.io/blog/bugrouter-devlog-03-upstream-deduplication-and-polyglot-probes.html</link>
+      <guid isPermaLink="true">https://riccivr.github.io/blog/bugrouter-devlog-03-upstream-deduplication-and-polyglot-probes.html</guid>
+      <pubDate>Thu, 29 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Ask any open-source maintainer about their biggest grievance with the recent wave of AI coding agents, and you will get the exact same answer:</description>
+      <category>Go</category>
+      <category>bugrouter</category>
+      <category>Devlog</category>
+      <category>Deduplication</category>
+      <category>Polyglot</category>
+      <category>Audit</category>
+      <category>Webhooks</category>
+      <category>Security</category>
+    </item>
+    <item>
+      <title>bugrouter Devlog #2: Upstream Template Introspection, Org Discovery, and Human-in-the-Loop Review Queues</title>
+      <link>https://riccivr.github.io/blog/bugrouter-devlog-02-issue-template-introspection-and-cloud-control-plane.html</link>
+      <guid isPermaLink="true">https://riccivr.github.io/blog/bugrouter-devlog-02-issue-template-introspection-and-cloud-control-plane.html</guid>
+      <pubDate>Wed, 28 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Once bugrouter could reliably resolve an artifact to its canonical bug tracker and redact credentials at the type level (as covered in Devlog #1), we encountered the second major failure mode of AI coding agents:</description>
+      <category>Go</category>
+      <category>bugrouter</category>
+      <category>Devlog</category>
+      <category>Introspector</category>
+      <category>Cloud</category>
+      <category>HITL</category>
+      <category>OAuth</category>
+      <category>Security</category>
+    </item>
+    <item>
+      <title>bugrouter Devlog #1: Zero-Dependency Architecture, C99-Spirit in Go, and the Agent Constitution</title>
+      <link>https://riccivr.github.io/blog/bugrouter-devlog-01-architecture-zero-dep-go-and-the-agent-constitution.html</link>
+      <guid isPermaLink="true">https://riccivr.github.io/blog/bugrouter-devlog-01-architecture-zero-dep-go-and-the-agent-constitution.html</guid>
+      <pubDate>Tue, 27 Oct 2026 12:00:00 GMT</pubDate>
+      <description>If you have spent any serious time letting autonomous AI coding agents loose on your development workspaces, you have likely watched them run headfirst into the exact same wall.</description>
+      <category>Go</category>
+      <category>bugrouter</category>
+      <category>Devlog</category>
+      <category>Architecture</category>
+      <category>MCP</category>
+      <category>Security</category>
+      <category>Systems</category>
+      <category>Agents</category>
+    </item>
     <item>
       <title>d1-pages-starter: connecting GitHub Pages with serverless SQLite using Cloudflare D1 and Workers</title>
       <link>https://riccivr.github.io/blog/d1-pages-starter-serverless-sqlite-on-github-pages-with-cloudflare-d1.html</link>

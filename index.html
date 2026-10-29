@@ -300,6 +300,38 @@
 
                 <section id="projects-content" role="tabpanel" aria-labelledby="tab-projects" tabindex="0" class="content-section space-y-6">
 
+                    <!-- bugrouter -->
+                    <article class="border theme-border-subtle theme-bg-card p-4 transition duration-150">
+                        <header class="flex justify-between items-start mb-2">
+                            <div>
+                                <h2 class="font-bold text-lg theme-text-heading">
+                                    <a href="https://github.com/riccivr/bugrouter" target="_blank" rel="noopener noreferrer" id="bugrouter-link" aria-label="Repositorio bugrouter en GitHub (se abre en una nueva pestaña)" class="hover:underline inline-flex items-center gap-1.5">
+                                        bugrouter <span class="text-xs opacity-75" aria-hidden="true">↗</span>
+                                    </a>
+                                </h2>
+                                <span id="bugrouter-sub" class="text-xs theme-text-muted font-bold">CLI y servidor MCP en Go sin dependencias para resolución, sanitización y enrutamiento autónomo de bugs upstream</span>
+                            </div>
+                            <div id="bugrouter-badge" class="text-xs theme-text-muted text-right whitespace-nowrap font-semibold">
+                                Activo
+                            </div>
+                        </header>
+                        <div class="text-sm leading-relaxed theme-text-main mt-2">
+                            <p id="bugrouter-desc" class="mb-3">
+                                CLI y servidor MCP autónomo en Go 1.22+ con cero dependencias externas y estilo procedural C99. Resuelve artefactos locales, paquetes de distribución (dpkg/apt, rpm, pacman) y librerías a sus trackers upstream canónicos mediante una cascada de 6 capas, sanitiza credenciales y rutas PII a nivel de tipo (ScrubbedText), descubre esquemas de plantillas (YAML Issue Forms, Markdown, Bugzilla), detecta duplicados upstream y cuenta con control plane HTTP con cola de revisión Human-in-the-Loop y conectores OAuth para GitHub Enterprise, GitLab Self-Managed, Jira y Linear.
+                            </p>
+                            <div id="bugrouter-tags" class="flex flex-wrap gap-1.5 pt-1">
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">GO</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">ZERO-DEP</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">MCP</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">CLI</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">SECURITY</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">SSRF-GUARD</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">HITL</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-main);">AUTOMATION</span>
+                            </div>
+                        </div>
+                    </article>
+
                     <!-- d1-pages-starter -->
                     <article class="border theme-border-subtle theme-bg-card p-4 transition duration-150">
                         <header class="flex justify-between items-start mb-2">
@@ -578,33 +610,34 @@
                     <article class="border theme-border-subtle theme-bg-card p-5">
                         <header class="flex flex-col sm:flex-row justify-between sm:items-center gap-1 mb-2 border-b theme-border-dim pb-2">
                             <div id="featured-post-tag" class="text-xs theme-text-muted font-bold font-mono">
-                                POST_2026.10.12 // SISTEMAS & CLOUD
+                                POST_2026.10.29 // SISTEMAS & ARQUITECTURA
                             </div>
                             <div id="featured-post-reading-time" class="text-xs theme-text-dim font-medium">
-                                Lectura: ~5 min
+                                Lectura: ~8 min
                             </div>
                         </header>
 
                         <h2 class="text-lg sm:text-xl font-bold theme-text-heading mb-2">
-                            <a id="featured-post-link" href="./blog/d1-pages-starter-serverless-sqlite-on-github-pages-with-cloudflare-d1.html" class="hover:underline">
-                                d1-pages-starter: conectando GitHub Pages con SQLite serverless mediante Cloudflare D1 y Workers
+                            <a id="featured-post-link" href="./blog/bugrouter-devlog-04-v1-readiness-code-review-and-cli-polish.html" class="hover:underline">
+                                bugrouter Devlog #4: Preparación para Producción v1.0, Precisión del Scrubber y la Revisión Independiente de Código
                             </a>
                         </h2>
 
                         <p id="featured-post-summary" class="text-sm leading-relaxed theme-text-main mb-4">
-                            Arquitectura edge que conecta GitHub Pages con Cloudflare D1 y Workers como gateway seguro. Incluye plantillas para Vanilla, React, Astro y Svelte, y un CLI interactivo de terminal para generar apps en segundos.
+                            Preparación final para la versión v1.0: eliminación de falsos positivos en el redactor de secretos, flag --body-file y timeouts en la CLI, tests de integración golden-path de punta a punta y análisis exhaustivo de la revisión técnica independiente.
                         </p>
 
                         <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t theme-border-dim">
                             <div id="featured-post-badges" class="flex flex-wrap gap-1.5">
-                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#SQLite</span>
-                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#CloudflareD1</span>
-                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#Workers</span>
-                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#GitHubPages</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#Go</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#bugrouter</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#Devlog</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#CodeReview</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#Seguridad</span>
                                 <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#CLI</span>
-                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#Serverless</span>
+                                <span class="text-xs px-2 py-0.5 font-medium rounded-sm" style="background-color: var(--bg-badge); color: var(--text-heading);">#Arquitectura</span>
                             </div>
-                            <a id="featured-post-btn" href="./blog/d1-pages-starter-serverless-sqlite-on-github-pages-with-cloudflare-d1.html" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold" aria-label="Leer artículo: d1-pages-starter: conectando GitHub Pages con SQLite serverless mediante Cloudflare D1 y Workers">
+                            <a id="featured-post-btn" href="./blog/bugrouter-devlog-04-v1-readiness-code-review-and-cli-polish.html" class="interactive-link border theme-border px-3 py-1 text-xs uppercase font-bold" aria-label="Leer artículo: bugrouter Devlog #4: Preparación para Producción v1.0, Precisión del Scrubber y la Revisión Independiente de Código">
                                 [LEER ARTÍCULO ->]
                             </a>
                         </div>

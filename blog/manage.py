@@ -50,6 +50,10 @@ SPANISH_MONTHS = {
 }
 
 POST_CHRONO_ORDER = {
+    "bugrouter-devlog-04-v1-readiness-code-review-and-cli-polish": 12,
+    "bugrouter-devlog-03-upstream-deduplication-and-polyglot-probes": 11,
+    "bugrouter-devlog-02-issue-template-introspection-and-cloud-control-plane": 10,
+    "bugrouter-devlog-01-architecture-zero-dep-go-and-the-agent-constitution": 9,
     "d1-pages-starter-serverless-sqlite-on-github-pages-with-cloudflare-d1": 8,
     "reelscribe-transcribing-reels-and-tiktoks-for-content-analytics": 7,
     "beam-ephemeral-video-streaming-in-c99": 6,
@@ -1676,6 +1680,15 @@ def generate_state_json(posts):
         },
         "entities": {
             "projects": [
+                {
+                    "id": "bugrouter",
+                    "name": "bugrouter",
+                    "badge": "Activo",
+                    "repoUrl": "https://github.com/riccivr/bugrouter",
+                    "tags": ["GO", "ZERO-DEP", "MCP", "CLI", "SECURITY", "SSRF-GUARD", "HITL", "AUTOMATION"],
+                    "subtitle": "CLI y servidor MCP en Go sin dependencias para resolución, sanitización y enrutamiento autónomo de bugs upstream",
+                    "description": "CLI y servidor MCP autónomo en Go 1.22+ con cero dependencias externas y estilo procedural C99. Resuelve artefactos locales, paquetes de distribución (dpkg/apt, rpm, pacman) y librerías a sus trackers upstream canónicos mediante una cascada de 6 capas, sanitiza credenciales y rutas PII a nivel de tipo (ScrubbedText), descubre esquemas de plantillas (YAML Issue Forms, Markdown, Bugzilla), detecta duplicados upstream y cuenta con control plane HTTP con cola de revisión Human-in-the-Loop y conectores OAuth para GitHub Enterprise, GitLab Self-Managed, Jira y Linear."
+                },
                 {
                     "id": "d1-pages-starter",
                     "name": "d1-pages-starter",

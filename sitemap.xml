@@ -16,6 +16,30 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://riccivr.github.io/blog/bugrouter-devlog-04-v1-readiness-code-review-and-cli-polish.html</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://riccivr.github.io/blog/bugrouter-devlog-03-upstream-deduplication-and-polyglot-probes.html</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://riccivr.github.io/blog/bugrouter-devlog-02-issue-template-introspection-and-cloud-control-plane.html</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://riccivr.github.io/blog/bugrouter-devlog-01-architecture-zero-dep-go-and-the-agent-constitution.html</loc>
+    <lastmod>2026-10-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://riccivr.github.io/blog/d1-pages-starter-serverless-sqlite-on-github-pages-with-cloudflare-d1.html</loc>
     <lastmod>2026-10-12</lastmod>
     <changefreq>monthly</changefreq>

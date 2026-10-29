@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="meta-title">bugrouter Devlog #2: Introspección de Plantillas Upstream, Catálogo Org-Cloud y Colas Human-in-the-Loop - Ricardo Veronese</title>
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <meta name="theme-color" content="#0c0a07">
+    <meta name="author" content="Ricardo Veronese">
+    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed (English)" href="https://riccivr.github.io/feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Feed RSS del Blog (Español)" href="https://riccivr.github.io/feed-es.xml">
+    <meta name="description" id="meta-desc" content="Una vez que bugrouter fue capaz de resolver cualquier dependencia a su tracker canónico y limpiar secretos a nivel de tipos (como vimos en el Devlog #1), nos topamos con el segundo gran dolor de cabeza de los agentes de ...">
+    <link rel="canonical" href="https://riccivr.github.io/blog/bugrouter-devlog-02-issue-template-introspection-and-cloud-control-plane.html">
+
+    <!-- Privacy-first analytics by GoatCounter -->
+    <script data-goatcounter="https://riccivr.goatcounter.com/count"
+            async src="https://gc.zgo.at/count.js"
+            onerror="this.remove()"></script>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Ricardo Veronese">
+    <meta property="og:title" id="og-title" content="bugrouter Devlog #2: Introspección de Plantillas Upstream, Catálogo Org-Cloud y Colas Human-in-the-Loop - Ricardo Veronese">
+    <meta property="og:description" id="og-desc" content="Una vez que bugrouter fue capaz de resolver cualquier dependencia a su tracker canónico y limpiar secretos a nivel de tipos (como vimos en el Devlog #1), nos topamos con el segundo gran dolor de cabeza de los agentes de ...">
+    <meta property="og:url" content="https://riccivr.github.io/blog/bugrouter-devlog-02-issue-template-introspection-and-cloud-control-plane.html">
+    <meta property="og:image" content="https://riccivr.github.io/riccivr-retro-og.png">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" id="tw-title" content="bugrouter Devlog #2: Introspección de Plantillas Upstream, Catálogo Org-Cloud y Colas Human-in-the-Loop - Ricardo Veronese">
+    <meta name="twitter:description" id="tw-desc" content="Una vez que bugrouter fue capaz de resolver cualquier dependencia a su tracker canónico y limpiar secretos a nivel de tipos (como vimos en el Devlog #1), nos topamos con el segundo gran dolor de cabeza de los agentes de ...">
+    <meta name="twitter:image" content="https://riccivr.github.io/riccivr-retro-og.png">
+
+    <!-- Schema.org BlogPosting -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "bugrouter Devlog #2: Introspecci\u00f3n de Plantillas Upstream, Cat\u00e1logo Org-Cloud y Colas Human-in-the-Loop",
+        "description": "Una vez que bugrouter fue capaz de resolver cualquier dependencia a su tracker can\u00f3nico y limpiar secretos a nivel de tipos (como vimos en el Devlog #1), nos topamos con el segundo gran dolor de cabeza de los agentes de ...",
+        "author": {
+            "@type": "Person",
+            "name": "Ricardo Veronese",
+            "url": "https://riccivr.github.io/"
+        },
+        "datePublished": "2026-10-28",
+        "mainEntityOfPage": "https://riccivr.github.io/blog/bugrouter-devlog-02-issue-template-introspection-and-cloud-control-plane.html"
+    }
+    </script>
+
+    <link rel="stylesheet" href="../style.css">
+    <script>
+        // Immediately apply saved or system theme and language to avoid FOUC
+        (function() {
+            try {
+                const savedTheme = localStorage.getItem('riccivr-theme');
+                const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+                if (savedTheme === 'light' || (!savedTheme && prefersLight)) {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                }
+
+                const savedLang = localStorage.getItem('riccivr-lang');
+                const browserLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
+                const activeLang = (savedLang === 'es' || savedLang === 'en') ? savedLang : (browserLang.startsWith('es') ? 'es' : 'en');
+                document.documentElement.setAttribute('lang', activeLang);
+            } catch(e) {}
+        })();
+    </script>
+    <style>
+        :root {
+            --bg-page: #0c0a07;
+            --bg-frame: #110e0a;
+            --bg-header: #1a140d;
+            --bg-card: #16120b;
+            --bg-card-alt: #1c160e;
+            --bg-badge: rgba(245, 158, 11, 0.12);
+            
+            --border-primary: #d97706;
+            --border-subtle: rgba(217, 119, 6, 0.45);
+            --border-dim: rgba(217, 119, 6, 0.2);
+            
+            --text-title: #fffbeb;
+            --text-heading: #fef08a;
+            --text-main: #fde68a;
+            --text-muted: #fbbf24;
+            --text-dim: #f59e0b;
+            --text-code: #fef08a;
+            --text-blockquote: #fde68a;
+            
+            --scanline-color: rgba(245, 158, 11, 0.035);
+            --frame-shadow: 0 0 16px rgba(245, 158, 11, 0.2), 0 0 1px rgba(245, 158, 11, 0.4) inset;
+            --btn-hover-bg: #f59e0b;
+            --btn-hover-text: #110e0a;
+            
+            --bg-code-block: #080705;
+            --bg-inline-code: rgba(245, 158, 11, 0.14);
+            --bg-blockquote: rgba(245, 158, 11, 0.08);
+            --bg-table-header: rgba(245, 158, 11, 0.18);
+        }
+
+        [data-theme="light"] {
+            --bg-page: #f5efe1;
+            --bg-frame: #fcf8f0;
+            --bg-header: #ebe0ca;
+            --bg-card: #f3ecdb;
+            --bg-card-alt: #eae0cb;
+            --bg-badge: rgba(146, 64, 14, 0.08);
+            
+            --border-primary: #92400e;
+            --border-subtle: rgba(146, 64, 14, 0.5);
+            --border-dim: rgba(146, 64, 14, 0.25);
+            
+            --text-title: #1a0a01;
+            --text-heading: #78350f;
+            --text-main: #2b1103;
+            --text-muted: #612809;
+            --text-dim: #78350f;
+            --text-code: #581c87;
+            --text-blockquote: #451a03;
+            
+            --scanline-color: rgba(146, 64, 14, 0.035);
+            --frame-shadow: 0 3px 14px rgba(146, 64, 14, 0.18), 0 0 0 1px rgba(146, 64, 14, 0.12) inset;
+            --btn-hover-bg: #92400e;
+            --btn-hover-text: #fcf8f0;
+            
+            --bg-code-block: #f7f1e4;
+            --bg-inline-code: #eeddc3;
+            --bg-blockquote: #f0e6d2;
+            --bg-table-header: #ebdcc0;
+        }
+
+        /* Custom retro scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-page);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-subtle);
+            border-radius: 2px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border-primary);
+        }
+
+        .post-content pre::-webkit-scrollbar-track {
+            background: var(--bg-code-block);
+        }
+
+        body {
+            background-color: var(--bg-page);
+            background-image: linear-gradient(var(--scanline-color) 1px, transparent 1px);
+            background-size: 100% 4px;
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--text-main);
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .terminal-frame {
+            box-shadow: var(--frame-shadow);
+            border: 2px solid var(--border-primary);
+            background-color: var(--bg-frame);
+        }
+
+        .interactive-link {
+            transition: color 0.1s ease, background-color 0.1s ease, border-color 0.1s ease;
+            border-color: var(--border-primary);
+            color: var(--text-main);
+        }
+        .interactive-link:hover {
+            color: var(--btn-hover-text) !important;
+            background-color: var(--btn-hover-bg) !important;
+        }
+
+        .theme-border { border-color: var(--border-primary); }
+        .theme-border-subtle { border-color: var(--border-subtle); }
+        .theme-border-dim { border-color: var(--border-dim); }
+
+        .theme-bg-header { background-color: var(--bg-header); }
+        .theme-bg-card { background-color: var(--bg-card); }
+        .theme-bg-card-alt { background-color: var(--bg-card-alt); }
+
+        .theme-text-title { color: var(--text-title); }
+        .theme-text-heading { color: var(--text-heading); }
+        .theme-text-main { color: var(--text-main); }
+        .theme-text-muted { color: var(--text-muted); }
+        .theme-text-dim { color: var(--text-dim); }
+
+        /* Typography & Markdown Styles */
+        .post-content h1 {
+            font-size: clamp(1.2rem, 4.5vw, 1.65rem);
+            font-weight: 800;
+            color: var(--text-title);
+            line-height: 1.35;
+            margin-top: 0.25rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--border-primary);
+            padding-bottom: 0.5rem;
+            text-transform: uppercase;
+            word-break: break-word;
+            letter-spacing: -0.01em;
+        }
+        .post-content h2 {
+            font-size: clamp(1.05rem, 3.8vw, 1.3rem);
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-top: 1.75rem;
+            margin-bottom: 0.65rem;
+            border-bottom: 1px dashed var(--border-subtle);
+            padding-bottom: 0.25rem;
+            line-height: 1.35;
+            word-break: break-word;
+        }
+        .post-content h3 {
+            font-size: clamp(0.95rem, 3.2vw, 1.1rem);
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-top: 1.35rem;
+            margin-bottom: 0.45rem;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+        .post-content p {
+            margin-bottom: 1.15rem;
+            line-height: 1.7;
+            font-size: clamp(0.88rem, 2.5vw, 0.95rem);
+            color: var(--text-main);
+        }
+        .post-content ul, .post-content ol {
+            margin-bottom: 1.2rem;
+            padding-left: 1.25rem;
+        }
+        .post-content li {
+            margin-bottom: 0.45rem;
+            line-height: 1.65;
+            font-size: clamp(0.88rem, 2.5vw, 0.95rem);
+        }
+        .post-content a {
+            color: var(--text-heading);
+            text-decoration: underline;
+            font-weight: bold;
+            transition: color 0.1s ease, background-color 0.1s ease;
+        }
+        .post-content a:hover {
+            color: var(--btn-hover-text);
+            background-color: var(--btn-hover-bg);
+            text-decoration: none;
+        }
+        .post-content a code {
+            color: inherit !important;
+            background-color: transparent !important;
+            border: none !important;
+            text-decoration: underline;
+            padding: 0 !important;
+        }
+        .post-content a:hover code {
+            color: var(--btn-hover-text) !important;
+            background-color: transparent !important;
+            text-decoration: none;
+        }
+        .post-content code a {
+            color: var(--text-heading) !important;
+            text-decoration: underline;
+        }
+        .post-content code a:hover {
+            color: var(--btn-hover-text) !important;
+            background-color: var(--btn-hover-bg) !important;
+        }
+        .post-content blockquote {
+            border-left: 3px solid var(--border-primary);
+            background: var(--bg-blockquote);
+            padding: 0.75rem 1rem;
+            margin: 1.2rem 0;
+            font-style: italic;
+            color: var(--text-blockquote);
+        }
+        .post-content blockquote p {
+            margin-bottom: 0;
+            color: var(--text-blockquote);
+        }
+        .post-content hr {
+            border: 0;
+            border-top: 1px solid var(--border-subtle);
+            margin: 2rem 0;
+        }
+        .post-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.85rem;
+        }
+        .post-content th, .post-content td {
+            border: 1px solid var(--border-subtle);
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+        }
+        .post-content th {
+            background-color: var(--bg-table-header);
+            color: var(--text-heading);
+            font-weight: bold;
+        }
+        .post-content td {
+            color: var(--text-main);
+        }
+        .post-content pre, .code-highlight pre {
+            background-color: var(--bg-code-block) !important;
+            border: 1px solid var(--border-subtle);
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border-radius: 2px;
+            color: var(--text-main);
+        }
+        .post-content pre code a, .code-highlight pre code a {
+            color: var(--text-heading) !important;
+            text-decoration: underline;
+        }
+        .post-content code, .code-highlight code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+        .post-content p code, .post-content li code, .url-code, .url-link {
+            background-color: var(--bg-inline-code);
+            color: var(--text-code);
+            padding: 0.1rem 0.35rem;
+            border: 1px solid var(--border-dim);
+            border-radius: 2px;
+            font-weight: 600;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: inline-block;
+            vertical-align: bottom;
+            box-sizing: border-box;
+        }
+
+        .post-content a code {
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: inline-block;
+            vertical-align: bottom;
+        }
+
+        /* Terminal Flow Diagram (Zero-JS, 100% Mobile Responsive, No Horizontal Scroll) */
+        .terminal-flow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 620px;
+            margin: 1.75rem auto;
+            box-sizing: border-box;
+        }
+
+        .terminal-flow .flow-step {
+            width: 100%;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.12), inset 0 0 4px rgba(245, 158, 11, 0.04);
+            padding: 0.85rem 1.15rem;
+            border-radius: 2px;
+            position: relative;
+            box-sizing: border-box;
+            transition: border-color 0.15s ease, background-color 0.15s ease;
+        }
+
+        [data-theme="light"] .terminal-flow .flow-step {
+            box-shadow: 0 2px 6px rgba(146, 64, 14, 0.1), inset 0 0 4px rgba(146, 64, 14, 0.03);
+        }
+
+        .terminal-flow .flow-step-title {
+            font-weight: 700;
+            color: var(--text-heading);
+            font-size: clamp(0.85rem, 2.5vw, 0.98rem);
+            letter-spacing: -0.01em;
+            margin-bottom: 0.25rem;
+            line-height: 1.4;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .terminal-flow .flow-step-desc {
+            color: var(--text-dim);
+            font-size: clamp(0.78rem, 2.2vw, 0.86rem);
+            line-height: 1.45;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .terminal-flow .flow-step-list {
+            margin: 0.35rem 0 0 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .terminal-flow .flow-step-list li {
+            position: relative;
+            color: var(--text-main);
+            font-size: clamp(0.8rem, 2.3vw, 0.88rem);
+            line-height: 1.5;
+            margin-bottom: 0.25rem;
+            padding-left: 1.25rem;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .terminal-flow .flow-step-list li::before {
+            content: "›";
+            position: absolute;
+            left: 0.2rem;
+            color: var(--border-primary);
+            font-weight: bold;
+        }
+
+        .terminal-flow .flow-step-list li.flow-item-numbered {
+            padding-left: 0.2rem;
+        }
+
+        .terminal-flow .flow-step-list li.flow-item-numbered::before {
+            content: none;
+        }
+
+        .terminal-flow .flow-step-list li .flow-item-num {
+            color: var(--border-primary);
+            font-weight: bold;
+            display: inline-block;
+            min-width: 1.2rem;
+        }
+
+        .terminal-flow .flow-connector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.25rem 0;
+            user-select: none;
+        }
+
+        .terminal-flow .flow-connector-line {
+            width: 2px;
+            height: 14px;
+            background-color: var(--border-primary);
+            opacity: 0.75;
+        }
+
+        .terminal-flow .flow-connector-arrow {
+            font-size: 0.85rem;
+            line-height: 1;
+            color: var(--border-primary);
+            margin-top: -2px;
+            text-shadow: 0 0 6px rgba(245, 158, 11, 0.4);
+        }
+
+        [data-theme="light"] .terminal-flow .flow-connector-arrow {
+            text-shadow: none;
+        }
+
+        .terminal-flow .flow-connector-label {
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            font-style: italic;
+            padding: 0.15rem 0.55rem;
+            margin: 0.15rem 0;
+            background: var(--bg-badge);
+            border: 1px dashed var(--border-dim);
+            border-radius: 2px;
+            max-width: 90%;
+            text-align: center;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .terminal-flow code {
+            background-color: var(--bg-inline-code);
+            color: var(--text-code);
+            padding: 0.1rem 0.3rem;
+            border: 1px solid var(--border-dim);
+            border-radius: 2px;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+
+        /* Default: show full labels, hide short ones */
+        .label-short { display: none; }
+        .label-full { display: inline; }
+
+        @media (max-width: 640px) {
+            .terminal-flow .flow-step {
+                padding: 0.65rem 0.85rem;
+            }
+            .terminal-flow .flow-connector-line {
+                height: 10px;
+            }
+            /* Compact key-style buttons on mobile (horizontal wrap, short labels) */
+            .header-button-group,
+            .nav-btn-group,
+            .bottom-nav-bar {
+                flex-direction: row !important;
+                flex-wrap: wrap !important;
+                justify-content: center !important;
+                gap: 0.35rem !important;
+                width: 100% !important;
+            }
+            .header-action-container,
+            .nav-controls-bar {
+                width: 100% !important;
+            }
+            .header-button-group button,
+            .nav-controls-bar a,
+            .nav-controls-bar button,
+            .bottom-nav-bar a,
+            .bottom-nav-bar button {
+                width: auto !important;
+                display: inline-block !important;
+                padding: 0.35rem 0.6rem !important;
+                font-size: 0.75rem !important;
+                min-width: 2.75rem;
+                text-align: center !important;
+                box-sizing: border-box !important;
+                line-height: 1.25;
+                letter-spacing: 0.03em;
+                font-weight: 700;
+            }
+            .label-full { display: none !important; }
+            .label-short { display: inline !important; }
+        }
+
+        /* Build-Time Pygments Syntax Highlighting (0 KB JS, 0 ms cost) */
+        /* CRT Dark Amber Phosphor Scheme */
+        html:not([data-theme="light"]) .code-highlight .k,
+        html:not([data-theme="light"]) .code-highlight .kd,
+        html:not([data-theme="light"]) .code-highlight .kn,
+        html:not([data-theme="light"]) .code-highlight .kp,
+        html:not([data-theme="light"]) .code-highlight .kr,
+        html:not([data-theme="light"]) .code-highlight .kt,
+        html:not([data-theme="light"]) .code-highlight .nt {
+            color: #f59e0b;
+            font-weight: bold;
+        }
+        html:not([data-theme="light"]) .code-highlight .nf,
+        html:not([data-theme="light"]) .code-highlight .nc,
+        html:not([data-theme="light"]) .code-highlight .nd,
+        html:not([data-theme="light"]) .code-highlight .na,
+        html:not([data-theme="light"]) .code-highlight .ne,
+        html:not([data-theme="light"]) .code-highlight .fm {
+            color: #fef08a;
+            font-weight: 600;
+        }
+        html:not([data-theme="light"]) .code-highlight .s,
+        html:not([data-theme="light"]) .code-highlight .s1,
+        html:not([data-theme="light"]) .code-highlight .s2,
+        html:not([data-theme="light"]) .code-highlight .sa,
+        html:not([data-theme="light"]) .code-highlight .sb,
+        html:not([data-theme="light"]) .code-highlight .sc,
+        html:not([data-theme="light"]) .code-highlight .sd,
+        html:not([data-theme="light"]) .code-highlight .se,
+        html:not([data-theme="light"]) .code-highlight .sh,
+        html:not([data-theme="light"]) .code-highlight .si,
+        html:not([data-theme="light"]) .code-highlight .sx,
+        html:not([data-theme="light"]) .code-highlight .sr,
+        html:not([data-theme="light"]) .code-highlight .ss {
+            color: #a3e635;
+        }
+        html:not([data-theme="light"]) .code-highlight .m,
+        html:not([data-theme="light"]) .code-highlight .mi,
+        html:not([data-theme="light"]) .code-highlight .mf,
+        html:not([data-theme="light"]) .code-highlight .mh,
+        html:not([data-theme="light"]) .code-highlight .mo,
+        html:not([data-theme="light"]) .code-highlight .mb,
+        html:not([data-theme="light"]) .code-highlight .kc {
+            color: #fb923c;
+        }
+        html:not([data-theme="light"]) .code-highlight .c,
+        html:not([data-theme="light"]) .code-highlight .c1,
+        html:not([data-theme="light"]) .code-highlight .cm,
+        html:not([data-theme="light"]) .code-highlight .cp,
+        html:not([data-theme="light"]) .code-highlight .cs,
+        html:not([data-theme="light"]) .code-highlight .ch {
+            color: #d97706;
+            font-style: italic;
+        }
+        html:not([data-theme="light"]) .code-highlight .o,
+        html:not([data-theme="light"]) .code-highlight .ow {
+            color: #fde68a;
+        }
+        html:not([data-theme="light"]) .code-highlight .p {
+            color: #fef08a;
+        }
+        html:not([data-theme="light"]) .code-highlight .nb,
+        html:not([data-theme="light"]) .code-highlight .bp {
+            color: #fbbf24;
+        }
+        html:not([data-theme="light"]) .code-highlight .nv,
+        html:not([data-theme="light"]) .code-highlight .vc,
+        html:not([data-theme="light"]) .code-highlight .vg,
+        html:not([data-theme="light"]) .code-highlight .vi,
+        html:not([data-theme="light"]) .code-highlight .vm,
+        html:not([data-theme="light"]) .code-highlight .n {
+            color: #fde68a;
+        }
+
+        /* Light Paper Theme Syntax Highlighting - 100% WCAG Compliant */
+        [data-theme="light"] .code-highlight .k,
+        [data-theme="light"] .code-highlight .kd,
+        [data-theme="light"] .code-highlight .kn,
+        [data-theme="light"] .code-highlight .kp,
+        [data-theme="light"] .code-highlight .kr,
+        [data-theme="light"] .code-highlight .kt,
+        [data-theme="light"] .code-highlight .nt {
+            color: #9a3412;
+            font-weight: bold;
+        }
+        [data-theme="light"] .code-highlight .nf,
+        [data-theme="light"] .code-highlight .nc,
+        [data-theme="light"] .code-highlight .nd,
+        [data-theme="light"] .code-highlight .na,
+        [data-theme="light"] .code-highlight .ne,
+        [data-theme="light"] .code-highlight .fm {
+            color: #78350f;
+            font-weight: 600;
+        }
+        [data-theme="light"] .code-highlight .s,
+        [data-theme="light"] .code-highlight .s1,
+        [data-theme="light"] .code-highlight .s2,
+        [data-theme="light"] .code-highlight .sa,
+        [data-theme="light"] .code-highlight .sb,
+        [data-theme="light"] .code-highlight .sc,
+        [data-theme="light"] .code-highlight .sd,
+        [data-theme="light"] .code-highlight .se,
+        [data-theme="light"] .code-highlight .sh,
+        [data-theme="light"] .code-highlight .si,
+        [data-theme="light"] .code-highlight .sx,
+        [data-theme="light"] .code-highlight .sr,
+        [data-theme="light"] .code-highlight .ss {
+            color: #14532d;
+        }
+        [data-theme="light"] .code-highlight .m,
+        [data-theme="light"] .code-highlight .mi,
+        [data-theme="light"] .code-highlight .mf,
+        [data-theme="light"] .code-highlight .mh,
+        [data-theme="light"] .code-highlight .mo,
+        [data-theme="light"] .code-highlight .mb,
+        [data-theme="light"] .code-highlight .kc {
+            color: #9a3412;
+        }
+        [data-theme="light"] .code-highlight .c,
+        [data-theme="light"] .code-highlight .c1,
+        [data-theme="light"] .code-highlight .cm,
+        [data-theme="light"] .code-highlight .cp,
+        [data-theme="light"] .code-highlight .cs,
+        [data-theme="light"] .code-highlight .ch {
+            color: #713f12;
+            font-style: italic;
+        }
+        [data-theme="light"] .code-highlight .o,
+        [data-theme="light"] .code-highlight .ow {
+            color: #451a03;
+        }
+        [data-theme="light"] .code-highlight .p {
+            color: #451a03;
+        }
+        [data-theme="light"] .code-highlight .nb,
+        [data-theme="light"] .code-highlight .bp {
+            color: #78350f;
+        }
+        [data-theme="light"] .code-highlight .nv,
+        [data-theme="light"] .code-highlight .vc,
+        [data-theme="light"] .code-highlight .vg,
+        [data-theme="light"] .code-highlight .vi,
+        [data-theme="light"] .code-highlight .vm,
+        [data-theme="light"] .code-highlight .n {
+            color: #2b1103;
+        }
+    </style>
+</head>
+<body class="p-2 sm:p-6 md:p-12 min-h-screen">
+
+    <a href="#main-content" id="skip-link" class="skip-link">[SALTAR AL CONTENIDO]</a>
+    <div id="a11y-announcer" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <div class="terminal-frame max-w-4xl mx-auto mt-1 sm:mt-4 rounded-lg overflow-hidden">
+
+        <header class="p-2.5 sm:p-3 theme-bg-header border-b theme-border flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+            <div class="flex items-center justify-between sm:justify-start gap-2 min-w-0 sm:flex-1">
+                <span class="text-xs theme-text-muted tracking-wider font-bold truncate min-w-0" id="header-sys-id" title="SYS.ID: riccivr // bugrouter-devlog-02-issue-template-introspection-and-cloud-control-plane">SYS.ID: riccivr // bugrouter-devlog-02-issue-template-introspection-and-cloud-control-plane</span>
+                <span class="status-label-text theme-text-main text-[11px] font-bold uppercase tracking-wider sm:hidden shrink-0 whitespace-nowrap">
+                    ESTADO: EN LÍNEA
+                </span>
+            </div>
+            <div class="header-action-container flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2 shrink-0">
+                <div class="header-button-group flex items-center gap-1.5 sm:gap-2 shrink-0">
+                    <button id="lang-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider whitespace-nowrap shrink-0" aria-label="Alternar idioma a inglés (actual: Español) [I]" title="Alternar idioma a inglés (actual: Español) [I]">
+                        <span class="label-full">[LANG: ES]</span><span class="label-short">[ES]</span>
+                    </button>
+                    <button id="keys-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider whitespace-nowrap shrink-0" aria-pressed="true" aria-label="Alternar atajos de navegación por teclado" title="Alternar atajos de navegación por teclado">
+                        <span class="label-full">[TECLAS: ACT]</span><span class="label-short">[KEYS]</span>
+                    </button>
+                    <button id="theme-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider whitespace-nowrap shrink-0" aria-label="Alternar tema visual (actual: CRT) [T]" title="Alternar tema visual (actual: CRT) [T]">
+                        <span class="label-full">[MODO: CRT]</span><span class="label-short">[CRT]</span>
+                    </button>
+                </div>
+                <span class="status-label-text theme-text-main text-xs sm:text-sm font-bold uppercase tracking-wider hidden sm:inline-block ml-2 whitespace-nowrap shrink-0">
+                    ESTADO: EN LÍNEA
+                </span>
+            </div>
+        </header>
+
+        <main id="main-content" class="p-3.5 sm:p-6 md:p-8" tabindex="-1">
+
+            <!-- Navigation Controls -->
+            <div class="nav-controls-bar flex flex-col sm:flex-row justify-between items-center gap-2 pb-3 mb-5 border-b theme-border-subtle text-[11px] sm:text-xs">
+                <div class="nav-btn-group flex gap-1.5 sm:gap-2">
+                    <a href="index.html" id="back-index-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Volver a la lista del blog [<]" title="Volver a la lista del blog [<]">
+                        <span class="label-full">[<] Volver al Blog</span><span class="label-short">[<]</span>
+                    </a>
+                    <a href="../" id="home-portal-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Ir al portal principal [H]" title="Ir al portal principal [H]">
+                        <span class="label-full">[H] Portal Principal</span><span class="label-short">[H]</span>
+                    </a>
+                </div>
+                <div class="nav-btn-group flex gap-1.5 sm:gap-2">
+                    <button id="copy-link-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Copiar enlace de este artículo [S]" title="Copiar enlace de este artículo [S]">
+                        <span class="label-full">[S] Copiar Enlace</span><span class="label-short">[S]</span>
+                    </button>
+                    <a href="https://github.com/riccivr/riccivr.github.io" target="_blank" rel="noopener noreferrer" id="repo-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Ver repositorio en GitHub (se abre en nueva pestaña) [G]" title="Ver repositorio en GitHub (se abre en nueva pestaña) [G]">
+                        <span class="label-full">[G] Repo</span><span class="label-short">[G]</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Post Container (Zero-JS Pre-rendered) -->
+            <article id="post-article-es" lang="es">
+                <div class="post-content">
+<h1>bugrouter Devlog #2: Introspección de Plantillas Upstream, Catálogo Org-Cloud y Colas Human-in-the-Loop</h1>
+<p><em>Publicado: 28 de octubre de 2026. Categoría: Sistemas &amp; Cloud. Tiempo de lectura: ~7 min</em><br />
+<em>Etiquetas: Go, bugrouter, Devlog, Introspector, Cloud, HITL, OAuth, Seguridad</em></p>
+<hr />
+<p>Una vez que <code>bugrouter</code> fue capaz de resolver cualquier dependencia a su tracker canónico y limpiar secretos a nivel de tipos (como vimos en el <a href="https://riccivr.github.io/blog/bugrouter-devlog-01-architecture-zero-dep-go-and-the-agent-constitution.html">Devlog #1</a>), nos topamos con el segundo gran dolor de cabeza de los agentes de IA:</p>
+<p><strong>Las plantillas de issues upstream no perdonan los textos desordenados.</strong></p>
+<p>Si un agente detecta un fallo en una librería popular o en un repositorio corporativo, casi ningún mantenedor acepta que le suelten una descripción en texto plano sin ton ni son. En GitHub la norma son los Issue Forms en YAML con campos obligatorios y cajas de selección. En GitLab te piden plantillas de Markdown cargadas por query params (<code>?issuable_template=Bug</code>). Y en Bugzilla los servidores exigen esquemas REST con campos estrictos de producto y componente.</p>
+<p>Cuando un agente ignora estas reglas y abre un ticket con un bloque de texto plano, un bot de triaje le clava una etiqueta de issue inválido al tiro, o un mantenedor humano le cierra el bug con el típico mensaje predeterminado: <em>"Por favor utiliza la plantilla oficial para reportar errores"</em>.</p>
+<p>En el Hito 2 (Milestone 2), nos propusimos resolver la introspección automática de plantillas, el descubrimiento de servicios en monorepos empresariales y la construcción de un panel de control con colas de revisión Human-in-the-Loop (HITL)—todo sin meter ni una sola librería externa en Go.</p>
+<hr />
+<h2>1. Introspección Upstream con Cero Dependencias</h2>
+<p>Para respetar los formatos de cada proyecto, <code>bugrouter</code> tiene que descargar, inspeccionar y parsear plantillas directamente desde las plataformas remotas. Sin embargo, importar librerías pesadas para parsear YAML o HTML violaría de frente la constitución de <code>AGENTS.md</code>.</p>
+<p>En <code>internal/introspector</code>, armamos parsers procedurales línea por línea usando <code>bufio.Scanner</code> y funciones de <code>strings</code> nativas de Go:</p>
+<ul>
+<li><strong>Issue Forms en YAML de GitHub (<code>.github/ISSUE_TEMPLATE/*.yml</code>):</strong> Consultamos la API de GitHub para listar plantillas, descargamos los formularios candidatos y los parseamos línea a línea. El parser rastrea los niveles de indentación, identifica los bloques <code>type: textarea</code> o <code>type: input</code> y extrae el <code>id</code> y el <code>attributes.label</code>.</li>
+<li><strong>Plantillas en Markdown de GitHub y GitLab (<code>.github/ISSUE_TEMPLATE/*.md</code> o <code>.gitlab/issue_templates/*.md</code>):</strong> Escaneamos los encabezados de Markdown (<code>## Descripción</code>, <code>### Pasos para reproducir</code>, <code>### Entorno</code>) y extraemos los textos de ayuda y comentarios HTML.</li>
+<li><strong>Esquemas REST de Bugzilla (<code>/rest/field/bug</code> y <code>/rest/product</code>):</strong> Para instancias de Bugzilla, consultamos los endpoints nativos de REST para obtener los componentes permitidos, versiones válidas y campos obligatorios de triaje.</li>
+</ul>
+<div class="terminal-flow" role="region" aria-label="Pipeline architecture diagram">
+  <div class="flow-step">    <div class="flow-step-title">Introspección y Parsing de Esquemas (Cero Dependencias)</div>    <div class="flow-step-desc">└─ Scanner línea por línea (labels/ids)<br>└─ Parser de encabezados Markdown<br>└─ Unmarshaling directo de JSON</div>    <ul class="flow-step-list">      <li class="flow-item-numbered"><span class="flow-item-num">1.</span> API GitHub   ───&gt; .github/ISSUE_TEMPLATE/bug.yml</li>      <li class="flow-item-numbered"><span class="flow-item-num">2.</span> API GitLab   ───&gt; .gitlab/issue_templates/Bug.md</li>      <li class="flow-item-numbered"><span class="flow-item-num">3.</span> Bugzilla REST───&gt; /rest/field/bug &amp; /rest/product/NAME</li>    </ul>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">Motor de Mapeo Semántico (internal/adapter)</div>    <ul class="flow-step-list">      <li>Resumen / Qué pasó        ───&gt; &quot;### Summary&quot;</li>      <li>Pasos de reproducción     ───&gt; &quot;### Steps to Reproduce&quot;</li>      <li>Comportamiento esperado   ───&gt; &quot;### Behavior&quot;</li>      <li>Logs y trazas de error    ───&gt; &quot;### Logs &amp; Traces&quot;</li>    </ul>  </div>
+</div>
+
+<hr />
+<h2>2. Mapeo Semántico y Enlaces Directos Pre-llenados</h2>
+<p>Con los esquemas ya parseados, <code>internal/adapter/draft.go</code> ubica cada dato del reporte en la sección exacta que espera el proyecto remoto.</p>
+<p>Si la plantilla tiene un campo llamado <code>What happened?</code> o <code>Describe the bug</code>, <code>bugrouter</code> asigna el contenido de <code>in.Summary</code>. Si encuentra <code>Reproduction Steps</code> o <code>Pasos</code>, le inyecta <code>in.StepsToReproduce</code>. Las trazas y logs de consola se envuelven automáticamente en bloques de código Markdown (<code>```</code>).</p>
+<p>Además, <code>bugrouter</code> genera URLs con deep-linking listas para abrir con un clic en el navegador:<br />
+- <strong>GitHub:</strong> Mapea los IDs de los campos directamente en los parámetros de la URL (<code class="url-code" title="https://github.com/org/repo/issues/new?template=bug.yml&amp;summary=...">https://github.com/org/repo/issues/new?template=bug.yml&amp;summary=...</code>).<br />
+- <strong>GitLab:</strong> Genera el enlace seleccionando automáticamente la plantilla (<code class="url-code" title="https://gitlab.com/org/repo/-/issues/new?issuable_template=Bug">https://gitlab.com/org/repo/-/issues/new?issuable_template=Bug</code>).<br />
+- <strong>Bugzilla:</strong> Arma la cadena de consulta lista para <code>enter_bug.cgi</code>.</p>
+<hr />
+<h2>3. Catálogo Corporativo: <code>LayerOrgCloud</code></h2>
+<p>En empresas grandes, los desarrolladores y los agentes no trabajan solo con repositorios públicos en GitHub. Es muy común tener instancias privadas de GitHub Enterprise, servidores locales de GitLab, o enrutar los tickets de ciertos microservicios directo a Jira o Linear.</p>
+<p>Para cubrir este escenario, introdujimos la capa <strong><code>LayerOrgCloud</code></strong> como la Capa 0 de nuestra cascada de resolución. Lee un archivo de catálogo (<code>services.json</code>) ubicado en <code>$XDG_CONFIG_HOME/bugrouter/services.json</code>, <code>/etc/bugrouter/services.json</code> o la variable de entorno <code>BUGROUTER_SERVICES_FILE</code>:</p>
+<div class="code-highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;services&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;payment-worker&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;repository_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://git.corp.internal/fintech/payment-worker&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;tracker&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;protocol&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jira&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://jira.corp.internal/projects/PAY&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Si un agente pide reportar un bug para <code>payment-worker</code>, <code>bugrouter</code> lo empareja de inmediato con el catálogo interno y evita hacer consultas innecesarias en internet.</p>
+<hr />
+<h2>4. Servidor del Control Plane HTTP (<code>bugrouter serve</code>)</h2>
+<p>Dejar que un agente de IA tenga vía libre para abrir issues automáticamente en repositorios upstream en producción es una receta para el desastre. Un bucle con alucinaciones te puede abrir 50 tickets basura en cuestión de segundos.</p>
+<p>Para garantizar que siempre haya un humano supervisando la jugada, levantamos un daemon HTTP de control plane con cero dependencias:</p>
+<div class="code-highlight"><pre><span></span><code>bugrouter<span class="w"> </span>serve<span class="w"> </span>--port<span class="w"> </span><span class="m">8080</span>
+</code></pre></div>
+
+<p><code>internal/cloud</code> incluye:<br />
+1. <strong>Interfaz Web SPA Embebida:</strong> Un dashboard en HTML, CSS y JavaScript servido directamente desde la memoria del binario en Go, sin assets externos ni node_modules.<br />
+2. <strong>Almacenamiento Local de Borradores (<code>DraftStore</code>):</strong> Los borradores se guardan de forma atómica en <code>$XDG_DATA_HOME/bugrouter/drafts/&lt;id&gt;.json</code> con permisos <code>0600</code> (lectura y escritura exclusivas para tu usuario).<br />
+3. <strong>Revisión en un Clic:</strong> El desarrollador entra a la interfaz, revisa el borrador con los secretos ya sanitizados, valida los encabezados de la plantilla upstream y le da a <strong>Aprobar</strong> o <strong>Descartar</strong>.<br />
+4. <strong>Conectores Autenticados a Forges:</strong> Al darle a Aprobar, <code>ForgeClient</code> se encarga de enviar el issue a GitHub Enterprise, GitLab Self-Managed, Jira REST o Linear GraphQL usando tokens OAuth o PATs configurados.</p>
+<div class="code-highlight"><pre><span></span><code>[Agente vía MCP / CLI] ──&gt; bugrouter draft ──&gt; Guardado Atómico (0600 JSON)
+                                                        │
+                                                        ▼
+[Humano en Navegador] &lt;─── http://localhost:8080 ─── [Cola DraftStore]
+       │
+   (Aprobar)
+       │
+       ▼
+[ForgeClient Autenticado] ──&gt; Envía el Ticket a la API del Tracker
+</code></pre></div>
+
+<hr />
+<h2>5. Blindaje y Remediaciones Red-Team (Spec 06.1)</h2>
+<p>Apenas terminamos el control plane, le metimos una auditoría interna de seguridad tipo Red-Team (Spec 06.1) para tapar posibles vectores de ataque:</p>
+<ol>
+<li><strong>Límites de SSRF en ForgeClient:</strong> Originalmente, <code>ForgeClient</code> usaba llamadas estándar de red. Lo migramos a <code>httpx.PostBytes</code> para garantizar que ninguna URL falsificada pudiera consultar direcciones IP de la red local o interfaces loopback.</li>
+<li><strong>Protección contra Path Traversal:</strong> Blindamos la validación del ID de los borradores en todas las rutas y métodos de lectura en disco. Cualquier ID que contenga <code>/</code>, <code>\</code>, <code>..</code> o caracteres no alfanuméricos se descarta de inmediato para evitar que lean archivos arbitrarios del sistema.</li>
+<li><strong>Inyección CRLF en Títulos (RFC-822):</strong> En <code>internal/adapter/draft.go</code>, agregamos una función de sanitización que elimina saltos de línea <code>\r</code> y <code>\n</code> en los títulos de los bugs, evitando que alguien inyecte cabeceras SMTP al armar correos para trackers como Debbugs.</li>
+</ol>
+<p>Con el Hito 2 terminado, <code>bugrouter</code> pasó de ser una simple herramienta de resolución en terminal a convertirse en un puente integral de triaje con supervisión humana.</p>
+<p>En el Devlog #3 veremos cómo detectar issues duplicados antes de abrirlos, añadir probes para Rust y Python, y proteger el panel de control con autenticación Bearer en tiempo constante y webhooks firmados con HMAC.</p>
+                </div>
+            </article>
+
+            <article id="post-article-en" lang="en" style="display: none;">
+                <div class="post-content">
+<h1>bugrouter Devlog #2: Upstream Template Introspection, Org Discovery, and Human-in-the-Loop Review Queues</h1>
+<p><em>Published: October 28, 2026. Category: Systems &amp; Cloud. Reading time: ~7 min</em><br />
+<em>Tags: Go, bugrouter, Devlog, Introspector, Cloud, HITL, OAuth, Security</em></p>
+<hr />
+<p>Once <code>bugrouter</code> could reliably resolve an artifact to its canonical bug tracker and redact credentials at the type level (as covered in <a href="https://riccivr.github.io/blog/bugrouter-devlog-01-architecture-zero-dep-go-and-the-agent-constitution.html">Devlog #1</a>), we encountered the second major failure mode of AI coding agents:</p>
+<p><strong>Issue templates are actively hostile to raw text dumps.</strong></p>
+<p>If an agent discovers a bug in a popular open-source project or enterprise repository, the repository maintainers rarely permit free-form bug reports. GitHub projects use YAML Issue Forms with mandatory textareas, dropdowns, and checkboxes. GitLab repositories require Markdown templates triggered via query parameters (<code>?issuable_template=Bug</code>). Bugzilla instances enforce strict REST schemas with mandatory product and component fields.</p>
+<p>When an agent ignores these requirements and drops an unstructured blob into the issue description, triage bots immediately tag the issue as invalid, or human maintainers close it with a canned <em>"Please use the bug report template"</em> response.</p>
+<p>In Milestone 2, we set out to solve upstream template introspection, enterprise monorepo service discovery, and built an embedded Human-in-the-Loop (HITL) Cloud Control Plane—all without adding a single external dependency to Go.</p>
+<hr />
+<h2>1. Zero-Dependency Upstream Issue Introspection</h2>
+<p>To conform to upstream requirements, <code>bugrouter</code> must fetch, inspect, and parse templates directly from remote forges. However, importing heavyweight third-party YAML or HTML parsers would directly violate our <code>AGENTS.md</code> constitution.</p>
+<p>In <code>internal/introspector</code>, we built custom, line-oriented parsers using standard Go <code>bufio.Scanner</code> and <code>strings</code> manipulation:</p>
+<ul>
+<li><strong>GitHub YAML Issue Forms (<code>.github/ISSUE_TEMPLATE/*.yml</code>):</strong> We fetch the template list from GitHub API, download candidate bug forms, and parse the <code>body:</code> elements line-by-line. The parser tracks indentation levels, identifies <code>type: textarea</code> or <code>type: input</code>, and extracts the <code>attributes.label</code> and <code>id</code>.</li>
+<li><strong>GitHub &amp; GitLab Markdown Templates (<code>.github/ISSUE_TEMPLATE/*.md</code> or <code>.gitlab/issue_templates/*.md</code>):</strong> We scan for Markdown section headings (<code>## Description</code>, <code>### Steps to Reproduce</code>, <code>### Environment</code>) and extract prompt comments and required placeholders.</li>
+<li><strong>Bugzilla REST Field Schemas (<code>/rest/field/bug</code> and <code>/rest/product</code>):</strong> For Bugzilla instances, we query native REST endpoints to retrieve allowed components, versions, and mandatory triage fields.</li>
+</ul>
+<div class="terminal-flow" role="region" aria-label="Pipeline architecture diagram">
+  <div class="flow-step">    <div class="flow-step-title">Upstream Introspection &amp; Schema Parsing (Zero Dependencies)</div>    <div class="flow-step-desc">└─ Line Scanner extracts labels &amp; fields<br>└─ Markdown Heading &amp; Placeholder Splitter<br>└─ JSON Schema Unmarshaler</div>    <ul class="flow-step-list">      <li class="flow-item-numbered"><span class="flow-item-num">1.</span> GitHub API ───&gt; .github/ISSUE_TEMPLATE/bug.yml</li>      <li class="flow-item-numbered"><span class="flow-item-num">2.</span> GitLab API ───&gt; .gitlab/issue_templates/Bug.md</li>      <li class="flow-item-numbered"><span class="flow-item-num">3.</span> Bugzilla   ───&gt; /rest/field/bug &amp; /rest/product/NAME</li>    </ul>  </div>
+  <div class="flow-connector" aria-hidden="true">    <div class="flow-connector-line"></div>    <div class="flow-connector-arrow">▼</div>  </div>
+  <div class="flow-step">    <div class="flow-step-title">Semantic Field Mapping Engine (internal/adapter)</div>    <ul class="flow-step-list">      <li>Summary / What Happened   ───&gt; &quot;### Summary&quot;</li>      <li>Steps to Reproduce        ───&gt; &quot;### Steps to Reproduce&quot;</li>      <li>Expected vs Actual        ───&gt; &quot;### Behavior&quot;</li>      <li>Logs / Error Output       ───&gt; &quot;### Logs &amp; Traces&quot;</li>    </ul>  </div>
+</div>
+
+<hr />
+<h2>2. Semantic Field Mapping &amp; Deep-Link Pre-Fills</h2>
+<p>With parsed field schemas in hand, <code>internal/adapter/draft.go</code> intelligently maps the agent's problem description into the exact headers expected upstream.</p>
+<p>If an issue template has a field labeled <code>What happened?</code>, <code>bugrouter</code> routes <code>in.Summary</code> there. If it finds <code>Reproduction Steps</code> or <code>How to Reproduce</code>, it routes <code>in.StepsToReproduce</code>. System logs are automatically wrapped in Markdown code blocks (<code>```</code>).</p>
+<p>Furthermore, <code>bugrouter</code> generates native deep-link pre-fill URLs:<br />
+- <strong>GitHub:</strong> Maps field IDs directly to issue form query parameters (<code class="url-code" title="https://github.com/org/repo/issues/new?template=bug.yml&amp;summary=...">https://github.com/org/repo/issues/new?template=bug.yml&amp;summary=...</code>).<br />
+- <strong>GitLab:</strong> Generates links pre-selecting the template parameter (<code class="url-code" title="https://gitlab.com/org/repo/-/issues/new?issuable_template=Bug">https://gitlab.com/org/repo/-/issues/new?issuable_template=Bug</code>).<br />
+- <strong>Bugzilla:</strong> Generates pre-filled CGI query strings for <code>enter_bug.cgi</code>.</p>
+<hr />
+<h2>3. Enterprise Discovery: <code>LayerOrgCloud</code></h2>
+<p>In enterprise settings, developers and agents do not only work with public GitHub repos. An enterprise might maintain a private GitHub Enterprise instance, a self-managed GitLab instance, or route infrastructure bugs to Jira and Linear.</p>
+<p>To handle this, we introduced <strong><code>LayerOrgCloud</code></strong> as Layer 0 in our resolution waterfall. It reads an enterprise service catalog (<code>services.json</code>) configured via <code>$XDG_CONFIG_HOME/bugrouter/services.json</code>, <code>/etc/bugrouter/services.json</code>, or the <code>BUGROUTER_SERVICES_FILE</code> environment variable:</p>
+<div class="code-highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;services&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;payment-worker&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;repository_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://git.corp.internal/fintech/payment-worker&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;tracker&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;protocol&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jira&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://jira.corp.internal/projects/PAY&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>If an agent asks to route a bug for <code>payment-worker</code>, <code>bugrouter</code> matches the service catalog immediately, bypassing public internet probes completely.</p>
+<hr />
+<h2>4. The Cloud Control Plane HTTP Server (<code>bugrouter serve</code>)</h2>
+<p>Autonomous agents should not have blanket permission to spam live bug trackers without oversight. A single hallucinated loop could open 50 bogus tickets on upstream trackers within seconds.</p>
+<p>To keep a human in control, we implemented a zero-dependency Cloud Control Plane HTTP daemon:</p>
+<div class="code-highlight"><pre><span></span><code>bugrouter<span class="w"> </span>serve<span class="w"> </span>--port<span class="w"> </span><span class="m">8080</span>
+</code></pre></div>
+
+<p><code>internal/cloud</code> provides:<br />
+1. <strong>Embedded Single-Page Application (SPA):</strong> An embedded HTML/CSS/JS review dashboard served directly from Go memory with zero external assets.<br />
+2. <strong>Local Staging Store (<code>internal/adapter/DraftStore</code>):</strong> Drafts are written atomically to <code>$XDG_DATA_HOME/bugrouter/drafts/&lt;id&gt;.json</code> with restricted <code>0600</code> permissions (read/write only by the current user).<br />
+3. <strong>One-Click Human Review:</strong> Developers inspect staged drafts, view scrubbed credentials, verify upstream template headings, and click <strong>Approve</strong> or <strong>Discard</strong>.<br />
+4. <strong>Authenticated Forge Dispatchers:</strong> Upon approval, <code>ForgeClient</code> dispatches tickets to GitHub Enterprise, GitLab Self-Managed, Jira REST, or Linear GraphQL using configured OAuth tokens or PATs.</p>
+<div class="code-highlight"><pre><span></span><code>[Agent via MCP / CLI] ──&gt; bugrouter draft ──&gt; Atomic Save (0600 JSON)
+                                                     │
+                                                     ▼
+[Human Reviewer] &lt;─── http://localhost:8080 ─── [DraftStore Queue]
+       │
+   (Approve)
+       │
+       ▼
+[Authenticated ForgeClient] ──&gt; Dispatches Issue to Upstream API
+</code></pre></div>
+
+<hr />
+<h2>5. Spec 06.1 Red-Team Remediations</h2>
+<p>Right after finishing the initial control plane, we subjected the codebase to a rigorous internal red-team security review (Spec 06.1):</p>
+<ol>
+<li><strong>SSRF Bounds on Forge Client:</strong> Previously, <code>ForgeClient</code> used standard HTTP transports. We bound it to <code>httpx.PostBytes</code>, guaranteeing that malicious forged tracker URLs cannot bypass loopback or private IP protection.</li>
+<li><strong>Path Traversal Hardening:</strong> We locked down draft ID validation across all store methods and URL handlers. Any ID containing <code>/</code>, <code>\</code>, <code>..</code>, or non-alphanumeric characters is immediately rejected, preventing directory traversal attacks.</li>
+<li><strong>RFC-822 Title CRLF Injection:</strong> In <code>internal/adapter/draft.go</code>, we added strict title sanitization that strips <code>\r</code> and <code>\n</code> characters, preventing attackers from injecting email headers into Debbugs or issue submission payloads.</li>
+</ol>
+<p>With Milestone 2 in place, <code>bugrouter</code> evolved from a CLI resolution utility into a full-featured Human-in-the-Loop triage bridge.</p>
+<p>In Devlog #3, we tackle the next frontier: upstream issue deduplication, polyglot package probes (Cargo and pyproject), and enterprise control plane hardening with constant-time Bearer authentication and HMAC webhooks.</p>
+                </div>
+            </article>
+
+            <!-- Bottom Return Navigation -->
+            <div class="bottom-nav-bar mt-10 sm:mt-12 pt-6 sm:pt-8 pb-3 sm:pb-4 border-t theme-border-subtle flex justify-between items-center text-xs sm:text-sm">
+                <a href="index.html" id="bottom-back-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Volver a la lista de artículos [<]" title="Volver a la lista de artículos [<]">
+                    <span class="label-full">[<] Volver al Blog</span><span class="label-short">[<]</span>
+                </a>
+                <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" id="bottom-top-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Ir arriba [K]" title="Ir arriba [K]">
+                    <span class="label-full">[^] Arriba</span><span class="label-short">[^]</span>
+                </a>
+            </div>
+
+        </main>
+
+        <footer class="p-3 sm:p-4 border-t theme-border text-xs flex justify-between items-center theme-bg-header">
+            <span class="theme-text-muted text-[11px] sm:text-xs font-bold">riccivr.github.io/blog</span>
+            <span id="footer-text" class="text-right text-[11px] sm:text-xs theme-text-muted font-mono font-medium">
+                REV: 6ca9d95 // PUBLICADO: 2026.10.28
+            </span>
+        </footer>
+
+    </div>
+
+    <!-- Progressive Enhancement Script -->
+    <script>
+        const i18n = {
+            es: {
+                sysId: "SYS.ID: riccivr // bugrouter-devlog-02-issue-template-introspection-and-cloud-control-plane",
+                status: "ESTADO: EN LÍNEA",
+                langToggle: '<span class="label-full">[LANG: ES]</span><span class="label-short">[ES]</span>',
+                langAria: "Alternar idioma a inglés (actual: Español) [I]",
+                keysOn: '<span class="label-full">[TECLAS: ACT]</span><span class="label-short">[KEYS]</span>',
+                keysOff: '<span class="label-full">[TECLAS: DES]</span><span class="label-short">[KEYS]</span>',
+                keysAria: "Alternar atajos de navegación por teclado",
+                modeCrt: '<span class="label-full">[MODO: CRT]</span><span class="label-short">[CRT]</span>',
+                modePaper: '<span class="label-full">[MODO: PAPEL]</span><span class="label-short">[PAPEL]</span>',
+                themeAria: "Alternar tema visual a Papel (actual: CRT) [T]",
+                themeAriaPaper: "Alternar tema visual a CRT (actual: Papel) [T]",
+                backIndex: '<span class="label-full">[<] Volver al Blog</span><span class="label-short">[<]</span>',
+                backIndexAria: "Volver a la lista del blog [<]",
+                homePortal: '<span class="label-full">[H] Portal Principal</span><span class="label-short">[H]</span>',
+                homePortalAria: "Ir al portal principal [H]",
+                copyLink: '<span class="label-full">[S] Copiar Enlace</span><span class="label-short">[S]</span>',
+                copyLinkAria: "Copiar enlace de este artículo [S]",
+                copied: '<span class="label-full">[✓] ¡Copiado!</span><span class="label-short">[✓]</span>',
+                repo: '<span class="label-full">[G] Repo</span><span class="label-short">[G]</span>',
+                repoAria: "Ver repositorio en GitHub (se abre en nueva pestaña) [G]",
+                topBtn: '<span class="label-full">[^] Arriba</span><span class="label-short">[^]</span>',
+                topBtnAria: "Ir arriba [K]",
+                footerText: "REV: 6ca9d95 // PUBLICADO: 2026.10.28",
+                title: "bugrouter Devlog #2: Introspecci\u00f3n de Plantillas Upstream, Cat\u00e1logo Org-Cloud y Colas Human-in-the-Loop",
+                metaDesc: "Una vez que bugrouter fue capaz de resolver cualquier dependencia a su tracker can\u00f3nico y limpiar secretos a nivel de tipos (como vimos en el Devlog #1), nos topamos con el segundo gran dolor de cabeza de los agentes de ..."
+            },
+            en: {
+                sysId: "SYS.ID: riccivr // bugrouter-devlog-02-issue-template-introspection-and-cloud-control-plane",
+                status: "STATUS: ONLINE",
+                langToggle: '<span class="label-full">[LANG: EN]</span><span class="label-short">[EN]</span>',
+                langAria: "Toggle language to Spanish (current: English) [I]",
+                keysOn: '<span class="label-full">[KEYS: ON]</span><span class="label-short">[KEYS]</span>',
+                keysOff: '<span class="label-full">[KEYS: OFF]</span><span class="label-short">[KEYS]</span>',
+                keysAria: "Toggle keyboard navigation shortcuts",
+                modeCrt: '<span class="label-full">[MODE: CRT]</span><span class="label-short">[CRT]</span>',
+                modePaper: '<span class="label-full">[MODE: PAPER]</span><span class="label-short">[PAPER]</span>',
+                themeAria: "Toggle visual theme to Paper (current: CRT) [T]",
+                themeAriaPaper: "Toggle visual theme to CRT (current: Paper) [T]",
+                backIndex: '<span class="label-full">[<] Return to Blog</span><span class="label-short">[<]</span>',
+                backIndexAria: "Return to blog list [<]",
+                homePortal: '<span class="label-full">[H] Home Portal</span><span class="label-short">[H]</span>',
+                homePortalAria: "Go to home portal [H]",
+                copyLink: '<span class="label-full">[S] Copy Link</span><span class="label-short">[S]</span>',
+                copyLinkAria: "Copy link to this article [S]",
+                copied: '<span class="label-full">[✓] Copied!</span><span class="label-short">[✓]</span>',
+                repo: '<span class="label-full">[G] Repo</span><span class="label-short">[G]</span>',
+                repoAria: "View GitHub repository (opens in a new tab) [G]",
+                topBtn: '<span class="label-full">[^] Top</span><span class="label-short">[^]</span>',
+                topBtnAria: "Scroll to top [K]",
+                footerText: "REV: 6ca9d95 // PUBLISHED: 2026.10.28",
+                title: "bugrouter Devlog #2: Upstream Template Introspection, Org Discovery, and Human-in-the-Loop Review Queues",
+                metaDesc: "Once bugrouter could reliably resolve an artifact to its canonical bug tracker and redact credentials at the type level (as covered in Devlog #1), we encountered the second major failure mode of AI coding agents:"
+            }
+        };
+
+        function getLanguage() {
+            const saved = localStorage.getItem('riccivr-lang');
+            if (saved === 'es' || saved === 'en') return saved;
+            const browserLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
+            return browserLang.startsWith('es') ? 'es' : 'en';
+        }
+
+        let currentLang = getLanguage();
+
+        function applyLanguageUI() {
+            const t = i18n[currentLang] || i18n.es;
+            document.documentElement.setAttribute('lang', currentLang);
+
+            document.querySelectorAll('.status-label-text').forEach(el => el.textContent = t.status);
+            
+            const langBtn = document.getElementById('lang-toggle');
+            langBtn.innerHTML = t.langToggle;
+            langBtn.setAttribute('aria-label', t.langAria);
+            langBtn.setAttribute('title', t.langAria);
+
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            const themeBtn = document.getElementById('theme-toggle');
+            themeBtn.innerHTML = isLight ? t.modePaper : t.modeCrt;
+            const themeLabel = isLight ? t.themeAriaPaper : t.themeAria;
+            themeBtn.setAttribute('aria-label', themeLabel);
+            themeBtn.setAttribute('title', themeLabel);
+
+            const keysEnabled = localStorage.getItem('riccivr-keys') !== 'off';
+            const keysBtn = document.getElementById('keys-toggle');
+            keysBtn.innerHTML = keysEnabled ? t.keysOn : t.keysOff;
+            keysBtn.setAttribute('aria-label', t.keysAria);
+            keysBtn.setAttribute('title', t.keysAria);
+            keysBtn.setAttribute('aria-pressed', keysEnabled ? 'true' : 'false');
+
+            const backBtn = document.getElementById('back-index-btn');
+            backBtn.innerHTML = t.backIndex;
+            backBtn.setAttribute('aria-label', t.backIndexAria);
+            backBtn.setAttribute('title', t.backIndexAria);
+
+            const homeBtn = document.getElementById('home-portal-btn');
+            homeBtn.innerHTML = t.homePortal;
+            homeBtn.setAttribute('aria-label', t.homePortalAria);
+            homeBtn.setAttribute('title', t.homePortalAria);
+
+            const copyBtn = document.getElementById('copy-link-btn');
+            copyBtn.innerHTML = t.copyLink;
+            copyBtn.setAttribute('aria-label', t.copyLinkAria);
+            copyBtn.setAttribute('title', t.copyLinkAria);
+
+            const repoBtn = document.getElementById('repo-btn');
+            repoBtn.innerHTML = t.repo;
+            repoBtn.setAttribute('aria-label', t.repoAria);
+            repoBtn.setAttribute('title', t.repoAria);
+
+            const bottomBackBtn = document.getElementById('bottom-back-btn');
+            bottomBackBtn.innerHTML = t.backIndex;
+            bottomBackBtn.setAttribute('aria-label', t.backIndexAria);
+            bottomBackBtn.setAttribute('title', t.backIndexAria);
+
+            const bottomTopBtn = document.getElementById('bottom-top-btn');
+            bottomTopBtn.innerHTML = t.topBtn;
+            bottomTopBtn.setAttribute('aria-label', t.topBtnAria);
+            bottomTopBtn.setAttribute('title', t.topBtnAria);
+
+            document.getElementById('footer-text').textContent = t.footerText;
+
+            // Toggle language articles
+            const artEs = document.getElementById('post-article-es');
+            const artEn = document.getElementById('post-article-en');
+            if (artEs && artEn) {
+                if (currentLang === 'en') {
+                    artEs.style.display = 'none';
+                    artEn.style.display = 'block';
+                } else {
+                    artEs.style.display = 'block';
+                    artEn.style.display = 'none';
+                }
+            }
+
+            // Update meta tags
+            document.title = `${t.title} - Ricardo Veronese`;
+            const metaDesc = document.getElementById('meta-desc');
+            if (metaDesc) metaDesc.setAttribute('content', t.metaDesc);
+            const ogTitle = document.getElementById('og-title');
+            if (ogTitle) ogTitle.setAttribute('content', t.title);
+            const ogDesc = document.getElementById('og-desc');
+            if (ogDesc) ogDesc.setAttribute('content', t.metaDesc);
+        }
+
+        // Theme toggle handling
+        const themeBtn = document.getElementById('theme-toggle');
+        function updateThemeBtn() {
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            const t = i18n[currentLang] || i18n.es;
+            themeBtn.innerHTML = isLight ? t.modePaper : t.modeCrt;
+            const themeLabel = isLight ? t.themeAriaPaper : t.themeAria;
+            themeBtn.setAttribute('aria-label', themeLabel);
+            themeBtn.setAttribute('title', themeLabel);
+        }
+
+        themeBtn.addEventListener('click', () => {
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            if (isLight) {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('riccivr-theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('riccivr-theme', 'light');
+            }
+            updateThemeBtn();
+        });
+
+        // Language toggle handling
+        document.getElementById('lang-toggle').addEventListener('click', () => {
+            currentLang = currentLang === 'es' ? 'en' : 'es';
+            localStorage.setItem('riccivr-lang', currentLang);
+            applyLanguageUI();
+        });
+
+        // Keyboard shortcuts
+        const keysBtn = document.getElementById('keys-toggle');
+        let keyboardEnabled = localStorage.getItem('riccivr-keys') !== 'off';
+
+        function updateKeysBtn() {
+            const t = i18n[currentLang] || i18n.es;
+            keysBtn.innerHTML = keyboardEnabled ? t.keysOn : t.keysOff;
+            keysBtn.setAttribute('aria-label', t.keysAria);
+            keysBtn.setAttribute('title', t.keysAria);
+            keysBtn.setAttribute('aria-pressed', keyboardEnabled ? 'true' : 'false');
+        }
+
+        keysBtn.addEventListener('click', () => {
+            keyboardEnabled = !keyboardEnabled;
+            localStorage.setItem('riccivr-keys', keyboardEnabled ? 'on' : 'off');
+            updateKeysBtn();
+        });
+
+        // Copy link handler
+        const copyBtn = document.getElementById('copy-link-btn');
+        copyBtn.addEventListener('click', () => {
+            const url = window.location.href;
+            const t = i18n[currentLang] || i18n.es;
+            navigator.clipboard.writeText(url).then(() => {
+                const originalHTML = copyBtn.innerHTML;
+                copyBtn.innerHTML = t.copied;
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalHTML;
+                }, 2000);
+            }).catch(() => {
+                prompt("Copia este enlace / Copy this link:", url);
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!keyboardEnabled) return;
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+            const key = e.key.toLowerCase();
+            if (key === 'i') {
+                e.preventDefault();
+                document.getElementById('lang-toggle').click();
+            } else if (key === 't') {
+                e.preventDefault();
+                themeBtn.click();
+            } else if (key === 'b' || key === '[') {
+                e.preventDefault();
+                window.location.href = 'index.html';
+            } else if (key === 'h') {
+                e.preventDefault();
+                window.location.href = '../';
+            } else if (key === 's') {
+                e.preventDefault();
+                copyBtn.click();
+            } else if (key === 'g') {
+                e.preventDefault();
+                window.open('https://github.com/riccivr/riccivr.github.io', '_blank');
+            } else if (key === 'k' || key === '^') {
+                e.preventDefault();
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
+        });
+
+        // Apply initial UI
+        applyLanguageUI();
+        updateThemeBtn();
+        updateKeysBtn();
+    </script>
+</body>
+</html>

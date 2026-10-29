@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="meta-title">bugrouter Devlog #3: Detección de Duplicados Upstream, Probes Políglotas y Blindaje Red-Team - Ricardo Veronese</title>
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <meta name="theme-color" content="#0c0a07">
+    <meta name="author" content="Ricardo Veronese">
+    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Blog RSS Feed (English)" href="https://riccivr.github.io/feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="Ricardo Veronese - Feed RSS del Blog (Español)" href="https://riccivr.github.io/feed-es.xml">
+    <meta name="description" id="meta-desc" content="Pregúntale a cualquier mantenedor de código abierto cuál es su mayor queja con la ola reciente de agentes de IA para programar, y siempre te va a responder lo mismo:">
+    <link rel="canonical" href="https://riccivr.github.io/blog/bugrouter-devlog-03-upstream-deduplication-and-polyglot-probes.html">
+
+    <!-- Privacy-first analytics by GoatCounter -->
+    <script data-goatcounter="https://riccivr.goatcounter.com/count"
+            async src="https://gc.zgo.at/count.js"
+            onerror="this.remove()"></script>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Ricardo Veronese">
+    <meta property="og:title" id="og-title" content="bugrouter Devlog #3: Detección de Duplicados Upstream, Probes Políglotas y Blindaje Red-Team - Ricardo Veronese">
+    <meta property="og:description" id="og-desc" content="Pregúntale a cualquier mantenedor de código abierto cuál es su mayor queja con la ola reciente de agentes de IA para programar, y siempre te va a responder lo mismo:">
+    <meta property="og:url" content="https://riccivr.github.io/blog/bugrouter-devlog-03-upstream-deduplication-and-polyglot-probes.html">
+    <meta property="og:image" content="https://riccivr.github.io/riccivr-retro-og.png">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" id="tw-title" content="bugrouter Devlog #3: Detección de Duplicados Upstream, Probes Políglotas y Blindaje Red-Team - Ricardo Veronese">
+    <meta name="twitter:description" id="tw-desc" content="Pregúntale a cualquier mantenedor de código abierto cuál es su mayor queja con la ola reciente de agentes de IA para programar, y siempre te va a responder lo mismo:">
+    <meta name="twitter:image" content="https://riccivr.github.io/riccivr-retro-og.png">
+
+    <!-- Schema.org BlogPosting -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "bugrouter Devlog #3: Detecci\u00f3n de Duplicados Upstream, Probes Pol\u00edglotas y Blindaje Red-Team",
+        "description": "Preg\u00fantale a cualquier mantenedor de c\u00f3digo abierto cu\u00e1l es su mayor queja con la ola reciente de agentes de IA para programar, y siempre te va a responder lo mismo:",
+        "author": {
+            "@type": "Person",
+            "name": "Ricardo Veronese",
+            "url": "https://riccivr.github.io/"
+        },
+        "datePublished": "2026-10-29",
+        "mainEntityOfPage": "https://riccivr.github.io/blog/bugrouter-devlog-03-upstream-deduplication-and-polyglot-probes.html"
+    }
+    </script>
+
+    <link rel="stylesheet" href="../style.css">
+    <script>
+        // Immediately apply saved or system theme and language to avoid FOUC
+        (function() {
+            try {
+                const savedTheme = localStorage.getItem('riccivr-theme');
+                const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+                if (savedTheme === 'light' || (!savedTheme && prefersLight)) {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                }
+
+                const savedLang = localStorage.getItem('riccivr-lang');
+                const browserLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
+                const activeLang = (savedLang === 'es' || savedLang === 'en') ? savedLang : (browserLang.startsWith('es') ? 'es' : 'en');
+                document.documentElement.setAttribute('lang', activeLang);
+            } catch(e) {}
+        })();
+    </script>
+    <style>
+        :root {
+            --bg-page: #0c0a07;
+            --bg-frame: #110e0a;
+            --bg-header: #1a140d;
+            --bg-card: #16120b;
+            --bg-card-alt: #1c160e;
+            --bg-badge: rgba(245, 158, 11, 0.12);
+            
+            --border-primary: #d97706;
+            --border-subtle: rgba(217, 119, 6, 0.45);
+            --border-dim: rgba(217, 119, 6, 0.2);
+            
+            --text-title: #fffbeb;
+            --text-heading: #fef08a;
+            --text-main: #fde68a;
+            --text-muted: #fbbf24;
+            --text-dim: #f59e0b;
+            --text-code: #fef08a;
+            --text-blockquote: #fde68a;
+            
+            --scanline-color: rgba(245, 158, 11, 0.035);
+            --frame-shadow: 0 0 16px rgba(245, 158, 11, 0.2), 0 0 1px rgba(245, 158, 11, 0.4) inset;
+            --btn-hover-bg: #f59e0b;
+            --btn-hover-text: #110e0a;
+            
+            --bg-code-block: #080705;
+            --bg-inline-code: rgba(245, 158, 11, 0.14);
+            --bg-blockquote: rgba(245, 158, 11, 0.08);
+            --bg-table-header: rgba(245, 158, 11, 0.18);
+        }
+
+        [data-theme="light"] {
+            --bg-page: #f5efe1;
+            --bg-frame: #fcf8f0;
+            --bg-header: #ebe0ca;
+            --bg-card: #f3ecdb;
+            --bg-card-alt: #eae0cb;
+            --bg-badge: rgba(146, 64, 14, 0.08);
+            
+            --border-primary: #92400e;
+            --border-subtle: rgba(146, 64, 14, 0.5);
+            --border-dim: rgba(146, 64, 14, 0.25);
+            
+            --text-title: #1a0a01;
+            --text-heading: #78350f;
+            --text-main: #2b1103;
+            --text-muted: #612809;
+            --text-dim: #78350f;
+            --text-code: #581c87;
+            --text-blockquote: #451a03;
+            
+            --scanline-color: rgba(146, 64, 14, 0.035);
+            --frame-shadow: 0 3px 14px rgba(146, 64, 14, 0.18), 0 0 0 1px rgba(146, 64, 14, 0.12) inset;
+            --btn-hover-bg: #92400e;
+            --btn-hover-text: #fcf8f0;
+            
+            --bg-code-block: #f7f1e4;
+            --bg-inline-code: #eeddc3;
+            --bg-blockquote: #f0e6d2;
+            --bg-table-header: #ebdcc0;
+        }
+
+        /* Custom retro scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-page);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-subtle);
+            border-radius: 2px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border-primary);
+        }
+
+        .post-content pre::-webkit-scrollbar-track {
+            background: var(--bg-code-block);
+        }
+
+        body {
+            background-color: var(--bg-page);
+            background-image: linear-gradient(var(--scanline-color) 1px, transparent 1px);
+            background-size: 100% 4px;
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--text-main);
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .terminal-frame {
+            box-shadow: var(--frame-shadow);
+            border: 2px solid var(--border-primary);
+            background-color: var(--bg-frame);
+        }
+
+        .interactive-link {
+            transition: color 0.1s ease, background-color 0.1s ease, border-color 0.1s ease;
+            border-color: var(--border-primary);
+            color: var(--text-main);
+        }
+        .interactive-link:hover {
+            color: var(--btn-hover-text) !important;
+            background-color: var(--btn-hover-bg) !important;
+        }
+
+        .theme-border { border-color: var(--border-primary); }
+        .theme-border-subtle { border-color: var(--border-subtle); }
+        .theme-border-dim { border-color: var(--border-dim); }
+
+        .theme-bg-header { background-color: var(--bg-header); }
+        .theme-bg-card { background-color: var(--bg-card); }
+        .theme-bg-card-alt { background-color: var(--bg-card-alt); }
+
+        .theme-text-title { color: var(--text-title); }
+        .theme-text-heading { color: var(--text-heading); }
+        .theme-text-main { color: var(--text-main); }
+        .theme-text-muted { color: var(--text-muted); }
+        .theme-text-dim { color: var(--text-dim); }
+
+        /* Typography & Markdown Styles */
+        .post-content h1 {
+            font-size: clamp(1.2rem, 4.5vw, 1.65rem);
+            font-weight: 800;
+            color: var(--text-title);
+            line-height: 1.35;
+            margin-top: 0.25rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--border-primary);
+            padding-bottom: 0.5rem;
+            text-transform: uppercase;
+            word-break: break-word;
+            letter-spacing: -0.01em;
+        }
+        .post-content h2 {
+            font-size: clamp(1.05rem, 3.8vw, 1.3rem);
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-top: 1.75rem;
+            margin-bottom: 0.65rem;
+            border-bottom: 1px dashed var(--border-subtle);
+            padding-bottom: 0.25rem;
+            line-height: 1.35;
+            word-break: break-word;
+        }
+        .post-content h3 {
+            font-size: clamp(0.95rem, 3.2vw, 1.1rem);
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-top: 1.35rem;
+            margin-bottom: 0.45rem;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+        .post-content p {
+            margin-bottom: 1.15rem;
+            line-height: 1.7;
+            font-size: clamp(0.88rem, 2.5vw, 0.95rem);
+            color: var(--text-main);
+        }
+        .post-content ul, .post-content ol {
+            margin-bottom: 1.2rem;
+            padding-left: 1.25rem;
+        }
+        .post-content li {
+            margin-bottom: 0.45rem;
+            line-height: 1.65;
+            font-size: clamp(0.88rem, 2.5vw, 0.95rem);
+        }
+        .post-content a {
+            color: var(--text-heading);
+            text-decoration: underline;
+            font-weight: bold;
+            transition: color 0.1s ease, background-color 0.1s ease;
+        }
+        .post-content a:hover {
+            color: var(--btn-hover-text);
+            background-color: var(--btn-hover-bg);
+            text-decoration: none;
+        }
+        .post-content a code {
+            color: inherit !important;
+            background-color: transparent !important;
+            border: none !important;
+            text-decoration: underline;
+            padding: 0 !important;
+        }
+        .post-content a:hover code {
+            color: var(--btn-hover-text) !important;
+            background-color: transparent !important;
+            text-decoration: none;
+        }
+        .post-content code a {
+            color: var(--text-heading) !important;
+            text-decoration: underline;
+        }
+        .post-content code a:hover {
+            color: var(--btn-hover-text) !important;
+            background-color: var(--btn-hover-bg) !important;
+        }
+        .post-content blockquote {
+            border-left: 3px solid var(--border-primary);
+            background: var(--bg-blockquote);
+            padding: 0.75rem 1rem;
+            margin: 1.2rem 0;
+            font-style: italic;
+            color: var(--text-blockquote);
+        }
+        .post-content blockquote p {
+            margin-bottom: 0;
+            color: var(--text-blockquote);
+        }
+        .post-content hr {
+            border: 0;
+            border-top: 1px solid var(--border-subtle);
+            margin: 2rem 0;
+        }
+        .post-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.85rem;
+        }
+        .post-content th, .post-content td {
+            border: 1px solid var(--border-subtle);
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+        }
+        .post-content th {
+            background-color: var(--bg-table-header);
+            color: var(--text-heading);
+            font-weight: bold;
+        }
+        .post-content td {
+            color: var(--text-main);
+        }
+        .post-content pre, .code-highlight pre {
+            background-color: var(--bg-code-block) !important;
+            border: 1px solid var(--border-subtle);
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border-radius: 2px;
+            color: var(--text-main);
+        }
+        .post-content pre code a, .code-highlight pre code a {
+            color: var(--text-heading) !important;
+            text-decoration: underline;
+        }
+        .post-content code, .code-highlight code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+        .post-content p code, .post-content li code, .url-code, .url-link {
+            background-color: var(--bg-inline-code);
+            color: var(--text-code);
+            padding: 0.1rem 0.35rem;
+            border: 1px solid var(--border-dim);
+            border-radius: 2px;
+            font-weight: 600;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: inline-block;
+            vertical-align: bottom;
+            box-sizing: border-box;
+        }
+
+        .post-content a code {
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: inline-block;
+            vertical-align: bottom;
+        }
+
+        /* Terminal Flow Diagram (Zero-JS, 100% Mobile Responsive, No Horizontal Scroll) */
+        .terminal-flow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 620px;
+            margin: 1.75rem auto;
+            box-sizing: border-box;
+        }
+
+        .terminal-flow .flow-step {
+            width: 100%;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.12), inset 0 0 4px rgba(245, 158, 11, 0.04);
+            padding: 0.85rem 1.15rem;
+            border-radius: 2px;
+            position: relative;
+            box-sizing: border-box;
+            transition: border-color 0.15s ease, background-color 0.15s ease;
+        }
+
+        [data-theme="light"] .terminal-flow .flow-step {
+            box-shadow: 0 2px 6px rgba(146, 64, 14, 0.1), inset 0 0 4px rgba(146, 64, 14, 0.03);
+        }
+
+        .terminal-flow .flow-step-title {
+            font-weight: 700;
+            color: var(--text-heading);
+            font-size: clamp(0.85rem, 2.5vw, 0.98rem);
+            letter-spacing: -0.01em;
+            margin-bottom: 0.25rem;
+            line-height: 1.4;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .terminal-flow .flow-step-desc {
+            color: var(--text-dim);
+            font-size: clamp(0.78rem, 2.2vw, 0.86rem);
+            line-height: 1.45;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .terminal-flow .flow-step-list {
+            margin: 0.35rem 0 0 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .terminal-flow .flow-step-list li {
+            position: relative;
+            color: var(--text-main);
+            font-size: clamp(0.8rem, 2.3vw, 0.88rem);
+            line-height: 1.5;
+            margin-bottom: 0.25rem;
+            padding-left: 1.25rem;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .terminal-flow .flow-step-list li::before {
+            content: "›";
+            position: absolute;
+            left: 0.2rem;
+            color: var(--border-primary);
+            font-weight: bold;
+        }
+
+        .terminal-flow .flow-step-list li.flow-item-numbered {
+            padding-left: 0.2rem;
+        }
+
+        .terminal-flow .flow-step-list li.flow-item-numbered::before {
+            content: none;
+        }
+
+        .terminal-flow .flow-step-list li .flow-item-num {
+            color: var(--border-primary);
+            font-weight: bold;
+            display: inline-block;
+            min-width: 1.2rem;
+        }
+
+        .terminal-flow .flow-connector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.25rem 0;
+            user-select: none;
+        }
+
+        .terminal-flow .flow-connector-line {
+            width: 2px;
+            height: 14px;
+            background-color: var(--border-primary);
+            opacity: 0.75;
+        }
+
+        .terminal-flow .flow-connector-arrow {
+            font-size: 0.85rem;
+            line-height: 1;
+            color: var(--border-primary);
+            margin-top: -2px;
+            text-shadow: 0 0 6px rgba(245, 158, 11, 0.4);
+        }
+
+        [data-theme="light"] .terminal-flow .flow-connector-arrow {
+            text-shadow: none;
+        }
+
+        .terminal-flow .flow-connector-label {
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            font-style: italic;
+            padding: 0.15rem 0.55rem;
+            margin: 0.15rem 0;
+            background: var(--bg-badge);
+            border: 1px dashed var(--border-dim);
+            border-radius: 2px;
+            max-width: 90%;
+            text-align: center;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .terminal-flow code {
+            background-color: var(--bg-inline-code);
+            color: var(--text-code);
+            padding: 0.1rem 0.3rem;
+            border: 1px solid var(--border-dim);
+            border-radius: 2px;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+
+        /* Default: show full labels, hide short ones */
+        .label-short { display: none; }
+        .label-full { display: inline; }
+
+        @media (max-width: 640px) {
+            .terminal-flow .flow-step {
+                padding: 0.65rem 0.85rem;
+            }
+            .terminal-flow .flow-connector-line {
+                height: 10px;
+            }
+            /* Compact key-style buttons on mobile (horizontal wrap, short labels) */
+            .header-button-group,
+            .nav-btn-group,
+            .bottom-nav-bar {
+                flex-direction: row !important;
+                flex-wrap: wrap !important;
+                justify-content: center !important;
+                gap: 0.35rem !important;
+                width: 100% !important;
+            }
+            .header-action-container,
+            .nav-controls-bar {
+                width: 100% !important;
+            }
+            .header-button-group button,
+            .nav-controls-bar a,
+            .nav-controls-bar button,
+            .bottom-nav-bar a,
+            .bottom-nav-bar button {
+                width: auto !important;
+                display: inline-block !important;
+                padding: 0.35rem 0.6rem !important;
+                font-size: 0.75rem !important;
+                min-width: 2.75rem;
+                text-align: center !important;
+                box-sizing: border-box !important;
+                line-height: 1.25;
+                letter-spacing: 0.03em;
+                font-weight: 700;
+            }
+            .label-full { display: none !important; }
+            .label-short { display: inline !important; }
+        }
+
+        /* Build-Time Pygments Syntax Highlighting (0 KB JS, 0 ms cost) */
+        /* CRT Dark Amber Phosphor Scheme */
+        html:not([data-theme="light"]) .code-highlight .k,
+        html:not([data-theme="light"]) .code-highlight .kd,
+        html:not([data-theme="light"]) .code-highlight .kn,
+        html:not([data-theme="light"]) .code-highlight .kp,
+        html:not([data-theme="light"]) .code-highlight .kr,
+        html:not([data-theme="light"]) .code-highlight .kt,
+        html:not([data-theme="light"]) .code-highlight .nt {
+            color: #f59e0b;
+            font-weight: bold;
+        }
+        html:not([data-theme="light"]) .code-highlight .nf,
+        html:not([data-theme="light"]) .code-highlight .nc,
+        html:not([data-theme="light"]) .code-highlight .nd,
+        html:not([data-theme="light"]) .code-highlight .na,
+        html:not([data-theme="light"]) .code-highlight .ne,
+        html:not([data-theme="light"]) .code-highlight .fm {
+            color: #fef08a;
+            font-weight: 600;
+        }
+        html:not([data-theme="light"]) .code-highlight .s,
+        html:not([data-theme="light"]) .code-highlight .s1,
+        html:not([data-theme="light"]) .code-highlight .s2,
+        html:not([data-theme="light"]) .code-highlight .sa,
+        html:not([data-theme="light"]) .code-highlight .sb,
+        html:not([data-theme="light"]) .code-highlight .sc,
+        html:not([data-theme="light"]) .code-highlight .sd,
+        html:not([data-theme="light"]) .code-highlight .se,
+        html:not([data-theme="light"]) .code-highlight .sh,
+        html:not([data-theme="light"]) .code-highlight .si,
+        html:not([data-theme="light"]) .code-highlight .sx,
+        html:not([data-theme="light"]) .code-highlight .sr,
+        html:not([data-theme="light"]) .code-highlight .ss {
+            color: #a3e635;
+        }
+        html:not([data-theme="light"]) .code-highlight .m,
+        html:not([data-theme="light"]) .code-highlight .mi,
+        html:not([data-theme="light"]) .code-highlight .mf,
+        html:not([data-theme="light"]) .code-highlight .mh,
+        html:not([data-theme="light"]) .code-highlight .mo,
+        html:not([data-theme="light"]) .code-highlight .mb,
+        html:not([data-theme="light"]) .code-highlight .kc {
+            color: #fb923c;
+        }
+        html:not([data-theme="light"]) .code-highlight .c,
+        html:not([data-theme="light"]) .code-highlight .c1,
+        html:not([data-theme="light"]) .code-highlight .cm,
+        html:not([data-theme="light"]) .code-highlight .cp,
+        html:not([data-theme="light"]) .code-highlight .cs,
+        html:not([data-theme="light"]) .code-highlight .ch {
+            color: #d97706;
+            font-style: italic;
+        }
+        html:not([data-theme="light"]) .code-highlight .o,
+        html:not([data-theme="light"]) .code-highlight .ow {
+            color: #fde68a;
+        }
+        html:not([data-theme="light"]) .code-highlight .p {
+            color: #fef08a;
+        }
+        html:not([data-theme="light"]) .code-highlight .nb,
+        html:not([data-theme="light"]) .code-highlight .bp {
+            color: #fbbf24;
+        }
+        html:not([data-theme="light"]) .code-highlight .nv,
+        html:not([data-theme="light"]) .code-highlight .vc,
+        html:not([data-theme="light"]) .code-highlight .vg,
+        html:not([data-theme="light"]) .code-highlight .vi,
+        html:not([data-theme="light"]) .code-highlight .vm,
+        html:not([data-theme="light"]) .code-highlight .n {
+            color: #fde68a;
+        }
+
+        /* Light Paper Theme Syntax Highlighting - 100% WCAG Compliant */
+        [data-theme="light"] .code-highlight .k,
+        [data-theme="light"] .code-highlight .kd,
+        [data-theme="light"] .code-highlight .kn,
+        [data-theme="light"] .code-highlight .kp,
+        [data-theme="light"] .code-highlight .kr,
+        [data-theme="light"] .code-highlight .kt,
+        [data-theme="light"] .code-highlight .nt {
+            color: #9a3412;
+            font-weight: bold;
+        }
+        [data-theme="light"] .code-highlight .nf,
+        [data-theme="light"] .code-highlight .nc,
+        [data-theme="light"] .code-highlight .nd,
+        [data-theme="light"] .code-highlight .na,
+        [data-theme="light"] .code-highlight .ne,
+        [data-theme="light"] .code-highlight .fm {
+            color: #78350f;
+            font-weight: 600;
+        }
+        [data-theme="light"] .code-highlight .s,
+        [data-theme="light"] .code-highlight .s1,
+        [data-theme="light"] .code-highlight .s2,
+        [data-theme="light"] .code-highlight .sa,
+        [data-theme="light"] .code-highlight .sb,
+        [data-theme="light"] .code-highlight .sc,
+        [data-theme="light"] .code-highlight .sd,
+        [data-theme="light"] .code-highlight .se,
+        [data-theme="light"] .code-highlight .sh,
+        [data-theme="light"] .code-highlight .si,
+        [data-theme="light"] .code-highlight .sx,
+        [data-theme="light"] .code-highlight .sr,
+        [data-theme="light"] .code-highlight .ss {
+            color: #14532d;
+        }
+        [data-theme="light"] .code-highlight .m,
+        [data-theme="light"] .code-highlight .mi,
+        [data-theme="light"] .code-highlight .mf,
+        [data-theme="light"] .code-highlight .mh,
+        [data-theme="light"] .code-highlight .mo,
+        [data-theme="light"] .code-highlight .mb,
+        [data-theme="light"] .code-highlight .kc {
+            color: #9a3412;
+        }
+        [data-theme="light"] .code-highlight .c,
+        [data-theme="light"] .code-highlight .c1,
+        [data-theme="light"] .code-highlight .cm,
+        [data-theme="light"] .code-highlight .cp,
+        [data-theme="light"] .code-highlight .cs,
+        [data-theme="light"] .code-highlight .ch {
+            color: #713f12;
+            font-style: italic;
+        }
+        [data-theme="light"] .code-highlight .o,
+        [data-theme="light"] .code-highlight .ow {
+            color: #451a03;
+        }
+        [data-theme="light"] .code-highlight .p {
+            color: #451a03;
+        }
+        [data-theme="light"] .code-highlight .nb,
+        [data-theme="light"] .code-highlight .bp {
+            color: #78350f;
+        }
+        [data-theme="light"] .code-highlight .nv,
+        [data-theme="light"] .code-highlight .vc,
+        [data-theme="light"] .code-highlight .vg,
+        [data-theme="light"] .code-highlight .vi,
+        [data-theme="light"] .code-highlight .vm,
+        [data-theme="light"] .code-highlight .n {
+            color: #2b1103;
+        }
+    </style>
+</head>
+<body class="p-2 sm:p-6 md:p-12 min-h-screen">
+
+    <a href="#main-content" id="skip-link" class="skip-link">[SALTAR AL CONTENIDO]</a>
+    <div id="a11y-announcer" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <div class="terminal-frame max-w-4xl mx-auto mt-1 sm:mt-4 rounded-lg overflow-hidden">
+
+        <header class="p-2.5 sm:p-3 theme-bg-header border-b theme-border flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+            <div class="flex items-center justify-between sm:justify-start gap-2 min-w-0 sm:flex-1">
+                <span class="text-xs theme-text-muted tracking-wider font-bold truncate min-w-0" id="header-sys-id" title="SYS.ID: riccivr // bugrouter-devlog-03-upstream-deduplication-and-polyglot-probes">SYS.ID: riccivr // bugrouter-devlog-03-upstream-deduplication-and-polyglot-probes</span>
+                <span class="status-label-text theme-text-main text-[11px] font-bold uppercase tracking-wider sm:hidden shrink-0 whitespace-nowrap">
+                    ESTADO: EN LÍNEA
+                </span>
+            </div>
+            <div class="header-action-container flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2 shrink-0">
+                <div class="header-button-group flex items-center gap-1.5 sm:gap-2 shrink-0">
+                    <button id="lang-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider whitespace-nowrap shrink-0" aria-label="Alternar idioma a inglés (actual: Español) [I]" title="Alternar idioma a inglés (actual: Español) [I]">
+                        <span class="label-full">[LANG: ES]</span><span class="label-short">[ES]</span>
+                    </button>
+                    <button id="keys-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider whitespace-nowrap shrink-0" aria-pressed="true" aria-label="Alternar atajos de navegación por teclado" title="Alternar atajos de navegación por teclado">
+                        <span class="label-full">[TECLAS: ACT]</span><span class="label-short">[KEYS]</span>
+                    </button>
+                    <button id="theme-toggle" class="interactive-link border theme-border px-2 py-0.5 text-[11px] sm:text-xs uppercase font-bold tracking-wider whitespace-nowrap shrink-0" aria-label="Alternar tema visual (actual: CRT) [T]" title="Alternar tema visual (actual: CRT) [T]">
+                        <span class="label-full">[MODO: CRT]</span><span class="label-short">[CRT]</span>
+                    </button>
+                </div>
+                <span class="status-label-text theme-text-main text-xs sm:text-sm font-bold uppercase tracking-wider hidden sm:inline-block ml-2 whitespace-nowrap shrink-0">
+                    ESTADO: EN LÍNEA
+                </span>
+            </div>
+        </header>
+
+        <main id="main-content" class="p-3.5 sm:p-6 md:p-8" tabindex="-1">
+
+            <!-- Navigation Controls -->
+            <div class="nav-controls-bar flex flex-col sm:flex-row justify-between items-center gap-2 pb-3 mb-5 border-b theme-border-subtle text-[11px] sm:text-xs">
+                <div class="nav-btn-group flex gap-1.5 sm:gap-2">
+                    <a href="index.html" id="back-index-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Volver a la lista del blog [<]" title="Volver a la lista del blog [<]">
+                        <span class="label-full">[<] Volver al Blog</span><span class="label-short">[<]</span>
+                    </a>
+                    <a href="../" id="home-portal-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Ir al portal principal [H]" title="Ir al portal principal [H]">
+                        <span class="label-full">[H] Portal Principal</span><span class="label-short">[H]</span>
+                    </a>
+                </div>
+                <div class="nav-btn-group flex gap-1.5 sm:gap-2">
+                    <button id="copy-link-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Copiar enlace de este artículo [S]" title="Copiar enlace de este artículo [S]">
+                        <span class="label-full">[S] Copiar Enlace</span><span class="label-short">[S]</span>
+                    </button>
+                    <a href="https://github.com/riccivr/riccivr.github.io" target="_blank" rel="noopener noreferrer" id="repo-btn" class="interactive-link border theme-border px-2.5 py-1 uppercase font-bold whitespace-nowrap" aria-label="Ver repositorio en GitHub (se abre en nueva pestaña) [G]" title="Ver repositorio en GitHub (se abre en nueva pestaña) [G]">
+                        <span class="label-full">[G] Repo</span><span class="label-short">[G]</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Post Container (Zero-JS Pre-rendered) -->
+            <article id="post-article-es" lang="es">
+                <div class="post-content">
+<h1>bugrouter Devlog #3: Detección de Duplicados Upstream, Probes Políglotas y Blindaje Red-Team</h1>
+<p><em>Publicado: 29 de octubre de 2026. Categoría: Sistemas &amp; Seguridad. Tiempo de lectura: ~8 min</em><br />
+<em>Etiquetas: Go, bugrouter, Devlog, Duplicados, Políglota, Auditoría, Webhooks, Seguridad</em></p>
+<hr />
+<p>Pregúntale a cualquier mantenedor de código abierto cuál es su mayor queja con la ola reciente de agentes de IA para programar, y siempre te va a responder lo mismo:</p>
+<p><strong>Los agentes abren tickets duplicados a cada rato.</strong></p>
+<p>Un agente autónomo que corre un test suite se topa con un <code>502 Bad Gateway</code> en un microservicio de autenticación o con un panic al parsear un JSON. El modelo asume que es el primer ser en el universo en presenciar semejante error. Sin fijarse si ya hay un issue abierto, redacta el bug y lo envía. A la mañana siguiente, los mantenedores se despiertan con tres tickets idénticos describiendo el mismo stack trace.</p>
+<p>En el Hito 3 (Milestone 3) de <code>bugrouter</code>, atacamos tres frentes clave de ingeniería:<br />
+1. Construir un motor autónomo de <strong>detección de issues duplicados</strong> para consultar los trackers remotos y avisar antes de mandar nada.<br />
+2. Expandir nuestros probes de workspace y sistema a un <strong>ecosistema políglota</strong> (manifiestos de Rust con Cargo, paquetes de Python con pyproject.toml y paquetes de Fedora y Arch Linux).<br />
+3. Blindar el Cloud Control Plane con <strong>autenticación Bearer en tiempo constante</strong>, <strong>filtros contra CSRF</strong>, <strong>registros de auditoría append-only en JSONL</strong> y <strong>webhooks firmados con HMAC-SHA256</strong>.</p>
+<p>Todo esto, de nuevo, manteniendo la restricción de cero dependencias externas en Go.</p>
+<hr />
+<h2>1. Detección de Duplicados Upstream: <code>internal/dedup</code></h2>
+<p>Para frenar los reportes duplicados antes de que salgan, <code>bugrouter</code> consulta la API de búsqueda del tracker remoto usando palabras clave extraídas del título del bug.</p>
+<p>En vez de meter una librería pesada de procesamiento de lenguaje natural o una base de datos vectorial, implementamos un algoritmo determinista de coincidencia de tokens:</p>
+<ul>
+<li><strong>Filtrado de Stop Words:</strong> Limpiamos palabras comunes en inglés (<code>a</code>, <code>the</code>, <code>is</code>, <code>in</code>, <code>failed</code>, <code>error</code>, <code>bug</code>, <code>issue</code>, <code>panic</code>, etc.) que solo meten ruido.</li>
+<li><strong>Extracción de Términos Relevantes:</strong> Seleccionamos los tokens con mayor carga informativa (hasta 5 tokens) para consultar la API del tracker (<code>/search/issues</code> en GitHub, <code>/issues?search=</code> en GitLab o <code>/rest/bug?summary=</code> en Bugzilla).</li>
+<li><strong>Puntuación por Solapamiento de Tokens:</strong> Para cada issue devuelto por el servidor, calculamos el porcentaje de solapamiento tipo Jaccard:<br />
+  $$\text{Porcentaje de Coincidencia} = \frac{|\text{Tokens}(\text{Consulta}) \cap \text{Tokens}(\text{Título Upstream})|}{|\text{Tokens}(\text{Consulta})|} \times 100$$</li>
+<li>Si un issue existente tiene más de un 20% de solapamiento, <code>bugrouter</code> lo adjunta a <code>draft.PotentialDuplicates</code> y muestra una advertencia visible en la terminal y en el dashboard web.</li>
+</ul>
+<div class="terminal-flow" role="region" aria-label="Pipeline architecture diagram">
+  <div class="flow-step">    <div class="flow-step-title">Motor de Detección de Duplicados (internal/dedup)</div>    <div class="flow-step-desc">Título: &quot;Payment gateway timeout in checkout worker&quot;<br>│<br>▼<br>[Filtro Stop Words] ──&gt; [&quot;payment&quot;, &quot;gateway&quot;, &quot;checkout&quot;]<br>│<br>▼<br>[API de Búsqueda]   ──&gt; Consulta GitHub / GitLab / Bugzilla<br>│<br>▼<br>[Scorer de Tokens]  ──&gt; Issue #88: &quot;Payment gateway timeout&quot;<br>(Solapamiento: 66% ──&gt; Duplicado!)</div>  </div>
+</div>
+
+<hr />
+<h2>2. Probes de Workspace Políglotas: Rust y Python</h2>
+<p>En el Hito 1, nuestro probe de workspace solo entendía <code>package.json</code> de Node y <code>go.mod</code> de Go. En este hito extendimos <code>internal/resolver/workspace.go</code> para cubrir proyectos modernos en Rust y Python:</p>
+<h3>Rust (<code>Cargo.toml</code> y <code>Cargo.lock</code>)</h3>
+<ul>
+<li>Parsea dependencias bajo <code>[dependencies]</code>, <code>[dev-dependencies]</code> y <code>[build-dependencies]</code>.</li>
+<li>Resuelve herencia de workspaces en Cargo (<code>dep.workspace = true</code>) subiendo por el árbol de directorios.</li>
+<li>Extrae dependencias de git leyendo los repositorios declarados en <code>Cargo.lock</code>.</li>
+<li>Inspecciona la sección raíz <code>[package]</code> para obtener enlaces de repositorio directo.</li>
+</ul>
+<h3>Python (<code>pyproject.toml</code>)</h3>
+<ul>
+<li>Parsea listas estándar de dependencias PEP 508 y PEP 621 (<code>dependencies = [...]</code>).</li>
+<li>Soporta tablas inline de Poetry (<code>[tool.poetry.dependencies]</code>).</li>
+<li>Extrae URLs canónicas de <code>[project.urls]</code> (<code>Homepage</code>, <code>Repository</code>, <code>Bug Tracker</code>).</li>
+<li>Aplica normalización según PEP 503 y PEP 508 (eliminando extras como <code>requests[security]</code>, pasando a minúsculas y cambiando <code>.</code> y <code>-</code> por <code>_</code>).</li>
+</ul>
+<hr />
+<h2>3. Consultas a Gestores de Paquetes en Linux: RPM y Pacman</h2>
+<p><code>bugrouter</code> no se queda solo en librerías de lenguajes. Si un agente se topa con un fallo en un binario del sistema operativo en un servidor o contenedor, puede consultar directamente el paquete del SO.</p>
+<p>Ampliamos <code>OSPackageProbe</code> para ir más allá del <code>dpkg</code> de Debian:<br />
+- <strong>Fedora / RHEL / CentOS (<code>rpm</code>):</strong> Ejecutamos <code>rpm -qf &lt;binario&gt;</code> para ubicar el paquete y luego <code>rpm -qi &lt;paquete&gt;</code> para extraer el campo <code>URL:</code>. Le damos prioridad a la página oficial del proyecto antes que al tracker de la distribución.<br />
+- <strong>Arch Linux (<code>pacman</code>):</strong> Ejecutamos <code>pacman -Qoq &lt;binario&gt;</code> y <code>pacman -Qi &lt;paquete&gt;</code> para obtener la URL original del software.</p>
+<p>Toda llamada a subprocesos utiliza <code>exec.CommandContext</code> con límites de tiempo estrictos y validación de nombres de binarios con listas blancas.</p>
+<hr />
+<h2>4. Blindaje del Cloud Control Plane (Spec 08)</h2>
+<p>Con el control plane gestionando borradores de fallos en producción, endurecimos toda la capa de seguridad con estándares corporativos:</p>
+<div class="terminal-flow" role="region" aria-label="Pipeline architecture diagram">
+  <div class="flow-step">    <div class="flow-step-title">Seguridad del Cloud Control Plane (Spec 08)</div>    <ul class="flow-step-list">      <li class="flow-item-numbered"><span class="flow-item-num">1.</span> Auth Bearer en Tiempo Constante (crypto/subtle)</li>      <li class="flow-item-numbered"><span class="flow-item-num">2.</span> Filtro de Origen CSRF y Cabeceras Obligatorias</li>      <li class="flow-item-numbered"><span class="flow-item-num">3.</span> Registro de Auditoría JSONL Append-Only (Permisos 0600)</li>      <li class="flow-item-numbered"><span class="flow-item-num">4.</span> Webhooks con Blindaje SSRF y Firmas HMAC-SHA256</li>    </ul>  </div>
+</div>
+
+<h3>Autenticación Bearer en Tiempo Constante</h3>
+<p>Para evitar ataques de temporización (timing attacks), las rutas protegidas (<code>/api/v1/drafts</code>, <code>/api/v1/audit</code>) comparan los tokens Bearer usando <code>crypto/subtle.ConstantTimeCompare</code>. Para que la longitud del token no filtre información, tanto el token configurado como el que llega en la cabecera se pasan primero por SHA-256:</p>
+<div class="code-highlight"><pre><span></span><code><span class="nx">expectedHash</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sha256</span><span class="p">.</span><span class="nx">Sum256</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">authToken</span><span class="p">))</span>
+<span class="nx">tokenHash</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sha256</span><span class="p">.</span><span class="nx">Sum256</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">token</span><span class="p">))</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">subtle</span><span class="p">.</span><span class="nx">ConstantTimeCompare</span><span class="p">(</span><span class="nx">expectedHash</span><span class="p">[:],</span><span class="w"> </span><span class="nx">tokenHash</span><span class="p">[:])</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">http</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="s">`{&quot;error&quot;:&quot;unauthorized&quot;}`</span><span class="p">,</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusUnauthorized</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>Protección contra CSRF y Validación de Origen</h3>
+<p>Las rutas que modifican estado (<code>POST /api/v1/drafts/{id}/approve</code> y <code>/discard</code>) exigen comprobación de origen. Cualquier petición del navegador se bloquea si el <code>Origin</code> o <code>Referer</code> no coincide con el host. Además, la petición debe incluir el token Bearer o la cabecera personalizada <code>X-Bugrouter-Request: 1</code>.</p>
+<h3>Log de Auditoría Append-Only en JSONL</h3>
+<p>Cada acción de triaje se guarda en un log inmutable en <code>$XDG_STATE_HOME/bugrouter/audit.log</code> con permisos estrictos <code>0600</code>. El servidor expone el endpoint <code>/api/v1/audit</code> para leer los eventos más recientes en orden cronológico inverso, con un tope acotado de 1 MiB.</p>
+<h3>Webhooks Firmados con HMAC-SHA256</h3>
+<p>Cuando se aprueba o descarta un ticket, <code>WebhookNotifier</code> envía el evento a la URL configurada. El payload viaja firmado con HMAC-SHA256 en la cabecera <code>X-Bugrouter-Signature: sha256=&lt;hex&gt;</code> y se despacha a través de <code>httpx</code> con timeout de 3 segundos, impidiendo que se usen webhooks falsificados para atacar infraestructura interna.</p>
+<hr />
+<p>Con el Hito 3 listo, <code>bugrouter</code> quedó armado con resolución políglota, detección automática de duplicados y controles de seguridad para entornos enterprise.</p>
+<p>En el Devlog #4 veremos el Hito 4: refinar la precisión del scrubber para evitar falsos positivos, pulir la experiencia de la CLI y analizar la revisión técnica que nos hizo un evaluador independiente.</p>
+                </div>
+            </article>
+
+            <article id="post-article-en" lang="en" style="display: none;">
+                <div class="post-content">
+<h1>bugrouter Devlog #3: Upstream Issue Deduplication, Polyglot Probes, and Red-Team Hardening</h1>
+<p><em>Published: October 29, 2026. Category: Systems &amp; Security. Reading time: ~8 min</em><br />
+<em>Tags: Go, bugrouter, Devlog, Deduplication, Polyglot, Audit, Webhooks, Security</em></p>
+<hr />
+<p>Ask any open-source maintainer about their biggest grievance with the recent wave of AI coding agents, and you will get the exact same answer:</p>
+<p><strong>Agents file duplicate bug reports constantly.</strong></p>
+<p>An autonomous agent running a test suite encounters a <code>502 Bad Gateway</code> from an authentication microservice or a crash in a JSON parsing library. The agent assumes it is the first entity in human history to discover this bug. Without checking whether an issue is already open, it drafts and files a new ticket. Maintainers wake up to three different tickets describing the identical stack trace.</p>
+<p>In Milestone 3 of <code>bugrouter</code>, we took on three major engineering objectives:<br />
+1. Building an autonomous <strong>upstream issue deduplicator</strong> to search trackers and warn developers before tickets are submitted.<br />
+2. Expanding our workspace and OS probes into <strong>polyglot territory</strong> (Rust manifests via Cargo, Python manifests via PEP 508 pyproject.toml, and Fedora/Arch Linux packages).<br />
+3. Hardening the Cloud Control Plane with <strong>constant-time Bearer authentication</strong>, <strong>CSRF guards</strong>, <strong>append-only JSONL audit logs</strong>, and <strong>SSRF-guarded HMAC webhooks</strong>.</p>
+<p>Here is how we implemented it under our strict zero-dependency Go constraint.</p>
+<hr />
+<h2>1. Upstream Issue Deduplication: <code>internal/dedup</code></h2>
+<p>To stop duplicate bug reports before they are submitted, <code>bugrouter</code> queries the remote forge's search API using keywords extracted from the issue title.</p>
+<p>Rather than pulling in an NLP library or vector database, we built a deterministic, zero-dependency token scoring algorithm:</p>
+<ul>
+<li><strong>Stop Word Filtering:</strong> We strip common English stop words (<code>a</code>, <code>the</code>, <code>is</code>, <code>in</code>, <code>failed</code>, <code>error</code>, <code>bug</code>, <code>issue</code>, <code>panic</code>, etc.) from the candidate title.</li>
+<li><strong>Search Term Extraction:</strong> We select the highest-signal content tokens (up to 5 tokens) to query the upstream tracker API (<code>/search/issues</code> on GitHub, <code>/issues?search=</code> on GitLab, <code>/rest/bug?summary=</code> on Bugzilla).</li>
+<li><strong>Token Overlap Scoring:</strong> For each issue returned by the tracker, we calculate the Jaccard-style token overlap percentage:<br />
+  $$\text{Match Percentage} = \frac{|\text{Tokens}(\text{Query}) \cap \text{Tokens}(\text{Issue Title})|}{|\text{Tokens}(\text{Query})|} \times 100$$</li>
+<li>If an existing issue shares more than 20% token overlap, <code>bugrouter</code> attaches it to <code>draft.PotentialDuplicates</code> and flags it with a high-visibility warning in the terminal and Web UI.</li>
+</ul>
+<div class="terminal-flow" role="region" aria-label="Pipeline architecture diagram">
+  <div class="flow-step">    <div class="flow-step-title">Upstream Duplicate Detection Engine (internal/dedup)</div>    <div class="flow-step-desc">Title: &quot;Payment gateway timeout in checkout worker&quot;<br>│<br>▼<br>[Stop Word Filter] ──&gt; [&quot;payment&quot;, &quot;gateway&quot;, &quot;checkout&quot;]<br>│<br>▼<br>[Forge Search API] ──&gt; Queries GitHub / GitLab / Bugzilla<br>│<br>▼<br>[Overlap Scorer]   ──&gt; Issue #88: &quot;Payment gateway timeout&quot;<br>(Overlap: 66% ──&gt; Potential Duplicate)</div>  </div>
+</div>
+
+<hr />
+<h2>2. Polyglot Workspace Probes: Rust &amp; Python</h2>
+<p>In Milestone 1, our workspace probe only understood <code>package.json</code> (npm) and <code>go.mod</code> (Go). In Milestone 2 and 3, we extended <code>internal/resolver/workspace.go</code> to handle the modern polyglot stack:</p>
+<h3>Rust (<code>Cargo.toml</code> and <code>Cargo.lock</code>)</h3>
+<ul>
+<li>Parses dependency declarations under <code>[dependencies]</code>, <code>[dev-dependencies]</code>, and <code>[build-dependencies]</code>.</li>
+<li>Handles Cargo workspace table lookups (<code>dep.workspace = true</code>) by scanning parent directory manifests.</li>
+<li>Resolves git dependencies by parsing repository URLs from <code>Cargo.lock</code>.</li>
+<li>Inspects root <code>[package]</code> checkouts to identify repository links directly.</li>
+</ul>
+<h3>Python (<code>pyproject.toml</code>)</h3>
+<ul>
+<li>Parses standard PEP 508 and PEP 621 dependency arrays (<code>dependencies = [...]</code>).</li>
+<li>Supports Poetry inline tables (<code>[tool.poetry.dependencies]</code>).</li>
+<li>Extracts canonical project URLs from <code>[project.urls]</code> (<code>Homepage</code>, <code>Repository</code>, <code>Bug Tracker</code>).</li>
+<li>Enforces PEP 503 and PEP 508 normalization (stripping extras like <code>requests[security]</code>, lowercasing, and normalizing <code>.</code> and <code>-</code> to <code>_</code>).</li>
+</ul>
+<hr />
+<h2>3. Cross-Distro OS Package Probes: RPM and Pacman</h2>
+<p><code>bugrouter</code> is not restricted to language package managers. If an agent encounters a system error on a server or container, it can query system binaries directly.</p>
+<p>In Milestone 3, we expanded <code>OSPackageProbe</code> beyond Debian <code>dpkg</code>:<br />
+- <strong>Fedora / RHEL / CentOS (<code>rpm</code>):</strong> We execute <code>rpm -qf &lt;binary&gt;</code> to identify the package, followed by <code>rpm -qi &lt;package&gt;</code> to parse the <code>URL:</code> field. We prioritize the upstream homepage over downstream distribution bug trackers.<br />
+- <strong>Arch Linux (<code>pacman</code>):</strong> We execute <code>pacman -Qoq &lt;binary&gt;</code> and <code>pacman -Qi &lt;package&gt;</code> to retrieve the upstream URL.</p>
+<p>Every subprocess invocation uses <code>exec.CommandContext</code> with hard timeouts, and binary names are verified against strict alphanumeric allowlists.</p>
+<hr />
+<h2>4. Hardening the Cloud Control Plane (Spec 08)</h2>
+<p>As the Cloud Control Plane began staging real enterprise bug reports, we fortified its security perimeter to enterprise standards:</p>
+<div class="terminal-flow" role="region" aria-label="Pipeline architecture diagram">
+  <div class="flow-step">    <div class="flow-step-title">Hardened Cloud Control Plane (Spec 08 Security)</div>    <ul class="flow-step-list">      <li class="flow-item-numbered"><span class="flow-item-num">1.</span> Constant-Time Bearer Auth via crypto/subtle.ConstantTime</li>      <li class="flow-item-numbered"><span class="flow-item-num">2.</span> CSRF Origin Guard &amp; Custom Header Enforcement</li>      <li class="flow-item-numbered"><span class="flow-item-num">3.</span> Append-Only JSONL Audit Logger (0600 permissions)</li>      <li class="flow-item-numbered"><span class="flow-item-num">4.</span> SSRF-Guarded Webhook Dispatcher (HMAC-SHA256 Signatures)</li>    </ul>  </div>
+</div>
+
+<h3>Constant-Time Bearer Authentication</h3>
+<p>To protect against timing attacks, all API endpoints (<code>/api/v1/drafts</code>, <code>/api/v1/audit</code>) enforce Bearer token verification using <code>crypto/subtle.ConstantTimeCompare</code>. To prevent secret length leakage, both the configured token and the incoming header are pre-hashed with SHA-256 before comparison:</p>
+<div class="code-highlight"><pre><span></span><code><span class="nx">expectedHash</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sha256</span><span class="p">.</span><span class="nx">Sum256</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">authToken</span><span class="p">))</span>
+<span class="nx">tokenHash</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sha256</span><span class="p">.</span><span class="nx">Sum256</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">token</span><span class="p">))</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">subtle</span><span class="p">.</span><span class="nx">ConstantTimeCompare</span><span class="p">(</span><span class="nx">expectedHash</span><span class="p">[:],</span><span class="w"> </span><span class="nx">tokenHash</span><span class="p">[:])</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">http</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="s">`{&quot;error&quot;:&quot;unauthorized&quot;}`</span><span class="p">,</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusUnauthorized</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>CSRF Origin &amp; Custom Header Protection</h3>
+<p>All mutating endpoints (<code>POST /api/v1/drafts/{id}/approve</code> and <code>/discard</code>) enforce strict origin checks. Cross-origin browser requests are blocked unless <code>Origin</code> or <code>Referer</code> matches the <code>Host</code> header. Furthermore, requests must provide either the authenticated Bearer token or the custom header <code>X-Bugrouter-Request: 1</code>.</p>
+<h3>Append-Only JSONL Audit Logging</h3>
+<p>Every triage decision is recorded in an immutable, append-only log file located at <code>$XDG_STATE_HOME/bugrouter/audit.log</code> with strict <code>0600</code> file permissions. The server provides a <code>/api/v1/audit</code> endpoint that reads the most recent events in reverse chronological order, bounded strictly to 1 MiB.</p>
+<h3>SSRF-Guarded HMAC-SHA256 Webhooks</h3>
+<p>When an issue is approved or discarded, <code>WebhookNotifier</code> dispatches an event to the configured webhook URL. Every webhook is signed with HMAC-SHA256 via the <code>X-Bugrouter-Signature: sha256=&lt;hex&gt;</code> header and routed through <code>httpx</code> with a 3-second timeout, ensuring that internal infrastructure cannot be targeted by forged webhook URLs.</p>
+<hr />
+<p>With Milestone 3 completed, <code>bugrouter</code> possessed a polyglot resolution engine, automated duplicate suppression, and enterprise-grade security controls.</p>
+<p>In Devlog #4, we cover Milestone 4: refining scrubber precision to eliminate false positives, polishing the CLI UX, and putting the architecture under the microscope of an independent code reviewer.</p>
+                </div>
+            </article>
+
+            <!-- Bottom Return Navigation -->
+            <div class="bottom-nav-bar mt-10 sm:mt-12 pt-6 sm:pt-8 pb-3 sm:pb-4 border-t theme-border-subtle flex justify-between items-center text-xs sm:text-sm">
+                <a href="index.html" id="bottom-back-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Volver a la lista de artículos [<]" title="Volver a la lista de artículos [<]">
+                    <span class="label-full">[<] Volver al Blog</span><span class="label-short">[<]</span>
+                </a>
+                <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" id="bottom-top-btn" class="interactive-link border theme-border px-3.5 sm:px-4 py-1.5 uppercase font-bold whitespace-nowrap" aria-label="Ir arriba [K]" title="Ir arriba [K]">
+                    <span class="label-full">[^] Arriba</span><span class="label-short">[^]</span>
+                </a>
+            </div>
+
+        </main>
+
+        <footer class="p-3 sm:p-4 border-t theme-border text-xs flex justify-between items-center theme-bg-header">
+            <span class="theme-text-muted text-[11px] sm:text-xs font-bold">riccivr.github.io/blog</span>
+            <span id="footer-text" class="text-right text-[11px] sm:text-xs theme-text-muted font-mono font-medium">
+                REV: 6ca9d95 // PUBLICADO: 2026.10.29
+            </span>
+        </footer>
+
+    </div>
+
+    <!-- Progressive Enhancement Script -->
+    <script>
+        const i18n = {
+            es: {
+                sysId: "SYS.ID: riccivr // bugrouter-devlog-03-upstream-deduplication-and-polyglot-probes",
+                status: "ESTADO: EN LÍNEA",
+                langToggle: '<span class="label-full">[LANG: ES]</span><span class="label-short">[ES]</span>',
+                langAria: "Alternar idioma a inglés (actual: Español) [I]",
+                keysOn: '<span class="label-full">[TECLAS: ACT]</span><span class="label-short">[KEYS]</span>',
+                keysOff: '<span class="label-full">[TECLAS: DES]</span><span class="label-short">[KEYS]</span>',
+                keysAria: "Alternar atajos de navegación por teclado",
+                modeCrt: '<span class="label-full">[MODO: CRT]</span><span class="label-short">[CRT]</span>',
+                modePaper: '<span class="label-full">[MODO: PAPEL]</span><span class="label-short">[PAPEL]</span>',
+                themeAria: "Alternar tema visual a Papel (actual: CRT) [T]",
+                themeAriaPaper: "Alternar tema visual a CRT (actual: Papel) [T]",
+                backIndex: '<span class="label-full">[<] Volver al Blog</span><span class="label-short">[<]</span>',
+                backIndexAria: "Volver a la lista del blog [<]",
+                homePortal: '<span class="label-full">[H] Portal Principal</span><span class="label-short">[H]</span>',
+                homePortalAria: "Ir al portal principal [H]",
+                copyLink: '<span class="label-full">[S] Copiar Enlace</span><span class="label-short">[S]</span>',
+                copyLinkAria: "Copiar enlace de este artículo [S]",
+                copied: '<span class="label-full">[✓] ¡Copiado!</span><span class="label-short">[✓]</span>',
+                repo: '<span class="label-full">[G] Repo</span><span class="label-short">[G]</span>',
+                repoAria: "Ver repositorio en GitHub (se abre en nueva pestaña) [G]",
+                topBtn: '<span class="label-full">[^] Arriba</span><span class="label-short">[^]</span>',
+                topBtnAria: "Ir arriba [K]",
+                footerText: "REV: 6ca9d95 // PUBLICADO: 2026.10.29",
+                title: "bugrouter Devlog #3: Detecci\u00f3n de Duplicados Upstream, Probes Pol\u00edglotas y Blindaje Red-Team",
+                metaDesc: "Preg\u00fantale a cualquier mantenedor de c\u00f3digo abierto cu\u00e1l es su mayor queja con la ola reciente de agentes de IA para programar, y siempre te va a responder lo mismo:"
+            },
+            en: {
+                sysId: "SYS.ID: riccivr // bugrouter-devlog-03-upstream-deduplication-and-polyglot-probes",
+                status: "STATUS: ONLINE",
+                langToggle: '<span class="label-full">[LANG: EN]</span><span class="label-short">[EN]</span>',
+                langAria: "Toggle language to Spanish (current: English) [I]",
+                keysOn: '<span class="label-full">[KEYS: ON]</span><span class="label-short">[KEYS]</span>',
+                keysOff: '<span class="label-full">[KEYS: OFF]</span><span class="label-short">[KEYS]</span>',
+                keysAria: "Toggle keyboard navigation shortcuts",
+                modeCrt: '<span class="label-full">[MODE: CRT]</span><span class="label-short">[CRT]</span>',
+                modePaper: '<span class="label-full">[MODE: PAPER]</span><span class="label-short">[PAPER]</span>',
+                themeAria: "Toggle visual theme to Paper (current: CRT) [T]",
+                themeAriaPaper: "Toggle visual theme to CRT (current: Paper) [T]",
+                backIndex: '<span class="label-full">[<] Return to Blog</span><span class="label-short">[<]</span>',
+                backIndexAria: "Return to blog list [<]",
+                homePortal: '<span class="label-full">[H] Home Portal</span><span class="label-short">[H]</span>',
+                homePortalAria: "Go to home portal [H]",
+                copyLink: '<span class="label-full">[S] Copy Link</span><span class="label-short">[S]</span>',
+                copyLinkAria: "Copy link to this article [S]",
+                copied: '<span class="label-full">[✓] Copied!</span><span class="label-short">[✓]</span>',
+                repo: '<span class="label-full">[G] Repo</span><span class="label-short">[G]</span>',
+                repoAria: "View GitHub repository (opens in a new tab) [G]",
+                topBtn: '<span class="label-full">[^] Top</span><span class="label-short">[^]</span>',
+                topBtnAria: "Scroll to top [K]",
+                footerText: "REV: 6ca9d95 // PUBLISHED: 2026.10.29",
+                title: "bugrouter Devlog #3: Upstream Issue Deduplication, Polyglot Probes, and Red-Team Hardening",
+                metaDesc: "Ask any open-source maintainer about their biggest grievance with the recent wave of AI coding agents, and you will get the exact same answer:"
+            }
+        };
+
+        function getLanguage() {
+            const saved = localStorage.getItem('riccivr-lang');
+            if (saved === 'es' || saved === 'en') return saved;
+            const browserLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
+            return browserLang.startsWith('es') ? 'es' : 'en';
+        }
+
+        let currentLang = getLanguage();
+
+        function applyLanguageUI() {
+            const t = i18n[currentLang] || i18n.es;
+            document.documentElement.setAttribute('lang', currentLang);
+
+            document.querySelectorAll('.status-label-text').forEach(el => el.textContent = t.status);
+            
+            const langBtn = document.getElementById('lang-toggle');
+            langBtn.innerHTML = t.langToggle;
+            langBtn.setAttribute('aria-label', t.langAria);
+            langBtn.setAttribute('title', t.langAria);
+
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            const themeBtn = document.getElementById('theme-toggle');
+            themeBtn.innerHTML = isLight ? t.modePaper : t.modeCrt;
+            const themeLabel = isLight ? t.themeAriaPaper : t.themeAria;
+            themeBtn.setAttribute('aria-label', themeLabel);
+            themeBtn.setAttribute('title', themeLabel);
+
+            const keysEnabled = localStorage.getItem('riccivr-keys') !== 'off';
+            const keysBtn = document.getElementById('keys-toggle');
+            keysBtn.innerHTML = keysEnabled ? t.keysOn : t.keysOff;
+            keysBtn.setAttribute('aria-label', t.keysAria);
+            keysBtn.setAttribute('title', t.keysAria);
+            keysBtn.setAttribute('aria-pressed', keysEnabled ? 'true' : 'false');
+
+            const backBtn = document.getElementById('back-index-btn');
+            backBtn.innerHTML = t.backIndex;
+            backBtn.setAttribute('aria-label', t.backIndexAria);
+            backBtn.setAttribute('title', t.backIndexAria);
+
+            const homeBtn = document.getElementById('home-portal-btn');
+            homeBtn.innerHTML = t.homePortal;
+            homeBtn.setAttribute('aria-label', t.homePortalAria);
+            homeBtn.setAttribute('title', t.homePortalAria);
+
+            const copyBtn = document.getElementById('copy-link-btn');
+            copyBtn.innerHTML = t.copyLink;
+            copyBtn.setAttribute('aria-label', t.copyLinkAria);
+            copyBtn.setAttribute('title', t.copyLinkAria);
+
+            const repoBtn = document.getElementById('repo-btn');
+            repoBtn.innerHTML = t.repo;
+            repoBtn.setAttribute('aria-label', t.repoAria);
+            repoBtn.setAttribute('title', t.repoAria);
+
+            const bottomBackBtn = document.getElementById('bottom-back-btn');
+            bottomBackBtn.innerHTML = t.backIndex;
+            bottomBackBtn.setAttribute('aria-label', t.backIndexAria);
+            bottomBackBtn.setAttribute('title', t.backIndexAria);
+
+            const bottomTopBtn = document.getElementById('bottom-top-btn');
+            bottomTopBtn.innerHTML = t.topBtn;
+            bottomTopBtn.setAttribute('aria-label', t.topBtnAria);
+            bottomTopBtn.setAttribute('title', t.topBtnAria);
+
+            document.getElementById('footer-text').textContent = t.footerText;
+
+            // Toggle language articles
+            const artEs = document.getElementById('post-article-es');
+            const artEn = document.getElementById('post-article-en');
+            if (artEs && artEn) {
+                if (currentLang === 'en') {
+                    artEs.style.display = 'none';
+                    artEn.style.display = 'block';
+                } else {
+                    artEs.style.display = 'block';
+                    artEn.style.display = 'none';
+                }
+            }
+
+            // Update meta tags
+            document.title = `${t.title} - Ricardo Veronese`;
+            const metaDesc = document.getElementById('meta-desc');
+            if (metaDesc) metaDesc.setAttribute('content', t.metaDesc);
+            const ogTitle = document.getElementById('og-title');
+            if (ogTitle) ogTitle.setAttribute('content', t.title);
+            const ogDesc = document.getElementById('og-desc');
+            if (ogDesc) ogDesc.setAttribute('content', t.metaDesc);
+        }
+
+        // Theme toggle handling
+        const themeBtn = document.getElementById('theme-toggle');
+        function updateThemeBtn() {
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            const t = i18n[currentLang] || i18n.es;
+            themeBtn.innerHTML = isLight ? t.modePaper : t.modeCrt;
+            const themeLabel = isLight ? t.themeAriaPaper : t.themeAria;
+            themeBtn.setAttribute('aria-label', themeLabel);
+            themeBtn.setAttribute('title', themeLabel);
+        }
+
+        themeBtn.addEventListener('click', () => {
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            if (isLight) {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('riccivr-theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('riccivr-theme', 'light');
+            }
+            updateThemeBtn();
+        });
+
+        // Language toggle handling
+        document.getElementById('lang-toggle').addEventListener('click', () => {
+            currentLang = currentLang === 'es' ? 'en' : 'es';
+            localStorage.setItem('riccivr-lang', currentLang);
+            applyLanguageUI();
+        });
+
+        // Keyboard shortcuts
+        const keysBtn = document.getElementById('keys-toggle');
+        let keyboardEnabled = localStorage.getItem('riccivr-keys') !== 'off';
+
+        function updateKeysBtn() {
+            const t = i18n[currentLang] || i18n.es;
+            keysBtn.innerHTML = keyboardEnabled ? t.keysOn : t.keysOff;
+            keysBtn.setAttribute('aria-label', t.keysAria);
+            keysBtn.setAttribute('title', t.keysAria);
+            keysBtn.setAttribute('aria-pressed', keyboardEnabled ? 'true' : 'false');
+        }
+
+        keysBtn.addEventListener('click', () => {
+            keyboardEnabled = !keyboardEnabled;
+            localStorage.setItem('riccivr-keys', keyboardEnabled ? 'on' : 'off');
+            updateKeysBtn();
+        });
+
+        // Copy link handler
+        const copyBtn = document.getElementById('copy-link-btn');
+        copyBtn.addEventListener('click', () => {
+            const url = window.location.href;
+            const t = i18n[currentLang] || i18n.es;
+            navigator.clipboard.writeText(url).then(() => {
+                const originalHTML = copyBtn.innerHTML;
+                copyBtn.innerHTML = t.copied;
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalHTML;
+                }, 2000);
+            }).catch(() => {
+                prompt("Copia este enlace / Copy this link:", url);
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!keyboardEnabled) return;
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+            const key = e.key.toLowerCase();
+            if (key === 'i') {
+                e.preventDefault();
+                document.getElementById('lang-toggle').click();
+            } else if (key === 't') {
+                e.preventDefault();
+                themeBtn.click();
+            } else if (key === 'b' || key === '[') {
+                e.preventDefault();
+                window.location.href = 'index.html';
+            } else if (key === 'h') {
+                e.preventDefault();
+                window.location.href = '../';
+            } else if (key === 's') {
+                e.preventDefault();
+                copyBtn.click();
+            } else if (key === 'g') {
+                e.preventDefault();
+                window.open('https://github.com/riccivr/riccivr.github.io', '_blank');
+            } else if (key === 'k' || key === '^') {
+                e.preventDefault();
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
+        });
+
+        // Apply initial UI
+        applyLanguageUI();
+        updateThemeBtn();
+        updateKeysBtn();
+    </script>
+</body>
+</html>
