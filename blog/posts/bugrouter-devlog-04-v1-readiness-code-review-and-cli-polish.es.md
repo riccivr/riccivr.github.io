@@ -74,7 +74,25 @@ Todo el suite corre y pasa limpiecito bajo el race detector de Go (`go test -rac
 
 ---
 
-## 4. La Revisión Independiente de Código
+## 4. Remediaciones Red-Team Post-Hito 4: Sellando la v1.0 (Spec 09.1)
+
+Apenas terminamos el alcance inicial del Hito 4, le pasamos una nueva auditoría de seguridad y parsing al release candidate (Spec 09.1) para tapar cualquier cabo suelto antes de fijar la versión definitiva:
+
+1. **Eliminación del Bypass de SSRF por Variables de Entorno (`internal/httpx/client.go`):**  
+   Durante las primeras fases de desarrollo habíamos metido la variable de entorno `BUGROUTER_ALLOW_PRIVATE_HOSTS=1` para que los tests pudieran conectarse a servidores HTTP locales de prueba. Nos dimos cuenta de que eso abría una puerta trasera inaceptable en producción: si un proceso comprometido o un agente alteraba las variables de entorno, la protección contra peticiones a la red interna y loopback quedaba anulada. Eliminamos de raíz ese chequeo en `httpx.NewClient`. En los binarios de producción la protección es 100% incondicional. Para pruebas unitarias creamos `httpx.NewTestClient(0)`, aislando el permiso de loopback exclusivamente a archivos de test.
+
+2. **Preservación de Subencabezados en Archivos Markdown (`cmd/bugrouter/main.go`):**  
+   En la primera versión del parser, cualquier línea que empezara con `#` reseteaba la sección activa si no coincidía con los títulos principales. El problema era que si un usuario incluía subencabezados de nivel 3 (como `### Environment Details` dentro de `## Summary`, o `### Stack Trace` dentro de `## Logs`), el parser los descartaba por completo junto con el texto siguiente. En la Spec 09.1 endurecimos `parseMarkdownBodyFile` para que solo los encabezados principales de nivel 2 (`## `) puedan cambiar de sección, mientras que los subencabezados de nivel 3 o superior (`### `) se preservan intactos como contenido de la sección.
+
+3. **Sanitización de Secretos entre Comillas y Cierre Limpio (`internal/scrubber/scrubber.go`):**  
+   Cuando un desarrollador escribía declaraciones entre comillas como `CLIENT_SECRET="topsecretvalue"`, el reemplazo anterior se tragaba la comilla final (`CLIENT_SECRET="[REDACTED_SECRET]`). Además, valores cortos como `token="short"` o `password='false'` podían calcular mal su longitud antes de pelar las comillas. En la Spec 09.1 separamos las comillas antes de medir la longitud y evaluar la lista de literales no secretos, garantizando que el reemplazo preserve la comilla de cierre (`CLIENT_SECRET="[REDACTED_SECRET]"`).
+
+4. **Reutilización del Pool de Conexiones HTTP:**  
+   Actualizamos `cmd/bugrouter/main.go` para compartir una única instancia de `*httpx.Client` entre `resolveTarget`, `introspector.New` y `dedup.NewFinder`, evitando asignaciones redundantes de dialers y reutilizando conexiones TCP durante la ejecución de la CLI.
+
+---
+
+## 5. La Revisión Independiente de Código
 
 Le enviamos el repositorio completo a un revisor externo de software para que hiciera una evaluación arquitectónica profunda, enfocándonos netamente en la calidad del diseño y la ingeniería del proyecto.
 
@@ -103,7 +121,7 @@ El revisor también señaló áreas de mejora concretas, las cuales atacamos de 
 
 ---
 
-## 5. El Estado del Sistema en la v1.0
+## 6. El Estado del Sistema en la v1.0
 
 Con los cuatro hitos completados, este es el mapa arquitectónico de `bugrouter` hoy:
 

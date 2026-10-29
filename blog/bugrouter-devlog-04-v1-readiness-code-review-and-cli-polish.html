@@ -789,7 +789,28 @@ cat<span class="w"> </span>bug.md<span class="w"> </span><span class="p">|</span
 7. Lectura y verificación de deserialización desde el almacenamiento XDG.</p>
 <p>Todo el suite corre y pasa limpiecito bajo el race detector de Go (<code>go test -race ./...</code>).</p>
 <hr />
-<h2>4. La Revisión Independiente de Código</h2>
+<h2>4. Remediaciones Red-Team Post-Hito 4: Sellando la v1.0 (Spec 09.1)</h2>
+<p>Apenas terminamos el alcance inicial del Hito 4, le pasamos una nueva auditoría de seguridad y parsing al release candidate (Spec 09.1) para tapar cualquier cabo suelto antes de fijar la versión definitiva:</p>
+<ol>
+<li>
+<p><strong>Eliminación del Bypass de SSRF por Variables de Entorno (<code>internal/httpx/client.go</code>):</strong><br />
+   Durante las primeras fases de desarrollo habíamos metido la variable de entorno <code>BUGROUTER_ALLOW_PRIVATE_HOSTS=1</code> para que los tests pudieran conectarse a servidores HTTP locales de prueba. Nos dimos cuenta de que eso abría una puerta trasera inaceptable en producción: si un proceso comprometido o un agente alteraba las variables de entorno, la protección contra peticiones a la red interna y loopback quedaba anulada. Eliminamos de raíz ese chequeo en <code>httpx.NewClient</code>. En los binarios de producción la protección es 100% incondicional. Para pruebas unitarias creamos <code>httpx.NewTestClient(0)</code>, aislando el permiso de loopback exclusivamente a archivos de test.</p>
+</li>
+<li>
+<p><strong>Preservación de Subencabezados en Archivos Markdown (<code>cmd/bugrouter/main.go</code>):</strong><br />
+   En la primera versión del parser, cualquier línea que empezara con <code>#</code> reseteaba la sección activa si no coincidía con los títulos principales. El problema era que si un usuario incluía subencabezados de nivel 3 (como <code>### Environment Details</code> dentro de <code>## Summary</code>, o <code>### Stack Trace</code> dentro de <code>## Logs</code>), el parser los descartaba por completo junto con el texto siguiente. En la Spec 09.1 endurecimos <code>parseMarkdownBodyFile</code> para que solo los encabezados principales de nivel 2 (<code>##</code>) puedan cambiar de sección, mientras que los subencabezados de nivel 3 o superior (<code>###</code>) se preservan intactos como contenido de la sección.</p>
+</li>
+<li>
+<p><strong>Sanitización de Secretos entre Comillas y Cierre Limpio (<code>internal/scrubber/scrubber.go</code>):</strong><br />
+   Cuando un desarrollador escribía declaraciones entre comillas como <code>CLIENT_SECRET="topsecretvalue"</code>, el reemplazo anterior se tragaba la comilla final (<code>CLIENT_SECRET="[REDACTED_SECRET]</code>). Además, valores cortos como <code>token="short"</code> o <code>password='false'</code> podían calcular mal su longitud antes de pelar las comillas. En la Spec 09.1 separamos las comillas antes de medir la longitud y evaluar la lista de literales no secretos, garantizando que el reemplazo preserve la comilla de cierre (<code>CLIENT_SECRET="[REDACTED_SECRET]"</code>).</p>
+</li>
+<li>
+<p><strong>Reutilización del Pool de Conexiones HTTP:</strong><br />
+   Actualizamos <code>cmd/bugrouter/main.go</code> para compartir una única instancia de <code>*httpx.Client</code> entre <code>resolveTarget</code>, <code>introspector.New</code> y <code>dedup.NewFinder</code>, evitando asignaciones redundantes de dialers y reutilizando conexiones TCP durante la ejecución de la CLI.</p>
+</li>
+</ol>
+<hr />
+<h2>5. La Revisión Independiente de Código</h2>
 <p>Le enviamos el repositorio completo a un revisor externo de software para que hiciera una evaluación arquitectónica profunda, enfocándonos netamente en la calidad del diseño y la ingeniería del proyecto.</p>
 <p>Este fue su veredicto literal sobre el software:</p>
 <blockquote>
@@ -814,7 +835,7 @@ cat<span class="w"> </span>bug.md<span class="w"> </span><span class="p">|</span
 <em>Solución:</em> Ya sumamos Cargo, pyproject, RPM y Pacman en el Hito 3; el soporte para Maven, NuGet y <code>winget</code> en Windows está planificado para los próximos ciclos.</li>
 </ol>
 <hr />
-<h2>5. El Estado del Sistema en la v1.0</h2>
+<h2>6. El Estado del Sistema en la v1.0</h2>
 <p>Con los cuatro hitos completados, este es el mapa arquitectónico de <code>bugrouter</code> hoy:</p>
 <div class="terminal-flow" role="region" aria-label="Pipeline architecture diagram">
   <div class="flow-step">    <div class="flow-step-title">Sistema bugrouter v1.0</div>    <div class="flow-step-desc">[Agente vía MCP]             [Desarrollador en Terminal]<br>(Claude Code / Cursor)       (resolve / draft / serve)<br>│                                    │</div>  </div>
@@ -882,7 +903,28 @@ cat<span class="w"> </span>bug.md<span class="w"> </span><span class="p">|</span
 7. Retrieval and deserialization verification.</p>
 <p>The entire test suite passes cleanly under the Go race detector (<code>go test -race ./...</code>).</p>
 <hr />
-<h2>4. The Independent Engineering Review</h2>
+<h2>4. Post-Spec #09 Red-Team Remediation: Locking the v1.0 Release (Spec 09.1)</h2>
+<p>Right after completing the initial Milestone 4 scope, we subjected the release candidate to a follow-up red-team audit (Spec 09.1) to catch subtle security and parser edge cases before locking down v1.0:</p>
+<ol>
+<li>
+<p><strong>SSRF Environment Bypass Removal (<code>internal/httpx/client.go</code>):</strong><br />
+   During early development, an environment variable <code>BUGROUTER_ALLOW_PRIVATE_HOSTS=1</code> had been introduced so unit test suites could connect to mock HTTP servers. We recognized that this created an unacceptable backdoor in production binaries: an untrusted agent or compromised process with environment access could disable loopback protection. We completely excised the environment check from <code>httpx.NewClient</code>. In production binaries, SSRF and loopback blocking is 100% unconditional. For unit testing, we introduced <code>httpx.NewTestClient(0)</code>, isolating loopback permission strictly to test files.</p>
+</li>
+<li>
+<p><strong>Preserving Subheadings in Markdown Body Files (<code>cmd/bugrouter/main.go</code>):</strong><br />
+   In our initial parser, any line starting with <code>#</code> was evaluated against known sections, and any unrecognized heading reset the active section to <code>secNone</code>. As a result, nested level-3 subheadings (such as <code>### Environment Details</code> inside <code>## Summary</code>, or <code>### Stack Trace</code> inside <code>## Logs</code>) were accidentally discarded along with all following lines. In Spec 09.1, we hardened <code>parseMarkdownBodyFile</code> so that only top-level level-2 headings (<code>##</code>) can reset sections, while level-3+ subheadings (<code>###</code>) are preserved as verbatim section content.</p>
+</li>
+<li>
+<p><strong>Quoted Secret Redaction &amp; Trailing Quote Hygiene (<code>internal/scrubber/scrubber.go</code>):</strong><br />
+   When developers wrote assignments with quotes like <code>CLIENT_SECRET="mysecretvalue123"</code>, our earlier replacer stripped quotes before checking length, but the regex replacement swallowed the closing quote, producing unclosed strings (<code>CLIENT_SECRET="[REDACTED_SECRET]</code>). Furthermore, values like <code>token="short"</code> or <code>password='false'</code> were susceptible to boundary miscalculations. In Spec 09.1, we separated trailing quotes before evaluating length and non-secret literals, guaranteeing that matching quotes are properly re-appended (<code>CLIENT_SECRET="[REDACTED_SECRET]"</code>).</p>
+</li>
+<li>
+<p><strong>Connection Pool Efficiency:</strong><br />
+   We updated <code>cmd/bugrouter/main.go</code> to share a single bounded <code>*httpx.Client</code> instance across <code>resolveTarget</code>, <code>introspector.New</code>, and <code>dedup.NewFinder</code>, eliminating redundant dialer allocations and connection pool overhead during CLI execution.</p>
+</li>
+</ol>
+<hr />
+<h2>5. The Independent Engineering Review</h2>
 <p>We submitted the codebase to an independent software reviewer for a rigorous architectural assessment. The evaluation focused entirely on the software engineering quality and architectural decisions.</p>
 <p>Here is the verbatim assessment of our design:</p>
 <blockquote>
@@ -907,7 +949,7 @@ cat<span class="w"> </span>bug.md<span class="w"> </span><span class="p">|</span
 <em>Resolution:</em> We added Cargo, pyproject, RPM, and Pacman in Milestone 3, with Maven, NuGet, and Windows <code>winget</code> planned for upcoming cycles.</li>
 </ol>
 <hr />
-<h2>5. The Complete v1.0 Architecture</h2>
+<h2>6. The Complete v1.0 Architecture</h2>
 <p>With all four milestones complete, here is the full architecture of <code>bugrouter</code> today:</p>
 <div class="terminal-flow" role="region" aria-label="Pipeline architecture diagram">
   <div class="flow-step">    <div class="flow-step-title">bugrouter v1.0 System</div>    <div class="flow-step-desc">[Agent via MCP]              [Developer via CLI]<br>(Claude Code / Cursor)       (resolve / draft / serve)<br>│                                    │</div>  </div>
@@ -940,7 +982,7 @@ cat<span class="w"> </span>bug.md<span class="w"> </span><span class="p">|</span
         <footer class="p-3 sm:p-4 border-t theme-border text-xs flex justify-between items-center theme-bg-header">
             <span class="theme-text-muted text-[11px] sm:text-xs font-bold">riccivr.github.io/blog</span>
             <span id="footer-text" class="text-right text-[11px] sm:text-xs theme-text-muted font-mono font-medium">
-                REV: 6ca9d95 // PUBLICADO: 2026.10.29
+                REV: 291a499 // PUBLICADO: 2026.10.29
             </span>
         </footer>
 
@@ -972,7 +1014,7 @@ cat<span class="w"> </span>bug.md<span class="w"> </span><span class="p">|</span
                 repoAria: "Ver repositorio en GitHub (se abre en nueva pestaña) [G]",
                 topBtn: '<span class="label-full">[^] Arriba</span><span class="label-short">[^]</span>',
                 topBtnAria: "Ir arriba [K]",
-                footerText: "REV: 6ca9d95 // PUBLICADO: 2026.10.29",
+                footerText: "REV: 291a499 // PUBLICADO: 2026.10.29",
                 title: "bugrouter Devlog #4: Preparaci\u00f3n para Producci\u00f3n v1.0, Precisi\u00f3n del Scrubber y la Revisi\u00f3n Independiente de C\u00f3digo",
                 metaDesc: "Tras cuatro hitos intensos dise\u00f1ando la cascada del resolver, armando parsers sin dependencias y blindando el Cloud Control Plane (como contamos en el Devlog #1, Devlog #2 y Devlog #3), bugrouter ya estaba funcionalmente..."
             },
@@ -999,7 +1041,7 @@ cat<span class="w"> </span>bug.md<span class="w"> </span><span class="p">|</span
                 repoAria: "View GitHub repository (opens in a new tab) [G]",
                 topBtn: '<span class="label-full">[^] Top</span><span class="label-short">[^]</span>',
                 topBtnAria: "Scroll to top [K]",
-                footerText: "REV: 6ca9d95 // PUBLISHED: 2026.10.29",
+                footerText: "REV: 291a499 // PUBLISHED: 2026.10.29",
                 title: "bugrouter Devlog #4: v1.0 Production Readiness, Scrubber Precision, and the Independent Code Review",
                 metaDesc: "After four intense milestones of designing the resolver waterfall, building zero-dependency introspectors, and hardening the Cloud Control Plane (covered in Devlog #1, Devlog #2, and Devlog #3), bugrouter was functionall..."
             }

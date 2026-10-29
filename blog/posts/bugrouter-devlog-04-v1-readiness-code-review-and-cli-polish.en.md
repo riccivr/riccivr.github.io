@@ -74,7 +74,25 @@ The entire test suite passes cleanly under the Go race detector (`go test -race 
 
 ---
 
-## 4. The Independent Engineering Review
+## 4. Post-Spec #09 Red-Team Remediation: Locking the v1.0 Release (Spec 09.1)
+
+Right after completing the initial Milestone 4 scope, we subjected the release candidate to a follow-up red-team audit (Spec 09.1) to catch subtle security and parser edge cases before locking down v1.0:
+
+1. **SSRF Environment Bypass Removal (`internal/httpx/client.go`):**  
+   During early development, an environment variable `BUGROUTER_ALLOW_PRIVATE_HOSTS=1` had been introduced so unit test suites could connect to mock HTTP servers. We recognized that this created an unacceptable backdoor in production binaries: an untrusted agent or compromised process with environment access could disable loopback protection. We completely excised the environment check from `httpx.NewClient`. In production binaries, SSRF and loopback blocking is 100% unconditional. For unit testing, we introduced `httpx.NewTestClient(0)`, isolating loopback permission strictly to test files.
+
+2. **Preserving Subheadings in Markdown Body Files (`cmd/bugrouter/main.go`):**  
+   In our initial parser, any line starting with `#` was evaluated against known sections, and any unrecognized heading reset the active section to `secNone`. As a result, nested level-3 subheadings (such as `### Environment Details` inside `## Summary`, or `### Stack Trace` inside `## Logs`) were accidentally discarded along with all following lines. In Spec 09.1, we hardened `parseMarkdownBodyFile` so that only top-level level-2 headings (`## `) can reset sections, while level-3+ subheadings (`### `) are preserved as verbatim section content.
+
+3. **Quoted Secret Redaction & Trailing Quote Hygiene (`internal/scrubber/scrubber.go`):**  
+   When developers wrote assignments with quotes like `CLIENT_SECRET="mysecretvalue123"`, our earlier replacer stripped quotes before checking length, but the regex replacement swallowed the closing quote, producing unclosed strings (`CLIENT_SECRET="[REDACTED_SECRET]`). Furthermore, values like `token="short"` or `password='false'` were susceptible to boundary miscalculations. In Spec 09.1, we separated trailing quotes before evaluating length and non-secret literals, guaranteeing that matching quotes are properly re-appended (`CLIENT_SECRET="[REDACTED_SECRET]"`).
+
+4. **Connection Pool Efficiency:**  
+   We updated `cmd/bugrouter/main.go` to share a single bounded `*httpx.Client` instance across `resolveTarget`, `introspector.New`, and `dedup.NewFinder`, eliminating redundant dialer allocations and connection pool overhead during CLI execution.
+
+---
+
+## 5. The Independent Engineering Review
 
 We submitted the codebase to an independent software reviewer for a rigorous architectural assessment. The evaluation focused entirely on the software engineering quality and architectural decisions.
 
@@ -103,7 +121,7 @@ The reviewer also identified specific areas to address, which we tackled directl
 
 ---
 
-## 5. The Complete v1.0 Architecture
+## 6. The Complete v1.0 Architecture
 
 With all four milestones complete, here is the full architecture of `bugrouter` today:
 

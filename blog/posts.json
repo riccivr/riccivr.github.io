@@ -14,7 +14,7 @@
       "Arquitectura"
     ],
     "summary": "Tras cuatro hitos intensos diseñando la cascada del resolver, armando parsers sin dependencias y blindando el Cloud Control Plane (como contamos en el Devlog #1, Devlog #2 y Devlog #3), bugrouter ya estaba funcionalmente...",
-    "readingTime": "7 min",
+    "readingTime": "9 min",
     "file": "posts/bugrouter-devlog-04-v1-readiness-code-review-and-cli-polish.es.md",
     "en": {
       "title": "bugrouter Devlog #4: v1.0 Production Readiness, Scrubber Precision, and the Independent Code Review",
@@ -30,7 +30,7 @@
         "Architecture"
       ],
       "summary": "After four intense milestones of designing the resolver waterfall, building zero-dependency introspectors, and hardening the Cloud Control Plane (covered in Devlog #1, Devlog #2, and Devlog #3), bugrouter was functionall...",
-      "readingTime": "6 min",
+      "readingTime": "8 min",
       "file": "posts/bugrouter-devlog-04-v1-readiness-code-review-and-cli-polish.en.md"
     },
     "es": {
@@ -47,7 +47,7 @@
         "Arquitectura"
       ],
       "summary": "Tras cuatro hitos intensos diseñando la cascada del resolver, armando parsers sin dependencias y blindando el Cloud Control Plane (como contamos en el Devlog #1, Devlog #2 y Devlog #3), bugrouter ya estaba funcionalmente...",
-      "readingTime": "7 min",
+      "readingTime": "9 min",
       "file": "posts/bugrouter-devlog-04-v1-readiness-code-review-and-cli-polish.es.md"
     }
   },
